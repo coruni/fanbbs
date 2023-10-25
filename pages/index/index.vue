@@ -1,0 +1,92 @@
+<template>
+	<z-paging-swiper>
+		<!-- 头部搜索框 -->
+		<u-navbar placeholder>
+			<!-- 用slot占位取消返回图标 -->
+			<view slot="left"></view>
+			<view slot="center" style="flex: 1;margin: 0 20rpx;">
+				<u-row>
+					<u-icon name="gift" size="22"></u-icon>
+					<u-input placeholder="搜索" border="none" placeholder-style="color:#aaa;" class="u-info-light-bg"
+						suffixIcon="search" suffixIconStyle="margin-right:10rpx"
+						customStyle="margin-left:20rpx;padding:10rpx 20rpx;border-radius:50rpx;" />
+					<u-avatar size="30" customStyle="margin-left:20rpx"></u-avatar>
+				</u-row>
+			</view>
+		</u-navbar>
+		<u-sticky bgColor="#fff">
+			<u-tabs :list="topTabbar" lineWidth="20" lineHeight="7" @change="changeTab" :current="topTabIndex"
+				:lineColor="`url(${lineBg}) 100% 100%`"
+				:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
+				:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
+				itemStyle="padding-left: 30rpx; padding-right: 30rpx; height: 68rpx;">
+				<view slot="right" style="padding-left: 8rpx;margin-right: 20rpx;">
+					<u-icon name="list" size="20" bold></u-icon>
+				</view>
+			</u-tabs>
+		</u-sticky>
+		<swiper style="height: 100%;" :current="topTabIndex" @animationfinish="animationfinish">
+			<swiper-item v-for="(page,pageIndex) in topTabbar" :key="pageIndex" style="overflow: auto;">
+				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex"></articleIndex>
+			</swiper-item>
+		</swiper>
+	</z-paging-swiper>
+
+</template>
+
+<script>
+	import articleIndex from '@/components/article/index.vue'
+	export default {
+		components:{
+			articleIndex
+		},
+		data() {
+			return {
+				content: [],
+				topTabbar: [{
+					name: '首页',
+				}],
+				page: 1,
+				topTabIndex: 0,
+				tabbarIndex: 0,
+				lineBg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAOCAYAAABdC15GAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFxSURBVHgBzZNRTsJAEIb/WTW+lpiY+FZPIDew3ABP4GJ8hxsI9zBpOYHeQDwBPQI+mRiRvpLojtPdYhCorQqF/6GdbGd2vvwzBXZcNAt4oj1ANeUoAT5iqkUjbEFLHNmhD1YPEvpZ3ghkGlVDCkc94/BmHMq998I5ONiY1ZBfpKAyuOtgAc5yOEDmYEWNh32BHF91sGHZHmwW4azciN9aQwnz3SJEgOmte+R2tdLprTYoa50mvuomlLpD4Y3oQZnov6D2RzCqI93bWOHaEmAGqQUyRBlZR1WfarcD/EJ2z8DtzDGvsMCwpm8XOCfDUsVOCYhiqRxI/CTQo4UOvjzO7Pow18vfywneuUHHUUxLn55lLw5JFpZ8bEUcY8oXdOLWiHLTxvoGpLqoUmy6dBT15o/ox3znpoycAmxUsiJTbs1cmxeVKp+0zmFIS7bGWiVghC7Vwse8jFKAX9eljh4ggKLLv7uaQvG9/F59Oo2SouxPu7OTCxN/s8wAAAAASUVORK5CYII='
+			}
+		},
+		created() {
+			this.initData()
+		},
+		onReady() {
+		},
+		methods: {
+			initData() {
+				this.getCategory()
+			},
+			getCategory() {
+				this.$http.get('/typechoMetas/metasList', {
+					params: {
+						page: 1,
+						limit: 8,
+						searchParams: JSON.stringify({
+							isrecommend: 1
+						})
+					}
+				}).then(res => {
+					if (res.statusCode == 200) {
+						this.topTabbar = this.topTabbar.concat(res.data.data)
+					}
+				})
+			},
+			animationfinish(data) {
+				this.topTabIndex = data.detail.current
+			},
+			changeTab(data){
+				this.topTabIndex = data.index
+			}
+		}
+	}
+</script>
+<style>
+	.swiper {
+		height: 100%;
+	}
+</style>
