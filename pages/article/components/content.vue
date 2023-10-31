@@ -1,5 +1,5 @@
 <template>
-	<view style="margin-top:10rpx">
+	<view style="margin-top:10rpx;">
 		<view>
 			<text style="font-weight: bold;">{{data.title}}</text>
 		</view>
@@ -10,8 +10,8 @@
 				<text>最后更新:{{formatTime(data.modified)}}</text>
 			</view>
 		</u-row>
-		<!-- 内容 -->
-		<u-parse :content="data.text"></u-parse>
+		<!-- 内容 overflow:unset防止抖动-->
+		<u-parse :content="data.text" style="overflow: unset;"></u-parse>
 		<!-- 图片 -->
 		<!-- <block v-if="data.images.length==1">
 			<image :src="data.images[0]" mode="aspectFill"

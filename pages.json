@@ -11,7 +11,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": false
             }
             
         }
@@ -20,7 +20,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": true
+                "enablePullDownRefresh": false
             }
             
         }
@@ -33,6 +33,23 @@
             },
 			"name":"article"
             
+        },
+        {
+        	"path" : "pages/user/login",
+        	"style" : 
+        	{
+        		"navigationBarTitleText" : "",
+        		"enablePullDownRefresh" : false
+        	}
+        },
+        {
+        	"path" : "pages/common/category/category",
+        	"style" : 
+        	{
+        		"navigationBarTitleText" : "",
+        		"enablePullDownRefresh" : false
+        	},
+			"name":"categoryList"
         }
     ],
 	"globalStyle": {

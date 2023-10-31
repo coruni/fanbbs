@@ -1,7 +1,7 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto="false">
 		<block v-for="(item,index) in content" :key="index">
-			<view
+			<view @click="goArticle(item)"
 				style="margin:20rpx 20rpx 0rpx 20rpx;padding:20rpx;box-shadow: 2rpx 2rpx 6rpx 2rpx #f1f1f1;border-radius: 20rpx;">
 				<article-header :data="item"></article-header>
 				<article-content :data="item"></article-content>

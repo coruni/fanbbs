@@ -26,7 +26,6 @@
 						<block v-for="(item,index) in comments" v-if="comments">
 							<view style="margin-top:10rpx">
 								<comment :data="item"></comment>
-
 							</view>
 						</block>
 					</view>
@@ -34,7 +33,7 @@
 					<template #bottom>
 						<u-row customStyle="margin:20rpx" justify="space-between">
 							<u-col span="6">
-								<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;font-size:20rpx"
+								<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;"
 									class="u-info-light-bg u-info" @click="showComment = true">
 									<u-icon name="edit-pen"></u-icon>
 									<text style="margin-left:10rpx">说点什么</text>
@@ -44,16 +43,16 @@
 								<u-row customStyle="margin-left:20rpx;flex:1" justify="space-between">
 									<view style="display: flex; flex-direction: column;align-items: center;">
 										<u-icon name="rmb-circle" size="18"></u-icon>
-										<u-text text="发电" size="10"></u-text>
+										<u-text text="发电" size="12"></u-text>
 									</view>
 									<view style="display: flex; flex-direction: column;align-items: center;">
 										<u-icon name="star" size="20"></u-icon>
-										<u-text text="收藏" size="10"></u-text>
+										<u-text text="收藏" size="12"></u-text>
 									</view>
 
 									<view style="display: flex; flex-direction: column;align-items: center;">
 										<u-icon name="thumb-up" size="20"></u-icon>
-										<u-text text="点赞" size="10"></u-text>
+										<u-text text="点赞" size="12"></u-text>
 									</view>
 								</u-row>
 							</u-col>
@@ -232,8 +231,10 @@
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {
+						console.log(res.data.data)
 						this.$refs.paging.complete(res.data.data)
-						console.log(res.data)
+						
+						
 					}
 				})
 			}

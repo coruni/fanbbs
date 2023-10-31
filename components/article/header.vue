@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-row justify="space-between" @click="goArticle(data)">
+		<u-row justify="space-between">
 			<u-row>
 				<view @tap.stop.prevent="goProfile(data.authorId)">
 					<u-avatar :src="data.authorInfo.avatar" size="30"></u-avatar>
