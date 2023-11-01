@@ -28,18 +28,23 @@
 		</u-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @animationfinish="animationfinish">
 			<swiper-item v-for="(page,pageIndex) in topTabbar" :key="pageIndex">
-				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" style="margin-bottom: 60rpx;">
+				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" v-if="!page.isrecommend"
+					style="margin-bottom: 60rpx;">
 				</articleIndex>
+				<water-fall-index v-else :swiper="pageIndex" :tabbar="topTabIndex"
+					style="margin-bottom: 60rpx;background: #f7f7f7;"></water-fall-index>
 			</swiper-item>
 		</swiper>
 	</z-paging-swiper>
 </template>
 
 <script>
-	import articleIndex from '@/components/article/index.vue'
+	import waterFallIndex from '@/components/article/waterfall.vue';
+	import articleIndex from '@/components/article/index.vue';
 	export default {
 		components: {
-			articleIndex
+			articleIndex,
+			waterFallIndex
 		},
 		name: 'index',
 		data() {
@@ -141,8 +146,10 @@
 				});
 				console.log(index);
 			},
-			goCategoryList(){
-				this.$Router.push({name:'categoryList'})
+			goCategoryList() {
+				this.$Router.push({
+					name: 'categoryList'
+				})
 			}
 		}
 	}

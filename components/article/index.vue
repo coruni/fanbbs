@@ -15,6 +15,7 @@
 	import articleHeader from '@/components/article/header.vue';
 	import articleContent from '@/components/article/content.vue';
 	import articleFooter from '@/components/article/footer.vue';
+	
 	import swiper from '../../uni_modules/uview-ui/libs/config/props/swiper';
 	export default {
 		components: {
@@ -31,6 +32,10 @@
 			tabbar: {
 				type: [Number, String],
 				default: 0,
+			},
+			waterFall: {
+				type: [Boolean, String],
+				default: false,
 			}
 		},
 		watch: {

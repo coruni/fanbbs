@@ -1,6 +1,6 @@
 <template>
 	<z-paging-swiper>
-		<index style="margin-bottom:120rpx"></index>
+		<index style="margin-bottom: 120rpx;"></index>
 		<!-- 间隔 -->
 		<template #bottom>
 			<u-row justify="space-between"
@@ -8,13 +8,15 @@
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)">
 						<view style="position: relative;">
-							<u-icon :name="item.icon" size="22" customStyle="z-index:2"
+							<u-icon :name="item.icon" size="22" :color="item.active?'#fb7299':''"
+								customStyle="z-index:2"
 								:class="{'animate__animated animate__zoomIn':item.active}"></u-icon>
-							<u-badge :isDot="true" bgColor="#FB7299c4" :offset="[12,7]" absolute customStyle="z-index: 1;"
-								v-if="item.active&&item.type!='midbutton'"
+							<u-badge :isDot="true" bgColor="#FB7299c4" :offset="[12,7]" absolute
+								customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
 								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
 						</view>
-						<u--text :text="item.name"></u--text>
+						<u--text :text="item.name" :color="item.active?'#fb7299':''"
+							@click="tabbarTap(index)"></u--text>
 					</u-row>
 				</block>
 			</u-row>

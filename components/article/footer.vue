@@ -1,8 +1,9 @@
 <template>
 	<view style="margin-top: 10rpx;">
 		<u-row justify="space-between">
-			<u-row>
-				<view style="border-radius: 10rpx;padding: 0 20rpx ;text-align: center;font-size: 28rpx;" class="category">
+			<u-row v-if="!waterFall">
+				<view style="border-radius: 10rpx;padding: 0 20rpx ;text-align: center;font-size: 28rpx;"
+					class="category">
 					<text>{{data.category[0].name}}</text>
 				</view>
 				<block v-for="(tag,index) in data.tag" :key="index">
@@ -11,6 +12,7 @@
 					</view>
 				</block>
 			</u-row>
+			<u-avatar :src="data.authorInfo.avatar" size="24" v-else></u-avatar>
 			<u-row>
 				<u-icon name="thumb-up" size="20"></u-icon>
 				<text>{{data.likes}}</text>
@@ -26,6 +28,10 @@
 			data: {
 				type: Object,
 				default: null,
+			},
+			waterFall: {
+				type: [String, Boolean],
+				default: false,
 			}
 		},
 		data() {
@@ -41,6 +47,7 @@
 		background: rgba($c-primary, 0.1);
 		color: $c-primary;
 	}
+
 	.primary {
 		color: $c-primary;
 	}

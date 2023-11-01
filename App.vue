@@ -13,6 +13,14 @@
 </script>
 
 <style lang="scss">
+	@font-face {
+	  font-family: 'moe';
+	  src: url('/static/font/moe.ttf');
+	       
+	}
+	body{
+		font-family: 'moe';
+	}
 	@import 'animate.css';
 	@import "@/uni_modules/uview-ui/index.scss";
 	/*每个页面公共css */
