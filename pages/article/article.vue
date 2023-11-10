@@ -35,12 +35,12 @@
 							<u-col span="6">
 								<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;"
 									class="u-info-light-bg u-info" @click="showComment = true">
-									<u-icon name="edit-pen"></u-icon>
-									<text style="margin-left:10rpx">说点什么</text>
+									<u-icon name="edit-pen" size="20"></u-icon>
+									<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
 								</u-row>
 							</u-col>
 							<u-col span="5">
-								<u-row customStyle="margin-left:20rpx;flex:1" justify="space-between">
+								<u-row customStyle="margin-left:20rpx;flex:1" justify="space-around">
 									<view style="display: flex; flex-direction: column;align-items: center;">
 										<u-icon name="rmb-circle" size="18"></u-icon>
 										<u-text text="发电" size="12"></u-text>
@@ -66,8 +66,9 @@
 		<u-loading-page :loading="loading"></u-loading-page>
 		<!-- 页面公用组件 -->
 		<!-- 回复文章 -->
-		<u-popup :show="showComment" @close="showComment = false" customStyle="padding:30rpx" round="20">
-			<u--textarea type="textarea" placeholder="灵感迸发" border="none"
+		<u-popup :show="showComment" @close="showComment = false" round="20" :customStyle="{paddingBottom:keyboardHeight+'px',padding:30+'rpx'}">
+			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
+				placeholder="灵感迸发" border="none"
 				customStyle="background:#f7f8f7;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
 			<u-row customStyle="margin-top:10rpx" justify="space-between">
 				<u-col span="6">
@@ -78,7 +79,8 @@
 					</u-row>
 				</u-col>
 				<view>
-					<u-button shape="circle" color="#FB7299" size="mini" text="发送"></u-button>
+					<u-button shape="circle" color="#FB7299" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
+						@click="reply"></u-button>
 				</view>
 			</u-row>
 			<!-- 隐藏面板 -->
@@ -135,6 +137,7 @@
 				showMore: false,
 				showComment: false,
 				showComemntBtn: null,
+				commentText: '',
 				commentTabIndex: 0,
 				commentTab: [{
 					name: '全部评论',
@@ -179,7 +182,8 @@
 						name: '编辑',
 						icon: 'warning'
 					}
-				]
+				],
+				keyboardHeight: 0,
 			};
 		},
 		onLoad(params) {
@@ -194,8 +198,12 @@
 		beforeCreate() {
 
 		},
-		created() {
 
+		created() {
+			uni.onKeyboardHeightChange(data => {
+				console.log(data)
+				this.keyboardHeight =data.height
+			})
 		},
 		methods: {
 			shareTap(index) {
@@ -233,11 +241,28 @@
 					if (res.statusCode == 200) {
 						console.log(res.data.data)
 						this.$refs.paging.complete(res.data.data)
-						
-						
+
+
 					}
 				})
-			}
+			},
+			reply(pid) {
+				if (this.commentText.length <= 0) return;
+				let params = JSON.stringify(params = {
+					cid: this.cid,
+					ownerId: this.article.authorId,
+					parent: pid ? pid : 0,
+					text: this.commentText
+				})
+				this.$http.post('/typechoComments/commentsAdd', {
+					params
+				}).then(res => {
+					console.log(res)
+				})
+			},
+			manageTap() {
+
+			},
 		}
 	}
 </script>

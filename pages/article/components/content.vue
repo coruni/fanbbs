@@ -3,7 +3,7 @@
 		<view>
 			<text style="font-weight: bold;">{{data.title}}</text>
 		</view>
-		<u-row justify="center" class="u-light-color" customStyle="font-size:20rpx;margin:10rpx 0;">
+		<u-row justify="center" class="u-light-color" customStyle="font-size:26rpx;margin:10rpx 0;">
 			<text>发布于:{{formatTime(data.created)}}</text>
 			<view v-if="data.created!=data.modified||data.modified!=null">
 				<text style="margin:0rpx 10rpx">|</text>

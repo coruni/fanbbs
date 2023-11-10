@@ -1,5 +1,5 @@
 import App from './App'
-
+import store from './store'
 // #ifndef VUE3
 import Vue from 'vue'
 import uView from '@/uni_modules/uview-ui'
@@ -13,7 +13,8 @@ import './uni.promisify.adaptor'
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({
-  ...App
+  ...App,
+  store
 })
 // #ifdef H5
 RouterMount(app, router, '#app')
@@ -29,7 +30,8 @@ import { createSSRApp } from 'vue'
 export function createApp() {
   const app = createSSRApp(App)
   return {
-    app
+    app,
+	store
   }
 }
 // #endif

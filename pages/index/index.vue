@@ -1,10 +1,11 @@
 <template>
 	<z-paging-swiper>
-		<index style="margin-bottom: 120rpx;"></index>
+		<index style="margin-bottom: 120rpx;" v-show="tabbarIndex==0"></index>
+		<user v-show="tabbarIndex==4"></user>
 		<!-- 间隔 -->
 		<template #bottom>
 			<u-row justify="space-between"
-				customStyle="padding:20rpx;border-top:1rpx solid #cccccc36;box-shadow:0px 0px 7px 0px #00000014">
+				customStyle="padding:20rpx 30rpx;border-top:1rpx solid #cccccc36;box-shadow:0px 0px 7px 0px #00000014">
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)">
 						<view style="position: relative;">
@@ -54,10 +55,12 @@
 </template>
 
 <script>
-	import index from './components/index.vue'
+	import index from './components/index.vue';
+	import user from './components/user.vue';
 	export default {
 		components: {
-			index
+			index,
+			user
 		},
 		data() {
 			return {
@@ -156,7 +159,7 @@
 					item.active = i === index;
 					this.tabbarIndex = index
 				});
-				console.log(index);
+				this.tabbarIndex = index
 			}
 		}
 	}

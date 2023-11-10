@@ -83,7 +83,7 @@
 			}
 		},
 		created() {
-			console.log(this.list)
+			
 		},
 		computed: {
 			imageStyle(item) {

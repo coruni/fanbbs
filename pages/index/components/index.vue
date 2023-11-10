@@ -11,7 +11,8 @@
 						<u-input placeholder="搜索" border="none" placeholder-style="color:#aaa;" class="u-info-light-bg"
 							suffixIcon="search" suffixIconStyle="margin-right:10rpx"
 							customStyle="margin-left:20rpx;padding:10rpx 20rpx;border-radius:50rpx;" />
-						<u-avatar size="30" customStyle="margin-left:20rpx"></u-avatar>
+						<u-avatar :src="userInfo.avatar" size="30" customStyle="margin-left:20rpx"
+							@click="avatarTap()"></u-avatar>
 					</u-row>
 				</view>
 			</u-navbar>
@@ -39,6 +40,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex';
 	import waterFallIndex from '@/components/article/waterfall.vue';
 	import articleIndex from '@/components/article/index.vue';
 	export default {
@@ -108,6 +112,9 @@
 		created() {
 			this.initData()
 		},
+		computed: {
+			...mapState(['userInfo'])
+		},
 		onReady() {},
 		methods: {
 			initData() {
@@ -149,6 +156,15 @@
 			goCategoryList() {
 				this.$Router.push({
 					name: 'categoryList'
+				})
+			},
+			avatarTap() {
+				if (this.$store.state.hasLogin) this.$emit('avatarTap', true);
+				else this.goLogin()
+			},
+			goLogin() {
+				this.$Router.push({
+					path: '/pages/user/login'
 				})
 			}
 		}

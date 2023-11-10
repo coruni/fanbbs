@@ -2,6 +2,8 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
+			if(uni.getStorageSync('user')) this.$store.commit('setUser',uni.getStorageSync('user'));
+			if(uni.getStorageSync('token')) this.$store.commit('setToken',uni.getStorageSync('token'))
 		},
 		onShow: function() {
 			console.log('App Show')

@@ -24,7 +24,8 @@
 				<u--input placeholder="邮箱" prefixIcon="email" prefixIconStyle="font-size:40rpx"
 					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="account">
 					<template slot="suffix">
-						<u-code ref="uCode" @change="codeChange" seconds="20" changeText="X秒重新获取"></u-code>
+						<u-code ref="uCode" :seconds="seconds" @change="codeChange" seconds="20"
+							changeText="X秒重新获取"></u-code>
 						<u-button @tap="getCode" :text="tips" plain color="#FB7299" size="mini"></u-button>
 					</template>
 				</u--input>
@@ -44,7 +45,9 @@
 			</u-row>
 			<view style="margin-top:20rpx">
 				<u-row>
-					<u-checkbox v-model="accept" activeColor="#FB7299" size="15" shape="circle"></u-checkbox>
+					<u-checkbox-group>
+						<u-checkbox @change="accept=!accept" v-model="accept" activeColor="#FB7299" size="15" shape="circle"></u-checkbox>
+					</u-checkbox-group>
 					<u-row customStyle="font-size:30rpx">
 						<text>登录及代表你同意</text>
 						<text style="color:#FB7299">《用户协议》</text>
@@ -54,9 +57,10 @@
 				</u-row>
 			</view>
 
-			<view style="margin-top: 20rpx;">
-				<u-button :text="isLogin?'登录':'注册'" :hairline="false" color="#FB7299" size="mini"
-					customStyle="padding:30rpx 80rpx;width:0rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #FB7299"></u-button>
+			<view style="margin-top: 40rpx;">
+				<u-button :text="isLogin?'登录':'注册'" :hairline="false" color="#FB7299" size="mini" loading-size="10"
+					customStyle=";padding:30rpx 80rpx;font-size:28rpx;width:200rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #FB7299"
+					@click="isLogin?login():register()"></u-button>
 			</view>
 			<u-gap height="60"></u-gap>
 			<u-row justify="center">
@@ -76,6 +80,9 @@
 </template>
 
 <script>
+	import {
+		mapMutations
+	} from 'vuex';
 	export default {
 		data() {
 			return {
@@ -84,6 +91,8 @@
 				password: null,
 				isLogin: true,
 				tips: null,
+				accept: false,
+				seconds: 120,
 				loginBtn: [{
 						provider: 'weixin',
 						name: '微信',
@@ -97,21 +106,67 @@
 						color: '#3c9cff'
 					}
 				],
-				accept: false,
+
 			};
 
 		},
+		computed: {
+
+		},
 		methods: {
+			...mapMutations(['setToken', 'setUser']),
 			codeChange(text) {
 				this.tips = text
 			},
 			getCode() {
+				if (this.account == null) {
+					uni.$u.toast('邮箱填写错误');
+					return
+				}
 				if (this.$refs.uCode.canGetCode) {
-					this.$http.post('').then(res => {
+					this.$http.post('/typechoUsers/RegSendCode', {
+						params: JSON.stringify({
+							mail: this.account
+						})
+					}).then(res => {
+						console.log(res)
 						this.$refs.uCode.start();
 					})
 				}
+			},
+			login() {
+				if (this.account == null) {
+					uni.$u.toast('请填写账号')
+					return
+				}
+				if (this.password == null) {
+					uni.$u.toast('请填写密码')
+					return
+				}
+				if (!this.accept) {
+					uni.$u.toast('请同意协议')
+					return
+				}
+				this.$http.post('/typechoUsers/userLogin', {
+					params: JSON.stringify({
+						name: this.account,
+						password: this.password
+					})
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						this.setToken(res.data.data.token);
+						this.setUser(res.data.data);
+						uni.$u.toast('已连接主程序')
+						setTimeout(() => {
+							this.$Router.back(1)
+						}, 2000)
+					}else{
+						uni.$u.toast(res.data.msg)
+					}
+				})
 			}
+
 		}
 	}
 </script>

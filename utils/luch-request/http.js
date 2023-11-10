@@ -1,6 +1,9 @@
 import cConfig from '@/config/config.js'
 import Request from '@/utils/luch-request/index.js'
-import {router} from '@/router.js'
+import store from '@/store'
+import {
+	router
+} from '@/router.js'
 const http = new Request()
 
 // 全局配置
@@ -19,6 +22,9 @@ http.interceptors.request.use((config) => {
 	config.header = {
 		...config.header,
 	}
+
+	if (store.state.token) config.params.token = store.state.token;
+
 	return config
 }, (config) => {
 	return Promise.reject(config)
@@ -26,9 +32,7 @@ http.interceptors.request.use((config) => {
 // 响应拦截
 //   所有的网络请求返回数据之后都会先执行这个方法
 http.interceptors.response.use(async (response) => {
-	if(response.data.code==401){
-		console.log('没有登录')
-	}
+
 	return response
 }, error => {
 	return Promise.reject(error)
