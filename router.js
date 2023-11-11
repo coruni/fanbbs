@@ -1,7 +1,16 @@
-import {RouterMount,createRouter} from 'uni-simple-router';
+import {RouterMount,createRouter,runtimeQuit} from 'uni-simple-router';
 
 const router = createRouter({
 	platform: process.env.VUE_APP_PLATFORM,  
+	routerErrorEach:({type,level,...args})=>{
+		console.log({type,level,...args})
+		// #ifdef APP-PLUS
+			if(type===3){
+				router.$lockStatus=false;
+				runtimeQuit();
+			}
+		// #endif
+	},
 	routes: [...ROUTES]
 });
 //全局路由前置守卫

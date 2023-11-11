@@ -50,6 +50,14 @@
         		"enablePullDownRefresh" : false
         	},
 			"name":"categoryList"
+        },
+        {
+        	"path" : "pages/user/editProfile",
+        	"style" : 
+        	{
+        		"navigationBarTitleText" : "",
+        		"enablePullDownRefresh" : false
+        	}
         }
     ],
 	"globalStyle": {

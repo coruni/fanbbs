@@ -12,7 +12,7 @@
 				customStyle="position:absolute;top:-80rpx;margin-left:60rpx;border:6rpx solid #fff"></u-avatar>
 			<u-row justify="end" customStyle="padding:20rpx">
 				<view v-show="$store.state.hasLogin">
-					<u-button color="#FB7299C4" plain size="normal"
+					<u-button color="#FB7299C4" plain size="normal" @click="editProfile()"
 						customStyle="height:50rpx;border-radius:20rpx">个人资料</u-button>
 				</view>
 			</u-row>
@@ -68,21 +68,29 @@
 					</u-row>
 				</view>
 			</view>
-			<u-gap height="6" customStyle="background:#f4f4f4"></u-gap>
-			<view style="margin: 20rpx;">
-
-			</view>
-			<u-gap height="6" customStyle="background:#f4f4f4"></u-gap>
-			<!-- 固定区域 -->
-			<view style="margin: 20rpx;">
-				<u-row align="start" customStyle="flex-direction:column">
-					<block v-for="(item,index) in static" :key="index">
-						<u-row>
+			<view v-if="$store.state.hasLogin">
+				<u-gap height="6" customStyle="background:#f4f4f4"></u-gap>
+				<view style="margin: 20rpx;">
+					<block v-for="(item,index) in userPanel" :key="index">
+						<u-row customStyle="margin-top:10rpx">
 							<u-icon :name="item.icon" size="20" customStyle="margin-right:10rpx"></u-icon>
 							<text>{{item.name}}</text>
 						</u-row>
+
 					</block>
-				</u-row>
+				</view>
+				<u-gap height="6" customStyle="background:#f4f4f4"></u-gap>
+				<!-- 固定区域 -->
+				<view style="margin: 20rpx;">
+					<u-row align="start" customStyle="flex-direction:column">
+						<block v-for="(item,index) in static" :key="index">
+							<u-row customStyle="margin-top:10rpx">
+								<u-icon :name="item.icon" size="20" customStyle="margin-right:10rpx"></u-icon>
+								<text>{{item.name}}</text>
+							</u-row>
+						</block>
+					</u-row>
+				</view>
 			</view>
 			{{userInfo}}
 			{{userMeta}}
@@ -111,7 +119,20 @@
 						path: '',
 						icon: 'setting-fill'
 					}
-				]
+				],
+				userPanel: [{
+						name: '我的收藏',
+						icon: 'file-text-fill'
+					},
+					{
+						name: '我的订单',
+						icon: 'file-text-fill'
+					},
+					{
+						name: '收藏',
+						icon: 'file-text-fill'
+					}
+				],
 			}
 		},
 		computed: {
@@ -165,12 +186,17 @@
 				}, 1600)
 
 			},
-			goProfile(){
+			goProfile() {
 				this.$Router.push({
-					path:'/pages/profile/profile',
-					query:{
-						id:this.userInfo.uid
+					path: '/pages/profile/profile',
+					query: {
+						id: this.userInfo.uid
 					}
+				})
+			},
+			editProfile(){
+				this.$Router.push({
+					path:'/pages/user/editProfile'
 				})
 			},
 			goLogin() {
