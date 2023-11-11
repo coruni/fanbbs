@@ -1,11 +1,10 @@
 <template>
 	<z-paging-swiper>
-		<index style="margin-bottom: 120rpx;" v-show="tabbarIndex==0"></index>
-		<user v-show="tabbarIndex==4"></user>
+		<index style="margin-bottom: 120rpx" @avatarTap="avatarTap()" v-show="tabbarIndex==0"></index>
+		<user style="margin-bottom: 120rpx" v-show="tabbarIndex==4"></user>
 		<!-- 间隔 -->
 		<template #bottom>
-			<u-row justify="space-between"
-				customStyle="padding:20rpx 30rpx;border-top:1rpx solid #cccccc36;box-shadow:0px 0px 7px 0px #00000014">
+			<u-row justify="space-between" customStyle="padding:0 40rpx;background:white;z-index:999">
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)">
 						<view style="position: relative;">
@@ -16,12 +15,11 @@
 								customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
 								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
 						</view>
-						<u--text :text="item.name" :color="item.active?'#fb7299':''"
-							@click="tabbarTap(index)"></u--text>
+						<text :style="item.active?'#fb7299':''">{{item.name}}</text>
 					</u-row>
 				</block>
 			</u-row>
-			</view>
+
 		</template>
 		<!-- 组件开始 -->
 		<u-popup :show="showPublish" @close="showPublish = false" customStyle="border-radius:20rpx 20rpx 0 0">
@@ -138,7 +136,6 @@
 						// })
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.statusCode == 200) {
 						this.topTabbar = this.topTabbar.concat(res.data.data)
 					}
@@ -160,6 +157,13 @@
 					this.tabbarIndex = index
 				});
 				this.tabbarIndex = index
+			},
+			avatarTap() {
+				this.tabbar.forEach((item, i) => {
+					item.active = i === 4;
+					this.tabbarIndex = 4
+				});
+				this.tabbarIndex = 4
 			}
 		}
 	}

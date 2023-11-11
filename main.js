@@ -1,3 +1,4 @@
+import moment from 'moment';
 import App from './App'
 import store from './store'
 // #ifndef VUE3
@@ -41,3 +42,8 @@ import {
 	http
 } from '@/utils/luch-request/http.js'
 Vue.prototype.$http = http
+
+Vue.filter('date', function (n) {
+  const result = moment(n * 1000).format('MM/DD') // 转换时间格式
+  return result // 返回出去 否则不会生效
+})

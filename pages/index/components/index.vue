@@ -125,12 +125,11 @@
 					params: {
 						page: 1,
 						limit: 8,
-						// searchParams: JSON.stringify({
-						// 	isrecommend: 1
-						// })
+						searchParams: JSON.stringify({
+							type: 'category'
+						})
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.statusCode == 200) {
 						this.topTabbar = this.topTabbar.concat(res.data.data)
 					}

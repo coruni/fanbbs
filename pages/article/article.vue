@@ -18,10 +18,10 @@
 					<!-- 评论区 -->
 					<u-gap height="10" bgColor="#f7f8f7"></u-gap>
 					<view style="margin: 20rpx;">
-						<u-tabs :list="commentTab" :curren="commentTabIndex" lineColor="#FB7299"
+						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#FB7299"
 							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
-							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3"></u-tabs>
+							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab"></u-tabs>
 						<!-- 开始 -->
 						<block v-for="(item,index) in comments" v-if="comments">
 							<view style="margin-top:10rpx">
@@ -29,7 +29,6 @@
 							</view>
 						</block>
 					</view>
-
 					<template #bottom>
 						<u-row customStyle="margin:20rpx" justify="space-between">
 							<u-col span="6">
@@ -66,7 +65,8 @@
 		<u-loading-page :loading="loading"></u-loading-page>
 		<!-- 页面公用组件 -->
 		<!-- 回复文章 -->
-		<u-popup :show="showComment" @close="showComment = false" round="20" :customStyle="{paddingBottom:keyboardHeight+'px',padding:30+'rpx'}">
+		<u-popup :show="showComment" @close="showComment = false" round="20"
+			:customStyle="{paddingBottom:keyboardHeight+'px',padding:30+'rpx'}">
 			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 				placeholder="灵感迸发" border="none"
 				customStyle="background:#f7f8f7;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
@@ -202,7 +202,7 @@
 		created() {
 			uni.onKeyboardHeightChange(data => {
 				console.log(data)
-				this.keyboardHeight =data.height
+				this.keyboardHeight = data.height + 2
 			})
 		},
 		methods: {
@@ -239,10 +239,7 @@
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {
-						console.log(res.data.data)
 						this.$refs.paging.complete(res.data.data)
-
-
 					}
 				})
 			},
@@ -261,6 +258,11 @@
 				})
 			},
 			manageTap() {
+
+			},
+			changTab(data) {
+				console.log(data)
+				this.commentTabIndex = data.index
 
 			},
 		}

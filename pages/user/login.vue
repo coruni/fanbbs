@@ -3,7 +3,7 @@
 		<u-navbar autoBack bg-color="rgba(0,0,0,0)" left-icon="close" fixed left-icon-color="white"
 			height="80"></u-navbar>
 		<image src="/static/login.png" mode="aspectFill" style="width: 100%;height: 400rpx;"></image>
-		<view style="margin: 40rpx;">
+		<view style="margin: 40rpx;" v-show="!isForget">
 			<u-text :text="isLogin?'用户登录':'用户注册'" size="17" bold></u-text>
 			<!-- 登录用 -->
 			<view v-show="isLogin">
@@ -22,10 +22,9 @@
 				</u--input>
 				<u-gap></u-gap>
 				<u--input placeholder="邮箱" prefixIcon="email" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="account">
+					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="email">
 					<template slot="suffix">
-						<u-code ref="uCode" :seconds="seconds" @change="codeChange" seconds="20"
-							changeText="X秒重新获取"></u-code>
+						<u-code ref="uCode" @change="codeChange" seconds="120" changeText="X秒重新获取"></u-code>
 						<u-button @tap="getCode" :text="tips" plain color="#FB7299" size="mini"></u-button>
 					</template>
 				</u--input>
@@ -35,18 +34,19 @@
 				</u--input>
 				<u-gap></u-gap>
 				<u--input placeholder="验证码" type="number" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
+					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="code">
 				</u--input>
 			</view>
 			<u-row justify="space-between"
 				customStyle="margin-top:20rpx;font-weight:bold;font-size:30rpx;color:#414141">
 				<text @click="isLogin=!isLogin">{{isLogin?'注册':'登录'}}</text>
-				<text>忘记密码？</text>
+				<text @click="isForget=true">忘记密码？</text>
 			</u-row>
 			<view style="margin-top:20rpx">
 				<u-row>
 					<u-checkbox-group>
-						<u-checkbox @change="accept=!accept" v-model="accept" activeColor="#FB7299" size="15" shape="circle"></u-checkbox>
+						<u-checkbox @change="accept=!accept" v-model="accept" activeColor="#FB7299" size="15"
+							shape="circle"></u-checkbox>
 					</u-checkbox-group>
 					<u-row customStyle="font-size:30rpx">
 						<text>登录及代表你同意</text>
@@ -74,7 +74,47 @@
 					</block>
 				</u-row>
 			</u-row>
-
+		</view>
+		<view style="margin: 40rpx;" v-show="isForget">
+			<u-text text="找回密码" size="17" bold></u-text>
+			<u--input placeholder="用户名" prefixIcon="email" prefixIconStyle="font-size:40rpx"
+				customStyle="padding:15rpx 0 0 0" border="bottom" v-model="account">
+			</u--input>
+			<u-gap></u-gap>
+			<u--input placeholder="修改密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
+				customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
+			</u--input>
+			<u-gap></u-gap>
+			<u--input placeholder="验证码" type="number" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
+				customStyle="padding:15rpx 0 0 0" border="bottom" v-model="code">
+				<template slot="suffix">
+					<u-code ref="uCode1" @change="codeChange" seconds="120" changeText="X秒重新获取"></u-code>
+					<u-button @click="getAllCode" :text="tips" plain color="#FB7299" size="mini"></u-button>
+				</template>
+			</u--input>
+			<u-row justify="space-between"
+				customStyle="margin-top:20rpx;font-weight:bold;font-size:30rpx;color:#414141">
+				<text @click="isForget=false">返回登录</text>
+			</u-row>
+			<view style="margin-top:20rpx">
+				<u-row>
+					<u-checkbox-group>
+						<u-checkbox @change="accept=!accept" v-model="accept" activeColor="#FB7299" size="15"
+							shape="circle"></u-checkbox>
+					</u-checkbox-group>
+					<u-row customStyle="font-size:30rpx">
+						<text>登录及代表你同意</text>
+						<text style="color:#FB7299">《用户协议》</text>
+						<text>与</text>
+						<text style="color:#FB7299">《隐私政策》</text>
+					</u-row>
+				</u-row>
+			</view>
+			<view style="margin-top: 40rpx;">
+				<u-button text="确认" :hairline="false" color="#FB7299" size="mini" loading-size="10"
+					customStyle=";padding:30rpx 80rpx;font-size:28rpx;width:200rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #FB7299"
+					@click="resetPassword()"></u-button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -89,7 +129,10 @@
 				username: null,
 				account: null,
 				password: null,
+				email: null,
+				code: null,
 				isLogin: true,
+				isForget: false,
 				tips: null,
 				accept: false,
 				seconds: 120,
@@ -114,13 +157,13 @@
 
 		},
 		methods: {
-			...mapMutations(['setToken', 'setUser']),
+			...mapMutations(['setToken', 'setUser','setUserMeta']),
 			codeChange(text) {
 				this.tips = text
 			},
 			getCode() {
 				if (this.account == null) {
-					uni.$u.toast('邮箱填写错误');
+					uni.$u.toast('邮箱为空');
 					return
 				}
 				if (this.$refs.uCode.canGetCode) {
@@ -133,6 +176,42 @@
 						this.$refs.uCode.start();
 					})
 				}
+			},
+			getAllCode() {
+				if (this.account == null) {
+					uni.$u.toast('邮箱为空');
+					return;
+				}
+				if (this.$refs.uCode1.canGetCode) {
+					this.$http.post('/typechoUsers/SendCode', {
+						params: JSON.stringify({
+							name: this.account
+						})
+					}).then(res => {
+						console.log(res)
+						this.$refs.uCode1.start();
+					})
+				}
+			},
+			resetPassword() {
+				if (!this.accept) {
+					uni.$u.toast('请同意协议')
+					return;
+				}
+				this.$http.post('/typechoUsers/userFoget', {
+					params: JSON.stringify({
+						name: this.account,
+						password: this.password,
+						code: this.code
+					})
+				}).then(res => {
+					if (res.data.code) {
+						uni.$u.toast('已重置密码，即将自动登录')
+						setTimeout(() => {
+							this.login()
+						}, 2000)
+					}
+				})
 			},
 			login() {
 				if (this.account == null) {
@@ -156,14 +235,87 @@
 					console.log(res)
 					if (res.data.code) {
 						this.setToken(res.data.data.token);
-						this.setUser(res.data.data);
+						this.getUserInfo(res.data.data.uid);
 						uni.$u.toast('已连接主程序')
 						setTimeout(() => {
 							this.$Router.back(1)
 						}, 2000)
-					}else{
+					} else {
 						uni.$u.toast(res.data.msg)
 					}
+				})
+			},
+			getUserInfo(uid) {
+				this.$http.get('/typechoUsers/userInfo', {
+					params: {
+						key: uid
+					}
+				}).then(res => {
+					if (res.data.code) {
+						this.setUser(res.data.data);
+					}
+				})
+			},
+			getUserMeta() {
+				this.$http.get('/typechoUsers/userData').then(res => {
+					if(res.data.code){
+						this.setUserMeta(res.data.data)
+					}
+				})
+			},
+			register() {
+				if (!this.username) {
+					uni.$u.toast('用户名为空')
+					return;
+				}
+				if (this.password < 6) {
+					uni.$u.toast('密码小于6')
+					return;
+				}
+				if (this.code < 6) {
+					uni.$u.toast('验证码小于6')
+					return;
+				}
+				this.$http.post('/typechoUsers/userRegister', {
+					params: JSON.stringify({
+						name: this.username,
+						password: this.password,
+						mail: this.email,
+						code: this.code,
+					})
+				}).then(res => {
+					if (res.data.code) {
+						uni.$u.toast(res.data.msg + '即将自动登录')
+						this.account = this.username
+						setTimeout(() => {
+							this.login()
+						}, 800)
+					}
+				})
+			},
+			getCode() {
+				if (this.$refs.uCode.canGetCode) {
+					this.$http.post('/typechoUsers/RegSendCode', {
+						params: JSON.stringify({
+							mail: this.email
+						})
+					}).then(res => {
+						if (res.statusCode == 200) {
+							uni.$u.toast(res.data.msg)
+							setTimeout(() => {
+								this.$refs.uCode.start()
+							}, 2000)
+						}
+					})
+				}
+			},
+			fogetPassword() {
+				this.$http.post('/typechoUsers/userFoget', {
+					params: JSON.stringify({
+						name: this.account,
+						password: this.password,
+						code: this.code,
+					})
 				})
 			}
 

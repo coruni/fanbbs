@@ -7,6 +7,7 @@ Vue.use(Vuex); //vue的插件机制
 const store = new Vuex.Store({
 	state: { //存放状态
 		userInfo: {},
+		userMeta: {},
 		token: null,
 		config: {},
 		hasLogin: false,
@@ -27,7 +28,14 @@ const store = new Vuex.Store({
 				data: payload
 			})
 		},
-		loginStatus(state,payload){
+		setUserMeta(state, payload) {
+			state.userMeta = payload
+			uni.setStorage({
+				key: 'userMeta',
+				data: payload
+			})
+		},
+		loginStatus(state, payload) {
 			state.hasLogin = true
 		},
 		logout(state, payload) {
@@ -35,6 +43,7 @@ const store = new Vuex.Store({
 			uni.clearStorage('token');
 			state.userInfo = {};
 			state.token = null;
+			state.hasLogin = false
 		}
 	}
 })

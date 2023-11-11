@@ -31,6 +31,7 @@
 						</image>
 						<view style="margin: 20rpx;">
 							<text class="u-line-2">{{item.title}}</text>
+							<article-footer :data="item" :water-fall="true" style="margin-top: 10rpx;"></article-footer>
 						</view>
 					</view>
 				</view>
