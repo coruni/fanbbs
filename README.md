@@ -11,7 +11,7 @@
 ## 捐赠
 <div style="text-align:center">
 <p>您的捐赠是我最大的动力</p>
-<div style="display:flex;">
+<div style="display:flex;justify-content:center">
 <img src="https://picss.sunbangyan.cn/2023/11/12/12e1a67502cc3466960620996e52fbe6.png" style="width:30%;height:30%" alt="微信">
 <img src="https://picss.sunbangyan.cn/2023/11/12/7aa04131a74f5040b1621548a87602ac.jpg" style="width:30%;height:30%" alt="支付宝">
 </div>
