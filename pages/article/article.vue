@@ -38,7 +38,8 @@
 						<!-- 开始 -->
 						<block v-for="(item,index) in comments" v-if="comments">
 							<view style="margin:10rpx 0">
-								<comment :data="item"></comment>
+								<comment :data="item" @subComment="subComment = $event;showSub =true"
+									@reply="pid = $event.coid;showComment =true"></comment>
 							</view>
 						</block>
 					</view>
@@ -70,8 +71,8 @@
 							</u-col>
 						</u-row>
 					</template>
-				</z-paging>
 
+				</z-paging>
 			</swiper-item>
 			<swiper-item>
 				<z-paging refresher-only ref="author">
@@ -89,7 +90,7 @@
 		<!-- <u-loading-page :loading="loading"></u-loading-page> -->
 		<!-- 页面公用组件 -->
 		<!-- 回复文章 -->
-		<u-popup :show="showComment" @close="showComment = false" round="20"
+		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20"
 			:customStyle="{paddingBottom:keyboardHeight+'px',padding:30+'rpx'}">
 			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 				placeholder="灵感迸发" border="none"
@@ -135,6 +136,14 @@
 				</u-col>
 			</u-row>
 		</u-popup>
+		<!-- 子评论 -->
+		<u-popup :show="showSub" @close="showSub = false"  round="20" closeable>
+			<u-gap height="25"></u-gap>
+			<view style="height: 75vh;">
+				<subComment :data="subComment"></subComment>
+			</view>
+			
+		</u-popup>
 	</z-paging-swiper>
 </template>
 
@@ -143,20 +152,23 @@
 	import articleContent from '@/pages/article/components/content.vue';
 	import articleFooter from '@/pages/article/components/footer.vue';
 	import comment from '@/pages/article/components/comments/comment.vue';
-
+	import subComment from '@/pages/article/components/comments/subComment.vue';
 	export default {
 		components: {
 			articleHeader,
 			articleContent,
 			articleFooter,
 			comment,
+			subComment,
 		},
 		data() {
 			return {
 				cid: 0,
+				pid: 0,
 				article: null,
 				comments: [],
 				author: null,
+				subComment: null,
 				loading: true,
 				showMore: false,
 				showComment: false,
@@ -164,6 +176,8 @@
 				commentText: '',
 				commentTabIndex: 0,
 				swiperIndex: 0,
+				commentId: 0,
+				showSub: false,
 				commentTab: [{
 					name: '全部评论',
 				}, {
@@ -259,7 +273,8 @@
 						limit,
 						searchParams: JSON.stringify({
 							type: 'comment',
-							cid: this.cid
+							cid: this.cid,
+							parent: 0,
 						})
 					}
 				}).then(res => {
@@ -269,7 +284,10 @@
 					}
 				})
 			},
-			reply(pid) {
+			getSubComment() {
+
+			},
+			reply() {
 				if (this.commentText.length < 3) {
 					uni.$u.toast('再多说点吧~')
 					return;
@@ -277,12 +295,13 @@
 				let params = JSON.stringify(params = {
 					cid: this.cid,
 					ownerId: this.article.authorId,
-					parent: pid ? pid : 0,
+					parent: this.pid ? this.pid : 0,
 					text: this.commentText
 				})
 				this.$http.post('/typechoComments/commentsAdd', {
 					params
 				}).then(res => {
+					console.log(res)
 					if (res.data.code) {
 						uni.$u.toast('已发送~')
 						this.commentText = null
@@ -301,6 +320,9 @@
 			},
 			animationfinish(data) {
 				this.swiperIndex = data.detail.current
+			},
+			con(data) {
+				console.log(data)
 			}
 
 		}
