@@ -21,7 +21,7 @@
 				<view style="margin:20rpx">
 					<u-row justify="space-between">
 						<u-row>
-							<text :style="{color:info.isvip?'#FB7299':'',fontSize:58+'rpx'}">{{info.screenName}}</text>
+							<text :style="{color:info.isvip?'#FB7299':'',fontSize:50+'rpx'}">{{info.screenName}}</text>
 							<text
 								style="font-size: 20rpx;color:white;margin-left:10rpx;background:#FB7299;padding:0 10rpx;border-radius:8rpx;box-shadow:0 0 9rpx 0 #FB7299">
 								{{'Lv.'+ info.lv}}

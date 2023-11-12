@@ -1,7 +1,7 @@
 <template>
 	<z-paging ref="paging" refresher-only @onRefresh="initData">
 		<view style="position: relative;top:0">
-			<image :src="$store.state.hasLogin?userInfo.avatar:'/static/login.png'" mode="aspectFill"
+			<image :src="$store.state.hasLogin?userInfo.userBg:'/static/login.png'" mode="aspectFill"
 				style="width: 100%;height: 380rpx;background: #000;"></image>
 			<u-row customStyle="position: absolute;top: 60rpx;right:0;margin:20rpx;">
 				<u-icon name="scan" size="25" color="#cacdff"></u-icon>
@@ -16,11 +16,18 @@
 						customStyle="height:50rpx;border-radius:20rpx">个人资料</u-button>
 				</view>
 			</u-row>
-			<view style="margin:20rpx" v-show="$store.state.hasLogin">
+			<!-- 未登录占位 -->
+			<view v-if="!$store.state.hasLogin" style="margin:30rpx;display: flex;flex-direction: column;">
+				<u-gap height="20"></u-gap>
+				<text :style="{fontSize:50+'rpx'}">点击登录</text>
+				<text>登录解锁更多精彩内容</text>
+			</view>
+			<!-- 结束 -->
+			<view style="margin:30rpx" v-show="$store.state.hasLogin">
 				<u-row justify="space-between">
 					<u-row>
 						<text
-							:style="{color:userInfo.isvip?'#FB7299':'',fontSize:58+'rpx'}">{{userInfo.screenName}}</text>
+							:style="{color:userInfo.isvip?'#FB7299':'',fontSize:50+'rpx'}">{{userInfo.screenName}}</text>
 						<text
 							style="font-size: 20rpx;color:white;margin-left:10rpx;background:#FB7299;padding:0 10rpx;border-radius:8rpx;box-shadow:0 0 9rpx 0 #FB7299">
 							{{'Lv.'+ userInfo.lv}}
@@ -39,7 +46,7 @@
 				</u-row>
 				<u-icon name="checkmark" label="管理员" size="14" color="white"
 					customStyle="background:red;border-radius:100rpx;box-shadow:0 0 10rpx 0 red"
-					v-if="userInfo.groupKey||userInfo.group=='administrator'"></u-icon>
+					v-if="userInfo.groupKey=='administrator'"></u-icon>
 
 				<view style="margin-top: 20rpx;">
 					<u-row>
@@ -68,9 +75,9 @@
 					</u-row>
 				</view>
 			</view>
-			<view v-if="$store.state.hasLogin">
+			<view>
 				<u-gap height="6" customStyle="background:#f4f4f4"></u-gap>
-				<view style="margin: 20rpx;">
+				<view style="margin: 20rpx 30rpx;">
 					<block v-for="(item,index) in userPanel" :key="index">
 						<u-row customStyle="margin-top:10rpx">
 							<u-icon :name="item.icon" size="20" customStyle="margin-right:10rpx"></u-icon>
@@ -81,20 +88,15 @@
 				</view>
 				<u-gap height="6" customStyle="background:#f4f4f4"></u-gap>
 				<!-- 固定区域 -->
-				<view style="margin: 20rpx;">
-					<u-row align="start" customStyle="flex-direction:column">
-						<block v-for="(item,index) in static" :key="index">
-							<u-row customStyle="margin-top:10rpx">
-								<u-icon :name="item.icon" size="20" customStyle="margin-right:10rpx"></u-icon>
-								<text>{{item.name}}</text>
-							</u-row>
-						</block>
-					</u-row>
-					<text @tap="goLogout">退出</text>
-				</view>
+				<u-list height="auto">
+					<u-list-item v-for="(item,index) in static" :key="index">
+						<u-cell :title="item.name">
+							<u-icon :name="item.icon" slot="icon" size="20"></u-icon>
+							<u-icon name="arrow-right" slot="right-icon"></u-icon>
+						</u-cell>
+					</u-list-item>
+				</u-list>
 			</view>
-			{{userInfo}}
-			{{userMeta}}
 		</view>
 	</z-paging>
 </template>
@@ -171,6 +173,7 @@
 			getUserMeta() {
 				this.$http.get('/typechoUsers/userData').then(res => {
 					if (res.data.code) {
+						console.log(res)
 						this.$store.commit('setUserMeta', res.data.data)
 					}
 				})
@@ -195,9 +198,9 @@
 					}
 				})
 			},
-			editProfile(){
+			editProfile() {
 				this.$Router.push({
-					path:'/pages/user/editProfile'
+					path: '/pages/user/editProfile'
 				})
 			},
 			goLogin() {

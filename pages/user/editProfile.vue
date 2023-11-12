@@ -43,7 +43,7 @@
 			</view>
 		</view>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg" @success="uploadBg($event.url); backgroundShow = false"
-			@cancel="backgroundShow = false" />
+			@cancel="backgroundShow = false" is-disable-scale is-limit-move is-lock-ratio />
 	</view>
 </template>
 

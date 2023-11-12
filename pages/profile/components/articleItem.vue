@@ -3,12 +3,12 @@
 		<view style="margin: 20rpx;">
 			<block v-for="(item,index) in content" :key="index">
 				<view style="margin-top: 20rpx;padding:10rpx;box-shadow: 0 0 9rpx 0 #f4f4f4;">
-					<u-row align="top">
+					<u-row align="center">
 						<u-col span="5">
 							<image :src="item.images.length>0?item.images[0]:''" mode="aspectFill"
 								style="height: 180rpx;width:100%;background: #f4f4f4;"></image>
 						</u-col>
-						<view style="display: flex;flex:1;flex-direction: column;padding:0 20rpx;height: 180rpx;">
+						<view style="display: flex;flex:1;flex-direction: column;padding:0 20rpx;">
 							<text style="font-weight: bold;">{{item.title}}</text>
 							<text class="u-line-2">{{item.text}}</text>
 							<text>{{item.created | date}}</text>
