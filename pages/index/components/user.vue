@@ -90,6 +90,7 @@
 							</u-row>
 						</block>
 					</u-row>
+					<text @tap="goLogout">退出</text>
 				</view>
 			</view>
 			{{userInfo}}

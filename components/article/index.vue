@@ -1,5 +1,6 @@
 <template>
-	<z-paging ref="paging" v-model="content" @query="getData" :auto="false" safe-area-inset-bottom use-safe-area-placeholder>
+	<z-paging ref="paging" v-model="content" @query="getData" :auto="false" safe-area-inset-bottom
+		use-safe-area-placeholder>
 		<view style="margin: 20rpx;">
 			<u-swiper height="160" :list="swiperList" keyName="image" :autoplay="false" circular
 				@click="swiperTap"></u-swiper>

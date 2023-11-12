@@ -19,7 +19,6 @@
 					</u-row>
 				</block>
 			</u-row>
-
 		</template>
 		<!-- 组件开始 -->
 		<u-popup :show="showPublish" @close="showPublish = false" customStyle="border-radius:20rpx 20rpx 0 0">

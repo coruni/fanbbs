@@ -4,8 +4,8 @@
 			<u-avatar :src="data.avatar" size="30"></u-avatar>
 			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 				<u-row justify="space-between">
-					<text :style="{'color:#FB7299':data.isvip}">{{data.author}}</text>
-					<text>这里放时间？</text>
+					<text :style="{color:data.isvip?'#FB7299':''}">{{data.author}}</text>
+
 				</u-row>
 				<view style="margin-top:10rpx;word-break: break-word;">
 					<u-parse :content="data.text"></u-parse>
@@ -18,6 +18,19 @@
 							class="u-info-light-bg"></image>
 					</u-grid-item>
 				</u-grid>
+				<u-gap height="6"></u-gap>
+				<view style="border-bottom:2rpx solid #f7f7f7;padding-bottom: 20rpx;">
+					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
+						<text>{{data.created | date}}</text>
+						<u-row customStyle="flex-basis:40%" justify="space-between">
+							<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa"
+								label-size="12"></u-icon>
+							<u-icon name="thumb-up" color="#aaa" :label="1" size="20" labelColor="#aaa"
+								label-size="12"></u-icon>
+							<u-icon name="thumb-down" color="#aaa" size="20" labelColor="#aaa" label-size="12"></u-icon>
+						</u-row>
+					</u-row>
+				</view>
 			</view>
 		</u-row>
 	</view>
