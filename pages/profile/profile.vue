@@ -157,7 +157,7 @@
 			onRefresh() {
 				console.log(1)
 				setTimeout(() => {
-					this.$refs.paging.complete();
+					this.$refs.paging.endRefresh();
 				}, 1000)
 
 			},
