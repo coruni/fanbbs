@@ -5745,7 +5745,7 @@ render._withStripped = true
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0_3D___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./z-paging.vue?vue&type=template&id=0f887f1e&scoped=true&name=z-paging&filter-modules=eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0%3D& */ 159);
+/* harmony import */ var _z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0_3D___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./z-paging.vue?vue&type=template&id=0f887f1e&scoped=true&name=z-paging&filter-modules=eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0%3D& */ 159);
 /* harmony import */ var _z_paging_vue_vue_type_renderjs_module_pagingRenderjs_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./z-paging.vue?vue&type=renderjs&module=pagingRenderjs&lang=js& */ 169);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _z_paging_vue_vue_type_renderjs_module_pagingRenderjs_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _z_paging_vue_vue_type_renderjs_module_pagingRenderjs_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _js_z_paging_main_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/z-paging-main.js?vue&type=script&lang=js& */ 179);
@@ -5766,14 +5766,14 @@ _z_paging_vue_vue_type_renderjs_module_pagingRenderjs_lang_js___WEBPACK_IMPORTED
 
 var component = Object(_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__["default"])(
   _js_z_paging_main_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_2__["default"],
-  _z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0_3D___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0_3D___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0_3D___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0_3D___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   "0f887f1e",
   null,
   false,
-  _z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0_3D___WEBPACK_IMPORTED_MODULE_0__["components"],
+  _z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0_3D___WEBPACK_IMPORTED_MODULE_0__["components"],
   _z_paging_vue_vue_type_renderjs_module_pagingRenderjs_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"]
 )
 
@@ -5787,28 +5787,28 @@ component.options.__file = "uni_modules/z-paging/components/z-paging/z-paging.vu
 /***/ }),
 /* 159 */
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** F:/ruleapp/uni_modules/z-paging/components/z-paging/z-paging.vue?vue&type=template&id=0f887f1e&scoped=true&name=z-paging&filter-modules=eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0%3D& ***!
+  !*** F:/ruleapp/uni_modules/z-paging/components/z-paging/z-paging.vue?vue&type=template&id=0f887f1e&scoped=true&name=z-paging&filter-modules=eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0%3D& ***!
   \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0_3D___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/filter-modules-template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/view/style.js!./z-paging.vue?vue&type=template&id=0f887f1e&scoped=true&name=z-paging&filter-modules=eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0%3D& */ 160);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0_3D___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0_3D___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/filter-modules-template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/view/style.js!./z-paging.vue?vue&type=template&id=0f887f1e&scoped=true&name=z-paging&filter-modules=eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0%3D& */ 160);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0_3D___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0_3D___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0_3D___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0_3D___WEBPACK_IMPORTED_MODULE_0__["recyclableRender"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0_3D___WEBPACK_IMPORTED_MODULE_0__["recyclableRender"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "components", function() { return _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0_3D___WEBPACK_IMPORTED_MODULE_0__["components"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "components", function() { return _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_17_0_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_filter_modules_template_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_view_style_js_z_paging_vue_vue_type_template_id_0f887f1e_scoped_true_name_z_paging_filter_modules_eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0_3D___WEBPACK_IMPORTED_MODULE_0__["components"]; });
 
 
 
 /***/ }),
 /* 160 */
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/filter-modules-template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/view/style.js!F:/ruleapp/uni_modules/z-paging/components/z-paging/z-paging.vue?vue&type=template&id=0f887f1e&scoped=true&name=z-paging&filter-modules=eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjAxNDQsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjAxNDR9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwMjE4LCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIxNTMxfX0%3D& ***!
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--17-0!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/filter-modules-template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/view/style.js!F:/ruleapp/uni_modules/z-paging/components/z-paging/z-paging.vue?vue&type=template&id=0f887f1e&scoped=true&name=z-paging&filter-modules=eyJwYWdpbmdXeHMiOnsidHlwZSI6InNjcmlwdCIsImNvbnRlbnQiOiIiLCJzdGFydCI6MjA2NzYsImF0dHJzIjp7InNyYyI6Ii4vd3hzL3otcGFnaW5nLXd4cy53eHMiLCJtb2R1bGUiOiJwYWdpbmdXeHMiLCJsYW5nIjoid3hzIn0sImVuZCI6MjA2NzZ9LCJwYWdpbmdSZW5kZXJqcyI6eyJ0eXBlIjoicmVuZGVyanMiLCJjb250ZW50IjoiIiwic3RhcnQiOjIwNzUwLCJhdHRycyI6eyJtb2R1bGUiOiJwYWdpbmdSZW5kZXJqcyIsImxhbmciOiJqcyJ9LCJlbmQiOjIyMDYzfX0%3D& ***!
   \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -6113,30 +6113,38 @@ var render = function () {
                                       attrs: { _i: 13 },
                                     },
                                     [
+                                      _vm._$g(14, "i")
+                                        ? _c("uni-view", {
+                                            staticClass: _vm._$g(14, "sc"),
+                                            style: _vm._$g(14, "s"),
+                                            attrs: { _i: 14 },
+                                          })
+                                        : _vm._e(),
                                       _c(
                                         "uni-view",
                                         {
-                                          staticClass: _vm._$g(14, "sc"),
-                                          attrs: { _i: 14 },
+                                          staticClass: _vm._$g(15, "sc"),
+                                          attrs: { _i: 15 },
                                         },
                                         [
-                                          _vm._$g(15, "i")
+                                          _vm._$g(16, "i")
                                             ? _vm._t("refresher", null, {
-                                                _i: 15,
+                                                _i: 16,
                                               })
                                             : _vm._e(),
                                         ],
                                         2
                                       ),
-                                      _vm._$g(16, "i")
+                                      _vm._$g(17, "i")
                                         ? _vm._t("refresherComplete", null, {
-                                            _i: 16,
+                                            _i: 17,
                                           })
-                                        : _vm._$g(17, "e")
+                                        : _vm._$g(18, "e")
                                         ? _c("z-paging-refresh", {
                                             ref: "refresh",
-                                            style: _vm._$g(17, "s"),
-                                            attrs: { _i: 17 },
+                                            staticClass: _vm._$g(18, "sc"),
+                                            style: _vm._$g(18, "s"),
+                                            attrs: { _i: 18 },
                                           })
                                         : _vm._e(),
                                     ],
@@ -6149,26 +6157,26 @@ var render = function () {
                           _c(
                             "uni-view",
                             {
-                              staticClass: _vm._$g(18, "sc"),
-                              attrs: { _i: 18 },
+                              staticClass: _vm._$g(19, "sc"),
+                              attrs: { _i: 19 },
                             },
                             [
-                              _vm._$g(19, "i")
-                                ? _vm._t("chatLoading", null, { _i: 19 })
-                                : _vm._$g(20, "e")
+                              _vm._$g(20, "i")
+                                ? _vm._t("chatLoading", null, { _i: 20 })
+                                : _vm._$g(21, "e")
                                 ? _c(
                                     "uni-view",
                                     {
-                                      staticClass: _vm._$g(20, "sc"),
-                                      attrs: { _i: 20 },
+                                      staticClass: _vm._$g(21, "sc"),
+                                      attrs: { _i: 21 },
                                     },
                                     [
-                                      _vm._$g(21, "i")
+                                      _vm._$g(22, "i")
                                         ? _c(
                                             "v-uni-text",
                                             {
-                                              class: _vm._$g(21, "c"),
-                                              attrs: { _i: 21 },
+                                              class: _vm._$g(22, "c"),
+                                              attrs: { _i: 22 },
                                               on: {
                                                 click: function ($event) {
                                                   return _vm.$handleViewEvent(
@@ -6177,45 +6185,45 @@ var render = function () {
                                                 },
                                               },
                                             },
-                                            [_vm._v(_vm._$g(21, "t0-0"))]
+                                            [_vm._v(_vm._$g(22, "t0-0"))]
                                           )
                                         : _c("v-uni-image", {
-                                            staticClass: _vm._$g(22, "sc"),
+                                            staticClass: _vm._$g(23, "sc"),
                                             attrs: {
-                                              src: _vm._$g(22, "a-src"),
-                                              _i: 22,
+                                              src: _vm._$g(23, "a-src"),
+                                              _i: 23,
                                             },
                                           }),
                                     ],
                                     1
                                   )
                                 : _vm._e(),
-                              _vm._$g(23, "i")
-                                ? _vm._t("loading", null, { _i: 23 })
+                              _vm._$g(24, "i")
+                                ? _vm._t("loading", null, { _i: 24 })
                                 : _vm._e(),
                               _c(
                                 "uni-view",
                                 {
-                                  staticClass: _vm._$g(24, "sc"),
-                                  style: _vm._$g(24, "s"),
-                                  attrs: { _i: 24 },
+                                  staticClass: _vm._$g(25, "sc"),
+                                  style: _vm._$g(25, "s"),
+                                  attrs: { _i: 25 },
                                 },
                                 [
-                                  _vm._t("default", null, { _i: 25 }),
-                                  _vm._$g(26, "i")
+                                  _vm._t("default", null, { _i: 26 }),
+                                  _vm._$g(27, "i")
                                     ? [
-                                        _vm._t("header", null, { _i: 27 }),
+                                        _vm._t("header", null, { _i: 28 }),
                                         _c(
                                           "uni-view",
                                           {
-                                            staticClass: _vm._$g(28, "sc"),
-                                            style: _vm._$g(28, "s"),
-                                            attrs: { _i: 28 },
+                                            staticClass: _vm._$g(29, "sc"),
+                                            style: _vm._$g(29, "s"),
+                                            attrs: { _i: 29 },
                                           },
                                           [
-                                            _vm._$g(29, "i")
+                                            _vm._$g(30, "i")
                                               ? _vm._l(
-                                                  _vm._$g(30, "f"),
+                                                  _vm._$g(31, "f"),
                                                   function (
                                                     item,
                                                     index,
@@ -6227,19 +6235,19 @@ var render = function () {
                                                       {
                                                         key: item,
                                                         staticClass: _vm._$g(
-                                                          "30-" + $30,
+                                                          "31-" + $30,
                                                           "sc"
                                                         ),
                                                         style: _vm._$g(
-                                                          "30-" + $30,
+                                                          "31-" + $30,
                                                           "s"
                                                         ),
                                                         attrs: {
                                                           id: _vm._$g(
-                                                            "30-" + $30,
+                                                            "31-" + $30,
                                                             "a-id"
                                                           ),
-                                                          _i: "30-" + $30,
+                                                          _i: "31-" + $30,
                                                         },
                                                         on: {
                                                           click: function (
@@ -6253,7 +6261,7 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._$g(
-                                                          "31-" + $30,
+                                                          "32-" + $30,
                                                           "i"
                                                         )
                                                           ? _c(
@@ -6261,12 +6269,12 @@ var render = function () {
                                                               {
                                                                 attrs: {
                                                                   _i:
-                                                                    "31-" + $30,
+                                                                    "32-" + $30,
                                                                 },
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "使用兼容模式请在组件源码z-paging.vue第99行中注释这一行，并打开下面一行注释"
+                                                                  "使用兼容模式请在组件源码z-paging.vue第100行中注释这一行，并打开下面一行注释"
                                                                 ),
                                                               ]
                                                             )
@@ -6274,7 +6282,7 @@ var render = function () {
                                                               "cell",
                                                               null,
                                                               {
-                                                                _i: "32-" + $30,
+                                                                _i: "33-" + $30,
                                                               }
                                                             ),
                                                       ],
@@ -6283,7 +6291,7 @@ var render = function () {
                                                   }
                                                 )
                                               : _vm._l(
-                                                  _vm._$g(34, "f"),
+                                                  _vm._$g(35, "f"),
                                                   function (
                                                     item,
                                                     index,
@@ -6295,11 +6303,11 @@ var render = function () {
                                                       {
                                                         key: item,
                                                         staticClass: _vm._$g(
-                                                          "34-" + $31,
+                                                          "35-" + $31,
                                                           "sc"
                                                         ),
                                                         attrs: {
-                                                          _i: "34-" + $31,
+                                                          _i: "35-" + $31,
                                                         },
                                                         on: {
                                                           click: function (
@@ -6313,7 +6321,7 @@ var render = function () {
                                                       },
                                                       [
                                                         _vm._t("cell", null, {
-                                                          _i: "35-" + $31,
+                                                          _i: "36-" + $31,
                                                         }),
                                                       ],
                                                       2
@@ -6323,35 +6331,35 @@ var render = function () {
                                           ],
                                           2
                                         ),
-                                        _vm._t("footer", null, { _i: 36 }),
+                                        _vm._t("footer", null, { _i: 37 }),
                                       ]
                                     : _vm._e(),
-                                  _vm._$g(37, "i")
+                                  _vm._$g(38, "i")
                                     ? _c("uni-view", {
-                                        staticClass: _vm._$g(37, "sc"),
-                                        style: _vm._$g(37, "s"),
-                                        attrs: { _i: 37 },
+                                        staticClass: _vm._$g(38, "sc"),
+                                        style: _vm._$g(38, "s"),
+                                        attrs: { _i: 38 },
                                       })
                                     : _vm._e(),
-                                  _vm._$g(38, "i")
+                                  _vm._$g(39, "i")
                                     ? _vm._t("loadingMoreDefault", null, {
-                                        _i: 38,
-                                      })
-                                    : _vm._$g(39, "e")
-                                    ? _vm._t("loadingMoreLoading", null, {
                                         _i: 39,
                                       })
                                     : _vm._$g(40, "e")
-                                    ? _vm._t("loadingMoreNoMore", null, {
+                                    ? _vm._t("loadingMoreLoading", null, {
                                         _i: 40,
                                       })
                                     : _vm._$g(41, "e")
-                                    ? _vm._t("loadingMoreFail", null, {
+                                    ? _vm._t("loadingMoreNoMore", null, {
                                         _i: 41,
                                       })
                                     : _vm._$g(42, "e")
+                                    ? _vm._t("loadingMoreFail", null, {
+                                        _i: 42,
+                                      })
+                                    : _vm._$g(43, "e")
                                     ? _c("z-paging-load-more", {
-                                        attrs: { _i: 42 },
+                                        attrs: { _i: 43 },
                                         on: {
                                           doClick: function ($event) {
                                             return _vm.$handleViewEvent($event)
@@ -6359,29 +6367,29 @@ var render = function () {
                                         },
                                       })
                                     : _vm._e(),
-                                  _vm._$g(43, "i")
+                                  _vm._$g(44, "i")
                                     ? _c("uni-view", {
-                                        staticClass: _vm._$g(43, "sc"),
-                                        style: _vm._$g(43, "s"),
-                                        attrs: { _i: 43 },
+                                        staticClass: _vm._$g(44, "sc"),
+                                        style: _vm._$g(44, "s"),
+                                        attrs: { _i: 44 },
                                       })
                                     : _vm._e(),
                                 ],
                                 2
                               ),
-                              _vm._$g(44, "i")
+                              _vm._$g(45, "i")
                                 ? _c(
                                     "uni-view",
                                     {
-                                      class: _vm._$g(44, "c"),
-                                      style: _vm._$g(44, "s"),
-                                      attrs: { _i: 44 },
+                                      class: _vm._$g(45, "c"),
+                                      style: _vm._$g(45, "s"),
+                                      attrs: { _i: 45 },
                                     },
                                     [
-                                      _vm._$g(45, "i")
-                                        ? _vm._t("empty", null, { _i: 45 })
+                                      _vm._$g(46, "i")
+                                        ? _vm._t("empty", null, { _i: 46 })
                                         : _c("z-paging-empty-view", {
-                                            attrs: { _i: 46 },
+                                            attrs: { _i: 47 },
                                             on: {
                                               reload: function ($event) {
                                                 return _vm.$handleViewEvent(
@@ -6414,26 +6422,26 @@ var render = function () {
             ],
             1
           ),
-          _vm._$g(47, "i")
+          _vm._$g(48, "i")
             ? _c(
                 "uni-view",
-                { class: _vm._$g(47, "c"), attrs: { _i: 47 } },
-                [_vm._t("right", null, { _i: 48 })],
+                { class: _vm._$g(48, "c"), attrs: { _i: 48 } },
+                [_vm._t("right", null, { _i: 49 })],
                 2
               )
             : _vm._e(),
         ],
         1
       ),
-      _vm._$g(49, "i")
-        ? _vm._t("bottom", null, { _i: 49 })
-        : _vm._$g(50, "e")
+      _vm._$g(50, "i")
+        ? _vm._t("bottom", null, { _i: 50 })
+        : _vm._$g(51, "e")
         ? _c(
             "uni-view",
             {
-              staticClass: _vm._$g(50, "sc"),
-              style: _vm._$g(50, "s"),
-              attrs: { _i: 50 },
+              staticClass: _vm._$g(51, "sc"),
+              style: _vm._$g(51, "s"),
+              attrs: { _i: 51 },
               on: {
                 touchmove: function ($event) {
                   return _vm.$handleViewEvent($event, {
@@ -6443,17 +6451,17 @@ var render = function () {
                 },
               },
             },
-            [_vm._t("bottom", null, { _i: 51 })],
+            [_vm._t("bottom", null, { _i: 52 })],
             2
           )
         : _vm._e(),
-      _vm._$g(52, "i")
+      _vm._$g(53, "i")
         ? _c(
             "uni-view",
             {
-              class: _vm._$g(52, "c"),
-              style: _vm._$g(52, "s"),
-              attrs: { _i: 52 },
+              class: _vm._$g(53, "c"),
+              style: _vm._$g(53, "s"),
+              attrs: { _i: 53 },
               on: {
                 click: function ($event) {
                   return _vm.$handleViewEvent($event, { stop: true })
@@ -6461,21 +6469,21 @@ var render = function () {
               },
             },
             [
-              _vm._$g(53, "i")
-                ? _vm._t("backToTop", null, { _i: 53 })
+              _vm._$g(54, "i")
+                ? _vm._t("backToTop", null, { _i: 54 })
                 : _c("v-uni-image", {
-                    staticClass: _vm._$g(54, "sc"),
-                    attrs: { src: _vm._$g(54, "a-src"), _i: 54 },
+                    staticClass: _vm._$g(55, "sc"),
+                    attrs: { src: _vm._$g(55, "a-src"), _i: 55 },
                   }),
             ],
             2
           )
         : _vm._e(),
-      _vm._$g(55, "i")
+      _vm._$g(56, "i")
         ? _c(
             "uni-view",
-            { staticClass: _vm._$g(55, "sc"), attrs: { _i: 55 } },
-            [_vm._t("loading", null, { _i: 56 })],
+            { staticClass: _vm._$g(56, "sc"), attrs: { _i: 56 } },
+            [_vm._t("loading", null, { _i: 57 })],
             2
           )
         : _vm._e(),
@@ -7277,7 +7285,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 // [z-paging]常量
 var _default = {
-  version: '2.5.9',
+  version: '2.6.2',
   delayTime: 100,
   errorUpdateKey: 'z-paging-error-emit',
   completeUpdateKey: 'z-paging-complete-emit',
@@ -7908,7 +7916,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 13);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "/* [z-paging]公共css*/\n.z-paging-content[data-v-0f887f1e] {\n\tposition: relative;\n\n\tdisplay: flex;\n\twidth: 100%;\n\theight: 100%;\n\toverflow: hidden;\n\n\tflex-direction: column;\n}\n.z-paging-content-fixed[data-v-0f887f1e], .zp-loading-fixed[data-v-0f887f1e] {\n\tposition: fixed;\n\n\theight: auto;\n\twidth: auto;\n\n\ttop: 0;\n\tleft: 0;\n\tbottom: 0;\n\tright: 0;\n}\n.zp-page-top[data-v-0f887f1e],.zp-page-bottom[data-v-0f887f1e] {\n\n\twidth: auto;\n\n\tposition: fixed;\n\tleft: 0;\n\tright: 0;\n\tz-index: 999;\n}\n.zp-page-left[data-v-0f887f1e],.zp-page-right[data-v-0f887f1e]{\n\n\theight: 100%;\n}\n.zp-scroll-view-super[data-v-0f887f1e] {\n\tflex: 1;\n\toverflow: hidden;\n\tposition: relative;\n}\n.zp-view-super[data-v-0f887f1e]{\n\n\tdisplay: flex;\n\n\tflex-direction: row;\n}\n.zp-custom-refresher-container[data-v-0f887f1e] {\n\toverflow: hidden;\n}\n.zp-scroll-view-container[data-v-0f887f1e],.zp-scroll-view[data-v-0f887f1e] {\n\tposition: relative;\n\n\theight: 100%;\n\twidth: 100%;\n}\n.zp-absoulte[data-v-0f887f1e]{\n\n\tposition: absolute;\n\ttop: 0;\n\twidth: auto;\n}\n.zp-right[data-v-0f887f1e]{\n\tright: 0;\n}\n.zp-scroll-view-absolute[data-v-0f887f1e] {\n\tposition: absolute;\n\ttop: 0;\n\tleft: 0;\n}\n.zp-scroll-view-hide-scrollbar[data-v-0f887f1e] ::-webkit-scrollbar {\n\tdisplay: none;\n\t-webkit-appearance: none;\n\twidth: 0 !important;\n\theight: 0 !important;\n\tbackground: transparent;\n}\n.zp-paging-touch-view[data-v-0f887f1e] {\n\twidth: 100%;\n\theight: 100%;\n\tposition: relative;\n}\n.zp-fixed-bac-view[data-v-0f887f1e] {\n\tposition: absolute;\n\twidth: 100%;\n\ttop: 0;\n\tleft: 0;\n\theight: 200px;\n}\n.zp-paging-main[data-v-0f887f1e] {\n\theight: 100%;\n\n\tdisplay: flex;\n\n\tflex-direction: column;\n}\n.zp-paging-container[data-v-0f887f1e] {\n\tflex: 1;\n\tposition: relative;\n\n\tdisplay: flex;\n\n\tflex-direction: column;\n}\n.zp-chat-record-loading-container[data-v-0f887f1e] {\n\n\tdisplay: flex;\n\twidth: 100%;\n\n\n\n\n\talign-items: center;\n\tjustify-content: center;\n\theight: 60rpx;\n\tfont-size: 26rpx;\n}\n.zp-chat-record-loading-custom-image[data-v-0f887f1e] {\n\twidth: 35rpx;\n\theight: 35rpx;\n\n\t-webkit-animation: loading-flower-data-v-0f887f1e 1s linear infinite;\n\t        animation: loading-flower-data-v-0f887f1e 1s linear infinite;\n}\n.zp-custom-refresher-container[data-v-0f887f1e] {\n\n\tdisplay: flex;\n\n\tflex-direction: row;\n\tjustify-content: center;\n\talign-items: center;\n}\n.zp-back-to-top[data-v-0f887f1e] {\n\twidth: 76rpx;\n\theight: 76rpx;\n\tz-index: 999;\n\tposition: absolute;\n\tbottom: 0rpx;\n\tright: 25rpx;\n\ttransition-duration: .3s;\n\ttransition-property: opacity;\n}\n.zp-back-to-top-show[data-v-0f887f1e] {\n\topacity: 1;\n}\n.zp-back-to-top-hide[data-v-0f887f1e] {\n\topacity: 0;\n}\n.zp-back-to-top-img[data-v-0f887f1e] {\n\n\twidth: 100%;\n\theight: 100%;\n\n\n\n\n\tz-index: 999;\n}\n.zp-empty-view[data-v-0f887f1e] {\n\n\n\n\tflex: 1;\n}\n.zp-empty-view-center[data-v-0f887f1e] {\n\n\tdisplay: flex;\n\n\tflex-direction: column;\n\talign-items: center;\n\tjustify-content: center;\n}\n.zp-loading-fixed[data-v-0f887f1e] {\n\tz-index: 9999;\n}\n.zp-safe-area-inset-bottom[data-v-0f887f1e] {\n\tposition: absolute;\n}\n.zp-n-refresh-container[data-v-0f887f1e] {\n\n\tdisplay: flex;\n\n\tjustify-content: center;\n\twidth: 750rpx;\n}\n.zp-n-list-container[data-v-0f887f1e]{\n\n\tdisplay: flex;\n\n\tflex-direction: row;\n\tflex: 1;\n}\n\n/* [z-paging]公用的静态css资源 */\n.zp-line-loading-image[data-v-0f887f1e] {\n\tmargin-right: 8rpx;\n\twidth: 28rpx;\n\theight: 28rpx;\n\n\t-webkit-animation: loading-flower-data-v-0f887f1e 1s steps(12) infinite;\n\t        animation: loading-flower-data-v-0f887f1e 1s steps(12) infinite;\n\n\tcolor: #666666;\n}\n.zp-loading-image-ios[data-v-0f887f1e]{\n\twidth: 20px;\n\theight: 20px;\n}\n.zp-loading-image-android[data-v-0f887f1e]{\n\twidth: 32rpx;\n\theight: 32rpx;\n}\n@-webkit-keyframes loading-flower-data-v-0f887f1e {\n0% {\n\t\t-webkit-transform: rotate(0deg);\n\t\ttransform: rotate(0deg);\n}\nto {\n\t\t-webkit-transform: rotate(1turn);\n\t\ttransform: rotate(1turn);\n}\n}\n@keyframes loading-flower-data-v-0f887f1e {\n0% {\n\t\t-webkit-transform: rotate(0deg);\n\t\ttransform: rotate(0deg);\n}\nto {\n\t\t-webkit-transform: rotate(1turn);\n\t\ttransform: rotate(1turn);\n}\n}\n\n\n", ""]);
+exports.push([module.i, "/* [z-paging]公共css*/\n.z-paging-content[data-v-0f887f1e] {\n\tposition: relative;\n\n\tdisplay: flex;\n\twidth: 100%;\n\theight: 100%;\n\toverflow: hidden;\n\n\tflex-direction: column;\n}\n.z-paging-content-fixed[data-v-0f887f1e], .zp-loading-fixed[data-v-0f887f1e] {\n\tposition: fixed;\n\n\theight: auto;\n\twidth: auto;\n\n\ttop: 0;\n\tleft: 0;\n\tbottom: 0;\n\tright: 0;\n}\n.zp-page-top[data-v-0f887f1e],.zp-page-bottom[data-v-0f887f1e] {\n\n\twidth: auto;\n\n\tposition: fixed;\n\tleft: 0;\n\tright: 0;\n\tz-index: 999;\n}\n.zp-page-left[data-v-0f887f1e],.zp-page-right[data-v-0f887f1e]{\n\n\theight: 100%;\n}\n.zp-scroll-view-super[data-v-0f887f1e] {\n\tflex: 1;\n\toverflow: hidden;\n\tposition: relative;\n}\n.zp-view-super[data-v-0f887f1e]{\n\n\tdisplay: flex;\n\n\tflex-direction: row;\n}\n.zp-scroll-view-container[data-v-0f887f1e],.zp-scroll-view[data-v-0f887f1e] {\n\tposition: relative;\n\n\theight: 100%;\n\twidth: 100%;\n}\n.zp-absoulte[data-v-0f887f1e]{\n\n\tposition: absolute;\n\ttop: 0;\n\twidth: auto;\n}\n.zp-right[data-v-0f887f1e]{\n\tright: 0;\n}\n.zp-scroll-view-absolute[data-v-0f887f1e] {\n\tposition: absolute;\n\ttop: 0;\n\tleft: 0;\n}\n.zp-scroll-view-hide-scrollbar[data-v-0f887f1e] ::-webkit-scrollbar {\n\tdisplay: none;\n\t-webkit-appearance: none;\n\twidth: 0 !important;\n\theight: 0 !important;\n\tbackground: transparent;\n}\n.zp-paging-touch-view[data-v-0f887f1e] {\n\twidth: 100%;\n\theight: 100%;\n\tposition: relative;\n}\n.zp-fixed-bac-view[data-v-0f887f1e] {\n\tposition: absolute;\n\twidth: 100%;\n\ttop: 0;\n\tleft: 0;\n\theight: 200px;\n}\n.zp-paging-main[data-v-0f887f1e] {\n\theight: 100%;\n\n\tdisplay: flex;\n\n\tflex-direction: column;\n}\n.zp-paging-container[data-v-0f887f1e] {\n\tflex: 1;\n\tposition: relative;\n\n\tdisplay: flex;\n\n\tflex-direction: column;\n}\n.zp-chat-record-loading-container[data-v-0f887f1e] {\n\n\tdisplay: flex;\n\twidth: 100%;\n\n\n\n\n\talign-items: center;\n\tjustify-content: center;\n\theight: 60rpx;\n\tfont-size: 26rpx;\n}\n.zp-chat-record-loading-custom-image[data-v-0f887f1e] {\n\twidth: 35rpx;\n\theight: 35rpx;\n\n\t-webkit-animation: loading-flower-data-v-0f887f1e 1s linear infinite;\n\t        animation: loading-flower-data-v-0f887f1e 1s linear infinite;\n}\n.zp-custom-refresher-container[data-v-0f887f1e] {\n\toverflow: hidden;\n}\n.zp-custom-refresher-refresh[data-v-0f887f1e] {\n\n\tdisplay: block;\n}\n.zp-back-to-top[data-v-0f887f1e] {\n\twidth: 76rpx;\n\theight: 76rpx;\n\tz-index: 999;\n\tposition: absolute;\n\tbottom: 0rpx;\n\tright: 25rpx;\n\ttransition-duration: .3s;\n\ttransition-property: opacity;\n}\n.zp-back-to-top-show[data-v-0f887f1e] {\n\topacity: 1;\n}\n.zp-back-to-top-hide[data-v-0f887f1e] {\n\topacity: 0;\n}\n.zp-back-to-top-img[data-v-0f887f1e] {\n\n\twidth: 100%;\n\theight: 100%;\n\n\n\n\n\tz-index: 999;\n}\n.zp-empty-view[data-v-0f887f1e] {\n\n\n\n\tflex: 1;\n}\n.zp-empty-view-center[data-v-0f887f1e] {\n\n\tdisplay: flex;\n\n\tflex-direction: column;\n\talign-items: center;\n\tjustify-content: center;\n}\n.zp-loading-fixed[data-v-0f887f1e] {\n\tz-index: 9999;\n}\n.zp-safe-area-inset-bottom[data-v-0f887f1e] {\n\tposition: absolute;\n}\n.zp-n-refresh-container[data-v-0f887f1e] {\n\n\tdisplay: flex;\n\n\tjustify-content: center;\n\twidth: 750rpx;\n}\n.zp-n-list-container[data-v-0f887f1e]{\n\n\tdisplay: flex;\n\n\tflex-direction: row;\n\tflex: 1;\n}\n\n/* [z-paging]公用的静态css资源 */\n.zp-line-loading-image[data-v-0f887f1e] {\n\tmargin-right: 8rpx;\n\twidth: 28rpx;\n\theight: 28rpx;\n\n\t-webkit-animation: loading-flower-data-v-0f887f1e 1s steps(12) infinite;\n\t        animation: loading-flower-data-v-0f887f1e 1s steps(12) infinite;\n\n\tcolor: #666666;\n}\n.zp-loading-image-ios[data-v-0f887f1e]{\n\twidth: 20px;\n\theight: 20px;\n}\n.zp-loading-image-android[data-v-0f887f1e]{\n\twidth: 32rpx;\n\theight: 32rpx;\n}\n@-webkit-keyframes loading-flower-data-v-0f887f1e {\n0% {\n\t\t-webkit-transform: rotate(0deg);\n\t\ttransform: rotate(0deg);\n}\nto {\n\t\t-webkit-transform: rotate(1turn);\n\t\ttransform: rotate(1turn);\n}\n}\n@keyframes loading-flower-data-v-0f887f1e {\n0% {\n\t\t-webkit-transform: rotate(0deg);\n\t\ttransform: rotate(0deg);\n}\nto {\n\t\t-webkit-transform: rotate(1turn);\n\t\ttransform: rotate(1turn);\n}\n}\n\n\n", ""]);
 // Exports
 module.exports = exports;
 
