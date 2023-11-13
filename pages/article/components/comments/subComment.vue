@@ -1,82 +1,86 @@
 <template>
-	<z-paging ref="paging" @query="getComments" v-model="comments" use-page-scroll :refresher-enabled="false">
-		<u-row align="top" customStyle="padding:20rpx">
-			<u-avatar :src="data.avatar" size="30"></u-avatar>
-			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
-				<u-row justify="space-between">
-					<text :style="{color:data.isvip?'#FB7299':''}">{{data.author}}</text>
-				</u-row>
-				<view style="margin-top:10rpx;word-break: break-word;">
-					<u-parse :content="data.text"></u-parse>
-				</view>
-				<u-grid :col="3" :border="false" v-if="data.longtext && data.longtext.images">
-					<u-grid-item v-for="(image,imageIndex) in data.longtext.images" :key="imageIndex"
-						v-if="imageIndex<9" @click.native.stop="preview"
-						:customStyle="{width:'210rpx',height:'210rpx',borderRadius:'20rpx',marginTop:'10rpx',marginRight:'10rpx'}">
-						<image :src="image" mode="aspectFill" style="width:210rpx;height:210rpx;border-radius:10rpx"
-							class="u-info-light-bg"></image>
-					</u-grid-item>
-				</u-grid>
-				<u-gap height="6"></u-gap>
-
-				<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
-					<text>{{data.created | date}}</text>
-					<u-row customStyle="flex-basis:25%" justify="space-between">
-						<u-icon name="thumb-up" color="#aaa" :label="1" size="20" labelColor="#aaa"
-							label-size="12"></u-icon>
-						<u-icon name="thumb-down" color="#aaa" size="20" labelColor="#aaa" label-size="12"></u-icon>
-					</u-row>
-				</u-row>
-			</view>
-		</u-row>
-		<u-gap height="8" bgColor="#f4f4f4"></u-gap>
-		<!-- 子评论开始 -->
-		<block v-for="(item,index) in comments" :key="index">
+	<view>
+		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false" :fixed="false"
+			height="75vh">
 			<u-row align="top" customStyle="padding:20rpx">
-				<u-avatar :src="item.avatar" size="30"></u-avatar>
+				<u-avatar :src="data.avatar" size="30"></u-avatar>
 				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 					<u-row justify="space-between">
-						<text :style="{color:item.isvip?'#FB7299':''}">{{item.author}}</text>
+						<text :style="{color:data.isvip?'#FB7299':''}">{{data.author}}</text>
 					</u-row>
-					<view style="margin-top:10rpx;word-break: break-word;"
-						@tap.stop.prevent="commentCheck(true,item.coid,item.author)">
-						<u-parse :content="item.text"></u-parse>
+					<view style="margin-top:10rpx;word-break: break-word;">
+						<u-parse :content="data.text"></u-parse>
 					</view>
-					<u-grid :col="3" :border="false" v-if="item.longtext && item.longtext.images">
-						<u-grid-item v-for="(image,imageIndex) in item.longtext.images" :key="imageIndex"
+					<u-grid :col="3" :border="false" v-if="data.longtext && data.longtext.images">
+						<u-grid-item v-for="(image,imageIndex) in data.longtext.images" :key="imageIndex"
 							v-if="imageIndex<9" @click.native.stop="preview"
 							:customStyle="{width:'210rpx',height:'210rpx',borderRadius:'20rpx',marginTop:'10rpx',marginRight:'10rpx'}">
 							<image :src="image" mode="aspectFill" style="width:210rpx;height:210rpx;border-radius:10rpx"
-								class="u-info-light-bg">
-							</image>
+								class="u-info-light-bg"></image>
 						</u-grid-item>
 					</u-grid>
 					<u-gap height="6"></u-gap>
-					<view style="border-bottom:2rpx solid #f7f7f7;padding-bottom: 20rpx;">
-						<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
-							<text>{{item.created | date}}</text>
-							<u-row customStyle="flex-basis:40%" justify="space-between">
-								<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa"
-									label-size="12"></u-icon>
-								<u-icon name="thumb-up" color="#aaa" :label="1" size="20" labelColor="#aaa"
-									label-size="12"></u-icon>
-								<u-icon name="thumb-down" color="#aaa" size="20" labelColor="#aaa"
-									label-size="12"></u-icon>
-							</u-row>
+
+					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
+						<text>{{data.created | date}}</text>
+						<u-row customStyle="flex-basis:25%" justify="space-between">
+							<u-icon name="thumb-up" color="#aaa" :label="1" size="20" labelColor="#aaa"
+								label-size="12"></u-icon>
+							<u-icon name="thumb-down" color="#aaa" size="20" labelColor="#aaa" label-size="12"></u-icon>
 						</u-row>
-					</view>
+					</u-row>
 				</view>
 			</u-row>
-		</block>
-		<template #bottom>
-			<u-row customStyle="margin:20rpx;" justify="space-between">
-				<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1" class="u-info-light-bg u-info"
-					@click="commentCheck(false,data.coid,data.author);">
-					<u-icon name="edit-pen" size="20"></u-icon>
-					<text style="margin-left:10rpx;font-size: 28rpx;">回复{{data.author}}</text>
+			<u-gap height="8" bgColor="#f4f4f4"></u-gap>
+			<!-- 子评论开始 -->
+			<block v-for="(item,index) in comments" :key="index">
+				<u-row align="top" customStyle="padding:20rpx">
+					<u-avatar :src="item.avatar" size="30"></u-avatar>
+					<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
+						<u-row justify="space-between">
+							<text :style="{color:item.isvip?'#FB7299':''}">{{item.author}}</text>
+						</u-row>
+						<view style="margin-top:10rpx;word-break: break-word;"
+							@tap.stop.prevent="commentCheck(true,item.coid,item.author)">
+							<u-parse :content="item.text"></u-parse>
+						</view>
+						<u-grid :col="3" :border="false" v-if="item.longtext && item.longtext.images">
+							<u-grid-item v-for="(image,imageIndex) in item.longtext.images" :key="imageIndex"
+								v-if="imageIndex<9" @click.native.stop="preview"
+								:customStyle="{width:'210rpx',height:'210rpx',borderRadius:'20rpx',marginTop:'10rpx',marginRight:'10rpx'}">
+								<image :src="image" mode="aspectFill"
+									style="width:210rpx;height:210rpx;border-radius:10rpx" class="u-info-light-bg">
+								</image>
+							</u-grid-item>
+						</u-grid>
+						<u-gap height="6"></u-gap>
+						<view style="border-bottom:2rpx solid #f7f7f7;padding-bottom: 20rpx;">
+							<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
+								<text>{{item.created | date}}</text>
+								<u-row customStyle="flex-basis:40%" justify="space-between">
+									<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa"
+										label-size="12"></u-icon>
+									<u-icon name="thumb-up" color="#aaa" :label="1" size="20" labelColor="#aaa"
+										label-size="12"></u-icon>
+									<u-icon name="thumb-down" color="#aaa" size="20" labelColor="#aaa"
+										label-size="12"></u-icon>
+								</u-row>
+							</u-row>
+						</view>
+					</view>
 				</u-row>
-			</u-row>
-			<!-- 回复评论弹窗 -->
+			</block>
+			<template #bottom>
+				<u-row customStyle="margin:20rpx;background:#fff" justify="space-between">
+					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1" class="u-info-light-bg u-info"
+						@click="commentCheck(false,data.coid,data.author);">
+						<u-icon name="edit-pen" size="20"></u-icon>
+						<text style="margin-left:10rpx;font-size: 28rpx;">回复{{data.author}}</text>
+					</u-row>
+				</u-row>
+				<!-- 回复评论弹窗 -->
+
+			</template>
 			<u-popup :show="showComment" @close="showComment = false" round="20"
 				:customStyle="{paddingBottom:keyboardHeight+'px',padding:30+'rpx'}">
 				<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
@@ -102,10 +106,9 @@
 					表情
 				</block>
 			</u-popup>
-		</template>
+		</z-paging>
+	</view>
 
-
-	</z-paging>
 </template>
 
 <script>

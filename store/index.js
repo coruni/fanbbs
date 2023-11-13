@@ -44,6 +44,9 @@ const store = new Vuex.Store({
 			state.userInfo = {};
 			state.token = null;
 			state.hasLogin = false
+			uni.reLaunch({
+				url:'/pages/index/index'
+			})
 		}
 	}
 })

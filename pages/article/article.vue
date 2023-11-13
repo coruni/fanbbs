@@ -2,7 +2,7 @@
 	<z-paging-swiper>
 		<swiper style="height: 100%;" :current="swiperIndex" @animationfinish="animationfinish">
 			<swiper-item v-show="!loading">
-				<z-paging ref="paging" v-model="comments" @query="getComments" :auto-scroll-to-top-when-reload="false"
+				<z-paging ref="comments" v-model="comments" @query="getComments" :auto-scroll-to-top-when-reload="false"
 					:auto-clean-list-when-reload="false">
 					<template #top>
 						<u-navbar placeholder autoBack @rightClick="showMore = true" fixed>
@@ -23,7 +23,7 @@
 						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#FB7299"
 							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
-							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab"></u-tabs>
+							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab" v-if="!loading"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifndef APP -->
@@ -31,7 +31,7 @@
 						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#FB7299"
 							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
-							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab"></u-tabs>
+							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab" v-if="!loading"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<view style="margin: 20rpx;">
@@ -87,7 +87,7 @@
 				</z-paging>
 			</swiper-item>
 		</swiper>
-		<!-- <u-loading-page :loading="loading"></u-loading-page> -->
+		<u-loading-page :loading="loading"></u-loading-page>
 		<!-- 页面公用组件 -->
 		<!-- 回复文章 -->
 		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20"
@@ -137,12 +137,9 @@
 			</u-row>
 		</u-popup>
 		<!-- 子评论 -->
-		<u-popup :show="showSub" @close="showSub = false"  round="20" closeable>
+		<u-popup :show="showSub" @close="showSub = false"  round="20">
 			<u-gap height="25"></u-gap>
-			<view style="height: 75vh;">
-				<subComment :data="subComment"></subComment>
-			</view>
-			
+			<subComment :data="subComment" ref="paging"></subComment>
 		</u-popup>
 	</z-paging-swiper>
 </template>
@@ -153,6 +150,7 @@
 	import articleFooter from '@/pages/article/components/footer.vue';
 	import comment from '@/pages/article/components/comments/comment.vue';
 	import subComment from '@/pages/article/components/comments/subComment.vue';
+	import ZPMixin from '@/uni_modules/z-paging/components/z-paging/js/z-paging-mixin'
 	export default {
 		components: {
 			articleHeader,
@@ -161,6 +159,7 @@
 			comment,
 			subComment,
 		},
+		mixins: [ZPMixin],
 		data() {
 			return {
 				cid: 0,
@@ -280,7 +279,7 @@
 				}).then(res => {
 					console.log(res)
 					if (res.statusCode == 200) {
-						this.$refs.paging.complete(res.data.data)
+						this.$refs.comments.complete(res.data.data)
 					}
 				})
 			},

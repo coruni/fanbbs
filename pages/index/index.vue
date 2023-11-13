@@ -1,9 +1,10 @@
 <template>
 	<z-paging-swiper>
 		<index style="margin-bottom: 120rpx" @avatarTap="avatarTap()" v-show="tabbarIndex==0"></index>
-		<user style="margin-bottom: 120rpx" v-show="tabbarIndex==4"></user>
+		<user v-show="tabbarIndex==4" :index="tabbarIndex"></user>
 		<!-- 间隔 -->
 		<template #bottom>
+
 			<u-row justify="space-between" customStyle="padding:0 40rpx;background:white;z-index:999">
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)">

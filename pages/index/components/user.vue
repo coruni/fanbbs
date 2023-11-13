@@ -1,13 +1,24 @@
 <template>
 	<view>
-		<z-paging ref="paging" refresher-only @onRefresh="initData">
+		<z-paging ref="paging" refresher-only @onRefresh="initData" @scroll="scroll"
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<template #top>
-				<u-navbar bgColor="transparent">
-					<u-icon name="scan" slot="left" size="26" color="white"></u-icon>
-					<u-icon name="list" slot="right" size="26" color="white" @click="showRightMenu = true"></u-icon>
+				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`">
+					<view slot="left">
+						<u-row>
+							<u-icon name="scan" size="26" :color="opacity>0.4? 'black':'white'"></u-icon>
+							<u-row customStyle="margin-left:20rpx" v-show="opacity>=1"
+								@click="$refs.paging.scrollToTop()">
+								<u-avatar :src="userInfo.avatar" size="26"></u-avatar>
+								<text style="margin-left:20rpx">{{userInfo.screenName}}</text>
+							</u-row>
+						</u-row>
+					</view>
+					<u-icon name="list" slot="right" size="26" :color="opacity>0.4? 'black':'white'"
+						@click="showRightMenu = true"></u-icon>
 				</u-navbar>
 			</template>
-			<view style="position: relative;top: 0;">
+			<view style="position: relative;top: 0;" id="top">
 				<image :src="userInfo.userBg?userInfo.userBg:'/static/login.png'" mode="aspectFill"
 					style="width: 100%; height: 800rpx;"></image>
 				<view class="overlay"></view>
@@ -17,8 +28,8 @@
 					<!-- 已登录 -->
 					<view style="margin-top: 20rpx;display: flex;flex-direction: column;" v-if="$store.state.hasLogin">
 						<text style="color: white;font-weight: bold;">{{userInfo.screenName}}</text>
-						<view style="font-size: 24rpx;color: #999;display: flex;flex-direction: column;">
-							<text>UID: {{userInfo.uid}}</text>
+						<view style="font-size: 26rpx;display: flex;flex-direction: column;color: white;">
+							<text>通行证ID: {{userInfo.uid}}</text>
 							<text class="u-line-2">{{userInfo.introduce}}</text>
 						</view>
 						<view style="margin-top: 20rpx;">
@@ -60,36 +71,47 @@
 				</view>
 			</view>
 			<view style="position: relative;top: -50rpx;background: #fff;border-radius: 40rpx 40rpx 0 0;">
-				<view style="padding: 30rpx 30rpx 0 30rpx;">
+				<view style="padding: 30rpx 30rpx 0 30rpx;" id="scrolllist">
 					<u-scroll-list indicatorActiveColor="#fb7299" :indicator="false">
 						<block v-for="(item,index) in scrollList" :key="index">
 							<u-row justify="start" align="top"
 								customStyle="flex-direction:column;margin-right:20rpx;background: #f4f4f4;border-radius: 20rpx;padding:20rpx">
 								<u-row>
 									<u-icon :name="item.icon"></u-icon>
-									<text style="font-size: 28rpx;">{{item.name}}</text>
+									<text
+										style="font-size: 28rpx;font-weight: bold;margin-left: 10rpx;">{{item.name}}</text>
 								</u-row>
 								<text style="font-size: 22rpx;color: #999;">{{item.description}}</text>
 							</u-row>
 						</block>
 					</u-scroll-list>
 				</view>
-				<view>
-					<u-tabs :list="list" lineColor="#FB7299" activeStyle="color:#303133;font-weight:bold"
-						:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"></u-tabs>
-					<swiper style="height: 100vh;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current">
-						<swiper-item v-for="(item,index) in list" :key="index" style="overflow: auto;">
-							<block v-for="qqm in 50">
-								<view>
-									123123123
-								</view>
-							</block>
+				<view v-if="$store.state.hasLogin">
+					<!-- #ifndef APP -->
+					<u-sticky bgColor="#fff">
+						<u-tabs :list="list" lineColor="#FB7299" activeStyle="color:#303133;font-weight:bold"
+							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"
+							v-if="isMounted"></></u-tabs>
+					</u-sticky>
+					<!-- #endif -->
+					<!-- #ifdef APP -->
+					<u-sticky bgColor="#fff" offsetTop="60">
+						<u-tabs :list="list" lineColor="#FB7299" activeStyle="color:#303133;font-weight:bold"
+							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"
+							v-if="isMounted"></u-tabs>
+					</u-sticky>
+					<!-- #endif -->
+					<swiper style="height: 100vh;" :current="tabsIndex"
+						@animationfinish="tabsIndex = $event.detail.current">
+						<swiper-item style="overflow: auto;">
+							<publish :isScroll="isScroll"></publish>
 						</swiper-item>
 					</swiper>
 				</view>
+				<view v-else style="margin-top: 100rpx;text-align: center;">
+					<text style="font-weight: bold;" @click="goLogin">登录查看更多精彩</text>
+				</view>
 			</view>
-
-
 		</z-paging>
 		<!-- 组件 -->
 		<u-popup mode="right" :show="showRightMenu" @close="showRightMenu = false" bgColor="#f4f4f4"
@@ -99,14 +121,14 @@
 				<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;">
 					<block v-for="(item,subindex) in panel">
 						<u-row customStyle="padding:30rpx">
-							<u-icon :name="item.icon" size="24" bold></u-icon>
+							<u-icon :name="item.icon" size="24"></u-icon>
 							<text style="margin-left:20rpx;font-weight: 600;">{{item.name}}</text>
 						</u-row>
 					</block>
 				</view>
 			</block>
 			<view style="position: fixed;bottom: 0;margin: 20rpx;background: #fff;border-radius: 20rpx; width: 65vw;">
-				<u-row justify="space-between">
+				<u-row justify="space-between" @click="goLogout">
 					<block v-for="(item,index) in static">
 						<u-row customStyle="padding:30rpx;flex-direction:column;align-items:center;">
 							<u-icon :name="item.icon" size="22" bold
@@ -125,10 +147,28 @@
 	import {
 		mapState
 	} from 'vuex';
+	import publish from '../components/user/publish.vue';
 	export default {
+		components: {
+			publish
+		},
+		props: {
+			index: {
+				type: [String, Number],
+				default: 0,
+			}
+		},
+		watch: {
+			index: {
+				handler(e) {
+					if (e == 4) this.isMounted = true
+				}
+			}
+		},
 		data() {
 			return {
 				showRightMenu: false,
+				isMounted: false,
 				rightMenuItem: {
 					personl: [{
 							name: '个人信息',
@@ -222,8 +262,9 @@
 						name: '收藏'
 					}
 				],
-
-
+				opacity: 0,
+				allHeight: 0,
+				isScroll: false,
 			}
 		},
 		computed: {
@@ -232,11 +273,25 @@
 		created() {
 			this.initData()
 		},
+		onReady() {},
 		methods: {
 			initData() {
 				if (uni.getStorageSync('token')) {
 					this.getUserInfo();
 					this.getUserMeta();
+					switch (this.tabsIndex) {
+						case 0:
+							uni.$emit('reloadPublish', true)
+							break;
+						case 1:
+							uni.$emit('reloadComment', true)
+							break;
+						case 2:
+							uni.$emit('reloadcollect', true)
+							break;
+						default:
+							break;
+					}
 				}
 				setTimeout(() => {
 					//1秒之后停止刷新动画
@@ -259,7 +314,7 @@
 				})
 			},
 			getUserMeta() {
-				this.$http.get('/typechoUsers/userData').then(res => {
+				this.$http.post('/typechoUsers/userData').then(res => {
 					if (res.data.code) {
 						console.log(res)
 						this.$store.commit('setUserMeta', res.data.data)
@@ -295,7 +350,13 @@
 				this.$Router.push({
 					path: '/pages/user/login',
 				})
-			}
+			},
+			scroll(data) {
+				const scrollTop = data.detail.scrollTop;
+				this.opacity = scrollTop / 100;
+				if (scrollTop > 407) this.isScroll = true;
+				else this.isScroll = false;
+			},
 		}
 	}
 </script>

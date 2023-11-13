@@ -7,11 +7,12 @@
 		</view>
 		<block v-for="(item,index) in content" :key="index">
 			<view @click.stop="goArticle(item)"
-				style="margin:20rpx 20rpx 0rpx 20rpx; border-bottom: 1rpx solid #f7f7f7;padding-bottom: 10rpx;">
+				style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item"></article-header>
 				<article-content :data="item"></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
+			<u-gap height="6" customStyle="background:#f7f7f7"></u-gap>
 		</block>
 	</z-paging>
 </template>

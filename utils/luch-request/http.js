@@ -22,7 +22,7 @@ http.interceptors.request.use((config) => {
 	config.header = {
 		...config.header,
 	}
-	if (store.state.token) config.params.token = store.state.token;
+	if (store.state.token && config.method!='GET') config.params.token = store.state.token;
 
 	return config
 }, (config) => {
