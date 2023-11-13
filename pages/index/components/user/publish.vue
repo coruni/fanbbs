@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="isScroll"
+		<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
 			style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<block v-for="(item,index) in article">
@@ -49,8 +49,10 @@
 			})
 		},
 		methods: {
-			getData() {
+			getData(page, limit) {
 				this.$http.post('/typechoContents/contentsList', {
+					page,
+					limit,
 					searchParams: JSON.stringify({
 						type: 'post',
 						authorId: this.$store.state.userInfo.uid

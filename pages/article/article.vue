@@ -300,12 +300,13 @@
 				this.$http.post('/typechoComments/commentsAdd', {
 					params
 				}).then(res => {
-					console.log(res)
 					if (res.data.code) {
 						uni.$u.toast('已发送~')
 						this.commentText = null
 						this.showComment = false
 						this.$refs.paging.reload()
+					}else{
+						uni.$u.toast(res.data.msg)
 					}
 				})
 			},

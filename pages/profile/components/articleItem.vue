@@ -1,23 +1,22 @@
 <template>
-	<z-paging @query="getData" ref="paging" v-model="content" :refresher-enabled="false" :use-page-scroll="pageScroll">
-		<view style="margin: 20rpx;">
-			<block v-for="(item,index) in content" :key="index">
-				<view style="margin-top: 20rpx;padding:10rpx;box-shadow: 0 0 9rpx 0 #f4f4f4;">
-					<u-row align="center">
-						<u-col span="5">
-							<image :src="item.images.length>0?item.images[0]:''" mode="aspectFill"
-								style="height: 180rpx;width:100%;background: #f4f4f4;"></image>
-						</u-col>
-						<view style="display: flex;flex:1;flex-direction: column;padding:0 20rpx;">
-							<text style="font-weight: bold;">{{item.title}}</text>
-							<text class="u-line-2">{{item.text}}</text>
-							<text>{{item.created | date}}</text>
-						</view>
-					</u-row>
-				</view>
+	<view>
+		<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
+			:auto-hide-loading-after-first-loaded="false" :auto-scroll-to-top-when-reload="false"
+			:auto-clean-list-when-reload="false">
+			<block v-for="(item,index) in article">
+				<u-row customStyle="flex-direction:column;margin: 20rpx 30rpx;" align="top" @click="goArticle(item)">
+					<text
+						style="color: #999;font-size: 26rpx;">{{$u.timeFormat(item.created,'yyyy年mm月dd日')}}·{{item.category[0].name}}</text>
+					<text style="font-weight: bold;">{{item.title}}</text>
+					<text class="u-line-2">{{item.text}}</text>
+					<image v-if="item.images.length>0" :src="item.images[0]" style="width: 100%;height: 350rpx;"
+						mode="aspectFill"></image>
+				</u-row>
+				<u-gap height="6" customStyle="background:#f7f7f7"></u-gap>
 			</block>
-		</view>
-	</z-paging>
+		</z-paging>
+	</view>
+
 </template>
 
 <script>
@@ -31,11 +30,23 @@
 			pageScroll: {
 				type: Boolean,
 				default: true
+			},
+			isScroll: {
+				type: Boolean,
+				default: false,
 			}
 		},
 		data() {
 			return {
-				content: [],
+				article: [],
+				scroll: false,
+			}
+		},
+		watch: {
+			isScroll: {
+				handler(e) {
+					this.scroll = e
+				}
 			}
 		},
 		created() {

@@ -104,7 +104,10 @@
 					<swiper style="height: 100vh;" :current="tabsIndex"
 						@animationfinish="tabsIndex = $event.detail.current">
 						<swiper-item style="overflow: auto;">
-							<publish :isScroll="isScroll"></publish>
+							<publish :isScroll="isScroll" :data="userInfo"></publish>
+						</swiper-item>
+						<swiper-item style="overflow: auto;">
+							<comment :isScroll="isScroll" :data="userInfo"></comment>
 						</swiper-item>
 					</swiper>
 				</view>
@@ -148,9 +151,11 @@
 		mapState
 	} from 'vuex';
 	import publish from '../components/user/publish.vue';
+	import comment from '../components/user/comment.vue'
 	export default {
 		components: {
-			publish
+			publish,
+			comment
 		},
 		props: {
 			index: {

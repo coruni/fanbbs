@@ -59,7 +59,7 @@
 
 			<view style="margin-top: 40rpx;">
 				<u-button :text="isLogin?'登录':'注册'" :hairline="false" color="#FB7299" size="mini" loading-size="10"
-					customStyle=";padding:30rpx 80rpx;font-size:28rpx;width:200rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #FB7299"
+					customStyle=";padding:30rpx 80rpx;width:200rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #FB7299"
 					@click="isLogin?login():register()"></u-button>
 			</view>
 			<u-gap height="60"></u-gap>
@@ -157,7 +157,7 @@
 
 		},
 		methods: {
-			...mapMutations(['setToken', 'setUser','setUserMeta']),
+			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
 			codeChange(text) {
 				this.tips = text
 			},
@@ -258,7 +258,7 @@
 			},
 			getUserMeta() {
 				this.$http.get('/typechoUsers/userData').then(res => {
-					if(res.data.code){
+					if (res.data.code) {
 						this.setUserMeta(res.data.data)
 					}
 				})

@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<z-paging @query="getData" v-model="comments" ref="paging" :refresher-enabled="false" :scrollable="scroll"
-			style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
+			:auto-hide-loading-after-first-loaded="false" :auto-scroll-to-top-when-reload="false"
+			:auto-clean-list-when-reload="false">
 			<block v-for="(item,index) in comments">
 				<view
 					style="margin: 20rpx 30rpx;display: flex;flex-direction: column;border-bottom: 2rpx solid #f7f7f7;padding-bottom: 20rpx;">
@@ -21,9 +21,10 @@
 
 <script>
 	export default {
+		name: 'commentItem',
 		props: {
-			data: {
-				type: Object,
+			uid: {
+				type: [String, Number],
 				default: null,
 			},
 			isScroll: {
@@ -52,7 +53,7 @@
 						limit,
 						searchParams: JSON.stringify({
 							type: 'comment',
-							authorId: this.data.uid
+							authorId: this.uid
 						})
 					}
 
