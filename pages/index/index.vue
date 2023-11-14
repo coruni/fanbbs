@@ -36,7 +36,7 @@
 				<u-row justify="space-around"
 					customStyle="margin-top:30rpx;border-bottom:1rpx solid #cccccc36;padding-bottom:40rpx">
 					<block v-for="(item,index) in publish" :key="index">
-						<u-row customStyle="flex-direction:column;">
+						<u-row customStyle="flex-direction:column;" @click="goPublish(item)">
 							<view style="background: #a899e64c;border-radius: 500rpx;padding: 15rpx;">
 								<u-icon :name="item.icon" size="30" color="#a899e6"></u-icon>
 							</view>
@@ -78,17 +78,20 @@
 				publish: [{
 						name: '帖子',
 						type: 'article',
-						icon: 'edit-pen'
+						icon: 'edit-pen',
+						path: 'article'
 					},
 					{
 						name: '图片',
 						type: 'picture',
-						icon: 'photo'
+						icon: 'photo',
+						path: 'photo'
 					},
 					{
 						name: '视频',
 						type: 'video',
-						icon: 'play-circle'
+						icon: 'play-circle',
+						path: 'video'
 					},
 				],
 				tabbar: [{
@@ -170,6 +173,9 @@
 					this.tabbarIndex = 4
 				});
 				this.tabbarIndex = 4
+			},
+			goPublish(data){
+				this.$Router.push({name:"article"})
 			}
 		}
 	}

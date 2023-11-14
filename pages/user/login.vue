@@ -58,8 +58,8 @@
 			</view>
 
 			<view style="margin-top: 40rpx;">
-				<u-button :text="isLogin?'登录':'注册'" :hairline="false" color="#a899e6" size="mini" loading-size="10"
-					customStyle=";padding:30rpx 80rpx;width:200rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #a899e6"
+				<u-button  :text="isLogin?'登录':'注册'" :hairline="false" color="#a899e6" size="mini" loading-size="10"
+					customStyle="font-size:30rpx;padding:30rpx 80rpx;width:200rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #a899e6"
 					@click="isLogin?login():register()"></u-button>
 			</view>
 			<u-gap height="60"></u-gap>

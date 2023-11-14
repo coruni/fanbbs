@@ -30,8 +30,7 @@
             {
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
-            },
-			"name":"article"
+            }
             
         },
         {
@@ -66,6 +65,17 @@
         		"navigationBarTitleText" : "",
         		"enablePullDownRefresh" : false
         	}
+        },
+        {
+        	"path" : "publish/article/article",
+        	"style" : 
+        	{
+        		"navigationBarTitleText" : "",
+        		"enablePullDownRefresh" : false
+				
+        	},
+			
+			"name":"article"
         }
     ],
 	"globalStyle": {

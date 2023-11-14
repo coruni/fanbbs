@@ -64,6 +64,7 @@
 				})
 			},
 			reload() {
+				console.log('评论')
 				this.$refs.paging.reload();
 			},
 		}
