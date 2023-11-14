@@ -1,10 +1,14 @@
 <template>
 	<view>
 		<u-row align="top">
-			<u-avatar :src="data.avatar" size="30"></u-avatar>
+			<view style="position: relative;">
+				<u-avatar :src="data.avatar" size="30"></u-avatar>
+				<image class="avatar_head" mode="aspectFill" :src="data.customize.head">
+				</image>
+			</view>
 			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 				<u-row justify="space-between">
-					<text :style="{color:data.isvip?'#FB7299':''}">{{data.author}}</text>
+					<text :style="{color:data.isvip?'#a899e6':'',fontSize:30+'rpx'}">{{data.author}}</text>
 
 				</u-row>
 				<view style="margin-top:10rpx;word-break: break-word;" @tap.stop.prevent="reply(data)">
@@ -22,7 +26,7 @@
 					@click="subComment">
 					<block v-for="(item,index) in comments" :key="index">
 						<u-row align="top" customStyle="font-size:30rpx">
-							<text style="color: #69d0ff;flex-shrink: 0;">{{item.author}}</text>
+							<text style="color: #85a3ff;flex-shrink: 0;">{{item.author}}</text>
 							<text style="margin-left: 5rpx;">：</text>
 							<text class="u-line-2">{{item.text}}</text>
 						</u-row>
@@ -35,12 +39,12 @@
 				<u-gap height="6"></u-gap>
 				<view style="border-bottom:2rpx solid #f7f7f7;padding-bottom: 20rpx;">
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
-						<text>{{data.created | date}}</text>
+						<text>{{$u.timeFormat(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:40%" justify="space-between">
 							<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa"
 								label-size="12"></u-icon>
-							<u-icon name="thumb-up" color="#aaa" :label="1" size="20" labelColor="#aaa"
-								label-size="12"></u-icon>
+							<u-icon name="thumb-up" color="#aaa" :label="data.likes?data.likes:''" size="20"
+								labelColor="#aaa" label-size="12"></u-icon>
 							<u-icon name="thumb-down" color="#aaa" size="20" labelColor="#aaa" label-size="12"></u-icon>
 						</u-row>
 					</u-row>

@@ -2,16 +2,18 @@
 	<view>
 		<u-row justify="space-between">
 			<u-row>
-				<view @tap.stop.prevent="goProfile(data.authorId)">
-					<u-avatar :src="data.authorInfo.avatar" size="30"></u-avatar>
+				<view style="position: relative;" @tap.stop.prevent="goProfile(data.authorId)">
+					<u-avatar :src="data.authorInfo.avatar" size="34"></u-avatar>
+					<image class="avatar_head" mode="aspectFill" :src="data.authorInfo.customize.head">
+					</image>
 				</view>
-				<text style="margin-left:20rpx"
-					:class="{'vipname':data.authorInfo.isvip}">{{data.authorInfo.name}}</text>
+				<view style="display: flex;flex-direction: column;margin-left:20rpx">
+					<text style="font-size: 30rpx;"
+						:class="{'vipname':data.authorInfo.isvip}">{{data.authorInfo.name}}</text>
+					<text style="font-size: 26rpx;color: #999;">{{$u.timeFormat(data.created,'mm-dd')}}</text>
+				</view>
+
 			</u-row>
-			<text
-				style="font-size:24rpx;color:white;margin-left:10rpx;background:#FB7299;padding:0 10rpx;border-radius:8rpx;box-shadow:0 0 9rpx 0 #FB7299">
-				{{data.category[0].name}}
-			</text>
 
 		</u-row>
 	</view>

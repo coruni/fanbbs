@@ -6,7 +6,7 @@
 					<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
 					<view style="margin-left: 20rpx;">
 						<u-row>
-							<text :style="{color: item.userJson.isvip ? '#FB7299' : ''}">{{item.userJson.name}}</text>
+							<text :style="{color: item.userJson.isvip ? '#a899e6' : ''}">{{item.userJson.name}}</text>
 						</u-row>
 						<text style="word-break: break-all;">{{item.text}}</text>
 						<u-album :urls="item.pic.images" multipleSize="94" :borderRadius="10"
@@ -16,8 +16,8 @@
 								<view>
 									<text style="
 										font-size: 28rpx;
-										background:#fb72993c;
-										color: #FB7299;
+										background:#a899e63c;
+										color: #a899e6;
 										padding:4rpx 14rpx;
 										border-radius: 500rpx;
 										">#{{tags.name}}</text>
@@ -42,7 +42,7 @@
 								</u-row>
 
 								<view>
-									<text style="color: #FB7299;font-size: 30rpx;"
+									<text style="color: #a899e6;font-size: 30rpx;"
 										@click.stop="$emit('comments',item)">查看详情</text>
 								</view>
 							</u-row>

@@ -2,7 +2,12 @@
 	<view>
 		<u-row justify="space-between">
 			<u-row>
-				<u-avatar :src="data.authorInfo.avatar" size="30"></u-avatar>
+				<view style="position: relative;">
+					<u-avatar :src="data.authorInfo.avatar" size="30"></u-avatar>
+					<image class="avatar_head" mode="aspectFill" :src="data.authorInfo.customize.head">
+					</image>
+				</view>
+				
 				<text style="margin-left:20rpx"
 					:class="{'vipname':data.authorInfo.isvip}">{{data.authorInfo.name}}</text>
 			</u-row>

@@ -2,7 +2,7 @@
 	<view>
 		<u-navbar title="个人资料" autoBack placeholder>
 			<view slot="right">
-				<u-button size="mini" color="#FB7299" text="保存" @click="save()"></u-button>
+				<u-button size="mini" color="#a899e6" text="保存" @click="save()"></u-button>
 			</view>
 		</u-navbar>
 		<view style="position: relative;top: 0;">
@@ -14,7 +14,7 @@
 					style="height: 180rpx;width: 180rpx;border-radius: 500rpx;border: 8rpx solid #fff;">
 				</image>
 				<u-icon name="plus" size="12" color="white"
-					customStyle="background:#FB7299;position:absolute;top:70%;left:75%;border-radius:50rpx;padding:8rpx"></u-icon>
+					customStyle="background:#a899e6;position:absolute;top:70%;left:75%;border-radius:50rpx;padding:8rpx"></u-icon>
 			</view>
 		</view>
 		<view style="margin:20rpx;">

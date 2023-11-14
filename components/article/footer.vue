@@ -1,17 +1,21 @@
 <template>
-	<view style="margin-top: 10rpx;">
+	<view style="margin-top: 20rpx;">
 		<u-row justify="space-between">
 			<u-row v-if="!waterFall">
-				<block v-for="(tag,index) in data.tag" :key="index">
-					<view style="border-radius: 10rpx;padding:2rpx 8rpx;text-align: center;font-size: 24rpx;">
-						<text>#{{tag.name}}</text>
-					</view>
-				</block>
+				<view v-if="data.tag.length>0">
+					<text style="
+						font-size: 30rpx;
+						background:#ffa3853c;
+						color: #ffa385;
+						padding:8rpx 14rpx;
+						border-radius: 500rpx;
+						">#{{data.tag[0].name}}</text>
+				</view>
 			</u-row>
-			<u-avatar :src="data.authorInfo.avatar" size="24" v-else></u-avatar>
+			<u-avatar :src="data.authorInfo.avatar" size="26" v-else></u-avatar>
 			<u-row>
-				<u-icon name="thumb-up" size="20"></u-icon>
-				<text>{{data.likes}}</text>
+				<u-icon name="thumb-up" size="24" color="#999"></u-icon>
+				<text style="color: #999;">{{data.likes}}</text>
 			</u-row>
 		</u-row>
 	</view>

@@ -6,7 +6,7 @@
 				<u-avatar :src="data.userJson.avatar" size="30"></u-avatar>
 				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 					<u-row justify="space-between">
-						<text :style="{color:data.userJson.isvip?'#FB7299':''}">{{data.userJson.name}}</text>
+						<text :style="{color:data.userJson.isvip?'#a899e6':''}">{{data.userJson.name}}</text>
 					</u-row>
 					<view style="margin-top:10rpx;word-break: break-word;">
 						<u-parse :content="data.text"></u-parse>
@@ -30,7 +30,7 @@
 					<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
 					<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 						<u-row justify="space-between">
-							<text :style="{color:item.userJson.isvip?'#FB7299':''}">{{item.userJson.name}}</text>
+							<text :style="{color:item.userJson.isvip?'#a899e6':''}">{{item.userJson.name}}</text>
 						</u-row>
 						<view style="margin-top:10rpx;word-break: break-word;">
 							<u-parse :content="item.text"></u-parse>
@@ -85,7 +85,7 @@
 						</u-row>
 					</u-col>
 					<view>
-						<u-button shape="circle" color="#FB7299" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
+						<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
 							@click="reply"></u-button>
 					</view>
 				</u-row>

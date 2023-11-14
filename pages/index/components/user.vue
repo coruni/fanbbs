@@ -23,8 +23,13 @@
 					style="width: 100%; height: 800rpx;"></image>
 				<view class="overlay"></view>
 				<view style="position: absolute;top: 160rpx;margin: 30rpx;">
-					<u-avatar :src="userInfo.avatar" size="70" customStyle="border:6rpx solid #fff"
-						@click="$store.state.hasLogin?goProfile():goLogin()"></u-avatar>
+					<view style="display: inline-block;position: relative;">
+						<u-avatar :src="userInfo.avatar" size="70" customStyle="border:6rpx solid #fff"
+							@click="$store.state.hasLogin?goProfile():goLogin()">
+						</u-avatar>
+						<image class="avatar_head" mode="aspectFill" :src="userInfo.customize.head"></image>
+					</view>
+
 					<!-- 已登录 -->
 					<view style="margin-top: 20rpx;display: flex;flex-direction: column;" v-if="$store.state.hasLogin">
 						<text style="color: white;font-weight: bold;">{{userInfo.screenName}}</text>
@@ -35,9 +40,10 @@
 						<view style="margin-top: 20rpx;">
 							<u-row>
 								<u-row
-									customStyle="background:#00aaff4c;padding:8rpx 12rpx;color:white;border-radius:10rpx">
-									<u-icon name="man" size="14" color="white"></u-icon>
-									<text style="font-size: 24rpx;">男</text>
+									:customStyle="{background:userInfo.customize.sex?'#85e0ffc4':'#FB7299c4',padding:'8rpx 12rpx',color:'white',borderRadius:10+'rpx'}">
+									<u-icon :name="userInfo.customize.sex?'man':'woman'" size="14"
+										color="white"></u-icon>
+									<text style="font-size: 24rpx;">{{userInfo.customize.sex?'男':'女'}}</text>
 								</u-row>
 								<u-row
 									customStyle="margin-left:20rpx;background:#ffffff4c;padding:8rpx 12rpx;color:white;border-radius:10rpx">
@@ -72,7 +78,7 @@
 			</view>
 			<view style="position: relative;top: -50rpx;background: #fff;border-radius: 40rpx 40rpx 0 0;">
 				<view style="padding: 30rpx 30rpx 0 30rpx;" id="scrolllist">
-					<u-scroll-list indicatorActiveColor="#fb7299" :indicator="false">
+					<u-scroll-list indicatorActiveColor="#a899e6" :indicator="false">
 						<block v-for="(item,index) in scrollList" :key="index">
 							<u-row justify="start" align="top"
 								customStyle="flex-direction:column;margin-right:20rpx;background: #f4f4f4;border-radius: 20rpx;padding:20rpx">
@@ -89,14 +95,14 @@
 				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff">
-						<u-tabs :list="list" lineColor="#FB7299" activeStyle="color:#303133;font-weight:bold"
+						<u-tabs :list="list" lineColor="#a899e6" activeStyle="color:#303133;font-weight:bold"
 							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"
 							v-if="isMounted"></></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
 					<u-sticky bgColor="#fff" offsetTop="60">
-						<u-tabs :list="list" lineColor="#FB7299" activeStyle="color:#303133;font-weight:bold"
+						<u-tabs :list="list" lineColor="#a899e6" activeStyle="color:#303133;font-weight:bold"
 							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"
 							v-if="isMounted"></u-tabs>
 					</u-sticky>
@@ -312,7 +318,9 @@
 					}
 				}).then(res => {
 					if (res.data.code) {
-						this.$store.commit('setUser', res.data.data)
+						let data = res.data.data
+						data.customize = JSON.parse(res.data.data.customize)
+						this.$store.commit('setUser', data)
 					}
 
 				}).catch(err => {

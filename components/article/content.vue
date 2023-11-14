@@ -3,8 +3,7 @@
 		<!-- 标题 -->
 		<text class="u-line-2">{{data.title}}</text>
 		<u-parse :content="data.text" class="u-line-2"></u-parse>
-		<u-album :urls="data.images" maxCount="6" borderRadius="10" multipleSize="100" space="10"></u-album>
-	</view>
+		<u-album :urls="data.images" maxCount="6" borderRadius="10" multipleSize="100" singleSize="200"></u-album>	</view>
 </template>
 
 <script>

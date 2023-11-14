@@ -20,18 +20,20 @@
 					<u-gap height="8" bgColor="#f4f4f4"></u-gap>
 					<!-- #ifdef APP -->
 					<u-sticky bgColor="#fff">
-						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#FB7299"
+						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#a899e6"
 							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
-							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab" v-if="!loading"></u-tabs>
+							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab"
+							v-if="!loading"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff" offsetTop="-44">
-						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#FB7299"
+						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#a899e6"
 							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
-							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab" v-if="!loading"></u-tabs>
+							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab"
+							v-if="!loading"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<view style="margin: 30rpx;">
@@ -104,7 +106,7 @@
 					</u-row>
 				</u-col>
 				<view>
-					<u-button shape="circle" color="#FB7299" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
+					<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
 						@click="reply"></u-button>
 				</view>
 			</u-row>
@@ -137,7 +139,7 @@
 			</u-row>
 		</u-popup>
 		<!-- 子评论 -->
-		<u-popup :show="showSub" @close="showSub = false"  round="20">
+		<u-popup :show="showSub" @close="showSub = false" round="20">
 			<u-gap height="25"></u-gap>
 			<subComment :data="subComment" ref="paging"></subComment>
 		</u-popup>
@@ -279,7 +281,13 @@
 				}).then(res => {
 					console.log(res)
 					if (res.statusCode == 200) {
-						this.$refs.comments.complete(res.data.data)
+						let list = []
+						for (let i in res.data.data) {
+							let data = res.data.data[i]
+							data.customize = JSON.parse(data.customize)
+							list.push(data)
+						}
+						this.$refs.comments.complete(list)
 					}
 				})
 			},
@@ -305,7 +313,7 @@
 						this.commentText = null
 						this.showComment = false
 						this.$refs.paging.reload()
-					}else{
+					} else {
 						uni.$u.toast(res.data.msg)
 					}
 				})

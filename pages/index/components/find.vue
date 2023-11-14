@@ -5,7 +5,7 @@
 				<u-navbar placeholder>
 					<view slot="left"></view>
 					<view slot="center" v-if="swiperIndex==1">
-						<u-tabs :list="tabs" :current="tabsIndex" lineColor="#FB7299"
+						<u-tabs :list="tabs" :current="tabsIndex" lineColor="#a899e6"
 							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
 							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3"
@@ -20,7 +20,7 @@
 			</swiper>
 		</z-paging-swiper>
 		<!-- 组件 -->
-		<u-popup :show="showComments" @close="showComments = false" customStyle="border-radius:20rpx 20rpx 0 0">
+		<u-popup :show="showComments" @close="showComments = false" customStyle="border-radius:40rpx 40rpx 0 0">
 			<!-- 使用view包裹 防止子组件等待撑开 -->
 			<view>
 				<commentItem :data="commentData"></commentItem>

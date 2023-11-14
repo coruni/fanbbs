@@ -10,14 +10,14 @@
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)">
 						<view style="position: relative;">
-							<u-icon :name="item.icon" size="22" :color="item.active?'#fb7299':''"
+							<u-icon :name="item.icon" size="22" :color="item.active?'#a899e6':''"
 								customStyle="z-index:2"
 								:class="{'animate__animated animate__zoomIn':item.active}"></u-icon>
-							<u-badge :isDot="true" bgColor="#FB7299c4" :offset="[12,7]" absolute
+							<u-badge :isDot="true" bgColor="#a899e6c4" :offset="[12,7]" absolute
 								customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
 								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
 						</view>
-						<text :style="item.active?'#fb7299':''">{{item.name}}</text>
+						<text :style="item.active?'#a899e6':''">{{item.name}}</text>
 					</u-row>
 				</block>
 			</u-row>
@@ -28,15 +28,15 @@
 				<view style="position: relative;text-align: center;">
 					<u--text text="发布文章" size="16" bold customStyle="z-index:1"></u--text>
 					<view
-						style="z-index: 0;position: absolute;background-color: #FB7299;top: 30rpx;padding: 6rpx 68rpx;box-shadow: 0 0 9px 0 #FB7299;border-radius: 500rpx;">
+						style="z-index: 0;position: absolute;background-color: #a899e6;top: 30rpx;padding: 6rpx 68rpx;box-shadow: 0 0 9px 0 #a899e6;border-radius: 500rpx;">
 					</view>
 				</view>
 				<u-row justify="space-around"
 					customStyle="margin-top:30rpx;border-bottom:1rpx solid #cccccc36;padding-bottom:40rpx">
 					<block v-for="(item,index) in publish" :key="index">
 						<u-row customStyle="flex-direction:column;">
-							<view style="background: #fb72994c;border-radius: 500rpx;padding: 15rpx;">
-								<u-icon :name="item.icon" size="30" color="#FB7299"></u-icon>
+							<view style="background: #a899e64c;border-radius: 500rpx;padding: 15rpx;">
+								<u-icon :name="item.icon" size="30" color="#a899e6"></u-icon>
 							</view>
 							<text style="margin-top: 10rpx;">{{item.name}}</text>
 						</u-row>

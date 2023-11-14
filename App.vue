@@ -28,7 +28,20 @@
 	body {
 		font-family: 'moe';
 	}
-
+	.avatar_head {
+		position: absolute;
+		display: block;
+		left: 50%;
+		top: 50%;
+		width: calc((100% - 2px) * 1.3);
+		height: calc((100% - 2px) * 1.3);
+		-webkit-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+		z-index: 2;
+		image-rendering: -webkit-optimize-contrast;
+	}
 	@import 'animate.css';
 	@import "@/uni_modules/uview-ui/index.scss";
 	/*每个页面公共css */

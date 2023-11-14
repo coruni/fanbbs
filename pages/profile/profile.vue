@@ -14,7 +14,7 @@
 							</u-row>
 						</u-row>
 					</view>
-					<u-button color="#FB7299C4" size="mini" slot="right" v-show="opacity>=1">关注</u-button>
+					<u-button color="#a899e6" size="mini" slot="right" v-show="opacity>=1">关注</u-button>
 				</u-navbar>
 			</template>
 			<image :src="info.avatar" mode="aspectFill" style="width: 100%;height: 380rpx;background: #000;"></image>
@@ -24,11 +24,11 @@
 						customStyle="position:absolute;top:-80rpx;margin-left:60rpx;border:6rpx solid #fff"></u-avatar>
 					<u-row justify="end" customStyle="padding:20rpx">
 						<view>
-							<u-button color="#FB7299C4" plain size="normal"
+							<u-button color="#a899e6C4" plain size="normal"
 								customStyle="height:50rpx;border-radius:20rpx">私信</u-button>
 						</view>
 						<view style="margin-left:30rpx">
-							<u-button color="#FB7299C4" size="normal"
+							<u-button color="#a899e6C4" size="normal"
 								customStyle="height:50rpx;padding:0 60rpx ;border-radius:20rpx">关注</u-button>
 						</view>
 					</u-row>
@@ -36,9 +36,9 @@
 						<u-row justify="space-between">
 							<u-row>
 								<text
-									:style="{color:info.isvip?'#FB7299':'',fontSize:50+'rpx'}">{{info.screenName}}</text>
+									:style="{color:info.isvip?'#a899e6':'',fontSize:50+'rpx'}">{{info.screenName}}</text>
 								<text
-									style="font-size: 20rpx;color:white;margin-left:10rpx;background:#FB7299;padding:0 10rpx;border-radius:8rpx;box-shadow:0 0 9rpx 0 #FB7299">
+									style="font-size: 20rpx;color:white;margin-left:10rpx;background:#a899e6;padding:0 10rpx;border-radius:8rpx;box-shadow:0 0 9rpx 0 #a899e6">
 									{{'Lv.'+ info.lv}}
 								</text>
 							</u-row>
@@ -54,7 +54,7 @@
 				</view>
 				<!-- #ifndef H5 -->
 				<u-sticky offsetTop="60">
-					<u-tabs :list="tabs" lineColor="#FB7299" :current="tabsIndex" style="background: white;"
+					<u-tabs :list="tabs" lineColor="#a899e6" :current="tabsIndex" style="background: white;"
 						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="tabsIndex = $event.index">
 					</u-tabs>
@@ -62,7 +62,7 @@
 				<!-- #endif -->
 				<!-- #ifdef H5 -->
 				<u-sticky>
-					<u-tabs :list="tabs" lineColor="#FB7299" :current="tabsIndex" style="background: white;"
+					<u-tabs :list="tabs" lineColor="#a899e6" :current="tabsIndex" style="background: white;"
 						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="tabsIndex = $event.index">
 					</u-tabs>

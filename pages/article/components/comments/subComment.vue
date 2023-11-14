@@ -6,7 +6,7 @@
 				<u-avatar :src="data.avatar" size="30"></u-avatar>
 				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 					<u-row justify="space-between">
-						<text :style="{color:data.isvip?'#FB7299':''}">{{data.author}}</text>
+						<text :style="{color:data.isvip?'#a899e6':''}">{{data.author}}</text>
 					</u-row>
 					<view style="margin-top:10rpx;word-break: break-word;">
 						<u-parse :content="data.text"></u-parse>
@@ -38,7 +38,7 @@
 					<u-avatar :src="item.avatar" size="30"></u-avatar>
 					<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 						<u-row justify="space-between">
-							<text :style="{color:item.isvip?'#FB7299':''}">{{item.author}}</text>
+							<text :style="{color:item.isvip?'#a899e6':''}">{{item.author}}</text>
 						</u-row>
 						<view style="margin-top:10rpx;word-break: break-word;"
 							@tap.stop.prevent="commentCheck(true,item.coid,item.author)">
@@ -95,7 +95,7 @@
 						</u-row>
 					</u-col>
 					<view>
-						<u-button shape="circle" color="#FB7299" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
+						<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
 							@click="reply"></u-button>
 					</view>
 				</u-row>

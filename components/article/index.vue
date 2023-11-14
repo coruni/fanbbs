@@ -6,8 +6,7 @@
 				@click="swiperTap"></u-swiper>
 		</view>
 		<block v-for="(item,index) in content" :key="index">
-			<view @click.stop="goArticle(item)"
-				style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+			<view @click.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item"></article-header>
 				<article-content :data="item"></article-content>
 				<article-footer :data="item"></article-footer>
@@ -81,7 +80,13 @@
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {
-						this.$refs.paging.complete(res.data.data);
+						let list = [];
+						for (let i in res.data.data) {
+							let data = res.data.data[i]
+							data.authorInfo.customize = JSON.parse(data.authorInfo.customize)
+							list.push(data)
+						}
+						this.$refs.paging.complete(list);
 						this.is_loaded = true
 					}
 				})
