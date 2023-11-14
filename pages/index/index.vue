@@ -6,9 +6,9 @@
 		<!-- 间隔 -->
 		<template #bottom>
 
-			<u-row justify="space-between" customStyle="padding:0 40rpx;background:white;z-index:999">
+			<u-row justify="space-between" customStyle="padding:10rpx 30rpx 20rpx 30rpx;background:white;z-index:999">
 				<block v-for="(item,index) in tabbar" :key="index">
-					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)">
+					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)" v-if="index!=4">
 						<view style="position: relative;">
 							<u-icon :name="item.icon" size="22" :color="item.active?'#a899e6':''"
 								customStyle="z-index:2"
@@ -17,8 +17,10 @@
 								customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
 								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
 						</view>
-						<text :style="item.active?'#a899e6':''">{{item.name}}</text>
+						<text :style="{color:item.active?'#a899e6':'',fontSize:30+'rpx'}">{{item.name}}</text>
 					</u-row>
+					<u-avatar :src="$store.state.userInfo.avatar" v-else size="35"
+						customStyle="border:6rpx solid #ffa385" @click="tabbarTap(index)"></u-avatar>
 				</block>
 			</u-row>
 		</template>
@@ -158,7 +160,7 @@
 				this.tabbar.forEach((item, i) => {
 					item.active = i === index;
 					this.tabbarIndex = index
-					
+
 				});
 				// this.tabbarIndex = index
 			},

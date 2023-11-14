@@ -3,7 +3,12 @@
 		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false" :fixed="false"
 			height="75vh">
 			<u-row align="top" customStyle="padding:30rpx">
-				<u-avatar :src="data.userJson.avatar" size="30"></u-avatar>
+				<view style="position: relative;">
+					<u-avatar :src="data.userJson.avatar" size="30"></u-avatar>
+					<image class="avatar_head" mode="aspectFill" :src="data.userJson.customize.head">
+					</image>
+				</view>
+				
 				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 					<u-row justify="space-between">
 						<text :style="{color:data.userJson.isvip?'#a899e6':''}">{{data.userJson.name}}</text>
@@ -27,7 +32,12 @@
 			<!-- 子评论开始 -->
 			<block v-for="(item,index) in comments" :key="index">
 				<u-row align="top" customStyle="padding:20rpx">
-					<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
+					<view style="position: relative;">
+						<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
+						<image class="avatar_head" mode="aspectFill" :src="item.userJson.customize.head">
+						</image>
+					</view>
+					
 					<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 						<u-row justify="space-between">
 							<text :style="{color:item.userJson.isvip?'#a899e6':''}">{{item.userJson.name}}</text>
@@ -149,7 +159,13 @@
 				}).then(res => {
 					console.log(res,'回复')
 					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+						let list =[];
+						for(let i in res.data.data){
+							let data =res.data.data[i]
+							data.userJson.customize = JSON.parse(data.userJson.customize)
+							list.push(data)
+						}
+						this.$refs.paging.complete(list)
 					}
 				})
 			},

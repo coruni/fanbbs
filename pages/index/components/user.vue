@@ -23,11 +23,11 @@
 					style="width: 100%; height: 800rpx;"></image>
 				<view class="overlay"></view>
 				<view style="position: absolute;top: 160rpx;margin: 30rpx;">
-					<view style="display: inline-block;position: relative;">
+					<view style="position: relative;display: inline-block;">
 						<u-avatar :src="userInfo.avatar" size="70" customStyle="border:6rpx solid #fff"
 							@click="$store.state.hasLogin?goProfile():goLogin()">
 						</u-avatar>
-						<image class="avatar_head" mode="aspectFill" :src="userInfo.customize.head"></image>
+						<image class="avatar_head" mode="aspectFill" :src="userInfo.customize.head" v-if="userInfo&&$store.state.hasLogin"></image>
 					</view>
 
 					<!-- 已登录 -->

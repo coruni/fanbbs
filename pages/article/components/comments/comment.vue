@@ -9,7 +9,6 @@
 			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 				<u-row justify="space-between">
 					<text :style="{color:data.isvip?'#a899e6':'',fontSize:30+'rpx'}">{{data.author}}</text>
-
 				</u-row>
 				<view style="margin-top:10rpx;word-break: break-word;" @tap.stop.prevent="reply(data)">
 					<u-parse :content="data.text"></u-parse>

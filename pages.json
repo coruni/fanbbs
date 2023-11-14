@@ -75,7 +75,8 @@
 		"backgroundColor": "#F8F8F8",
 		"navigationStyle": "custom",
 		"app-plus": {
-			"bounce": "none"
+			"bounce": "none",
+			"scrollIndicator": "none"
 		}
 	},
 	"uniIdRouter": {},

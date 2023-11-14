@@ -3,7 +3,12 @@
 		<z-paging @query="getData" ref="paging" v-model="article">
 			<block v-for="(item,index) in article" :key="index">
 				<u-row customStyle="margin:0 30rpx 30rpx 30rpx" align="top">
-					<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
+					<view style="position: relative;">
+						<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
+						<image class="avatar_head" mode="aspectFill" :src="item.userJson.customize.head">
+						</image>
+					</view>
+					
 					<view style="margin-left: 20rpx;">
 						<u-row>
 							<text :style="{color: item.userJson.isvip ? '#a899e6' : ''}">{{item.userJson.name}}</text>
@@ -89,6 +94,7 @@
 						for (let i in res.data.data) {
 							let data = res.data.data[i]
 							data.pic = JSON.parse(data.pic)
+							data.userJson.customize = JSON.parse(data.userJson.customize)
 							list.push(data)
 						}
 						this.$refs.paging.complete(list)
