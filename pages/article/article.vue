@@ -11,13 +11,13 @@
 							</view>
 						</u-navbar>
 					</template>
-					<view style="margin: 10rpx 20rpx 20rpx 20rpx;" v-if="article">
+					<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article">
 						<articleHeader :data="author"></articleHeader>
 						<articleContent :data="article"></articleContent>
 						<articleFooter :data="article"></articleFooter>
 					</view>
 					<!-- 评论区 -->
-					<u-gap height="10" bgColor="#f7f8f7"></u-gap>
+					<u-gap height="8" bgColor="#f4f4f4"></u-gap>
 					<!-- #ifdef APP -->
 					<u-sticky bgColor="#fff">
 						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#FB7299"
@@ -34,7 +34,7 @@
 							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab" v-if="!loading"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
-					<view style="margin: 20rpx;">
+					<view style="margin: 30rpx;">
 						<!-- 开始 -->
 						<block v-for="(item,index) in comments" v-if="comments">
 							<view style="margin:10rpx 0">
@@ -91,7 +91,7 @@
 		<!-- 页面公用组件 -->
 		<!-- 回复文章 -->
 		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20"
-			:customStyle="{paddingBottom:keyboardHeight+'px',padding:30+'rpx'}">
+			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
 			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 				placeholder="灵感迸发" border="none"
 				customStyle="background:#f7f8f7;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
@@ -240,7 +240,7 @@
 		created() {
 			uni.onKeyboardHeightChange(data => {
 				console.log(data)
-				this.keyboardHeight = data.height + 10
+				this.keyboardHeight = data.height
 			})
 		},
 		methods: {

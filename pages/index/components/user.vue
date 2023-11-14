@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<z-paging ref="paging" refresher-only @onRefresh="initData" @scroll="scroll"
+		<z-paging ref="paging" refresher-only @onRefresh="onRefresh" @query="initData" @scroll="scroll"
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<template #top>
 				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`">
@@ -104,10 +104,10 @@
 					<swiper style="height: 100vh;" :current="tabsIndex"
 						@animationfinish="tabsIndex = $event.detail.current">
 						<swiper-item style="overflow: auto;">
-							<publish :isScroll="isScroll" :data="userInfo"></publish>
+							<publish :isScroll="isScroll" :data="userInfo" ref="publish"></publish>
 						</swiper-item>
 						<swiper-item style="overflow: auto;">
-							<comment :isScroll="isScroll" :data="userInfo"></comment>
+							<comment :isScroll="isScroll" :data="userInfo" ref="comment"></comment>
 						</swiper-item>
 					</swiper>
 				</view>
@@ -140,7 +140,6 @@
 						</u-row>
 					</block>
 				</u-row>
-
 			</view>
 		</u-popup>
 	</view>
@@ -284,24 +283,26 @@
 				if (uni.getStorageSync('token')) {
 					this.getUserInfo();
 					this.getUserMeta();
-					switch (this.tabsIndex) {
-						case 0:
-							uni.$emit('reloadPublish', true)
-							break;
-						case 1:
-							uni.$emit('reloadComment', true)
-							break;
-						case 2:
-							uni.$emit('reloadcollect', true)
-							break;
-						default:
-							break;
-					}
 				}
 				setTimeout(() => {
 					//1秒之后停止刷新动画
 					this.$refs.paging.complete();
 				}, 1000)
+			},
+			onRefresh() {
+				switch (this.tabsIndex) {
+					case 0:
+						this.$refs.publish.reload()
+						break;
+					case 1:
+						this.$refs.comment.reload()
+						break;
+					case 2:
+						this.$refs.collect.reload()
+						break;
+					default:
+						break;
+				}
 			},
 			getUserInfo() {
 				if (!uni.getStorageSync('token')) return;

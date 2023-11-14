@@ -54,6 +54,11 @@ export default {
         showMore: {
             type: Boolean,
             default: uni.$u.props.album.showMore
-        }
+        },
+		// 图片的圆角
+		borderRadius: {
+			type:[String,Number],
+			default: uni.$u.props.album.borderRadius
+		}
     }
 }

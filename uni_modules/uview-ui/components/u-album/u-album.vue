@@ -26,7 +26,8 @@
                     :style="[
                         {
                             width: imageWidth,
-                            height: imageHeight
+                            height: imageHeight,
+							borderRadius: borderRadius +'rpx'
                         }
                     ]"
                 ></image>
@@ -38,6 +39,7 @@
                         index1 === showUrls[showUrls.length - 1].length - 1
                     "
                     class="u-album__row__wrapper__text"
+					:style="{borderRadius:borderRadius + 'rpx'}"
                 >
                     <u--text
                         :text="`+${urls.length - maxCount}`"
@@ -75,6 +77,7 @@ const dom = uni.requireNativePlugin('dom')
  * @property {Boolean}         previewFullImage 是否可以预览图片 （默认 true ）
  * @property {String | Number} rowCount         每行展示图片数量，如设置，singleSize和multipleSize将会无效	（默认 3 ）
  * @property {Boolean}         showMore         超出maxCount时是否显示查看更多的提示 （默认 true ）
+ * @property {String | Number} borderRadius     图片的圆角大小 （默认 0 ）
  *
  * @event    {Function}        albumWidth       某些特殊的情况下，需要让文字与相册的宽度相等，这里事件的形式对外发送  （回调参数 width ）
  * @example <u-album :urls="urls2" @albumWidth="width => albumWidth = width" multipleSize="68" ></u-album>

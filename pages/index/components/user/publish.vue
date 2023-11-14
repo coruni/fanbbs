@@ -59,7 +59,7 @@
 					}),
 
 				}).then(res => {
-					console.log(res, '发布')
+					console.log('发布')
 					this.$refs.paging.complete(res.data.data)
 				})
 			},
@@ -71,7 +71,10 @@
 						id: data.cid
 					}
 				})
-			}
+			},
+			reload() {
+				this.$refs.paging.reload();
+			},
 		}
 	}
 </script>

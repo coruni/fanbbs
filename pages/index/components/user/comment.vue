@@ -62,7 +62,10 @@
 						this.$refs.paging.complete(res.data.data)
 					}
 				})
-			}
+			},
+			reload() {
+				this.$refs.paging.reload();
+			},
 		}
 	}
 </script>

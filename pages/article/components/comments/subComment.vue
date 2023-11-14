@@ -82,7 +82,7 @@
 
 			</template>
 			<u-popup :show="showComment" @close="showComment = false" round="20"
-				:customStyle="{paddingBottom:keyboardHeight+'px',padding:30+'rpx'}">
+				:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
 				<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 					:placeholder="`回复${replyWho}`" border="none"
 					customStyle="background:#f7f8f7;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
@@ -142,7 +142,7 @@
 		created() {
 			uni.onKeyboardHeightChange(data => {
 				console.log(data)
-				this.keyboardHeight = data.height + 10
+				this.keyboardHeight = data.height
 			})
 		},
 		methods: {
