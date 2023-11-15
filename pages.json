@@ -56,7 +56,8 @@
         	{
         		"navigationBarTitleText" : "",
         		"enablePullDownRefresh" : false
-        	}
+        	},
+			"name":"editUser"
         },
         {
         	"path" : "pages/article/circle",

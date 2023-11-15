@@ -8,7 +8,7 @@
 						<image class="avatar_head" mode="aspectFill" :src="item.userJson.customize.head">
 						</image>
 					</view>
-					
+
 					<view style="margin-left: 20rpx;">
 						<u-row>
 							<text :style="{color: item.userJson.isvip ? '#a899e6' : ''}">{{item.userJson.name}}</text>
@@ -37,7 +37,10 @@
 									<text>{{$u.timeFormat(item.created, 'yyyy/mm/dd hh:MM')}}</text>
 									<text style="margin-left: 40rpx;">{{item.likes}}点赞</text>
 								</view>
-								<u-icon name="thumb-up" size="24"></u-icon>
+								<view>
+									<text style="color: #a899e6;font-size: 30rpx;"
+										@click.stop="$emit('comments',item)">查看详情</text>
+								</view>
 							</u-row>
 							<u-row justify="space-between">
 								<u-icon name="share-square" size="24" @click="goShare(item)"></u-icon>
@@ -45,16 +48,12 @@
 									<u-icon name="chat" size="24"></u-icon>
 									<text style="margin-left: 10rpx;">{{item.reply}}</text>
 								</u-row>
-
-								<view>
-									<text style="color: #a899e6;font-size: 30rpx;"
-										@click.stop="$emit('comments',item)">查看详情</text>
-								</view>
+								<u-icon name="thumb-up" size="24"></u-icon>
 							</u-row>
 						</view>
-						<view style="background: #f7f7f7;border-radius: 10rpx;margin-top: 10rpx;">
+						<!-- <view style="background: #f7f7f7;border-radius: 10rpx;margin-top: 10rpx;">
 							123123
-						</view>
+						</view> -->
 					</view>
 				</u-row>
 			</block>

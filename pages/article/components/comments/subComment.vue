@@ -141,16 +141,18 @@
 				default: null,
 			},
 			keyHeigt: {
-				type:[String,Number],
+				type: [String, Number],
 				default: 0,
 			}
 		},
-		watch:{
-			keyHeigt:{
-				handler(e){
+		watch: {
+			keyHeigt: {
+				handler(e) {
 					this.keyboardHeight = this.keyHeigt
 				}
-			}
+			},
+			immediate: true,
+			deep: true,
 		},
 		data() {
 			return {

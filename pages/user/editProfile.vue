@@ -74,10 +74,8 @@
 					count: 1,
 					sourceType: ['album'],
 					success: (res) => {
-						console.log(res.tempFilePaths)
 						this.cropperBg = res.tempFilePaths[0]
 						this.backgroundShow = true
-						// this.uploadBg(res.tempFilePaths[0])
 					}
 				})
 			},
@@ -88,7 +86,6 @@
 				}).then(res => {
 					console.log(res)
 					this.info.userBg = res.data.data.url
-					// this.backgroundImg = res.data.data.url
 
 				})
 			},
