@@ -97,7 +97,6 @@
 							list.push(data)
 						}
 						this.$refs.paging.complete(list)
-						console.log(list)
 					}
 				})
 			},

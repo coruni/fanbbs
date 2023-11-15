@@ -93,12 +93,11 @@
 				</u--input>
 				<view>
 					<u-code ref="uCode1" @change="codeChange" seconds="120"></u-code>
-					<u-button 
-					@tap="getAllCode" plain color="#a899e6" size="mini">{{tips}}</u-button>
+					<u-button @tap="getAllCode" plain color="#a899e6" size="mini">{{tips}}</u-button>
 				</view>
-				
+
 			</u-row>
-			
+
 			<u-row justify="space-between"
 				customStyle="margin-top:20rpx;font-weight:bold;font-size:30rpx;color:#414141">
 				<text @click="isForget=false">返回登录</text>
@@ -179,7 +178,6 @@
 							mail: this.account
 						})
 					}).then(res => {
-						console.log(res)
 						this.$refs.uCode.start();
 					})
 				}
@@ -195,7 +193,6 @@
 							name: this.account
 						})
 					}).then(res => {
-						console.log(res)
 						this.$refs.uCode1.start();
 					})
 				}
@@ -243,13 +240,17 @@
 					if (res.data.code) {
 						this.setToken(res.data.data.token);
 						this.getUserInfo(res.data.data.uid);
+						this.getUserMeta()
 						uni.$u.toast('已连接主程序')
+						uni.$emit('login', true)
 						setTimeout(() => {
 							this.$Router.back(1)
 						}, 2000)
 					} else {
 						uni.$u.toast(res.data.msg)
 					}
+				}).catch(err => {
+					console.log(err)
 				})
 			},
 			getUserInfo(uid) {
@@ -258,15 +259,18 @@
 						key: uid
 					}
 				}).then(res => {
+					console.log(res)
 					if (res.data.code) {
 						let data = res.data.data
-						data.customize = JSON.parse(res.data.data.customize)
+						if (data.customize && typeof(data.customize == 'string')) data.customize = JSON.parse(res
+							.data.data
+							.customize);
 						this.setUser(data);
 					}
 				})
 			},
 			getUserMeta() {
-				this.$http.get('/typechoUsers/userData').then(res => {
+				this.$http.post('/typechoUsers/userData').then(res => {
 					if (res.data.code) {
 						this.setUserMeta(res.data.data)
 					}

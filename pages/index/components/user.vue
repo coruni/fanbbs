@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<z-paging ref="paging" refresher-only @onRefresh="onRefresh" @query="initData" @scroll="scroll"
+		<z-paging ref="paging" refresher-only @onRefresh="onRefresh" @scroll="scroll"
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<template #top>
 				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`">
@@ -27,7 +27,8 @@
 						<u-avatar :src="userInfo.avatar" size="70" customStyle="border:6rpx solid #fff"
 							@click="$store.state.hasLogin?goProfile():goLogin()">
 						</u-avatar>
-						<image class="avatar_head" mode="aspectFill" :src="userInfo.customize.head" v-if="userInfo&&$store.state.hasLogin"></image>
+						<image class="avatar_head" mode="aspectFill" :src="userInfo.customize&&userInfo.customize.head"
+							v-if="userInfo&&$store.state.hasLogin"></image>
 					</view>
 
 					<!-- 已登录 -->
@@ -40,10 +41,11 @@
 						<view style="margin-top: 20rpx;">
 							<u-row>
 								<u-row
-									:customStyle="{background:userInfo.customize.sex?'#85e0ffc4':'#FB7299c4',padding:'8rpx 12rpx',color:'white',borderRadius:10+'rpx'}">
-									<u-icon :name="userInfo.customize.sex?'man':'woman'" size="14"
+									:customStyle="{background:userInfo.customize&&userInfo.customize.sex?'#85e0ffc4':'#FB7299c4',padding:'8rpx 12rpx',color:'white',borderRadius:10+'rpx'}">
+									<u-icon :name="userInfo.customize&&userInfo.customize.sex?'man':'woman'" size="14"
 										color="white"></u-icon>
-									<text style="font-size: 24rpx;">{{userInfo.customize.sex?'男':'女'}}</text>
+									<text
+										style="font-size: 24rpx;">{{userInfo.customize&&userInfo.customize.sex?'男':'女'}}</text>
 								</u-row>
 								<u-row
 									customStyle="margin-left:20rpx;background:#ffffff4c;padding:8rpx 12rpx;color:white;border-radius:10rpx">
@@ -108,7 +110,7 @@
 					</u-sticky>
 					<!-- #endif -->
 					<swiper style="height: 100vh;" :current="tabsIndex"
-						@animationfinish="tabsIndex = $event.detail.current">
+						@animationfinish="tabsIndex = $event.detail.current" v-if="$store.state.hasLogin">
 						<swiper-item style="overflow: auto;">
 							<publish :isScroll="isScroll" :data="userInfo" ref="publish"></publish>
 						</swiper-item>
@@ -171,7 +173,8 @@
 		watch: {
 			index: {
 				handler(e) {
-					if (e == 4) this.isMounted = true
+					if (e == 4) this.isMounted = true;
+					if (this.$store.state.hasLogin) this.onRefresh();
 				}
 			}
 		},
@@ -183,7 +186,7 @@
 					personl: [{
 							name: '个人信息',
 							icon: 'heart',
-							path:'editUser'
+							path: 'editUser'
 						},
 						{
 							name: '我的收藏',
@@ -281,35 +284,18 @@
 		computed: {
 			...mapState(['userInfo', 'userMeta'])
 		},
-		created() {
-			this.initData()
-		},
+		created() {},
 		onReady() {},
 		methods: {
-			initData() {
-				if (uni.getStorageSync('token')) {
-					this.getUserInfo();
-					this.getUserMeta();
-				}
-				setTimeout(() => {
-					//1秒之后停止刷新动画
-					this.$refs.paging.complete();
-				}, 1000)
-			},
 			onRefresh() {
-				switch (this.tabsIndex) {
-					case 0:
-						this.$refs.publish.reload()
-						break;
-					case 1:
-						this.$refs.comment.reload()
-						break;
-					case 2:
-						this.$refs.collect.reload()
-						break;
-					default:
-						break;
-				}
+				this.$refs.publish.reload()
+				this.$refs.comment.reload()
+				// this.$refs.collect.reload()
+				this.getUserInfo()
+				this.getUserMeta()
+				setTimeout(() => {
+					this.$refs.paging.complete()
+				}, 1000)
 			},
 			getUserInfo() {
 				if (!uni.getStorageSync('token')) return;
@@ -320,7 +306,9 @@
 				}).then(res => {
 					if (res.data.code) {
 						let data = res.data.data
-						data.customize = JSON.parse(res.data.data.customize)
+						if (data.customize && typeof(data.customize == 'string')) data.customize = JSON.parse(res
+							.data.data
+							.customize);
 						this.$store.commit('setUser', data)
 					}
 
@@ -331,7 +319,6 @@
 			getUserMeta() {
 				this.$http.post('/typechoUsers/userData').then(res => {
 					if (res.data.code) {
-						console.log(res)
 						this.$store.commit('setUserMeta', res.data.data)
 					}
 				})
@@ -356,7 +343,7 @@
 					}
 				})
 			},
-			goPage(path){
+			goPage(path) {
 				this.$Router.push({
 					name: path
 				})

@@ -43,10 +43,7 @@
 			}
 		},
 		created() {
-			uni.$on('reloadPublish', data => {
-				this.$refs.paging.reload()
-				console.log('接收到消息，刷新publish')
-			})
+			
 		},
 		methods: {
 			getData(page, limit) {
@@ -59,7 +56,6 @@
 					}),
 
 				}).then(res => {
-					console.log('发布')
 					this.$refs.paging.complete(res.data.data)
 				})
 			},
