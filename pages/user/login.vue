@@ -21,13 +21,15 @@
 					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="username">
 				</u--input>
 				<u-gap></u-gap>
-				<u--input placeholder="邮箱" prefixIcon="email" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="email">
-					<template slot="suffix">
-						<u-code ref="uCode" @change="codeChange" seconds="120" changeText="X秒重新获取"></u-code>
-						<u-button @tap="getCode" :text="tips" plain color="#a899e6" size="mini"></u-button>
-					</template>
-				</u--input>
+				<u-row customStyle="border-bottom:1rpx solid #dadbde">
+					<u--input placeholder="邮箱" prefixIcon="email" prefixIconStyle="font-size:40rpx"
+						customStyle="padding:15rpx 0 0 0" border="none" v-model="email">
+					</u--input>
+					<view>
+						<u-code ref="uCode" @change="codeChange" seconds="120"></u-code>
+						<u-button @tap="getCode" plain color="#a899e6" size="mini">{{tips}}</u-button>
+					</view>
+				</u-row>
 				<u-gap></u-gap>
 				<u--input placeholder="密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
 					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
@@ -58,8 +60,8 @@
 			</view>
 
 			<view style="margin-top: 40rpx;">
-				<u-button  :text="isLogin?'登录':'注册'" :hairline="false" color="#a899e6" size="mini" loading-size="10"
-					customStyle="font-size:30rpx;padding:30rpx 80rpx;width:200rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #a899e6"
+				<u-button :text="isLogin?'登录':'注册'" :hairline="false" color="#a899e6" size="normal" loading-size="10"
+					customStyle="width:300rpx; height:80rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #a899e6"
 					@click="isLogin?login():register()"></u-button>
 			</view>
 			<u-gap height="60"></u-gap>
@@ -85,13 +87,18 @@
 				customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
 			</u--input>
 			<u-gap></u-gap>
-			<u--input placeholder="验证码" type="number" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
-				customStyle="padding:15rpx 0 0 0" border="bottom" v-model="code">
-				<template slot="suffix">
-					<u-code ref="uCode1" @change="codeChange" seconds="120" changeText="X秒重新获取"></u-code>
-					<u-button @click="getAllCode" :text="tips" plain color="#a899e6" size="mini"></u-button>
-				</template>
-			</u--input>
+			<u-row customStyle="border-bottom:1rpx solid #dadbde">
+				<u--input placeholder="验证码" type="number" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
+					customStyle="padding:15rpx 0 0 0" border="none" v-model="code">
+				</u--input>
+				<view>
+					<u-code ref="uCode1" @change="codeChange" seconds="120"></u-code>
+					<u-button 
+					@tap="getAllCode" plain color="#a899e6" size="mini">{{tips}}</u-button>
+				</view>
+				
+			</u-row>
+			
 			<u-row justify="space-between"
 				customStyle="margin-top:20rpx;font-weight:bold;font-size:30rpx;color:#414141">
 				<text @click="isForget=false">返回登录</text>
@@ -112,7 +119,7 @@
 			</view>
 			<view style="margin-top: 40rpx;">
 				<u-button text="确认" :hairline="false" color="#a899e6" size="mini" loading-size="10"
-					customStyle=";padding:30rpx 80rpx;font-size:28rpx;width:200rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #a899e6"
+					customStyle="width:300rpx; height:80rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #a899e6"
 					@click="resetPassword()"></u-button>
 			</view>
 		</view>
@@ -133,9 +140,8 @@
 				code: null,
 				isLogin: true,
 				isForget: false,
-				tips: null,
+				tips: '12312',
 				accept: false,
-				seconds: 120,
 				loginBtn: [{
 						provider: 'weixin',
 						name: '微信',
@@ -159,12 +165,13 @@
 		methods: {
 			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
 			codeChange(text) {
+
 				this.tips = text
 			},
 			getCode() {
 				if (this.account == null) {
 					uni.$u.toast('邮箱为空');
-					return
+					return;
 				}
 				if (this.$refs.uCode.canGetCode) {
 					this.$http.post('/typechoUsers/RegSendCode', {
@@ -319,6 +326,12 @@
 						code: this.code,
 					})
 				})
+			},
+			start() {
+
+			},
+			end() {
+
 			}
 
 		}
