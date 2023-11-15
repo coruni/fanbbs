@@ -19,7 +19,7 @@
 					<u-album :urls="data.pic.images" borderRadius="10" multiple-size="90"></u-album>
 					<u-gap height="6"></u-gap>
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
-						<text>{{data.created | date}}</text>
+						<text>{{$u.timeFormat(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:25%" justify="space-between">
 							<u-icon name="thumb-up" color="#aaa" :label="1" size="20" labelColor="#aaa"
 								label-size="12"></u-icon>
@@ -57,7 +57,7 @@
 						<u-gap height="6"></u-gap>
 						<view style="border-bottom:2rpx solid #f7f7f7;padding-bottom: 20rpx;">
 							<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
-								<text>{{item.created | date}}</text>
+								<text>{{$u.timeFormat(item.created,'mm-dd')}}</text>
 								<u-row customStyle="flex-basis:40%" justify="space-between">
 									<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa"
 										label-size="12"></u-icon>

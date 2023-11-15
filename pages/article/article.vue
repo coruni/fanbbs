@@ -139,9 +139,12 @@
 			</u-row>
 		</u-popup>
 		<!-- 子评论 -->
-		<u-popup :show="showSub" @close="showSub = false" round="20">
+		<u-popup :show="showSub" @close="showSub = false;keyboardHeight = 0" round="20">
 			<u-gap height="25"></u-gap>
-			<subComment :data="subComment" ref="paging"></subComment>
+			<view>
+				<subComment :data="subComment" ref="paging" :keyHeigt="keyboardHeight"></subComment>
+			</view>
+
 		</u-popup>
 	</z-paging-swiper>
 </template>
