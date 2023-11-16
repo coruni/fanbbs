@@ -5,7 +5,7 @@
 				<u-row customStyle="margin:0 30rpx 30rpx 30rpx" align="top">
 					<view style="position: relative;">
 						<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
-						<image class="avatar_head" mode="aspectFill" :src="item.userJson.customize.head">
+						<image class="avatar_head" mode="aspectFill" :src="item.userJson.opt&&item.userJson.opt.head_picture">
 						</image>
 					</view>
 
@@ -90,13 +90,8 @@
 				}).then(res => {
 					let list = [];
 					if (res.data.code) {
-						for (let i in res.data.data) {
-							let data = res.data.data[i]
-							data.pic = JSON.parse(data.pic)
-							data.userJson.customize = JSON.parse(data.userJson.customize)
-							list.push(data)
-						}
-						this.$refs.paging.complete(list)
+						
+						this.$refs.paging.complete(res.data.data)
 					}
 				})
 			},

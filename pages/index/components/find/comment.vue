@@ -5,7 +5,7 @@
 			<u-row align="top" customStyle="padding:30rpx">
 				<view style="position: relative;">
 					<u-avatar :src="data.userJson.avatar" size="30"></u-avatar>
-					<image class="avatar_head" mode="aspectFill" :src="data.userJson.customize.head">
+					<image class="avatar_head" mode="aspectFill" :src="data.userJson.opt&&data.userJson.opt.head_picture">
 					</image>
 				</view>
 				
@@ -34,7 +34,7 @@
 				<u-row align="top" customStyle="padding:20rpx">
 					<view style="position: relative;">
 						<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
-						<image class="avatar_head" mode="aspectFill" :src="item.userJson.customize.head">
+						<image class="avatar_head" mode="aspectFill" :src="item.userJson.opt&&item.userJson.opt.head_picture">
 						</image>
 					</view>
 					
@@ -159,13 +159,7 @@
 				}).then(res => {
 					console.log(res,'回复')
 					if (res.data.code) {
-						let list =[];
-						for(let i in res.data.data){
-							let data =res.data.data[i]
-							data.userJson.customize = JSON.parse(data.userJson.customize)
-							list.push(data)
-						}
-						this.$refs.paging.complete(list)
+						this.$refs.paging.complete(res.data.data)
 					}
 				})
 			},

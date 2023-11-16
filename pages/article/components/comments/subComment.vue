@@ -5,7 +5,7 @@
 			<u-row align="top" customStyle="padding:30rpx">
 				<view style="position: relative;">
 					<u-avatar :src="data.avatar" size="30"></u-avatar>
-					<image class="avatar_head" mode="aspectFill" :src="data.customize.head">
+					<image class="avatar_head" mode="aspectFill" :src="data.opt&&data.opt.head_picture">
 					</image>
 				</view>
 				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
@@ -44,7 +44,7 @@
 							<u-row align="top">
 								<view style="position: relative;">
 									<u-avatar :src="item.avatar" size="30"></u-avatar>
-									<image class="avatar_head" mode="aspectFill" :src="item.customize.head">
+									<image class="avatar_head" mode="aspectFill" :src="item.opt&&item.opt.head_picture">
 									</image>
 								</view>
 
@@ -178,19 +178,13 @@
 						limit,
 						searchParams: JSON.stringify({
 							type: 'comment',
-							parent: this.data.coid,
+							allparent: this.data.coid,
 						})
 					}
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
-						let list = [];
-						for (let i in res.data.data) {
-							let data = res.data.data[i]
-							data.customize = JSON.parse(data.customize)
-							list.push(data)
-						}
-						this.$refs.paging.complete(list)
+						this.$refs.paging.complete(res.data.data)
 					}
 					setTimeout(() => {
 						this.loading = false

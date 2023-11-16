@@ -76,17 +76,13 @@
 						limit,
 						searchParams: JSON.stringify({
 							type: 'post'
-						})
+						}),
+						order:'created'
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {
-						let list = [];
-						for (let i in res.data.data) {
-							let data = res.data.data[i]
-							data.authorInfo.customize = JSON.parse(data.authorInfo.customize)
-							list.push(data)
-						}
-						this.$refs.paging.complete(list);
+						console.log(res)
+						this.$refs.paging.complete(res.data.data);
 						this.is_loaded = true
 					}
 				})

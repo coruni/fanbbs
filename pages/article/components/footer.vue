@@ -3,9 +3,9 @@
 		<u-row justify="space-between">
 			<u-row>
 				<view style="border-radius: 10rpx;padding: 0 20rpx ;text-align: center;font-size: 28rpx;" class="category">
-					<text>{{data.category[0].name}}</text>
+					<text v-if="data.category.length>0">{{data.category[0].name}}</text>
 				</view>
-				<block v-for="(tag,index) in data.tag" :key="index">
+				<block v-for="(tag,index) in data.tag" :key="index" v-if="data.tag">
 					<view style="border-radius: 10rpx;padding:2rpx 8rpx;text-align: center;font-size: 24rpx;">
 						<text>#{{tag.name}}</text>
 					</view>

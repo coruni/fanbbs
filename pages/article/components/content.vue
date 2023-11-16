@@ -11,7 +11,7 @@
 			</view>
 		</u-row>
 		<!-- 内容 overflow:unset防止抖动-->
-		<u-parse :content="data.text" style="overflow: unset;"></u-parse>
+		<u-parse :content="data.text" style="overflow: unset;white-space: normal;word-break: break-all"></u-parse>
 		<!-- 图片 -->
 		<!-- <block v-if="data.images.length==1">
 			<image :src="data.images[0]" mode="aspectFill"

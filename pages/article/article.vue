@@ -284,13 +284,7 @@
 				}).then(res => {
 					console.log(res)
 					if (res.statusCode == 200) {
-						let list = []
-						for (let i in res.data.data) {
-							let data = res.data.data[i]
-							data.customize = JSON.parse(data.customize)
-							list.push(data)
-						}
-						this.$refs.comments.complete(list)
+						this.$refs.comments.complete(res.data.data)
 					}
 				})
 			},

@@ -1,0 +1,35 @@
+{
+	"name": "表情列表",
+	"data": [{
+		"name": "Nyaru",
+		"base": "/static/emoji/nyaru/",
+		"format": "webp",
+		"list": [
+			"addoil",
+			"angel",
+			"block",
+			"damie",
+			"dead",
+			"eee",
+			"foo",
+			"good",
+			"goodjob",
+			"goodnight",
+			"head",
+			"hehe",
+			"hunbger",
+			"icer",
+			"like",
+			"loser",
+			"love",
+			"mua",
+			"ponpon",
+			"question",
+			"sodayo",
+			"sorry",
+			"thank",
+			"www",
+			"yeah"
+		]
+	}]
+}

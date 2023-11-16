@@ -4,11 +4,13 @@
 			<view slot="center">
 				<text>发布帖子</text>
 			</view>
-			<template #right>
-				<u-button plain color="#a899e6" size="mini" customStyle="font-size:30rpx">草稿箱</u-button>
-				<u-button plain color="#a899e6" size="mini" customStyle="font-size:30rpx" @click="save()">发布</u-button>
-			</template>
-
+			<view slot="right">
+				<u-row>
+					<u-button plain color="#a899e6" size="mini">草稿箱</u-button>
+					<u-button plain color="#a899e6" size="mini" customStyle="font-size:30rpx;margin-left:20rpx"
+						@click="save()">发布</u-button>
+				</u-row>
+			</view>
 		</u-navbar>
 		<view style="padding:20rpx 30rpx 0rpx 30rpx;" id="inputTitle">
 			<u-input v-model="article.title" placeholder="标题 (必填)" border="none"
@@ -16,7 +18,8 @@
 		</view>
 		<editor :adjust-position="false" placeholder="灵感迸发" id="editor" @ready="onEditorReady"
 			style="width: 100%;padding:10rpx 30rpx 0rpx 30rpx;"
-			:style="{height:editorHeight - keyboardHeight - toolbarHeight-2 +'px'}" focus >
+			:style="{height:editorHeight - keyboardHeight - toolbarHeight - 4 -(showPanel?panelHeight:0) +'px'}"
+			@statuschange="statuschange">
 		</editor>
 		<view id="toolbar" style="background: #fff;padding: 10rpx 30rpx; 0rpx 30rpx">
 			<u-row justify="space-between" @click="showCategory = true">
@@ -44,20 +47,77 @@
 					</scroll-view>
 				</u-row>
 			</view>
+
 			<view style="padding-bottom: 20rpx;">
 				<u-row justify="space-between">
 					<u-row justify="space-between" customStyle="flex:1">
 						<u-icon name="photo" size="24" @click="chooseImage()"></u-icon>
-						<u-icon name="heart" size="24"></u-icon>
-						<u-icon name="arrow-up-fill" size="24"></u-icon>
+						<u-icon name="heart" size="24" @click="showItem('emoji')"></u-icon>
+						<u-icon name="arrow-up-fill" size="24" @click="showItem('format')"></u-icon>
 						<u-icon name="play-circle" size="24"></u-icon>
 						<u-icon name="plus-circle" size="24"></u-icon>
 					</u-row>
 					<view style="margin-left: 140rpx;">
-						<u-icon name="setting-fill" size="20" color="#a899e6"
+						<u-icon name="setting-fill" size="20" color="#a899e6" @click="showItem('opt')"
 							customStyle="background:#a899e664;border-radius:50rpx;padding:10rpx;box-shadow: 0 0 9rpx #a899e6"></u-icon>
 					</view>
 				</u-row>
+			</view>
+			<view v-if="showPanel" :style="{height:panelHeight+'px'}">
+				<!-- 表情 -->
+				<view v-show="itemName =='emoji'" style="height: 100%;">
+					<block v-for="(one,oneIndex) in emojiData" :key="oneIndex">
+						<swiper :style="{height:panelHeight-30+'px'}" v-show="emojiIndex == oneIndex">
+							<swiper-item v-for="(two,twoIndex) in one.list" :key="twoIndex">
+								<u-row justify="space-between" customStyle="flex-wrap:wrap">
+									<image :src="one.base+one.name+'_'+three+'.'+one.format"
+										v-for="(three,threeIndex) in two" :key="threeIndex" mode="aspectFill"
+										style="width: 100rpx;height: 100rpx;margin: 10rpx;"
+										@click="insertEmoji(one.base,one.name,three,one.format)"></image>
+								</u-row>
+							</swiper-item>
+						</swiper>
+					</block>
+					<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#a899e6"
+						itemStyle="height: 24px;"
+						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
+						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
+						style="position: static;"></u-tabs>
+				</view>
+				<!-- 颜色 -->
+				<view v-show="itemName=='format'" style="height: 100%;">
+					<u-row justify="space-between">
+						<u-row justify="start" v-for="(color,index) in format.color" :key="index"
+							customStyle="flex-direction:column">
+							<text :style="{background:color,padding:25+'rpx',borderRadius:50+'rpx'}"
+								@click="formatTool('color',color)"></text>
+							<u-icon name="arrow-up-fill" color="#999"
+								v-if="formatStatus && formatStatus.color&&formatStatus.color.toLowerCase() == color"></u-icon>
+						</u-row>
+					</u-row>
+					<u-row customStyle="padding-top:40rpx" justify="space-between">
+						<text v-for="(method,index) in format.method"
+							@click="formatTool(method.tool)">{{method.name}}</text>
+						<text @click="editorCtx.removeFormat()">清除选区</text>
+						<text @click="editorCtx.undo()">撤销</text>
+					</u-row>
+				</view>
+				<!-- 设置 -->
+				<view v-show="itemName=='opt'">
+					<u-row justify="space-between">
+						<u-row customStyle="flex-direction:column" justify="start" align="top">
+							<text style="font-size: 32rpx;font-weight: bold;">创作声明</text>
+							<text style="font-size: 26rpx;color: #999;">开启之后文章显示创作声明</text>
+						</u-row>
+						<u-switch size="20" v-model="article.opt.create" activeColor="#a899e6"></u-switch>
+					</u-row>
+					<u-gap height="6"></u-gap>
+					<u-row justify="space-between">
+						<text style="font-size: 32rpx;font-weight: bold;">允许评论</text>
+						<u-switch size="20" v-model="article.allowComment" activeColor="#a899e6"></u-switch>
+						
+					</u-row>
+				</view>
 			</view>
 		</view>
 		<!-- 组件 -->
@@ -110,8 +170,13 @@
 				</view>
 			</view>
 		</u-popup>
-		<u-modal :show="showLoading" ref="uModal" :showConfirmButton="false" title="上传中...">
-			<u-line-progress :percentage="percentage" activeColor="#a899e6" :showText="false"></u-line-progress>
+		<u-modal :show="showLoading" ref="uModal"
+			@close="showLoading=false;uploadErr.status = false;uploadErr.msg=null;"
+			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
+			:title="uploadErr.status?'上传错误':'上传中...'">
+			<u-line-progress :percentage="percentage" activeColor="#a899e6" :showText="false"
+				v-if="!uploadErr.status"></u-line-progress>
+			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 		</u-modal>
 	</view>
 </template>
@@ -120,8 +185,32 @@
 	export default {
 		data() {
 			return {
+				emojiData: [],
 				percentage: 30,
 				showLoading: false,
+				showPanel: false,
+				format: {
+					color: ['#a899e6', '#5bd784', '#ffa600', '#0dd0f2', '#fb4f14', '#000000'],
+					method: [{
+						name: '粗体',
+						tool: 'bold'
+					}, {
+						name: '斜体',
+						tool: 'italic'
+					}, {
+						name: '下划线',
+						tool: 'underline'
+					}],
+					header: ['H3', 'H4']
+				},
+				formatStatus: null,
+				panelHeight: 150,
+				emojiIndex: 0,
+				itemName: null,
+				uploadErr: {
+					status: false,
+					msg: null,
+				},
 				editorCtx: null,
 				keyboardHeight: 0,
 				editorHeight: 0,
@@ -137,7 +226,9 @@
 						mid: 1
 					},
 					tags: [],
+					allowComment: true,
 					opt: {
+						create: false,
 						files: [],
 						// files:
 						// name: null,  //名称
@@ -173,6 +264,7 @@
 		},
 		onLoad() {},
 		created() {
+			this.formatEmoji()
 			this.initData()
 		},
 		methods: {
@@ -211,6 +303,7 @@
 					console.log(res)
 					if (res.data.code) {
 						this.tags = res.data.data
+
 					}
 				})
 			},
@@ -226,7 +319,7 @@
 					this.article.tags.push(item);
 				}
 			},
-			
+
 			async chooseImage() {
 				// 重置进度条
 				this.percentage = 30;
@@ -249,7 +342,7 @@
 					if (!count) {
 						setTimeout(() => {
 							this.showLoading = false;
-							
+
 						}, 200)
 
 					}
@@ -267,14 +360,105 @@
 						filePath: image,
 						name: 'file',
 					}).then(res => {
+						console.log(res)
 						if (res.data.code) {
 							resolve(res.data.data.url)
+						} else {
+							this.uploadErr.status = true
+							this.uploadErr.msg = res.data.msg
+
 						}
 					}).catch(err => {
 						console.log(err)
 					})
 
 				})
+			},
+			save() {
+				let article = this.article
+				this.editorCtx.getContents({
+					success: res => {
+						article.text = res.html
+					}
+				})
+				let tags = article.tags.map(tag => tag.mid).join(',')
+				console.log(tags)
+				this.$http.post('/typechoContents/contentsAdd', {
+					params: JSON.stringify({
+						title: article.title,
+						text: article.text,
+						category: article.category.mid,
+						tag: tags,
+						opt: JSON.stringify(article.opt),
+					})
+				}).then(res => {
+					console.log(res)
+					uni.$u.toast(res.data.msg)
+				})
+			},
+			showItem(item) {
+				if (this.itemName != item) {
+					this.itemName = item
+					this.showPanel = true
+				} else {
+					this.itemName = null
+					this.showPanel = false
+				}
+			},
+			formatEmoji() {
+				// 处理后的数据
+				let result = []
+
+				// 遍历原始数据中的每个item
+				this.$emoji.data.forEach(item => {
+
+					// 构建一个新的item对象
+					let newItem = {
+						"name": item.name,
+						"base": item.base,
+						"format": item.format,
+						"list": []
+					}
+
+					// 按14个一组对表情列表进行拆分
+					let subList = []
+					let count = 0
+					item.list.forEach(emoji => {
+						subList.push(emoji)
+						count++
+						if (count % 10 === 0) {
+							newItem.list.push(subList)
+							subList = []
+						}
+					})
+					if (subList.length > 0) {
+						newItem.list.push(subList)
+					}
+
+					// 将新的item添加到结果数组中
+					result.push(newItem)
+				})
+				this.emojiData = result
+			},
+			insertEmoji(base, name, emoji, format) {
+				this.editorCtx.insertImage({
+					src: base + name + '_' + emoji + '.' + format,
+					alt: name + '_' + emoji + '.' + format,
+					width: '50px',
+					height: '50px',
+					data: {
+						name: name + '_',
+						emoji: emoji
+					},
+					success: res => {
+						this.editorCtx.insertText({
+							text: '  '
+						})
+					}
+				})
+			},
+			formatTool(type, value) {
+				this.editorCtx.format(type, value)
 			},
 			onEditorReady() {
 				// #ifdef MP-BAIDU
@@ -284,10 +468,13 @@
 				// #ifdef APP-PLUS || H5 ||MP-WEIXIN
 				uni.createSelectorQuery().select('#editor').context((res) => {
 					this.editorCtx = res.context
-					console.log(this.editorCtx)
 				}).exec()
 				// #endif
 			},
+			statuschange(event) {
+				this.formatStatus = event.detail
+				console.log(event)
+			}
 		}
 	}
 </script>
@@ -295,5 +482,12 @@
 <style>
 	page {
 		background: #f7f7f7;
+	}
+
+	.panel {
+		transform: translateY(10vh);
+		transition: transform 0.3s ease;
+		background: #fff;
+
 	}
 </style>

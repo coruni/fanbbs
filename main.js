@@ -1,6 +1,6 @@
 import moment from 'moment';
-import App from './App'
-import store from './store'
+import App from './App';
+import store from './store';
 // #ifndef VUE3
 import Vue from 'vue'
 import uView from '@/uni_modules/uview-ui'
@@ -43,7 +43,6 @@ import {
 } from '@/utils/luch-request/http.js'
 Vue.prototype.$http = http
 
-Vue.filter('date', function (n) {
-  const result = moment(n * 1000).format('MM/DD') // 转换时间格式
-  return result // 返回出去 否则不会生效
-})
+//全局挂载表情数据
+import emoji from '@/static/emoji/emoji.json'
+Vue.prototype.$emoji = emoji

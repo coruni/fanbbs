@@ -6,7 +6,7 @@
 			<block v-for="(item,index) in article">
 				<u-row customStyle="flex-direction:column;margin: 20rpx 30rpx;" align="top" @click="goArticle(item)">
 					<text
-						style="color: #999;font-size: 26rpx;">{{$u.timeFormat(item.created,'yyyy年mm月dd日')}}·{{item.category[0].name}}</text>
+						style="color: #999;font-size: 26rpx;">{{$u.timeFormat(item.created,'yyyy年mm月dd日')}}·{{item.category&&item.category.name}}</text>
 					<text style="font-weight: bold;">{{item.title}}</text>
 					<text class="u-line-2">{{item.text}}</text>
 					<image v-if="item.images.length>0" :src="item.images[0]" style="width: 100%;height: 350rpx;"

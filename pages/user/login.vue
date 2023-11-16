@@ -261,11 +261,7 @@
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
-						let data = res.data.data
-						if (data.customize && typeof(data.customize == 'string')) data.customize = JSON.parse(res
-							.data.data
-							.customize);
-						this.setUser(data);
+						this.setUser(res.data.data);
 					}
 				})
 			},

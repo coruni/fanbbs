@@ -27,7 +27,7 @@
 						<u-avatar :src="userInfo.avatar" size="70" customStyle="border:6rpx solid #fff"
 							@click="$store.state.hasLogin?goProfile():goLogin()">
 						</u-avatar>
-						<image class="avatar_head" mode="aspectFill" :src="userInfo.customize&&userInfo.customize.head"
+						<image class="avatar_head" mode="aspectFill" :src="userInfo.opt&&userInfo.opt.head_picture"
 							v-if="userInfo&&$store.state.hasLogin"></image>
 					</view>
 
@@ -41,11 +41,11 @@
 						<view style="margin-top: 20rpx;">
 							<u-row>
 								<u-row
-									:customStyle="{background:userInfo.customize&&userInfo.customize.sex?'#85e0ffc4':'#FB7299c4',padding:'8rpx 12rpx',color:'white',borderRadius:10+'rpx'}">
-									<u-icon :name="userInfo.customize&&userInfo.customize.sex?'man':'woman'" size="14"
+									:customStyle="{background:userInfo.sex&&userInfo.sex=='男'?'#85e0ffc4':'#FB7299c4',padding:'8rpx 12rpx',color:'white',borderRadius:10+'rpx'}">
+									<u-icon :name="userInfo&&userInfo.sex=='男'?'man':'woman'" size="14"
 										color="white"></u-icon>
 									<text
-										style="font-size: 24rpx;">{{userInfo.customize&&userInfo.customize.sex?'男':'女'}}</text>
+										style="font-size: 24rpx;">{{userInfo&&userInfo.sex=='男'?'男':'女'}}</text>
 								</u-row>
 								<u-row
 									customStyle="margin-left:20rpx;background:#ffffff4c;padding:8rpx 12rpx;color:white;border-radius:10rpx">
@@ -288,14 +288,18 @@
 		onReady() {},
 		methods: {
 			onRefresh() {
-				this.$refs.publish.reload()
-				this.$refs.comment.reload()
-				// this.$refs.collect.reload()
-				this.getUserInfo()
-				this.getUserMeta()
+				if(this.$store.state.hasLogin){
+					this.$refs.publish.reload()
+					this.$refs.comment.reload()
+					// this.$refs.collect.reload()
+					this.getUserInfo()
+					this.getUserMeta()
+					
+				}
 				setTimeout(() => {
 					this.$refs.paging.complete()
 				}, 1000)
+				
 			},
 			getUserInfo() {
 				if (!uni.getStorageSync('token')) return;
@@ -304,12 +308,9 @@
 						key: this.userInfo.uid
 					}
 				}).then(res => {
+					console.log(res)
 					if (res.data.code) {
-						let data = res.data.data
-						if (data.customize && typeof(data.customize == 'string')) data.customize = JSON.parse(res
-							.data.data
-							.customize);
-						this.$store.commit('setUser', data)
+						this.$store.commit('setUser', res.data.data)
 					}
 
 				}).catch(err => {
