@@ -73,7 +73,6 @@
 							</u-col>
 						</u-row>
 					</template>
-
 				</z-paging>
 			</swiper-item>
 			<swiper-item>
@@ -288,9 +287,6 @@
 					}
 				})
 			},
-			getSubComment() {
-
-			},
 			reply() {
 				if (this.commentText.length < 3) {
 					uni.$u.toast('再多说点吧~')
@@ -309,7 +305,7 @@
 						uni.$u.toast('已发送~')
 						this.commentText = null
 						this.showComment = false
-						this.$refs.paging.reload()
+						this.$refs.comments.reload()
 					} else {
 						uni.$u.toast(res.data.msg)
 					}
