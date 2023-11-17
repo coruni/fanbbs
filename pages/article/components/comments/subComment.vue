@@ -4,7 +4,7 @@
 			height="75vh">
 			<u-row align="top" customStyle="padding:30rpx">
 				<view style="position: relative;">
-					<u-avatar :src="data.avatar" size="30"></u-avatar>
+					<u-avatar :src="data.avatar" size="30" @click="goProfile(data.authorId)"></u-avatar>
 					<image class="avatar_head" mode="aspectFill" :src="data.opt&&data.opt.head_picture">
 					</image>
 				</view>
@@ -39,22 +39,20 @@
 			<!-- 子评论开始 -->
 			<view>
 				<block v-for="(item,index) in comments" :key="index">
-					{{item}}
 					<view style="padding:30rpx">
 						<u-skeleton rows="2" avatar :loading="loading">
 							<u-row align="top">
 								<view style="position: relative;">
-									<u-avatar :src="item.avatar" size="30"></u-avatar>
+									<u-avatar :src="item.avatar" size="30" @click="goProfile(item.authorId)"></u-avatar>
 									<image class="avatar_head" mode="aspectFill" :src="item.opt&&item.opt.head_picture">
 									</image>
 								</view>
 
 								<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 									<u-row justify="space-between">
-										<text :style="{color:item.isvip?'#a899e6':''}">{{item.author}}</text>
-									</u-row>
+										<text :style="{color:item.isvip?'#a899e6':''}">{{item.author}}</text> </u-row>
 									<view style="margin-top:10rpx;word-break: break-word;"
-										@tap.stop.prevent="commentCheck(true,item.coid,item.author)">
+										@click="commentCheck(true,item.coid,item.author)">
 										<u-parse
 											:content="item.parent != data.coid&&item.authorId!=item.parentComments.authorId?formatText(item):item.text"></u-parse>
 									</view>
@@ -225,9 +223,24 @@
 				})
 			},
 			formatText(item) {
-				let text =
-					`<div style="display:flex">回复&nbsp;<p style="color:#85a3ff">${item.parentComments.author}：</p> ${item.text}</div>`
-				return text
+				let text = `
+			    <div style="word-break:break-all">
+			      回复&nbsp;
+			      <span style="color:#85a3ff" v-on:click="goProfile(item)">
+			        ${item.parentComments.author}：</span> 
+					${item.text}
+			    </div>
+			  `;
+				return text;
+			},
+			goProfile(id) {
+				console.log('点击了')
+				this.$Router.push({
+					path: '/pages/profile/profile',
+					query: {
+						id
+					}
+				})
 			}
 		}
 	}

@@ -10,7 +10,7 @@
 				<u-row justify="space-between">
 					<text :style="{color:data.isvip?'#a899e6':'',fontSize:30+'rpx'}">{{data.author}}</text>
 				</u-row>
-				<view style="margin-top:10rpx;word-break: break-word;" @tap.stop.prevent="reply(data)">
+				<view style="margin-top:10rpx;word-break: break-word;" @click="reply(data)">
 					<u-parse :content="data.text"></u-parse>
 				</view>
 				<u-grid :col="3" :border="false" v-if="data.longtext && data.longtext.images">
@@ -24,11 +24,11 @@
 				<view style="background: #f7f7f7;padding:10rpx;border-radius: 10rpx;" v-if="comments.length>0"
 					@click="subComment">
 					<block v-for="(item,index) in comments" :key="index">
-						<u-row align="top" customStyle="font-size:30rpx">
+						<view style="font-size:30rpx" class="u-line-2">
 							<text style="color: #85a3ff;flex-shrink: 0;">{{item.author}}</text>
-							<text style="margin-left: 5rpx;">：</text>
-							<text class="u-line-2">{{item.text}}</text>
-						</u-row>
+							：
+							{{item.text}}
+						</view>
 					</block>
 					<u-row>
 						<text style="color: #aaa;font-size: 30rpx;">查看{{num}}条评论</text>
@@ -81,7 +81,7 @@
 						searchParams: JSON.stringify({
 							type: 'comment',
 							cid: this.data.cid,
-							parent: this.data.coid,
+							allParent: this.data.coid,
 						})
 					}
 				}).then(res => {
