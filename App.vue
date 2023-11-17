@@ -1,5 +1,7 @@
 <script>
-	
+	import {
+		mapMutations
+	} from 'vuex';
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -8,6 +10,11 @@
 				this.$store.commit('setUser', uni.getStorageSync('user'))
 				this.$store.commit('setUserMeta', uni.getStorageSync('userMeta'))
 				this.$store.commit('loginStatus')
+				//检测登录状态
+				setTimeout(() => {
+					this.checkStstus()
+				}, 200)
+
 			}
 		},
 		onShow: function() {
@@ -15,6 +22,45 @@
 		},
 		onHide: function() {
 			console.log('App Hide')
+		},
+		methods: {
+			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
+			checkStstus() {
+				this.$http.post('/typechoUsers/userStatus').then(res => {
+					if (!res.data.code) {
+						//状态不通过重新登录
+						this.login()
+					}
+				})
+			},
+			login() {
+				let account = uni.getStorageSync('account')
+				if(!account) return;
+				this.$http.post('/typechoUsers/userLogin', {
+					params: JSON.stringify({
+						...account
+					})
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						this.setToken(res.data.data.token);
+						this.getUserInfo(res.data.data.uid);
+						this.getUserMeta()
+						uni.$u.toast('已连接主程序')
+						uni.$emit('login', true)
+						setTimeout(() => {
+							this.$Router.back(1)
+						}, 2000)
+					} else {
+						this.$Router.push({
+							path: '/pages/user/login'
+						})
+						// 还是登陆错误就到登录页面登录
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 		}
 	}
 </script>
@@ -29,6 +75,7 @@
 	body {
 		font-family: 'moe';
 	}
+
 	.avatar_head {
 		position: absolute;
 		display: block;
@@ -43,6 +90,7 @@
 		z-index: 2;
 		image-rendering: -webkit-optimize-contrast;
 	}
+
 	@import 'animate.css';
 	@import "@/uni_modules/uview-ui/index.scss";
 	/*每个页面公共css */

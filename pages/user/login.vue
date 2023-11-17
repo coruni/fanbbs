@@ -243,6 +243,13 @@
 						this.getUserMeta()
 						uni.$u.toast('已连接主程序')
 						uni.$emit('login', true)
+						//保存账号密码 用于持久登录
+						let account = {
+							account: this.account,
+							password: this.password
+						}
+						uni.setStorageSync('account', account)
+						//
 						setTimeout(() => {
 							this.$Router.back(1)
 						}, 2000)
