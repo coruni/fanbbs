@@ -20,7 +20,7 @@
 						<text :style="{color:item.active?'#a899e6':'',fontSize:30+'rpx'}">{{item.name}}</text>
 					</u-row>
 					<u-avatar :src="$store.state.userInfo.avatar" v-else size="35"
-						customStyle="border:6rpx solid #a899e6" @click="tabbarTap(index)"></u-avatar>
+						customStyle="border:6rpx solid #a899e6" @click="tabbarTap(index)" :class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
 				</block>
 			</u-row>
 		</template>
