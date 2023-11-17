@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-navbar placeholder autoBack id="navbar">
-			
+
 			<view slot="center">
 				<text>发布帖子</text>
 			</view>
@@ -377,11 +377,11 @@
 			},
 			save() {
 				let article = this.article
-				if(article.title<4){
+				if (article.title < 4) {
 					uni.$u.toast('标题太短')
 					return
 				}
-				if(article.text<10){
+				if (article.text < 10) {
 					uni.$u.toast('再多写点吧~')
 					return
 				}

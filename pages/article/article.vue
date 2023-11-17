@@ -11,9 +11,9 @@
 							</view>
 						</u-navbar>
 					</template>
-					<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article">
+					<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
 						<articleHeader :data="author"></articleHeader>
-						<articleContent :data="article"></articleContent>
+						<articleContent :data="article" :autoPreview="isScroll"></articleContent>
 						<articleFooter :data="article"></articleFooter>
 					</view>
 					<!-- 评论区 -->
@@ -129,7 +129,7 @@
 			</u-row>
 			<u-row customStyle="margin-top:30rpx">
 				<u-col span="2" v-for="(item,manageIndex) in manage" :key="manageIndex" align="center"
-					customStyle="flex-direction:column" @click="manageTap">
+					customStyle="flex-direction:column" >
 					<view :style="{borderRadius:'50rpx',padding:'20rpx'}" class="u-info-light-bg">
 						<u-icon :name="item.icon" size="26"></u-icon>
 					</view>
@@ -165,6 +165,7 @@
 		mixins: [ZPMixin],
 		data() {
 			return {
+				isScroll: false,
 				cid: 0,
 				pid: 0,
 				article: null,
@@ -314,16 +315,16 @@
 			},
 			replaceEmoji(html) {
 				return html.replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
-				  const emoji = this.$emoji.data.find(e => e.name === name)
-				
-				  if (emoji) {
-				    const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
-				    return `<img src="${src}" style="width:100rpx;height:100rpx">`
-				  }
-				  // 如果没有找到,直接返回空字符串
-				  // 即删除整个匹配文本
-				  return ''
-				
+					const emoji = this.$emoji.data.find(e => e.name === name)
+
+					if (emoji) {
+						const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
+						return `<img src="${src}" style="width:100rpx;height:100rpx">`
+					}
+					// 如果没有找到,直接返回空字符串
+					// 即删除整个匹配文本
+					return ''
+
 				}).replace(/\|</g, '<').replace(/>\|/g, '>')
 			},
 			changTab(data) {
@@ -334,9 +335,14 @@
 			animationfinish(data) {
 				this.swiperIndex = data.detail.current
 			},
-			con(data) {
-				console.log(data)
-			}
+			touchEnd() {
+				// 停止移动
+				this.isScroll = false;
+			},
+			touchMove(e) {
+				// 手指触摸后的移动事件
+				this.isScroll = true;
+			},
 
 		}
 	}
