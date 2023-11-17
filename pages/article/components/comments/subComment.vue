@@ -50,7 +50,8 @@
 
 								<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 									<u-row justify="space-between">
-										<text :style="{color:item.isvip?'#a899e6':''}">{{item.author}}</text> </u-row>
+										<text :style="{color:item.isvip?'#a899e6':''}">{{item.author}}</text>
+									</u-row>
 									<view style="margin-top:10rpx;word-break: break-word;"
 										@click="commentCheck(true,item.coid,item.author)">
 										<u-parse
@@ -180,7 +181,8 @@
 							cid: this.data.cid,
 							type: 'comment',
 							allparent: this.data.coid,
-						})
+						}),
+						order:'created asc'
 					}
 				}).then(res => {
 					console.log(res)

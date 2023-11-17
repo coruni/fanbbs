@@ -21,9 +21,9 @@
 							class="u-info-light-bg"></image>
 					</u-grid-item>
 				</u-grid>
-				<view style="background: #f7f7f7;padding:10rpx;border-radius: 10rpx;" v-if="comments.length>0"
-					@click="subComment">
-					<block v-for="(item,index) in comments" :key="index">
+				<view style="background: #f7f7f7;padding:10rpx;border-radius: 10rpx;"
+					v-if="data.sonComments.data&&data.sonComments.data.length" @click="subComment">
+					<block v-for="(item,index) in data.sonComments.data" :key="index" v-if="index<2">
 						<view style="font-size:30rpx" class="u-line-2">
 							<text style="color: #85a3ff;flex-shrink: 0;">{{item.author}}</text>
 							：
@@ -31,7 +31,7 @@
 						</view>
 					</block>
 					<u-row>
-						<text style="color: #aaa;font-size: 30rpx;">查看{{num}}条评论</text>
+						<text style="color: #aaa;font-size: 30rpx;">查看{{data.sonComments.count}}条评论</text>
 						<u-icon name="arrow-right" size="14"></u-icon>
 					</u-row>
 				</view>
@@ -70,7 +70,7 @@
 			}
 		},
 		created() {
-			this.getComments()
+
 		},
 		methods: {
 			getComments() {
@@ -81,10 +81,12 @@
 						searchParams: JSON.stringify({
 							type: 'comment',
 							cid: this.data.cid,
-							allParent: this.data.coid,
-						})
+							allparent: this.data.coid,
+						}),
+						order: 'created asc'
 					}
 				}).then(res => {
+					console.log(res)
 					if (res.data.code) {
 						this.comments = res.data.data
 						this.num = res.data.count
