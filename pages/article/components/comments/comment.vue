@@ -85,7 +85,6 @@
 						})
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code) {
 						this.comments = res.data.data
 						this.num = res.data.count

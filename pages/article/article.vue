@@ -3,7 +3,7 @@
 		<swiper style="height: 100%;" :current="swiperIndex" @animationfinish="animationfinish">
 			<swiper-item v-show="!loading">
 				<z-paging ref="comments" v-model="comments" @query="getComments" :auto-scroll-to-top-when-reload="false"
-					:auto-clean-list-when-reload="false">
+					:auto-clean-list-when-reload="false" >
 					<template #top>
 						<u-navbar placeholder autoBack @rightClick="showMore = true" fixed>
 							<view slot="right">
@@ -143,7 +143,6 @@
 			<view>
 				<subComment :data="subComment" ref="paging" :keyHeigt="keyboardHeight"></subComment>
 			</view>
-
 		</u-popup>
 	</z-paging-swiper>
 </template>
@@ -296,6 +295,7 @@
 					cid: this.cid,
 					ownerId: this.article.authorId,
 					parent: this.pid ? this.pid : 0,
+					allParent: this.pid ? this.pid : 0,
 					text: this.commentText
 				})
 				this.$http.post('/typechoComments/commentsAdd', {

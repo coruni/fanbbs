@@ -177,6 +177,7 @@
 						page,
 						limit,
 						searchParams: JSON.stringify({
+							cid: this.data.cid,
 							type: 'comment',
 							allparent: this.data.coid,
 						})
@@ -205,7 +206,7 @@
 				let params = JSON.stringify(params = {
 					cid: this.data.cid,
 					parent: this.pid,
-					ppid: this.data.coid,
+					allparent: this.data.coid,
 					text: this.commentText,
 				})
 				this.$http.post('/typechoComments/commentsAdd', {
@@ -217,6 +218,7 @@
 						this.commentText = null
 						this.showComment = false
 						this.$refs.paging.reload()
+						this.$emit('subReply',true)
 					}
 				})
 			},
