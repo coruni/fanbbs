@@ -423,7 +423,7 @@
 				let result = [];
 
 				// 每页表情对象的数量
-				const pageSize = 14;
+				const pageSize = 10;
 
 				// 遍历原始数据中的每个 item
 				this.$emoji.data.forEach(item => {
