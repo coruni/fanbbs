@@ -39,6 +39,7 @@
 			<!-- 子评论开始 -->
 			<view>
 				<block v-for="(item,index) in comments" :key="index">
+					{{item}}
 					<view style="padding:30rpx">
 						<u-skeleton rows="2" avatar :loading="loading">
 							<u-row align="top">
@@ -54,9 +55,10 @@
 									</u-row>
 									<view style="margin-top:10rpx;word-break: break-word;"
 										@tap.stop.prevent="commentCheck(true,item.coid,item.author)">
-										<u-parse :content="item.text"></u-parse>
+										<u-parse
+											:content="item.parent != data.coid&&item.authorId!=item.parentComments.authorId?formatText(item):item.text"></u-parse>
 									</view>
-									<u-grid :col="3" :border="false" v-if="item.longtext && item.longtext.images">
+									<u-grid :col=" 3" :border="false" v-if="item.longtext && item.longtext.images">
 										<u-grid-item v-for="(image,imageIndex) in item.longtext.images"
 											:key="imageIndex" v-if="imageIndex<9" @click.native.stop="preview"
 											:customStyle="{width:'210rpx',height:'210rpx',borderRadius:'20rpx',marginTop:'10rpx',marginRight:'10rpx'}">
@@ -218,10 +220,15 @@
 						this.commentText = null
 						this.showComment = false
 						this.$refs.paging.reload()
-						this.$emit('subReply',true)
+						this.$emit('subReply', true)
 					}
 				})
 			},
+			formatText(item) {
+				let text =
+					`<div style="display:flex">回复&nbsp;<p style="color:#85a3ff">${item.parentComments.author}：</p> ${item.text}</div>`
+				return text
+			}
 		}
 	}
 </script>
