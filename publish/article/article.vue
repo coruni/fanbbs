@@ -97,7 +97,7 @@
 						</u-row>
 					</u-row>
 					<u-row customStyle="padding-top:40rpx" justify="space-between">
-						<text v-for="(method,index) in format.method"
+						<text v-for="(method,index) in format.method" :key="index"
 							@click="formatTool(method.tool)">{{method.name}}</text>
 						<text @click="editorCtx.removeFormat()">清除选区</text>
 						<text @click="editorCtx.undo()">撤销</text>

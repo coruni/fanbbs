@@ -12,8 +12,14 @@
 				<text @click="choose()">修改头像</text>
 			</u-row>
 		</view>
-		<l-clipper v-if="showClipper" :imageUrl="image" @success="upload($event.url);showClipper=false"
+		<l-clipper v-if="showClipper" :imageUrl="image" @success="upload($event.url);showClipper=false;showLoading=true"
 			@canel="showClipper = false" is-disable-scale is-limit-move is-lock-ratio></l-clipper>
+
+		<u-modal ref="uModal" :title="!isError.status?'上传中...':'上传错误'" :show="showLoading" :showConfirmButton="false"
+			:closeOnClickOverlay="isError.status" @close="showLoading= false;isError.status=false;isError.msg=null">
+			<u-loading-icon color="#a899e6" mode="circle" :show="!isError.status"></u-loading-icon>
+			<text v-if="isError.msg" style="font-size: 30rpx;text-align: center;">{{isError.msg}}</text>
+		</u-modal>
 	</view>
 </template>
 
@@ -24,6 +30,11 @@
 				info: {},
 				showClipper: false,
 				image: null,
+				showLoading: false,
+				isError: {
+					status: false,
+					msg: null,
+				}
 			};
 		},
 		created() {
@@ -49,9 +60,13 @@
 					if (res.data.code) {
 						console.log(res.data.msg)
 						this.save(res.data.data.url)
+					} else {
+						this.isError.status = true
+						this.isError.msg = res.data.msg
 					}
 				}).catch(err => {
-					console.log(err)
+					this.isError.status = true
+					this.isError.msg = res.data.msg
 				})
 			},
 			save(url) {
@@ -62,11 +77,13 @@
 						avatar: url,
 					})
 				}).then(res => {
-					console.log(res)
 					if (res.data.code) {
 						uni.$u.toast('资料已更新')
 						this.getUserInfo()
 					}
+				}).catch(err => {
+					this.isError.status = true
+					this.isError.msg = res.data.msg
 				})
 			},
 			getUserInfo() {
@@ -78,10 +95,12 @@
 				}).then(res => {
 					if (res.data.code) {
 						this.$store.commit('setUser', res.data.data)
+						this.showLoading = false
+					} else {
+						this.isError.status = true
+						this.isError.msg = res.data.msg
 					}
-				}).catch(err => {
-					console.log(err)
-				})
+				}).catch(err => {})
 			},
 		}
 	}
