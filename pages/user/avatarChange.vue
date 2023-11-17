@@ -5,10 +5,10 @@
 			<u-avatar :src="info.avatar" size="280" customStyle="flex:1"></u-avatar>
 		</u-row>
 		<view
-			style="padding:20rpx; font-size:30rpx;color: white;background: rgba(255, 255, 255, 0.1);margin:40rpx;margin-top: 30% !important;border-radius: 20rpx;">
+			style="padding:26rpx 20rpx; font-size:30rpx;color: white;background: rgba(255, 255, 255, 0.1);margin:40rpx;margin-top: 30% !important;border-radius: 20rpx;">
 			<u-row customStyle="flex-direction:column">
 				<text>更改头像挂件</text>
-				<u-gap height="8"></u-gap>
+				<u-gap height="18"></u-gap>
 				<text @click="choose()">修改头像</text>
 			</u-row>
 		</view>
