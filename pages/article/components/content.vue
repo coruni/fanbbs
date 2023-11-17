@@ -12,7 +12,8 @@
 		</u-row>
 		<!-- 内容 overflow:unset防止抖动-->
 		<!-- <u-parse>组件错误更换为uv-parse -->
-		<uv-parse :show-img-menu="!isScroll" :content="data.text" lazyLoad
+		<uv-parse :show-img-menu="!isScroll" :content="data.text" lazyLoad selectable
+			:tag-style="{img:'border-radius:10rpx'}"
 			style="overflow: unset;white-space: normal;word-break: break-all"></uv-parse>
 	</view>
 </template>
