@@ -77,7 +77,7 @@
 						searchParams: JSON.stringify({
 							type: 'post'
 						}),
-						order:'created'
+						order:'created desc'
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {

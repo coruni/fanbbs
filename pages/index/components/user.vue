@@ -25,7 +25,7 @@
 				<view style="position: absolute;top: 160rpx;margin: 30rpx;">
 					<view style="position: relative;display: inline-block;">
 						<u-avatar :src="userInfo.avatar" size="70" customStyle="border:6rpx solid #fff"
-							@click="$store.state.hasLogin?goProfile():goLogin()">
+							@click="$store.state.hasLogin?goPage('avatarChange'):goLogin()">
 						</u-avatar>
 						<image class="avatar_head" mode="aspectFill" :src="userInfo.opt&&userInfo.opt.head_picture"
 							v-if="userInfo&&$store.state.hasLogin"></image>
@@ -33,7 +33,11 @@
 
 					<!-- 已登录 -->
 					<view style="margin-top: 20rpx;display: flex;flex-direction: column;" v-if="$store.state.hasLogin">
-						<text style="color: white;font-weight: bold;">{{userInfo.screenName}}</text>
+						<u-row @click="goPage('editUser')">
+							<text style="color: white;font-weight: bold;">{{userInfo.screenName}}</text>
+							<u-icon name="edit-pen" color="white" customStyle="margin-left:10rpx"></u-icon>
+						</u-row>
+						
 						<view style="font-size: 26rpx;display: flex;flex-direction: column;color: white;">
 							<text>通行证ID: {{userInfo.uid}}</text>
 							<text class="u-line-2">{{userInfo.introduce}}</text>

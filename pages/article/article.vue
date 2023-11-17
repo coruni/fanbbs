@@ -3,7 +3,7 @@
 		<swiper style="height: 100%;" :current="swiperIndex" @animationfinish="animationfinish">
 			<swiper-item v-show="!loading">
 				<z-paging ref="comments" v-model="comments" @query="getComments" :auto-scroll-to-top-when-reload="false"
-					:auto-clean-list-when-reload="false" >
+					:auto-clean-list-when-reload="false">
 					<template #top>
 						<u-navbar placeholder autoBack @rightClick="showMore = true" fixed>
 							<view slot="right">
@@ -259,7 +259,8 @@
 				}).then(res => {
 					if (res.statusCode == 200) {
 						this.article = res.data
-						console.log(res.data)
+						this.article.text = this.replaceEmoji(res.data.text)
+
 					}
 				})
 			},
@@ -311,8 +312,19 @@
 					}
 				})
 			},
-			manageTap() {
-
+			replaceEmoji(html) {
+				return html.replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
+				  const emoji = this.$emoji.data.find(e => e.name === name)
+				
+				  if (emoji) {
+				    const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
+				    return `<img src="${src}" style="width:100rpx;height:100rpx">`
+				  }
+				  // 如果没有找到,直接返回空字符串
+				  // 即删除整个匹配文本
+				  return ''
+				
+				}).replace(/\|</g, '<').replace(/>\|/g, '>')
 			},
 			changTab(data) {
 				console.log(data)

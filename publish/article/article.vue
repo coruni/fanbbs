@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<u-navbar autoBack placeholder id="navbar">
+		<u-navbar placeholder autoBack id="navbar">
+			
 			<view slot="center">
 				<text>发布帖子</text>
 			</view>
@@ -66,14 +67,14 @@
 			<view v-if="showPanel" :style="{height:panelHeight+'px'}">
 				<!-- 表情 -->
 				<view v-show="itemName =='emoji'" style="height: 100%;">
+
 					<block v-for="(one,oneIndex) in emojiData" :key="oneIndex">
 						<swiper :style="{height:panelHeight-30+'px'}" v-show="emojiIndex == oneIndex">
 							<swiper-item v-for="(two,twoIndex) in one.list" :key="twoIndex">
 								<u-row justify="space-between" customStyle="flex-wrap:wrap">
-									<image :src="one.base+one.name+'_'+three+'.'+one.format"
-										v-for="(three,threeIndex) in two" :key="threeIndex" mode="aspectFill"
-										style="width: 100rpx;height: 100rpx;margin: 10rpx;"
-										@click="insertEmoji(one.base,one.name,three,one.format)"></image>
+									<image :src="one.base+one.slug+'_'+three+'.'+one.format" v-for="(three,key) in two"
+										:key="key" mode="aspectFill" style="width: 100rpx;height: 100rpx;margin: 10rpx;"
+										@click="insertEmoji(one.base,one.name,one.slug,three,one.format,key)"></image>
 								</u-row>
 							</swiper-item>
 						</swiper>
@@ -115,7 +116,7 @@
 					<u-row justify="space-between">
 						<text style="font-size: 32rpx;font-weight: bold;">允许评论</text>
 						<u-switch size="20" v-model="article.allowComment" activeColor="#a899e6"></u-switch>
-						
+
 					</u-row>
 				</view>
 			</view>
@@ -376,9 +377,21 @@
 			},
 			save() {
 				let article = this.article
+				if(article.title<4){
+					uni.$u.toast('标题太短')
+					return
+				}
+				if(article.text<10){
+					uni.$u.toast('再多写点吧~')
+					return
+				}
 				this.editorCtx.getContents({
 					success: res => {
-						article.text = res.html
+						article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)"[^>]*>/g, function(match,
+							alt) {
+							// 替换成_(提取的alt)_
+							return `_|#${alt}|`;
+						});
 					}
 				})
 				let tags = article.tags.map(tag => tag.mid).join(',')
@@ -407,48 +420,58 @@
 			},
 			formatEmoji() {
 				// 处理后的数据
-				let result = []
+				let result = [];
 
-				// 遍历原始数据中的每个item
+				// 每页表情对象的数量
+				const pageSize = 14;
+
+				// 遍历原始数据中的每个 item
 				this.$emoji.data.forEach(item => {
-
-					// 构建一个新的item对象
+					// 构建一个新的 item 对象
 					let newItem = {
 						"name": item.name,
+						"slug": item.slug,
 						"base": item.base,
 						"format": item.format,
 						"list": []
-					}
+					};
+					// 遍历原始数据中的每个子列表
+					let page = 1;
+					let pageList = {}; // 用于存储每一页的表情对象
+					Object.entries(item.list).forEach(([key, value]) => {
+						// 将表情对象添加到当前页的列表中
+						pageList[key] = value;
 
-					// 按14个一组对表情列表进行拆分
-					let subList = []
-					let count = 0
-					item.list.forEach(emoji => {
-						subList.push(emoji)
-						count++
-						if (count % 10 === 0) {
-							newItem.list.push(subList)
-							subList = []
+						// 如果达到一页的数量，将当前页列表添加到 newItem 的 list 中，重置页码和列表
+						if (Object.keys(pageList).length === pageSize) {
+							newItem.list.push(pageList);
+							page++;
+							pageList = {};
 						}
-					})
-					if (subList.length > 0) {
-						newItem.list.push(subList)
+					});
+
+					// 添加最后一页的表情对象，如果不为空的话
+					if (Object.keys(pageList).length > 0) {
+						newItem.list.push(pageList);
 					}
 
-					// 将新的item添加到结果数组中
-					result.push(newItem)
-				})
-				this.emojiData = result
+					// 将新的 item 添加到结果数组中
+					result.push(newItem);
+				});
+
+				this.emojiData = result;
+				console.log(this.emojiData);
 			},
-			insertEmoji(base, name, emoji, format) {
+			insertEmoji(base, name, slug, emoji, format, key) {
 				this.editorCtx.insertImage({
-					src: base + name + '_' + emoji + '.' + format,
-					alt: name + '_' + emoji + '.' + format,
+					src: base + slug + '_' + emoji + '.' + format,
+					alt: name + '_' + key,
 					width: '50px',
 					height: '50px',
 					data: {
-						name: name + '_',
-						emoji: emoji
+						name: name,
+						emoji: emoji,
+						format: format
 					},
 					success: res => {
 						this.editorCtx.insertText({
@@ -459,6 +482,14 @@
 			},
 			formatTool(type, value) {
 				this.editorCtx.format(type, value)
+			},
+			con() {
+				this.editorCtx.getContents({
+					success: res => {
+
+					}
+
+				})
 			},
 			onEditorReady() {
 				// #ifdef MP-BAIDU

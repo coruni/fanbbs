@@ -161,7 +161,7 @@
 
 		&__image {
 			&--circle {
-				border-radius: 100px;
+				border-radius: 50%;
 			}
 
 			&--square {

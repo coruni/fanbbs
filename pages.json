@@ -77,6 +77,15 @@
         	},
 			
 			"name":"article"
+        },
+        {
+        	"path" : "pages/user/avatarChange",
+        	"style" : 
+        	{
+        		"navigationBarTitleText" : "",
+        		"enablePullDownRefresh" : false
+        	},
+			"name":"avatarChange"
         }
     ],
 	"globalStyle": {
