@@ -316,7 +316,10 @@
 				})
 			},
 			replaceEmoji(html) {
-				return html.replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
+				return html.replace(
+					/<img.*?alt="src=([^"]+)\|poster=([^"]+)\|type=video".*?>/g, (match, src, poster) => {
+						return `<video src="${src}" poster="${poster}" muted width="100%" />`
+					}).replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
 					const emoji = this.$emoji.data.find(e => e.name === name)
 
 					if (emoji) {
@@ -326,11 +329,8 @@
 					// 如果没有找到,直接返回空字符串
 					// 即删除整个匹配文本
 					return ''
-				}).replace(/\|</g, '<').replace(/>\|/g, '>').replace(
-					/<img.*?alt="src=([^"]+)\|poster=([^"]+)\|type=video".*?>/g, (match, src, poster) => {
-						return `<video src="${src}" poster="${poster}" muted width="100%" />`
-					})
-				
+				}).replace(/\|</g, '<').replace(/>\|/g, '>')
+
 			},
 			changTab(data) {
 				console.log(data)
