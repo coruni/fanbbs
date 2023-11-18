@@ -262,6 +262,7 @@
 					if (res.statusCode == 200) {
 						this.article = res.data
 						this.article.text = this.replaceEmoji(res.data.text)
+						console.log(this.article.text)
 
 					}
 				})
@@ -329,7 +330,7 @@
 					/<img.*?alt="src=([^"]+)\|poster=([^"]+)\|type=video".*?>/g, (match, src, poster) => {
 						return `<video src="${src}" poster="${poster}" muted width="100%" />`
 					})
-				console.log(html)
+				
 			},
 			changTab(data) {
 				console.log(data)
