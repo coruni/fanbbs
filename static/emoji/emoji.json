@@ -3,7 +3,7 @@
 	"data": [{
 		"name": "猫蕾",
 		"slug": "Nyaru",
-		"base": "./static/emoji/nyaru/",
+		"base": "/static/emoji/nyaru/",
 		"format": "webp",
 		"list": {
 			"加油": "addoil",

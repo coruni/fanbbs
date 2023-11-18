@@ -69,7 +69,6 @@
 			<view v-if="showPanel" :style="{height:panelHeight+'px'}">
 				<!-- 表情 -->
 				<view v-show="itemName =='emoji'" style="height: 100%;">
-
 					<block v-for="(one,oneIndex) in emojiData" :key="oneIndex">
 						<swiper :style="{height:panelHeight-30+'px'}" v-show="emojiIndex == oneIndex">
 							<swiper-item v-for="(two,twoIndex) in one.list" :key="twoIndex">

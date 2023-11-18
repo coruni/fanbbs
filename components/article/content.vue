@@ -30,7 +30,7 @@
 				
 				  if (emoji) {
 				    const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
-				    return `<img src="${src}" style="width:60rpx;height:60rpx">`
+				    return `<img src=".${src}" style="width:60rpx;height:60rpx">`
 				  }
 				  // 如果没有找到,直接返回空字符串
 				  // 即删除整个匹配文本
