@@ -3,17 +3,17 @@
 		<view>
 			<text style="font-weight: bold;">{{data.title}}</text>
 		</view>
-		<u-row justify="center" class="u-light-color" customStyle="font-size:26rpx;margin:10rpx 0;">
-			<text>发布于:{{formatTime(data.created)}}</text>
+		<u-row justify="center" class="u-light-color" customStyle="margin:10rpx 0;">
+			<text style="font-size:26rpx;color: #c0c4cc;">发布于:{{formatTime(data.created)}}</text>
+			<text style="margin:0rpx 10rpx 0 10rpx;font-size:26rpx;color: #c0c4cc;">|</text>
 			<view v-if="data.created!=data.modified||data.modified!=null">
-				<text style="margin:0rpx 10rpx">|</text>
-				<text>最后更新:{{formatTime(data.modified)}}</text>
+				<text style="font-size:26rpx;color: #c0c4cc;">最后更新:{{formatTime(data.modified)}}</text>
 			</view>
 		</u-row>
 		<!-- 内容 overflow:unset防止抖动-->
 		<!-- <u-parse>组件错误更换为uv-parse -->
 		<uv-parse :show-img-menu="!isScroll" :content="data.text" lazyLoad selectable
-			:tag-style="{img:'border-radius:10rpx'}"
+			:tag-style="{img:'border-radius:10rpx',video:'border-radius:10px'}"
 			style="overflow: unset;white-space: normal;word-break: break-all"></uv-parse>
 	</view>
 </template>

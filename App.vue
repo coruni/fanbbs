@@ -35,7 +35,7 @@
 			},
 			login() {
 				let account = uni.getStorageSync('account')
-				if(!account) return;
+				if (!account) return;
 				this.$http.post('/typechoUsers/userLogin', {
 					params: JSON.stringify({
 						...account

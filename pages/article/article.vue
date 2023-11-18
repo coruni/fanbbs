@@ -11,7 +11,8 @@
 							</view>
 						</u-navbar>
 					</template>
-					<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
+					<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd"
+						@touchmove="touchMove">
 						<articleHeader :data="author"></articleHeader>
 						<articleContent :data="article" :autoPreview="isScroll"></articleContent>
 						<articleFooter :data="article"></articleFooter>
@@ -92,7 +93,7 @@
 		<!-- 页面公用组件 -->
 		<!-- 回复文章 -->
 		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20"
-			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
+			:customStyle="`padding:30rpx;padding-bottom:${keyboardHeight}px`">
 			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 				placeholder="灵感迸发" border="none"
 				customStyle="background:#f7f8f7;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
@@ -129,7 +130,7 @@
 			</u-row>
 			<u-row customStyle="margin-top:30rpx">
 				<u-col span="2" v-for="(item,manageIndex) in manage" :key="manageIndex" align="center"
-					customStyle="flex-direction:column" >
+					customStyle="flex-direction:column">
 					<view :style="{borderRadius:'50rpx',padding:'20rpx'}" class="u-info-light-bg">
 						<u-icon :name="item.icon" size="26"></u-icon>
 					</view>
@@ -324,8 +325,11 @@
 					// 如果没有找到,直接返回空字符串
 					// 即删除整个匹配文本
 					return ''
-
-				}).replace(/\|</g, '<').replace(/>\|/g, '>')
+				}).replace(/\|</g, '<').replace(/>\|/g, '>').replace(
+					/<img.*?alt="src=([^"]+)\|poster=([^"]+)\|type=video".*?>/g, (match, src, poster) => {
+						return `<video src="${src}" poster="${poster}" muted width="100%" />`
+					})
+				console.log(html)
 			},
 			changTab(data) {
 				console.log(data)

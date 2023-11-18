@@ -8,7 +8,6 @@
 						:src="data.authorInfo.opt&&data.authorInfo.opt.head_picture">
 					</image>
 				</view>
-
 				<text style="margin-left:20rpx"
 					:class="{'vipname':data.authorInfo.isvip}">{{data.authorInfo.name}}</text>
 			</u-row>

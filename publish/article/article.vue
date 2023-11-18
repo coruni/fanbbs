@@ -55,7 +55,7 @@
 						<u-icon name="photo" size="24" @click="chooseImage()"></u-icon>
 						<u-icon name="heart" size="24" @click="showItem('emoji')"></u-icon>
 						<u-icon name="arrow-up-fill" size="24" @click="showItem('format')"></u-icon>
-						<u-icon name="play-circle" size="24"></u-icon>
+						<u-icon name="play-circle" size="24" @click="chooseVideo()"></u-icon>
 						<u-icon name="plus-circle" size="24"></u-icon>
 					</u-row>
 					<view style="margin-left: 140rpx;">
@@ -64,6 +64,8 @@
 					</view>
 				</u-row>
 			</view>
+			<!-- 视频处理 -->
+			<view style="display: none;" :prop="videoPath" :change:prop="capture.captures"></view>
 			<view v-if="showPanel" :style="{height:panelHeight+'px'}">
 				<!-- 表情 -->
 				<view v-show="itemName =='emoji'" style="height: 100%;">
@@ -179,13 +181,48 @@
 				v-if="!uploadErr.status"></u-line-progress>
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 		</u-modal>
+		<uv-modal ref="chooseFrame" :showConfirmButton="false" :showCancelButton="false"
+			@close="$refs.chooseFrame.close();videoInfo.poster?'':videoInfo.poster = videoInfo.frame[0].url"
+			title="选择视频封面" :closeOnClickOverlay="true" :zIndex="50">
+			<view style="display: flex;flex-wrap: wrap;justify-content: center;flex: 1;">
+				<block v-for="(item,index) in videoInfo.frame" :key="index">
+					<view style="position: relative;top: 0;">
+						<image :src="item.url" mode="aspectFill"
+							style="width: 140rpx;height: 140rpx;margin: 10rpx;border-radius: 10rpx;"
+							@click="videoInfo.poster = item"></image>
+						<view
+							style="position: absolute;bottom:22rpx;right:8rpx;background-color: #fff;height:40rpx;width: 40rpx;text-align: center;border-radius: 10rpx 0 10rpx 0;">
+							<u-icon name="checkmark" color="#a899e6" size="18"
+								v-show="videoInfo.poster&&videoInfo.poster.url == item.url"></u-icon>
+						</view>
+					</view>
+				</block>
+				<u-button text="添加视频" color="#a899e6" shape="circle" @click="insertVideo()"></u-button>
+			</view>
+
+			<view slot="confirmButton"></view>
+		</uv-modal>
 	</view>
 </template>
 
 <script>
+	import {
+		base64ToPath
+	} from 'image-tools'
+	import upload from '../../uni_modules/uview-ui/libs/config/props/upload'
 	export default {
 		data() {
 			return {
+				videoPath: null,
+				VideoFrame: [],
+				videoInfo: {
+					frame: [],
+					width: 0,
+					height: 0,
+					url: null,
+					poster: null,
+				},
+				chooseFrame: false,
 				emojiData: [],
 				percentage: 30,
 				showLoading: false,
@@ -284,7 +321,7 @@
 					}
 				}).then(res => {
 					if (res.data.code) {
-						console.log(res)
+
 						for (let i in res.data.data) {
 							if (res.data.data[i].mid == 1) this.article.category = res.data.data[i];
 						}
@@ -301,7 +338,7 @@
 						order: 'count'
 					}
 				}).then(res => {
-					console.log(res)
+
 					if (res.data.code) {
 						this.tags = res.data.data
 
@@ -333,7 +370,7 @@
 					this.showLoading = true
 					for (let i in res.tempFilePaths) {
 						let image = await this.upload(res.tempFilePaths[i]);
-						count -= 1
+						count--
 						this.percentage += loading
 						this.editorCtx.insertImage({
 							src: image,
@@ -343,9 +380,7 @@
 					if (!count) {
 						setTimeout(() => {
 							this.showLoading = false;
-
 						}, 200)
-
 					}
 					// 图片插入完成插入换行
 					this.editorCtx.insertText({
@@ -354,6 +389,65 @@
 				} catch (error) {
 
 				}
+			},
+			// 选择视频
+			chooseVideo() {
+				// 重置进度条
+				this.percentage = 30;
+				uni.chooseVideo({
+					extension: ['mp4', 'avi', 'webm'],
+					success: (res) => {
+						this.videoPath = res.tempFilePath
+						this.videoInfo.width = res.width
+						this.videoInfo.height = res.width
+					}
+				})
+			},
+			async captureList({
+				list,
+				duration
+			}) {
+				this.videoInfo.frame = list
+				console.log(list)
+
+				//开始上传
+				this.showLoading = true
+				let video = await this.uploadFile(this.videoPath, 'video')
+				if (video) {
+					this.videoInfo.url = video
+					setTimeout(() => {
+						this.showLoading = false
+						this.$refs.chooseFrame.open()
+					}, 200)
+				}
+			},
+			preview(url, index) {
+				uni.previewImage({
+					urls: url[index].url
+				})
+			},
+			uploadFile(url, type) {
+				return new Promise((resolve, reject) => {
+					this.$http.upload('/upload/full', {
+						fileType: type, // 仅允许video/image/audio
+						filePath: url, //不支持多文件上传使用filePath
+						name: 'file',
+					}).then(res => {
+						console.log(res)
+						if (res.data.code) {
+							resolve(res.data.data.url)
+						} else {
+							this.uploadErr.status = true
+							this.uploadErr.msg = res.data.msg
+							uni.hideLoading()
+						}
+					}).catch(err => {
+						console.log(err)
+						this.uploadErr.status = true
+						this.uploadErr.msg = err.data.msg
+					})
+				})
+
 			},
 			upload(image) {
 				return new Promise((resolve, reject) => {
@@ -367,27 +461,29 @@
 						} else {
 							this.uploadErr.status = true
 							this.uploadErr.msg = res.data.msg
-
 						}
 					}).catch(err => {
 						console.log(err)
+						this.uploadErr.status = true
+						this.uploadErr.msg = res.data.msg
 					})
-
 				})
 			},
 			save() {
 				let article = this.article
-				if (article.title < 4) {
+				if (article.title.length < 4) {
 					uni.$u.toast('标题太短')
 					return
 				}
-				if (article.text < 10) {
-					uni.$u.toast('再多写点吧~')
-					return
-				}
+				// if (article.text.length < 10) {
+				// 	uni.$u.toast('再多写点吧~')
+				// 	return
+				// }
 				this.editorCtx.getContents({
 					success: res => {
-						article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)"[^>]*>/g, function(match,
+						console.log(res.html)
+						article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g, function(
+							match,
 							alt) {
 							// 替换成_(提取的alt)_
 							return `_|#${alt}|`;
@@ -460,12 +556,12 @@
 				});
 
 				this.emojiData = result;
-				console.log(this.emojiData);
+
 			},
 			insertEmoji(base, name, slug, emoji, format, key) {
 				this.editorCtx.insertImage({
 					src: base + slug + '_' + emoji + '.' + format,
-					alt: name + '_' + key,
+					alt: name + '_' + key + '_' + 'emoji',
 					width: '50px',
 					height: '50px',
 					data: {
@@ -480,6 +576,42 @@
 					}
 				})
 			},
+			base64ToPath(base64) {
+				return new Promise((resolve,reject)=>{
+					base64ToPath(base64).then(res => {
+						resolve(res)
+					})
+				})
+			},
+			async insertVideo() {
+				uni.showLoading({
+					title: '插入中...',
+				})
+				let file = await this.base64ToPath(this.videoInfo.poster.base64);
+				let poster = await this.uploadFile(file, 'image');
+				console.log(poster)
+				if (poster) {
+					this.editorCtx.insertImage({
+						src: poster,
+						alt: `src=${this.videoInfo.url}|poster=${poster}|type=video`,
+						width: '100%',
+						height: '200px',
+						data: {
+							type: 'video',
+							poster: poster,
+							src: this.videoInfo.url,
+						},
+						success: (res) => {
+							this.editorCtx.insertText({
+								text: '\n\n'
+							})
+							uni.hideLoading()
+							this.$refs.chooseFrame.close()
+						}
+					})
+				}
+			},
+
 			formatTool(type, value) {
 				this.editorCtx.format(type, value)
 			},
@@ -509,6 +641,77 @@
 		}
 	}
 </script>
+<script module="capture" lang="renderjs">
+	export default {
+		methods: {
+			async captures(videoPath) {
+				let duration = await this.getDuration(videoPath)
+				let list = []
+				for (let i = 0; i < 10; i++) {
+					const frame = await this.captureFrame(videoPath, duration / 1000 * i)
+					list.push(frame)
+				}
+				this.$ownerInstance.callMethod('captureList', {
+					list,
+					duration
+				})
+			},
+			getDuration(videoPath) {
+				return new Promise(resolve => {
+					const vdo = document.createElement('video')
+					vdo.src = videoPath
+					vdo.addEventListener('loadedmetadata', () => {
+						const duration = Math.floor(vdo.duration);
+						vdo.remove();
+						resolve(duration)
+					});
+				})
+			},
+			captureFrame(videoPath, time = 0) {
+				return new Promise((resolve) => {
+					const vdo = document.createElement('video')
+					// video元素没有加到dom上，video播放到currentTime（当前帧）结束
+					// 定格时间，截取帧
+					vdo.currentTime = time
+					// 设置自动播放，不播放是黑屏状态，截取不到帧画面
+					// 静音状态下允许自动播放
+					vdo.muted = true
+					vdo.autoplay = true
+					vdo.crossOrigin = 'anonymous'
+					vdo.src = videoPath
+					vdo.oncanplay = async () => {
+						const frame = await this.drawVideo(vdo)
+						resolve(frame)
+					}
+				})
+			},
+			drawVideo(vdo) {
+				return new Promise((resolve) => {
+					const cvs = document.createElement('canvas')
+					const ctx = cvs.getContext('2d')
+					cvs.width = vdo.videoWidth
+					cvs.height = vdo.videoHeight
+					ctx.drawImage(vdo, 0, 0, cvs.width, cvs.height)
+
+					// 创建blob对象
+					cvs.toBlob((blob) => {
+						var reader = new FileReader();
+						reader.readAsDataURL(blob);
+						reader.onload = function(e) {
+							resolve({
+								blob,
+								base64: e.target.result,
+								url: URL.createObjectURL(blob),
+							})
+						}
+
+					})
+				})
+			},
+		}
+	}
+</script>
+
 
 <style>
 	page {
