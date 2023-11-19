@@ -191,7 +191,10 @@
 					this.$http.post('/typechoUsers/SendCode', {
 						params: JSON.stringify({
 							name: this.account
-						})
+						}),
+						custom: {
+							pass: true
+						}
 					}).then(res => {
 						this.$refs.uCode1.start();
 					})
@@ -207,7 +210,10 @@
 						name: this.account,
 						password: this.password,
 						code: this.code
-					})
+					}),
+					custom: {
+						pass: true
+					}
 				}).then(res => {
 					if (res.data.code) {
 						uni.$u.toast('已重置密码，即将自动登录')
@@ -234,7 +240,10 @@
 					params: JSON.stringify({
 						name: this.account,
 						password: this.password
-					})
+					}),
+					custom: {
+						pass: true
+					}
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
@@ -298,7 +307,10 @@
 						password: this.password,
 						mail: this.email,
 						code: this.code,
-					})
+					}),
+					custom: {
+						pass: true
+					}
 				}).then(res => {
 					if (res.data.code) {
 						uni.$u.toast(res.data.msg + '即将自动登录')
@@ -314,7 +326,10 @@
 					this.$http.post('/typechoUsers/RegSendCode', {
 						params: JSON.stringify({
 							mail: this.email
-						})
+						}),
+						custom: {
+							pass: true
+						}
 					}).then(res => {
 						if (res.statusCode == 200) {
 							uni.$u.toast(res.data.msg)
@@ -331,7 +346,10 @@
 						name: this.account,
 						password: this.password,
 						code: this.code,
-					})
+					}),
+					custom: {
+						pass: true
+					}
 				})
 			},
 			start() {

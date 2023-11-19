@@ -22,7 +22,10 @@ http.interceptors.request.use((config) => {
 	config.header = {
 		...config.header,
 	}
-	if (!store.state.hasLogin && config.method == 'POST' && config.url != '/typechoUsers/userLogin') {
+	let whiteList = ['/typechoUsers/userRegister', '/typechoUsers/userLogin', '/typechoUsers/SendCode',
+		'/typechoUsers/RegSendCode', '/typechoUsers/userFoget'
+	]
+	if (!store.state.hasLogin && config.method == 'POST' && whiteList.indexOf(config.url) == -1) {
 		router.push({
 			path: '/pages/user/login',
 			animationType: 'slide-in-bottom',
