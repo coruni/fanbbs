@@ -9,7 +9,7 @@
 				<u-row>
 					<u-button plain color="#a899e6" size="mini">草稿箱</u-button>
 					<u-button plain color="#a899e6" size="mini" customStyle="font-size:30rpx;margin-left:20rpx"
-						@click="save()">发布</u-button>
+						@click="$u.throttle(save(),1000,true)">发布</u-button>
 				</u-row>
 			</view>
 		</u-navbar>
@@ -181,8 +181,8 @@
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 		</u-modal>
 		<uv-modal ref="chooseFrame" :showConfirmButton="false" :showCancelButton="false"
-			@close="videoInfo.poster?'':videoInfo.poster = videoInfo.frame[0].url"
-			title="选择视频封面" :closeOnClickOverlay="true" :zIndex="50">
+			@close="videoInfo.poster?'':videoInfo.poster = videoInfo.frame[0].url" title="选择视频封面"
+			:closeOnClickOverlay="true" :zIndex="50">
 			<view style="display: flex;flex-wrap: wrap;justify-content: center;flex: 1;">
 				<block v-for="(item,index) in videoInfo.frame" :key="index">
 					<view style="position: relative;top: 0;">
@@ -199,6 +199,10 @@
 				<u-button text="添加视频" color="#a899e6" shape="circle" @click="insertVideo()"></u-button>
 			</view>
 
+			<view slot="confirmButton"></view>
+		</uv-modal>
+		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false" width="300rpx">
+			<uv-loading-icon text="发布中..." mode="circle" color="#a899e6"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
 	</view>
@@ -469,40 +473,50 @@
 				})
 			},
 			save() {
-				let article = this.article
-				if (article.title < 4) {
+
+				if (this.article.title < 4) {
 					uni.$u.toast('标题太短')
 					return
 				}
-				// if (article.text.length < 10) {
-				// 	uni.$u.toast('再多写点吧~')
-				// 	return
-				// }
 				this.editorCtx.getContents({
 					success: res => {
-						console.log(res.html)
-						article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g, function(
-							match,
-							alt) {
-							// 替换成_(提取的alt)_
-							return `_|#${alt}|`;
-						});
+						this.article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
+							function(
+								match,
+								alt) {
+								// 替换成_(提取的alt)_
+								return `_|#${alt}|`;
+							});
 					}
 				})
-				let tags = article.tags.map(tag => tag.mid).join(',')
-				console.log(tags)
+				if (this.article.text < 10) {
+					uni.$u.toast('再多写点吧~')
+					return
+				}
+				this.$refs.publish.open()
+				let tags = this.article.tags.map(tag => tag.mid).join(',')
 				this.$http.post('/typechoContents/contentsAdd', {
 					params: JSON.stringify({
-						title: article.title,
-						text: article.text,
-						category: article.category.mid,
+						title: this.article.title,
+						text: this.article.text,
+						category: this.article.category.mid,
 						tag: tags,
-						opt: JSON.stringify(article.opt),
+						opt: JSON.stringify(this.article.opt),
 					}),
-					text: article.text,
+					text: this.article.text,
 				}).then(res => {
-					console.log(res)
-					uni.$u.toast(res.data.msg)
+					if (res.data.code) {
+						setTimeout(() => {
+							this.$refs.publish.close()
+							uni.$u.toast(res.data.msg)
+							setTimeout(()=>{
+								this.$Router.back(1)
+							},800)
+							
+						}, 1500)
+					} else {
+						this.$refs.publish.close()
+					}
 				})
 			},
 			showItem(item) {
@@ -577,7 +591,7 @@
 				})
 			},
 			formatImage(base64) {
-				return new Promise((resolve,reject)=>{
+				return new Promise((resolve, reject) => {
 					base64ToPath(base64).then(res => {
 						resolve(res)
 					})
@@ -586,6 +600,7 @@
 			async insertVideo() {
 				uni.showLoading({
 					title: '插入中...',
+					mask: true
 				})
 				let file = await this.formatImage(this.videoInfo.poster.base64);
 				let poster = await this.uploadFile(file, 'image');
