@@ -1,7 +1,30 @@
 <template>
 	<view>
+		<u-gap height="30"></u-gap>
 		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false" :fixed="false"
-			height="75vh" :auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
+			height="70vh" :auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
+			<u-row align="top" customStyle="padding:30rpx;padding-top:0">
+				<u-avatar :src="data.userJson.avatar" size="30"></u-avatar>
+				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
+					<u-row justify="space-between">
+						<text :style="{color:data.userJson.isvip?'#a899e6':''}">{{data.userJson.name}}</text>
+					</u-row>
+					<view style="margin-top:10rpx;word-break: break-word;">
+						<u-parse :content="data.text"></u-parse>
+					</view>
+					<u-album :urls="data.pic.images" borderRadius="10" multiple-size="90"></u-album>
+					<u-gap height="6"></u-gap>
+					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
+						<text>{{data.created | date}}</text>
+						<u-row customStyle="flex-basis:25%" justify="space-between">
+							<u-icon name="thumb-up" color="#aaa" :label="1" size="20" labelColor="#aaa"
+								label-size="12"></u-icon>
+							<u-icon name="thumb-down" color="#aaa" size="20" labelColor="#aaa" label-size="12"></u-icon>
+						</u-row>
+					</u-row>
+				</view>
+			</u-row>
+			<u-gap height="8" bgColor="#f4f4f4"></u-gap>
 			<!-- 评论开始 -->
 			<block v-for="(item,index) in comments" :key="index">
 				<u-row align="top" customStyle="padding:20rpx">
@@ -142,7 +165,7 @@
 				if (!status) this.pid = pid;
 				this.showComment = true
 			},
-			
+
 			reply() {
 				if (this.commentText.length < 4) {
 					uni.$u.toast('再多说点吧~')
@@ -161,10 +184,10 @@
 						uni.$u.toast('已发送~')
 						this.commentText = null
 						this.showComment = false
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.$refs.paging.reload()
-						},500)
-						
+						}, 500)
+
 					} else {
 						uni.$u.toast(res.data.msg)
 					}

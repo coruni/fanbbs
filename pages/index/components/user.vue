@@ -84,19 +84,19 @@
 			</view>
 			<view style="position: relative;top: -50rpx;background: #fff;border-radius: 40rpx 40rpx 0 0;">
 				<view style="padding: 30rpx 30rpx 0 30rpx;" id="scrolllist">
-					<u-scroll-list indicatorActiveColor="#a899e6" :indicator="false">
+					<uv-scroll-list indicatorActiveColor="#a899e6" :indicator="false">
 						<block v-for="(item,index) in scrollList" :key="index">
 							<u-row justify="start" align="top"
 								customStyle="flex-direction:column;margin-right:20rpx;background: #f4f4f4;border-radius: 20rpx;padding:20rpx">
 								<u-row>
-									<u-icon :name="item.icon"></u-icon>
+									<u-icon :name="item.icon" color="#a899e6"></u-icon>
 									<text
 										style="font-size: 28rpx;font-weight: bold;margin-left: 10rpx;">{{item.name}}</text>
 								</u-row>
 								<text style="font-size: 22rpx;color: #999;">{{item.description}}</text>
 							</u-row>
 						</block>
-					</u-scroll-list>
+					</uv-scroll-list>
 				</view>
 				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->

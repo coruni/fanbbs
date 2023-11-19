@@ -56,7 +56,7 @@
 						<u-icon name="heart" size="24" @click="showItem('emoji')"></u-icon>
 						<u-icon name="arrow-up-fill" size="24" @click="showItem('format')"></u-icon>
 						<u-icon name="play-circle" size="24" @click="chooseVideo()"></u-icon>
-						<u-icon name="plus-circle" size="24"></u-icon>
+						<u-icon name="plus-circle" size="24" @click="showItem('more')"></u-icon>
 					</u-row>
 					<view style="margin-left: 140rpx;">
 						<u-icon name="setting-fill" size="20" color="#a899e6" @click="showItem('opt')"
@@ -104,6 +104,38 @@
 						<text @click="editorCtx.undo()">撤销</text>
 					</u-row>
 				</view>
+
+				<!-- 更多 -->
+				<view v-show="itemName=='more'">
+					<u-row justify="space-between">
+						<text style="font-weight: bold;">添加文件</text>
+					</u-row>
+
+					<block v-for="(item,index) in article.opt.files" :key="index">
+						<u-row customStyle="margin-bottom:10rpx">
+							<u-col span="7">
+								<u-input placeholder="资源链接" border="none" font-size="12"
+									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
+									v-model="article.opt.files[index].link"></u-input>
+							</u-col>
+							<u-col span="2" customStyle="margin-left:10rpx">
+								<u-input placeholder="提取码" border="none" font-size="12"
+									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
+									v-model="article.opt.files[index].password"></u-input>
+							</u-col>
+							<u-col span="2" customStyle="margin-left:5rpx">
+								<u-input placeholder="解压密码" border="none" font-size="12"
+									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
+									v-model="article.opt.files[index].unzipPass"></u-input>
+							</u-col>
+							<u-col span="1" customStyle="margin-left:10rpx">
+								<u-icon :name="article.opt.files.length>=2?'minus-circle':'plus-circle'" size="20"
+									color="#a899e6" @click="addFile(index)"></u-icon>
+							</u-col>
+						</u-row>
+					</block>
+				</view>
+
 				<!-- 设置 -->
 				<view v-show="itemName=='opt'">
 					<u-row justify="space-between">
@@ -201,7 +233,8 @@
 
 			<view slot="confirmButton"></view>
 		</uv-modal>
-		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false" width="300rpx">
+		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false"
+			width="300rpx">
 			<uv-loading-icon text="发布中..." mode="circle" color="#a899e6"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
@@ -270,7 +303,7 @@
 					allowComment: true,
 					opt: {
 						create: false,
-						files: [],
+						files: [{}],
 						// files:
 						// name: null,  //名称
 						// link: null,  //连接
@@ -308,8 +341,8 @@
 			this.formatEmoji()
 			this.initData()
 		},
-		beforeRouteLeave(to, from, next){
-			
+		beforeRouteLeave(to, from, next) {
+
 			next()
 		},
 		methods: {
@@ -513,10 +546,10 @@
 						setTimeout(() => {
 							this.$refs.publish.close()
 							uni.$u.toast(res.data.msg)
-							setTimeout(()=>{
+							setTimeout(() => {
 								this.$Router.back(1)
-							},800)
-							
+							}, 800)
+
 						}, 1500)
 					} else {
 						this.$refs.publish.close()
@@ -655,7 +688,16 @@
 			},
 			statuschange(event) {
 				this.formatStatus = event.detail
-			}
+			},
+			addFile(index) {
+				if (this.article.opt.files.length < 2) {
+					// 如果数组长度小于2，执行添加操作
+					this.article.opt.files.push({});
+				} else {
+					// 否则，执行删除操作
+					this.article.opt.files.splice(index, 1);
+				}
+			},
 		}
 	}
 </script>
