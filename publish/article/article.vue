@@ -181,7 +181,7 @@
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 		</u-modal>
 		<uv-modal ref="chooseFrame" :showConfirmButton="false" :showCancelButton="false"
-			@close="$refs.chooseFrame.close();videoInfo.poster?'':videoInfo.poster = videoInfo.frame[0].url"
+			@close="videoInfo.poster?'':videoInfo.poster = videoInfo.frame[0].url"
 			title="选择视频封面" :closeOnClickOverlay="true" :zIndex="50">
 			<view style="display: flex;flex-wrap: wrap;justify-content: center;flex: 1;">
 				<block v-for="(item,index) in videoInfo.frame" :key="index">
@@ -470,7 +470,7 @@
 			},
 			save() {
 				let article = this.article
-				if (article.title.length < 4) {
+				if (article.title < 4) {
 					uni.$u.toast('标题太短')
 					return
 				}
@@ -498,7 +498,8 @@
 						category: article.category.mid,
 						tag: tags,
 						opt: JSON.stringify(article.opt),
-					})
+					}),
+					text: article.text,
 				}).then(res => {
 					console.log(res)
 					uni.$u.toast(res.data.msg)
@@ -575,7 +576,7 @@
 					}
 				})
 			},
-			base64ToPath(base64) {
+			formatImage(base64) {
 				return new Promise((resolve,reject)=>{
 					base64ToPath(base64).then(res => {
 						resolve(res)
@@ -586,7 +587,7 @@
 				uni.showLoading({
 					title: '插入中...',
 				})
-				let file = await this.base64ToPath(this.videoInfo.poster.base64);
+				let file = await this.formatImage(this.videoInfo.poster.base64);
 				let poster = await this.uploadFile(file, 'image');
 				console.log(poster)
 				if (poster) {
@@ -635,7 +636,6 @@
 			},
 			statuschange(event) {
 				this.formatStatus = event.detail
-				console.log(event)
 			}
 		}
 	}

@@ -262,8 +262,6 @@
 					if (res.statusCode == 200) {
 						this.article = res.data
 						this.article.text = this.replaceEmoji(res.data.text)
-						console.log(this.article.text)
-
 					}
 				})
 			},
@@ -317,11 +315,10 @@
 			},
 			replaceEmoji(html) {
 				return html.replace(
-					/<img.*?alt="src=([^"]+)\|poster=([^"]+)\|type=video".*?>/g, (match, src, poster) => {
+					/<img[^>]*?alt="src=([^"]+)\|poster=([^"]+)\|type=video"[^>]*?>/g, (match, src, poster) => {
 						return `<video src="${src}" poster="${poster}" muted width="100%" />`
 					}).replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
 					const emoji = this.$emoji.data.find(e => e.name === name)
-
 					if (emoji) {
 						const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
 						return `<img src="${src}" style="width:100rpx;height:100rpx">`
