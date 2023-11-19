@@ -5,7 +5,8 @@
 			<u-row align="top" customStyle="padding:30rpx">
 				<view style="position: relative;">
 					<u-avatar :src="data.avatar" size="30" @click="goProfile(data.authorId)"></u-avatar>
-					<image class="avatar_head" mode="aspectFill" :src="data.opt&&data.opt.head_picture">
+					<image class="avatar_head" mode="aspectFill"
+						:src="data.opt&&data.opt.headStatus&&data.opt.head_picture">
 					</image>
 				</view>
 				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
@@ -44,7 +45,8 @@
 							<u-row align="top">
 								<view style="position: relative;">
 									<u-avatar :src="item.avatar" size="30" @click="goProfile(item.authorId)"></u-avatar>
-									<image class="avatar_head" mode="aspectFill" :src="item.opt&&item.opt.head_picture">
+									<image class="avatar_head" mode="aspectFill"
+										:src="item.opt&&item.opt.headStatus&&item.opt.head_picture">
 									</image>
 								</view>
 
@@ -182,7 +184,7 @@
 							type: 'comment',
 							allparent: this.data.coid,
 						}),
-						order:'created asc'
+						order: 'created asc'
 					}
 				}).then(res => {
 					console.log(res)

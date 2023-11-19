@@ -40,7 +40,6 @@
 		created() {
 			if (this.$store.state.hasLogin) {
 				this.info = uni.getStorageSync('user')
-				console.log(this.info)
 			}
 		},
 		methods: {

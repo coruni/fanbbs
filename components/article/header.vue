@@ -4,7 +4,8 @@
 			<u-row>
 				<view style="position: relative;" @tap.stop.prevent="goProfile(data.authorId)">
 					<u-avatar :src="data.authorInfo.avatar" size="34"></u-avatar>
-					<image class="avatar_head" mode="aspectFill" :src="data.authorInfo.opt && data.authorInfo.opt.head_picture">
+					<image class="avatar_head" mode="aspectFill"
+						:src="data.authorInfo.opt && data.authorInfo.opt.headStatus && data.authorInfo.opt.head_picture">
 					</image>
 				</view>
 				<view style="display: flex;flex-direction: column;margin-left:20rpx">
@@ -32,6 +33,7 @@
 
 			}
 		},
+		created() {},
 		methods: {
 			goArticle(data) {
 				uni.setStorageSync(`article_${data.cid}`, data)

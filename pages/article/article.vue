@@ -47,7 +47,7 @@
 						</block>
 					</view>
 					<template #bottom>
-						<u-row customStyle="margin:20rpx" justify="space-between">
+						<u-row customStyle="padding-top:10rpx;padding:20rpx" justify="space-between">
 							<u-col span="6">
 								<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;"
 									class="u-info-light-bg u-info" @click="showComment = true">
@@ -58,16 +58,18 @@
 							<u-col span="5">
 								<u-row customStyle="margin-left:20rpx;flex:1" justify="space-around">
 									<view style="display: flex; flex-direction: column;align-items: center;">
-										<u-icon name="rmb-circle" size="18"></u-icon>
+										<u-icon name="rmb-circle" size="20"></u-icon>
 										<u-text text="发电" size="12"></u-text>
 									</view>
 									<view style="display: flex; flex-direction: column;align-items: center;">
-										<u-icon name="star" size="20"></u-icon>
+										<u-icon :color="article && article.isMark?'#a899e6':''" name="star"
+											size="22"></u-icon>
 										<u-text text="收藏" size="12"></u-text>
 									</view>
 
 									<view style="display: flex; flex-direction: column;align-items: center;">
-										<u-icon name="thumb-up" size="20"></u-icon>
+										<u-icon :color="article && article.isLike?'#a899e6':''" name="thumb-up"
+											size="22"></u-icon>
 										<u-text text="点赞" size="12"></u-text>
 									</view>
 								</u-row>
@@ -238,10 +240,19 @@
 				this.loading = false
 			}, 700)
 		},
-		beforeCreate() {
-
+		beforeRouteLeave(to, from, next) {
+			console.log(to)
+		    if (this.showComment || this.showMore || this.showSub) {
+		        this.showComment = false;
+		        this.showSub = false;
+		        this.showMore = false;
+				next(false)
+				this.$Router.$lockStatus =false
+		    }else{
+				next();
+			}
+		    
 		},
-
 		created() {
 			uni.onKeyboardHeightChange(data => {
 				console.log(data)
@@ -256,9 +267,11 @@
 				this.$http.get('/typechoContents/contentsInfo', {
 					params: {
 						key: id,
-						isMd: 1
+						isMd: 1,
+						uid: this.$store.state.hasLogin ? this.$store.state.userInfo.uid : '',
 					}
 				}).then(res => {
+					console.log(res)
 					if (res.statusCode == 200) {
 						this.article = res.data
 						this.article.text = this.replaceEmoji(res.data.text)

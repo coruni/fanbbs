@@ -27,8 +27,9 @@
 						<u-avatar :src="userInfo.avatar" size="70" customStyle="border:6rpx solid #fff"
 							@click="$store.state.hasLogin?goPage('avatarChange'):goLogin()">
 						</u-avatar>
-						<image class="avatar_head" mode="aspectFill" :src="userInfo.opt&&userInfo.opt.head_picture"
-							v-if="userInfo&&$store.state.hasLogin"></image>
+						<image class="avatar_head" mode="aspectFill"
+							:src="userInfo.opt && userInfo.opt.headStatus && userInfo.opt.head_picture"
+							v-if="userInfo && $store.state.hasLogin"></image>
 					</view>
 
 					<!-- 已登录 -->
@@ -37,7 +38,7 @@
 							<text style="color: white;font-weight: bold;">{{userInfo.screenName}}</text>
 							<u-icon name="edit-pen" color="white" customStyle="margin-left:10rpx"></u-icon>
 						</u-row>
-						
+
 						<view style="font-size: 26rpx;display: flex;flex-direction: column;color: white;">
 							<text>通行证ID: {{userInfo.uid}}</text>
 							<text class="u-line-2">{{userInfo.introduce}}</text>
@@ -48,8 +49,7 @@
 									:customStyle="{background:userInfo.sex&&userInfo.sex=='男'?'#85e0ffc4':'#FB7299c4',padding:'8rpx 12rpx',color:'white',borderRadius:10+'rpx'}">
 									<u-icon :name="userInfo&&userInfo.sex=='男'?'man':'woman'" size="14"
 										color="white"></u-icon>
-									<text
-										style="font-size: 24rpx;">{{userInfo&&userInfo.sex=='男'?'男':'女'}}</text>
+									<text style="font-size: 24rpx;">{{userInfo&&userInfo.sex=='男'?'男':'女'}}</text>
 								</u-row>
 								<u-row
 									customStyle="margin-left:20rpx;background:#ffffff4c;padding:8rpx 12rpx;color:white;border-radius:10rpx">
@@ -292,18 +292,18 @@
 		onReady() {},
 		methods: {
 			onRefresh() {
-				if(this.$store.state.hasLogin){
+				if (this.$store.state.hasLogin) {
 					this.$refs.publish.reload()
 					this.$refs.comment.reload()
 					// this.$refs.collect.reload()
 					this.getUserInfo()
 					this.getUserMeta()
-					
+
 				}
 				setTimeout(() => {
 					this.$refs.paging.complete()
 				}, 1000)
-				
+
 			},
 			getUserInfo() {
 				if (!uni.getStorageSync('token')) return;

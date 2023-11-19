@@ -12,7 +12,11 @@
 						">#{{data.tag[0].name}}</text>
 				</view>
 			</u-row>
-			<u-avatar :src="data.authorInfo.avatar" size="26" v-else></u-avatar>
+			<view v-else style="position: relative;top: 0;">
+				<u-avatar :src="data.authorInfo.avatar" size="26" ></u-avatar>
+				
+			</view>
+			
 			<u-row>
 				<u-icon name="thumb-up" size="24" color="#999"></u-icon>
 				<text style="color: #999;">{{data.likes}}</text>
