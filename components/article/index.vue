@@ -81,7 +81,6 @@
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {
-						console.log(res)
 						this.$refs.paging.complete(res.data.data);
 						this.is_loaded = true
 					}

@@ -242,10 +242,11 @@
 		},
 		beforeRouteLeave(to, from, next) {
 			console.log(to)
-		    if (this.showComment || this.showMore || this.showSub) {
+		    if (this.showComment || this.showMore || this.showSub ||this.swiperIndex) {
 		        this.showComment = false;
 		        this.showSub = false;
 		        this.showMore = false;
+				this.swiperIndex = 0;
 				next(false)
 				this.$Router.$lockStatus =false
 		    }else{

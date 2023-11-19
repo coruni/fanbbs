@@ -95,6 +95,9 @@
 					}
 				})
 			},
+			reload(){
+				this.$refs.paging.reload()
+			},
 			goShare(data) {
 				console.log('getData')
 			}
