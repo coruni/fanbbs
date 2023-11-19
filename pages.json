@@ -5,89 +5,80 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		}, {
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/profile/profile",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"perm": "login"
+
+		}, {
+			"path": "pages/article/article",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/user/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/common/category/category",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"name": "categoryList"
+		},
+		{
+			"path": "pages/user/editProfile",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"name": "editUser",
+			"perm": "login"
+		},
+		{
+			"path": "pages/article/circle",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "publish/article/article",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+
+			},
+			"name": "article",
+			"perm": "login"
+		},
+		{
+			"path": "pages/user/avatarChange",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"name": "avatarChange",
+			"perm": "login"
 		}
-	    ,{
-            "path" : "pages/index/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/profile/profile",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/article/article",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        },
-        {
-        	"path" : "pages/user/login",
-        	"style" : 
-        	{
-        		"navigationBarTitleText" : "",
-        		"enablePullDownRefresh" : false
-        	}
-        },
-        {
-        	"path" : "pages/common/category/category",
-        	"style" : 
-        	{
-        		"navigationBarTitleText" : "",
-        		"enablePullDownRefresh" : false
-        	},
-			"name":"categoryList"
-        },
-        {
-        	"path" : "pages/user/editProfile",
-        	"style" : 
-        	{
-        		"navigationBarTitleText" : "",
-        		"enablePullDownRefresh" : false
-        	},
-			"name":"editUser"
-        },
-        {
-        	"path" : "pages/article/circle",
-        	"style" : 
-        	{
-        		"navigationBarTitleText" : "",
-        		"enablePullDownRefresh" : false
-        	}
-        },
-        {
-        	"path" : "publish/article/article",
-        	"style" : 
-        	{
-        		"navigationBarTitleText" : "",
-        		"enablePullDownRefresh" : false
-				
-        	},
-			
-			"name":"article"
-        },
-        {
-        	"path" : "pages/user/avatarChange",
-        	"style" : 
-        	{
-        		"navigationBarTitleText" : "",
-        		"enablePullDownRefresh" : false
-        	},
-			"name":"avatarChange"
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -100,14 +91,12 @@
 		}
 	},
 	"uniIdRouter": {},
-	"condition" : { //模式配置，仅开发期间生效
+	"condition": { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [
-			{
-				"name": "", //模式名称
-				"path": "", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
-			}
-		]
+		"list": [{
+			"name": "", //模式名称
+			"path": "", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到
+		}]
 	}
 }

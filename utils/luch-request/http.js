@@ -22,7 +22,14 @@ http.interceptors.request.use((config) => {
 	config.header = {
 		...config.header,
 	}
-	if (store.state.token && config.method!='GET') config.params.token = store.state.token;
+	if (!store.state.hasLogin && config.method == 'POST' && config.url != '/typechoUsers/userLogin') {
+		router.push({
+			path: '/pages/user/login',
+			animationType: 'slide-in-bottom',
+			animationDuration: 500
+		})
+	}
+	if (store.state.token && config.method != 'GET') config.params.token = store.state.token;
 
 	return config
 }, (config) => {

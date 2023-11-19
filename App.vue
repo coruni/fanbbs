@@ -46,7 +46,6 @@
 						this.setToken(res.data.data.token);
 						this.getUserInfo(res.data.data.uid);
 						this.getUserMeta()
-						uni.$u.toast('已连接主程序')
 						uni.$emit('login', true)
 						setTimeout(() => {
 							this.$Router.back(1)
