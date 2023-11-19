@@ -308,6 +308,10 @@
 			this.formatEmoji()
 			this.initData()
 		},
+		beforeRouteLeave(to, from, next){
+			
+			next()
+		},
 		methods: {
 			initData() {
 				this.getCategory()

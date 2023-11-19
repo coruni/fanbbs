@@ -39,7 +39,8 @@
 		},
 		created() {
 			if (this.$store.state.hasLogin) {
-				this.info = this.$store.state.userInfo
+				this.info = uni.getStorageSync('user')
+				console.log(this.info)
 			}
 		},
 		methods: {
@@ -58,7 +59,6 @@
 					name: 'file'
 				}).then(res => {
 					if (res.data.code) {
-						console.log(res.data.msg)
 						this.save(res.data.data.url)
 					} else {
 						this.isError.status = true
@@ -77,17 +77,18 @@
 						avatar: url,
 					})
 				}).then(res => {
+					console.log(res)
 					if (res.data.code) {
-						uni.$u.toast('资料已更新')
 						this.getUserInfo()
+						uni.$u.toast('资料已更新')
 					}
 				}).catch(err => {
+					console.log(err)
 					this.isError.status = true
 					this.isError.msg = res.data.msg
 				})
 			},
 			getUserInfo() {
-				if (!uni.getStorageSync('token')) return;
 				this.$http.get('/typechoUsers/userInfo', {
 					params: {
 						key: this.info.uid
@@ -96,9 +97,11 @@
 					if (res.data.code) {
 						this.$store.commit('setUser', res.data.data)
 						this.showLoading = false
+						resolve(true)
 					} else {
 						this.isError.status = true
 						this.isError.msg = res.data.msg
+						reject()
 					}
 				}).catch(err => {})
 			},

@@ -61,6 +61,25 @@
 					console.log(err)
 				})
 			},
+			getUserInfo(uid) {
+				this.$http.get('/typechoUsers/userInfo', {
+					params: {
+						key: uid
+					}
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						this.setUser(res.data.data);
+					}
+				})
+			},
+			getUserMeta() {
+				this.$http.post('/typechoUsers/userData').then(res => {
+					if (res.data.code) {
+						this.setUserMeta(res.data.data)
+					}
+				})
+			},
 		}
 	}
 </script>
