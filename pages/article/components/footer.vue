@@ -17,20 +17,17 @@
 		</u-row>
 		<view>
 			<block v-for="(item,index) in data.opt.files" :key="index">
-				<u-row justify="space-between">
-					<u-col span="7">
-						<u-row customStyle="background: #f7f7f7;border-radius: 10rpx;padding: 7rpx;">
-							<u-icon name="download" size="18"></u-icon>
-							<text>{{item.link}}</text>
-						</u-row>
-					</u-col>
+				<u-row justify="space-between" customStyle="margin-bottom:10rpx">
+					<u-row customStyle="background: #f7f7f7;border-radius: 10rpx;height:60rpx;flex:1"
+						@click="openUrl(item.link,'提取码',item.password)">
+						<u-icon name="download" size="18"></u-icon>
+						<text class="u-line-1">{{item.link}}</text>
+					</u-row>
 					<view>
-						<text
-							style="background: #f7f7f7;font-size: 30rpx;'border-radius: 10rpx;padding: 10rpx;">提取码</text>
-						<text
-							style="background: #f7f7f7;font-size: 30rpx;border-radius: 10rpx;padding: 10rpx;margin-left: 10rpx;">解压码</text>
+						<u-button plain
+							customStyle="height:60rpx;width:auto;font-size:30rpx;border-radius:10rpx;margin-left:20rpx"
+							color="#a899e6" @click="copy(item.unzipPass,'解压码')">解压码</u-button>
 					</view>
-
 
 				</u-row>
 			</block>
@@ -45,11 +42,34 @@
 			data: {
 				type: Object,
 				default: null,
+
 			}
 		},
 		data() {
 			return {
 
+			}
+		},
+		created() {
+
+		},
+		methods: {
+			openUrl(url, name, data) {
+				setTimeout(() => {
+					plus.runtime.openURL(url)
+				}, 500)
+				if (data) {
+					this.copy(data, name)
+				}
+			},
+			copy(data, name) {
+				uni.setClipboardData({
+					data: data,
+					showToast: false,
+					success: (res) => {
+						uni.$u.toast(name + '已复制')
+					}
+				})
 			}
 		}
 	}

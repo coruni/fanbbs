@@ -5,8 +5,9 @@
 		</view>
 		<u-row justify="center" class="u-light-color" customStyle="margin:10rpx 0;">
 			<text style="font-size:26rpx;color: #c0c4cc;">发布于:{{formatTime(data.created)}}</text>
-			<text style="margin:0rpx 10rpx 0 10rpx;font-size:26rpx;color: #c0c4cc;">|</text>
-			<view v-if="data.created!=data.modified||data.modified!=null">
+
+			<view v-if="data.created!=data.modified">
+				<text style="margin:0rpx 10rpx 0 10rpx;font-size:26rpx;color: #c0c4cc;">|</text>
 				<text style="font-size:26rpx;color: #c0c4cc;">最后更新:{{formatTime(data.modified)}}</text>
 			</view>
 		</u-row>
