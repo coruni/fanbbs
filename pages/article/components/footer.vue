@@ -15,7 +15,7 @@
 				</block>
 			</u-row>
 		</u-row>
-		<view>
+		<view v-if="data.opt&&data.opt.files">
 			<block v-for="(item,index) in data.opt.files" :key="index">
 				<u-row justify="space-between" customStyle="margin-bottom:10rpx">
 					<u-row customStyle="background: #f7f7f7;border-radius: 10rpx;height:60rpx;flex:1"
@@ -28,7 +28,6 @@
 							customStyle="height:60rpx;width:auto;font-size:30rpx;border-radius:10rpx;margin-left:20rpx"
 							color="#a899e6" @click="copy(item.unzipPass,'解压码')">解压码</u-button>
 					</view>
-
 				</u-row>
 			</block>
 		</view>
