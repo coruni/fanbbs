@@ -3,12 +3,13 @@
 		<u-row align="top">
 			<view style="position: relative;">
 				<u-avatar :src="data.avatar" size="30"></u-avatar>
-				<image class="avatar_head" mode="aspectFill" :src="data.opt&&data.opt.headStatus && data.opt.head_picture">
+				<image class="avatar_head" mode="aspectFill"
+					:src="data.opt&&data.opt.headStatus && data.opt.head_picture">
 				</image>
 			</view>
 			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 				<u-row justify="space-between">
-					<text :style="{color:data.isvip?'#a899e6':'',fontSize:30+'rpx'}">{{data.author}}</text>
+					<text :style="{color:data.isvip?'#a899e6':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
 				</u-row>
 				<view style="margin-top:10rpx;word-break: break-word;" @click="reply(data)">
 					<u-parse :content="data.text"></u-parse>
@@ -25,7 +26,7 @@
 					v-if="data.sonComments.data&&data.sonComments.data.length" @click="subComment">
 					<block v-for="(item,index) in data.sonComments.data" :key="index" v-if="index<2">
 						<view style="font-size:30rpx" class="u-line-2">
-							<text style="color: #85a3ff;flex-shrink: 0;">{{item.author}}</text>
+							<text style="color: #85a3ff;flex-shrink: 0;" @click.stop="goProfile(item)">{{item.author}}</text>
 							：
 							{{item.text}}
 						</view>
@@ -98,6 +99,14 @@
 			},
 			subComment() {
 				this.$emit('subComment', this.data)
+			},
+			goProfile(data) {
+				this.$Router.push({
+					path: '/pages/profile/profile',
+					query: {
+						id: data.authorId
+					}
+				})
 			}
 		}
 	}
