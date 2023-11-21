@@ -194,7 +194,8 @@
 						},
 						{
 							name: '我的收藏',
-							icon: 'heart'
+							icon: 'heart',
+							path: 'collect'
 						},
 						{
 							name: '浏览历史',

@@ -1,7 +1,7 @@
 <template>
 	<view style="margin-top: 10rpx;">
 		<!-- 标题 -->
-		<text class="u-line-2">{{data.title}}</text>
+		<text class="u-line-2" style="font-weight: 600;">{{data.title}}</text>
 		<u-parse :content="replaceEmoji(data.text)" class="u-line-2" style="overflow: hidden;"></u-parse>
 		<u-album :urls="data.images" maxCount="6" borderRadius="10" multipleSize="100" singleSize="200"></u-album>	</view>
 </template>

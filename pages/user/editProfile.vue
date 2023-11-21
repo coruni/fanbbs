@@ -35,7 +35,7 @@
 			<view>
 				<u-text text="背景" bold></u-text>
 				<view style="position: relative;top:0;" @click="choose(false)">
-					<image :src="info.userBg" mode="aspectFill" style="width: 100%;height: 350rpx;background: #f4f4f4;">
+					<image :src="info.userBg" mode="aspectFill" style="width: 100%;height: 600rpx;background: #f4f4f4;border-radius: 20rpx;">
 					</image>
 					<u-icon name="camera" size="50" v-if="!info.userBg"
 						style="position:absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);"></u-icon>
@@ -44,11 +44,11 @@
 		</view>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
 			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false"
-			is-disable-scale is-limit-move is-lock-ratio />
+			is-limit-move is-lock-ratio :width="1280" :height="720" :min-width="1280" :min-height="720" :max-width="1920" :max-height="720" />
 
 		<l-clipper v-if="showClipper" :imageUrl="avatarImage"
 			@success="upload($event.url,true);showClipper=false;showLoading=true" @canel="showClipper = false"
-			is-disable-scale is-limit-move is-lock-ratio />
+			is-limit-move is-lock-ratio />
 
 	</view>
 </template>
@@ -109,12 +109,10 @@
 			save() {
 				this.$http.post('/typechoUsers/userEdit', {
 					params: JSON.stringify({
-						uid: this.info.uid,
-						name: this.info.name,
-						screenName: this.info.screenName,
-						introduce: this.info.introduce,
-						userBg: this.info.userBg,
+						uid: this.userInfo.uid,
+						name: this.userInfo.name,
 						avatar: this.info.avatar,
+						userBg: this.info.userBg
 					})
 				}).then(res => {
 					console.log(res)
@@ -132,7 +130,6 @@
 				}).then(res => {
 					if (res.data.code) {
 						this.$store.commit('setUser', res.data.data)
-						this.info = res.data.data
 						uni.$u.toast('资料已更新')
 					}
 

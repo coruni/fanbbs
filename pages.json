@@ -3,11 +3,6 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		}, {
-			"path": "pages/index/index",
-			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
@@ -76,6 +71,23 @@
 				"enablePullDownRefresh": false
 			},
 			"name": "avatarChange",
+			"perm": "login"
+		},
+		{
+			"path": "pages/user/headPictureChange",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"name": "headPictureChange"
+		},
+		{
+			"path": "pages/user/collect",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"name": "collect",
 			"perm": "login"
 		}
 	],

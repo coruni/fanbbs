@@ -1,19 +1,24 @@
 <template>
 	<view>
 		<u-navbar autoBack bgColor="transparent" leftIconColor="white" leftIcon="close" placeholder></u-navbar>
-		<u-row customStyle="margin-top:40%">
-			<u-avatar :src="$store.state.userInfo.avatar" size="280" customStyle="flex:1"></u-avatar>
-		</u-row>
+		<view style="text-align: center;">
+			<view style="margin-top:40%;position: relative;display:inline-block;">
+				<u-avatar :src="userInfo.avatar" size="220" customStyle="flex:1"></u-avatar>
+				<image class="avatar_head" mode="aspectFill"
+					:src="userInfo.opt && userInfo.opt.headStatus && userInfo.opt.head_picture">
+				</image>
+			</view>
+		</view>
 		<view
-			style="padding:26rpx 20rpx; font-size:30rpx;color: white;background: rgba(255, 255, 255, 0.1);margin:40rpx;margin-top: 30% !important;border-radius: 20rpx;">
+			style="padding:26rpx 20rpx; font-size:30rpx;color: white;background: rgba(255, 255, 255, 0.1);margin:40rpx;margin-top: 50% !important;border-radius: 20rpx;">
 			<u-row customStyle="flex-direction:column">
-				<text>更改头像挂件</text>
+				<text @click="goHeadPictureChange()">更改头像挂件</text>
 				<u-gap height="18"></u-gap>
 				<text @click="choose()">修改头像</text>
 			</u-row>
 		</view>
 		<l-clipper v-if="showClipper" :imageUrl="image" @success="upload($event.url);showClipper=false;showLoading=true"
-			@canel="showClipper = false" is-disable-scale is-limit-move is-lock-ratio></l-clipper>
+			@canel="showClipper = false" is-limit-move is-lock-ratio></l-clipper>
 
 		<u-modal ref="uModal" :title="!isError.status?'上传中...':'上传错误'" :show="showLoading" :showConfirmButton="false"
 			:closeOnClickOverlay="isError.status" @close="showLoading= false;isError.status=false;isError.msg=null">
@@ -24,6 +29,7 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex';
 	export default {
 		data() {
 			return {
@@ -36,6 +42,9 @@
 					msg: null,
 				}
 			};
+		},
+		computed:{
+			...mapState(['userInfo'])
 		},
 		created() {
 			if (this.$store.state.hasLogin) {
@@ -96,14 +105,16 @@
 					if (res.data.code) {
 						this.$store.commit('setUser', res.data.data)
 						this.showLoading = false
-						resolve(true)
 					} else {
 						this.isError.status = true
 						this.isError.msg = res.data.msg
-						reject()
+						
 					}
 				}).catch(err => {})
 			},
+			goHeadPictureChange(){
+				this.$Router.push({name:'headPictureChange'})
+			}
 		}
 	}
 </script>

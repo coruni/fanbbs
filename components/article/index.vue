@@ -11,7 +11,7 @@
 				<article-content :data="item"></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-			<u-gap height="6" customStyle="background:#f7f7f7"></u-gap>
+			<view style="border-bottom:1rpx #f7f7f7 solid"></view>
 		</block>
 	</z-paging>
 </template>

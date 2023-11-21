@@ -48,7 +48,8 @@
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a" ]
             },
             /* ios打包配置 */
             "ios" : {
@@ -143,6 +144,12 @@
             "treeShaking" : {
                 "enable" : true
             }
+        },
+        "router" : {
+            "base" : "./"
+        },
+        "devServer" : {
+            "https" : false
         }
     }
 }

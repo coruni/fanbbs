@@ -57,19 +57,23 @@
 							</u-col>
 							<u-col span="5">
 								<u-row customStyle="margin-left:20rpx;flex:1" justify="space-around">
-									<view style="display: flex; flex-direction: column;align-items: center;">
+									<view style="display: flex; flex-direction: column;align-items: center;"
+										@click="$refs.reward.open()">
 										<u-icon name="rmb-circle" size="20"></u-icon>
 										<u-text text="发电" size="12"></u-text>
 									</view>
-									<view style="display: flex; flex-direction: column;align-items: center;">
-										<u-icon :color="article && article.isMark?'#a899e6':''" name="star"
-											size="22"></u-icon>
+									<view style="display: flex; flex-direction: column;align-items: center;"
+										@click="$u.throttle(btnTap('mark'),1000,true)">
+										<u-icon :color="article && article.isMark?'#a899e6':''" name="star" size="22"
+											:class="{'animate__animated animate__pulse':article && article.isMark}"></u-icon>
 										<u-text text="收藏" size="12"></u-text>
 									</view>
 
-									<view style="display: flex; flex-direction: column;align-items: center;">
+									<view style="display: flex; flex-direction: column;align-items: center;"
+										@click="$u.throttle(btnTap('likes'),1000,true)">
 										<u-icon :color="article && article.isLike?'#a899e6':''" name="thumb-up"
-											size="22"></u-icon>
+											size="22"
+											:class="{'animate__animated animate__bounceIn':article && article.isLike}"></u-icon>
 										<u-text text="点赞" size="12"></u-text>
 									</view>
 								</u-row>
@@ -147,6 +151,27 @@
 				<subComment :data="subComment" ref="paging" :keyHeigt="keyboardHeight"></subComment>
 			</view>
 		</u-popup>
+		<uv-modal :showConfirmButton="false" ref="reward" title="投喂/发电">
+			<view style="flex:1;display: flex;flex-direction: column;">
+				<u-row justify="space-between" customStyle="flex:1">
+					<block v-for="(item,index) in rewardList" :key="index">
+						<u-button size="normal" customStyle="width:100rpx;height:60rpx;margin:0"
+							:plain="selectReward!=item" @click="selectReward = item" :text="item"
+							color="#a899e6"></u-button>
+					</block>
+				</u-row>
+				<view style="margin-top: 20rpx;border-bottom: 0.5px solid #a899e6;">
+					<u-input type="number" border="none" v-model="reward" placeholder="自定义投喂数量"></u-input>
+				</view>
+				<view style="margin-top: 40rpx;">
+					<u-button color="#a899e6" shape="circle" customStyle="width:120rpx;height:60rpx"
+						@click="btnTap('reward',reward?reward:selectReward)">投喂</u-button>
+				</view>
+			</view>
+
+
+			<view slot="confirmButton"></view>
+		</uv-modal>
 	</z-paging-swiper>
 </template>
 
@@ -168,6 +193,7 @@
 		mixins: [ZPMixin],
 		data() {
 			return {
+				showReward: false,
 				isScroll: false,
 				cid: 0,
 				pid: 0,
@@ -228,6 +254,9 @@
 						icon: 'warning'
 					}
 				],
+				rewardList: [1, 2, 5, 10],
+				reward: null,
+				selectReward: 0,
 				keyboardHeight: 0,
 			};
 		},
@@ -242,17 +271,17 @@
 		},
 		beforeRouteLeave(to, from, next) {
 			console.log(to)
-		    if (this.showComment || this.showMore || this.showSub ||this.swiperIndex) {
-		        this.showComment = false;
-		        this.showSub = false;
-		        this.showMore = false;
+			if (this.showComment || this.showMore || this.showSub || this.swiperIndex) {
+				this.showComment = false;
+				this.showSub = false;
+				this.showMore = false;
 				this.swiperIndex = 0;
 				next(false)
-				this.$Router.$lockStatus =false
-		    }else{
+				this.$Router.$lockStatus = false
+			} else {
 				next();
 			}
-		    
+
 		},
 		created() {
 			uni.onKeyboardHeightChange(data => {
@@ -342,6 +371,32 @@
 					return ''
 				}).replace(/\|</g, '<').replace(/>\|/g, '>')
 
+			},
+			btnTap(type, num) {
+				switch (type) {
+					case 'likes':
+						this.article.isLike = !this.article.isLike
+						break;
+					case 'mark':
+						this.article.isMark = !this.article.isMark
+						break;
+					default:
+						break;
+				}
+				this.$http.post('/typechoUserlog/addLog', {
+					params: JSON.stringify({
+						type,
+						cid: this.article.cid,
+						num,
+					})
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						uni.$u.toast(type == 'likes' ? '点赞' + res.data.msg : res.data.msg)
+					} else {
+						uni.$u.toast(res.data.msg)
+					}
+				})
 			},
 			changTab(data) {
 				console.log(data)

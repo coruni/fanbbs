@@ -7,10 +7,11 @@
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
 					<view v-for="(item,index) in list1" :key="item.cid" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 10rpx;overflow: hidden;" @click="goArticle(item)">
+						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;max-height: 720rpx !important;"
+						@click="goArticle(item)">
 						<image
 							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
-							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 10rpx 10rpx 0 0 ;">
+							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
 						</image>
 						<view style="margin: 20rpx;">
 							<text class="u-line-2">{{item.title}}</text>
@@ -24,10 +25,11 @@
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
 					<view v-for="(item,index) in list2" :key="item.cid" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 10rpx;overflow: hidden;" @click="goArticle(item)">
+						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;max-height: 720rpx !important;"
+						@click="goArticle(item)">
 						<image
 							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
-							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 10rpx 10rpx 0 0 ;">
+							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
 						</image>
 						<view style="margin: 20rpx;">
 							<text class="u-line-2">{{item.title}}</text>
@@ -55,7 +57,7 @@
 				default: 0,
 			},
 		},
-		components:{
+		components: {
 			articleFooter
 		},
 		watch: {
@@ -84,7 +86,7 @@
 			}
 		},
 		created() {
-			
+
 		},
 		computed: {
 			imageStyle(item) {
