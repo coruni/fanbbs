@@ -511,7 +511,6 @@
 				})
 			},
 			save() {
-
 				if (this.article.title < 4) {
 					uni.$u.toast('标题太短')
 					return
@@ -550,9 +549,9 @@
 							setTimeout(() => {
 								this.$Router.back(1)
 							}, 800)
-
 						}, 1500)
 					} else {
+						uni.$u.toast(res.data.msg)
 						this.$refs.publish.close()
 					}
 				})

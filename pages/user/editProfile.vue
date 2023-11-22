@@ -30,7 +30,7 @@
 				<u-input type="text" v-model="info.screenName" placeholder="输入昵称" maxlength="20" :showWordLimit="true"
 					customStyle="padding:10rpx 20rpx;border-radius:10rpx">
 					<view slot="suffix">
-						<text style="font-size: 26rpx;color: #999;">{{info.screenName.length}}/20</text>
+						<text style="font-size: 26rpx;color: #999;">{{info.screenName&&info.screenName.length}}/20</text>
 					</view>
 				</u-input>
 			</view>

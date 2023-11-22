@@ -42,7 +42,7 @@
 
 						<u-row customStyle="font-size:28rpx">
 							<u-icon name="pushpin" customStyle="margin-right:10rpx"></u-icon>
-							<text style="color: #999;">{{userInfo.introduce}}</text>
+							<text style="color: #999;">{{userInfo.introduce?userInfo.introduce:'系统默认签名~'}}</text>
 						</u-row>
 					</view>
 					<view>
