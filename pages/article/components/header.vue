@@ -23,8 +23,10 @@
 				</view>
 			</u-row>
 			<view>
-				<u-button :plain="!data.authorInfo.isfollow" shape="circle" hover-class="button_hover" :color="data.authorInfo.isfollow?'#85a3ff0f':'#a899e6'"
-					customStyle="width:160rpx;height:60rpx" :style="{color:data.authorInfo.isfollow?'black':'#a899e6'}" :text="data.authorInfo.isfollow?'已关注':'关注'" @click="follow()"></u-button>
+				<u-button :plain="!data.authorInfo.isfollow" shape="circle" hover-class="button_hover"
+					:color="data.authorInfo.isfollow?'#85a3ff0f':'#a899e6'" customStyle="width:160rpx;height:60rpx"
+					:style="{color:data.authorInfo.isfollow?'black':'#a899e6'}"
+					:text="data.authorInfo.isfollow?'已关注':'关注'" @click="follow()"></u-button>
 			</view>
 		</u-row>
 
@@ -49,11 +51,8 @@
 			follow() {
 				this.$http.post('/typechoUsers/follow', {
 					touid: this.data.authorId,
-					type: 1,
-				}).then(res=>{
-					if(res.data.code){
-						uni.$u.toast(res.data.msg)
-					}
+				}).then(res => {
+					uni.$u.toast(res.data.msg)
 				})
 			}
 		}
