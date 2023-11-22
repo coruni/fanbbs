@@ -15,7 +15,7 @@
 				</block>
 			</u-row>
 		</u-row>
-		<view v-if="data.opt&&data.opt.files">
+		<view v-if="data.opt&&data.opt.files[0].link">
 			<block v-for="(item,index) in data.opt.files" :key="index">
 				<u-row justify="space-between" customStyle="margin-bottom:10rpx">
 					<u-row customStyle="background: #f7f7f7;border-radius: 10rpx;height:60rpx;flex:1"

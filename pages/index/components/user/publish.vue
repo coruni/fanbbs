@@ -4,7 +4,7 @@
 			style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<block v-for="(item,index) in article">
-				<u-row customStyle="flex-direction:column;margin: 20rpx 30rpx;" align="top" @click="goArticle(item)">
+				<u-row customStyle="flex-direction:column;margin: 20rpx 40rpx;" align="top" @click="goArticle(item)">
 					<text
 						style="color: #999;font-size: 26rpx;">{{$u.timeFormat(item.created,'yyyy年mm月dd日')}}·{{item.category&&item.category.name}}</text>
 					<text style="font-weight: bold;">{{item.title}}</text>

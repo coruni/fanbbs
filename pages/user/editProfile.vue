@@ -1,50 +1,79 @@
 <template>
 	<view>
 		<u-navbar title="个人资料" autoBack placeholder>
-			<view slot="right">
-				<u-button size="mini" color="#a899e6" text="保存" @click="save()"></u-button>
-			</view>
 		</u-navbar>
-		<view style="position: relative;top: 0;">
-			<image src="/static/login.png" mode="aspectFill"
-				style="width: 100%;height: 380rpx;border-radius: 0 0 40rpx 40rpx;box-shadow: #aaa 0rpx 4rpx 6rpx 0rpx;">
-			</image>
-			<view style="position: absolute;left: 50%;top:50%;transform: translate(-50%, -60%);">
-				<u-avatar :src="userInfo.avatar" mode="aspectFill" size="85" customStyle="border: 8rpx solid #fff;"
-					@click="choose(true)">
-				</u-avatar>
-				<u-icon name="plus" size="12" color="white"
-					customStyle="background:#a899e6;position:absolute;top:70%;left:75%;border-radius:50rpx;padding:8rpx"></u-icon>
-			</view>
-		</view>
-		<view style="margin:20rpx;">
-			<u-text text="用户信息" bold size="18"></u-text>
-			<u-gap height="10"></u-gap>
-			<view>
-				<u-text text="昵称" bold></u-text>
-				<u-input border="bottom" v-model="info.screenName" placeholder="输入昵称"
-					customStyle="padding:10rpx 0"></u-input>
-			</view>
-			<u-gap height="8"></u-gap>
-			<view>
-				<u-text text="简介" bold></u-text>
-				<u--textarea border="bottom" v-model="info.introduce" placeholder="输入简介" customStyle="padding:10rpx 0"
-					count maxlength="60"></u--textarea>
-			</view>
-			<u-gap height="8"></u-gap>
-			<view>
-				<u-text text="背景" bold></u-text>
-				<view style="position: relative;top:0;" @click="choose(false)">
-					<image :src="info.userBg" mode="aspectFill" style="width: 100%;height: 600rpx;background: #f4f4f4;border-radius: 20rpx;">
+		<view style="display: flex;justify-content: center;flex-direction: column;margin: 30rpx;">
+			<view style="margin-top: 100rpx;display: flex;justify-content: center;">
+				<view style="position: relative;">
+					<u-avatar :src="userInfo.avatar" mode="aspectFill" size="85">
+					</u-avatar>
+					<image class="avatar_head" mode="aspectFill"
+						:src="userInfo.opt&&userInfo.opt.headStatus&&userInfo.opt.head_picture">
 					</image>
-					<u-icon name="camera" size="50" v-if="!info.userBg"
-						style="position:absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);"></u-icon>
+				</view>
+
+			</view>
+			<view style="margin-top: 50rpx; display: flex; justify-content: space-between;align-items: center;">
+				<view style="background: #85a3ff14;border-radius: 20rpx;flex: 1;text-align: center;padding: 10rpx;"
+					@click="choose(true)">
+					<text style="font-size: 28rpx;">修改头像</text>
+				</view>
+				<view @click="goHeadPicture()"
+					style="margin-left:20rpx;background: #85a3ff14;border-radius: 20rpx;flex: 1;text-align: center;padding: 10rpx;">
+					<text style="font-size: 28rpx;">修改头像框</text>
 				</view>
 			</view>
 		</view>
+		<view style="margin:30rpx;">
+			<view>
+				<u-text text="昵称" bold color="#999"></u-text>
+				<u-input type="text" v-model="info.screenName" placeholder="输入昵称" maxlength="20" :showWordLimit="true"
+					customStyle="padding:10rpx 20rpx;border-radius:10rpx">
+					<view slot="suffix">
+						<text style="font-size: 26rpx;color: #999;">{{info.screenName.length}}/20</text>
+					</view>
+				</u-input>
+			</view>
+			<u-gap height="10"></u-gap>
+			<view>
+				<u-text text="性别" bold color="#999"></u-text>
+				<view @click="showSexChoose = true">
+					<u-input type="idcard" v-model="info.sex" placeholder="输入昵称"
+						customStyle="padding:10rpx 20rpx;border-radius:10rpx" disabled disabledColor="">
+						<view slot="suffix">
+							<u-icon name="arrow-right" color="#999" size="12"></u-icon>
+						</view>
+					</u-input>
+				</view>
+			</view>
+			<u-gap height="10"></u-gap>
+			<view>
+				<u-text text="个性签名" bold color="#999"></u-text>
+				<u--textarea v-model="info.introduce" placeholder="输入简介"
+					customStyle="padding:10rpx 20rpx;border-radius:10rpx" count maxlength="48"></u--textarea>
+			</view>
+		</view>
+		<view style="position: fixed;bottom: 0;width: 100%;">
+			<view style="margin: 30rpx;">
+				<u-button color="#a899e6" text="保存" shape="circle" @click="save()"></u-button>
+			</view>
+		</view>
+		<u-popup mode="bottom" round="10" :show="showSexChoose" @close="showSexChoose = false">
+			<view style="margin: 30rpx;">
+				<text style="font-weight: 600;">性别</text>
+			</view>
+			<block v-for="(item,index) in sexList" :key="index">
+				<view style="padding: 20rpx 30rpx;" @click="info.sex = item;showSexChoose = false"
+					hover-class="button-hover">
+					<text>{{item}}</text>
+				</view>
+			</block>
+			<u-gap height="20"></u-gap>
+		</u-popup>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
-			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false"
-			is-limit-move is-lock-ratio :width="1280" :height="720" :min-width="1280" :min-height="720" :max-width="1920" :max-height="720" />
+			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false" is-limit-move
+			is-lock-ratio :width="1280" :height="720" :min-width="1280" :min-height="720" :max-width="1920"
+			:max-height="720" />
 
 		<l-clipper v-if="showClipper" :imageUrl="avatarImage"
 			@success="upload($event.url,true);showClipper=false;showLoading=true" @canel="showClipper = false"
@@ -68,6 +97,8 @@
 				cropperBg: null,
 				backgroundShow: false,
 				showClipper: false,
+				showSexChoose: false,
+				sexList: ['男', '女', '其他', '保密']
 
 			};
 		},
@@ -95,7 +126,7 @@
 				})
 			},
 			upload(url, isAvatar) {
-				this.$http.upload('/upload/full', {
+				this.$http.upload('/upload/full', { 
 					filePath: url,
 					name: 'file'
 				}).then(res => {
@@ -111,6 +142,7 @@
 					params: JSON.stringify({
 						uid: this.userInfo.uid,
 						name: this.userInfo.name,
+						introduce: this.info.introduce,
 						avatar: this.info.avatar,
 						userBg: this.info.userBg
 					})
@@ -137,14 +169,16 @@
 					console.log(err)
 				})
 			},
+			goHeadPicture(){
+				this.$Router.push({name:'headPictureChange'})
+			}
 
 		}
 	}
 </script>
 
 <style lang="scss">
-
+	.button-hover {
+		background: #85a3ff0a;
+	}
 </style>
-<image src="/static/login.png" mode="aspectFill"
-	style="width: 100%;height: 380rpx;border-radius: 0 0 40rpx 40rpx;box-shadow: #f4f4f4 0rpx 4rpx 8rpx 4rpx;">
-</image>

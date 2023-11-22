@@ -5,7 +5,7 @@
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<block v-for="(item,index) in comments">
 				<view
-					style="margin: 20rpx 30rpx;display: flex;flex-direction: column;border-bottom: 2rpx solid #f7f7f7;padding-bottom: 20rpx;">
+					style="margin: 20rpx 40rpx;display: flex;flex-direction: column;border-bottom: 2rpx solid #f7f7f7;padding-bottom: 20rpx;">
 					<text
 						style="color: #999;font-size: 26rpx;">{{$u.timeFormat(item.created,'yyyy年mm月dd日')}}·{{item.contentsInfo.category[0].name}}</text>
 					<text>{{item.text}}</text>

@@ -4,7 +4,7 @@
 		<view style="margin: 30rpx; height: 100%;">
 			<view style="display: flex;justify-content: center;height: 400rpx;align-items: center;">
 				<view style="position: relative;">
-					<u-avatar :src="userInfo.avatar" :size="100"></u-avatar>
+					<u-avatar :src="userInfo.avatar" :size="85"></u-avatar>
 					<image :src="userInfo&& userInfo.opt && userInfo.opt.headStatus && userInfo.opt.head_picture"
 						class="avatar_head" mode="aspectFill"></image>
 				</view>

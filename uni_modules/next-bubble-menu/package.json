@@ -1,0 +1,82 @@
+{
+  "id": "next-bubble-menu",
+  "displayName": "next-bubble-menu（汽泡菜单、气泡框、泡泡框、悬浮框、悬浮菜单）",
+  "version": "1.0.4",
+  "description": "非常简单好用的气泡菜单、气泡框，可点击任意位置弹出",
+  "keywords": [
+    "汽泡菜单",
+    "汽泡",
+    "悬浮菜单",
+    "气泡",
+    "气泡框"
+],
+  "repository": "",
+  "engines": {
+    "HBuilderX": "^3.1.1"
+  },
+"dcloudext": {
+    "sale": {
+      "regular": {
+        "price": "0.00"
+      },
+      "sourcecode": {
+        "price": "0.00"
+      }
+    },
+    "contact": {
+      "qq": ""
+    },
+    "declaration": {
+      "ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
+    },
+    "npmurl": "",
+    "type": "component-vue"
+  },
+  "uni_modules": {
+		"dependencies": [
+			"next-modal"
+		],
+    "platforms": {
+      "cloud": {
+        "tcb": "y",
+        "aliyun": "y"
+      },
+      "client": {
+        "App": {
+          "app-vue": "n",
+          "app-nvue": "n"
+        },
+        "H5-mobile": {
+          "Safari": "n",
+          "Android Browser": "n",
+          "微信浏览器(Android)": "n",
+          "QQ浏览器(Android)": "n"
+        },
+        "H5-pc": {
+          "Chrome": "n",
+          "IE": "n",
+          "Edge": "n",
+          "Firefox": "n",
+          "Safari": "n"
+        },
+        "小程序": {
+          "微信": "y",
+          "阿里": "n",
+          "百度": "n",
+          "字节跳动": "n",
+          "QQ": "n"
+        },
+        "快应用": {
+          "华为": "n",
+          "联盟": "n"
+        },
+        "Vue": {
+            "vue2": "y",
+            "vue3": "y"
+        }
+      }
+    }
+  }
+}

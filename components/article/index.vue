@@ -1,7 +1,7 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto="false" safe-area-inset-bottom
 		use-safe-area-placeholder>
-		<view style="margin: 20rpx;">
+		<view style="margin: 20rpx;" v-if="isSwiper">
 			<u-swiper height="160" :list="swiperList" keyName="image" :autoplay="false" circular
 				@click="swiperTap"></u-swiper>
 		</view>
@@ -41,6 +41,10 @@
 			waterFall: {
 				type: [Boolean, String],
 				default: false,
+			},
+			isSwiper: {
+				type: Boolean,
+				default: false,
 			}
 		},
 		watch: {
@@ -77,9 +81,11 @@
 						searchParams: JSON.stringify({
 							type: 'post'
 						}),
-						order: 'istop desc,created desc'
+						order: 'istop desc,created desc',
+						uid: this.$store.state.hasLogin ? this.$store.state.userInfo.uid : ''
 					}
 				}).then(res => {
+					console.log(res)
 					if (res.statusCode == 200) {
 						this.$refs.paging.complete(res.data.data);
 						this.is_loaded = true

@@ -7,7 +7,8 @@
 				<u-avatar :src="data.userJson.avatar" size="30"></u-avatar>
 				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 					<u-row justify="space-between">
-						<text :style="{color:data.userJson.isvip?'#a899e6':''}">{{data.userJson.name}}</text>
+						<text
+							:style="{color:data.userJson.isvip?'#a899e6':'',fontWeight:600}">{{data.userJson.name}}</text>
 					</u-row>
 					<view style="margin-top:10rpx;word-break: break-word;">
 						<u-parse :content="data.text"></u-parse>
@@ -37,7 +38,8 @@
 
 					<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 						<u-row justify="space-between">
-							<text :style="{color:item.userJson.isvip?'#a899e6':''}">{{item.userJson.name}}</text>
+							<text
+								:style="{color:item.userJson.isvip?'#a899e6':'',fontWeight:600}">{{item.userJson.name}}</text>
 						</u-row>
 						<view style="margin-top:10rpx;word-break: break-word;">
 							<u-parse :content="item.text"></u-parse>

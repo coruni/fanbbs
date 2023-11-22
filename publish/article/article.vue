@@ -218,11 +218,11 @@
 			<view style="display: flex;flex-wrap: wrap;justify-content: center;flex: 1;">
 				<block v-for="(item,index) in videoInfo.frame" :key="index">
 					<view style="position: relative;top: 0;">
-						<image :src="item.url" mode="aspectFill"
-							style="width: 140rpx;height: 140rpx;margin: 10rpx;border-radius: 10rpx;"
-							@click="videoInfo.poster = item"></image>
+						<image :src="item.url" mode="aspectFill" @click="preview(videoInfo.frame,index)"
+							style="width: 140rpx;height: 140rpx;margin: 10rpx;border-radius: 10rpx;"></image>
 						<view
-							style="position: absolute;bottom:22rpx;right:8rpx;background-color: #fff;height:40rpx;width: 40rpx;text-align: center;border-radius: 10rpx 0 10rpx 0;">
+							style="position: absolute;bottom:22rpx;right:8rpx;background-color: #fff;height:40rpx;width: 40rpx;text-align: center;border-radius: 10rpx 0 10rpx 0;box-shadow: -2px -2px 2px #0000001e;"
+							@click="videoInfo.poster = item">
 							<u-icon name="checkmark" color="#a899e6" size="18"
 								v-show="videoInfo.poster&&videoInfo.poster.url == item.url"></u-icon>
 						</view>
@@ -436,6 +436,7 @@
 				this.percentage = 30;
 				uni.chooseVideo({
 					extension: ['mp4', 'avi', 'webm'],
+					compressed: true,
 					success: (res) => {
 						this.videoPath = res.tempFilePath
 						this.videoInfo.width = res.width
@@ -463,7 +464,7 @@
 			},
 			preview(url, index) {
 				uni.previewImage({
-					urls: url[index].url
+					urls: url[index].base64
 				})
 			},
 			uploadFile(url, type) {
@@ -707,7 +708,7 @@
 			async captures(videoPath) {
 				let duration = await this.getDuration(videoPath)
 				let list = []
-				for (let i = 0; i < 10; i++) {
+				for (let i = 0; i < 12; i++) {
 					const frame = await this.captureFrame(videoPath, duration / 1000 * i)
 					list.push(frame)
 				}

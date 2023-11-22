@@ -89,6 +89,14 @@
 			},
 			"name": "collect",
 			"perm": "login"
+		},
+		{
+			"path" : "pages/article/components/comments/subComment",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

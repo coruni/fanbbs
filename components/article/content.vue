@@ -7,13 +7,12 @@
 				<u-icon name="arrow-up-fill" color="#a899e6" labelColor="#a899e6" size="14" label="置顶" label-size="14"
 					customStyle="background: #a899e61e;padding:4rpx;border-radius:10rpx"></u-icon>
 			</view>
-			
 		</u-row>
-		<u-parse :content="replaceEmoji(data.text)" class="u-line-2" style="overflow: hidden;"></u-parse>
-		<u-album :urls="data.images" maxCount="6" borderRadius="10" multipleSize="100" singleSize="200"></u-album>
+		<u-parse :content="replaceEmoji(data.text)" class="u-line-2" style="overflow: hidden;"
+			:previewImg="false"></u-parse>
+		<u-album :urls="data.images" maxCount="6" borderRadius="20" multipleSize="100" singleSize="200"></u-album>
 	</view>
 </template>
-
 <script>
 	export default {
 		name: 'articleContent',

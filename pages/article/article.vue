@@ -5,7 +5,7 @@
 				<z-paging ref="comments" v-model="comments" @query="getComments" :auto-scroll-to-top-when-reload="false"
 					:auto-clean-list-when-reload="false">
 					<template #top>
-						<u-navbar placeholder autoBack @rightClick="showMore = true" fixed>
+						<u-navbar placeholder autoBack @rightClick="showMore = true" fixed style="z-index: 10;">
 							<view slot="right">
 								<u-icon name="more-dot-fill"></u-icon>
 							</view>
@@ -13,28 +13,71 @@
 					</template>
 					<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd"
 						@touchmove="touchMove">
-						<articleHeader :data="author"></articleHeader>
+						<articleHeader :data="article"></articleHeader>
 						<articleContent :data="article" :autoPreview="isScroll"></articleContent>
 						<articleFooter :data="article"></articleFooter>
 					</view>
 					<!-- 评论区 -->
-					<u-gap height="8" bgColor="#f4f4f4"></u-gap>
+					<u-gap height="8" bgColor="#85a3ff0a"></u-gap>
 					<!-- #ifdef APP -->
 					<u-sticky bgColor="#fff">
-						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#a899e6"
-							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
-							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
-							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab"
-							v-if="!loading"></u-tabs>
+						<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;">
+							<u-row>
+								<view @click="showOrderList = !showOrderList"
+									style="display: flex; align-items: center;">
+									<text style="margin-right: 10rpx;">{{orderName}}</text>
+									<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
+										color="#999"></u-icon>
+								</view>
+							</u-row>
+							<u-transition :show="showOrderList"
+								style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
+								<view>
+									<!-- 半透明遮罩 -->
+									<view @click.stop="showOrderList = false"
+										style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
+									</view>
+									<view
+										style="font-size: 30rpx;color:#a899e6;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+										<block v-for="(item,index) in orderList" :key="index">
+											<text @click.stop="orderTap(item.name)"
+												style="padding: 15rpx;">{{item.name}}</text>
+										</block>
+									</view>
+								</view>
+							</u-transition>
+						</view>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff" offsetTop="-44">
-						<u-tabs :list="commentTab" :current="commentTabIndex" lineColor="#a899e6"
-							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
-							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
-							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3" @change="changTab"
-							v-if="!loading"></u-tabs>
+						<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;">
+							<u-row>
+								<view @click="showOrderList = !showOrderList"
+									style="display: flex; align-items: center;">
+									<text style="margin-right: 10rpx;">{{orderName}}</text>
+									<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
+										color="#999"></u-icon>
+								</view>
+							</u-row>
+							<u-transition :show="showOrderList"
+								style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
+								<view>
+									<!-- 半透明遮罩 -->
+									<view @click.stop="showOrderList = false"
+										style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
+									</view>
+									<view
+										style="font-size: 30rpx;color:#a899e6;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+										<block v-for="(item,index) in orderList" :key="index">
+											<text @click.stop="orderTap(item.name)"
+												style="padding: 15rpx;">{{item.name}}</text>
+										</block>
+									</view>
+								</view>
+							</u-transition>
+						</view>
+
 					</u-sticky>
 					<!-- #endif -->
 					<view style="margin: 30rpx;">
@@ -42,15 +85,15 @@
 						<block v-for="(item,index) in comments" v-if="comments">
 							<view style="margin:10rpx 0">
 								<comment :data="item" @subComment="subComment = $event;showSub =true"
-									@reply="pid = $event.coid;showComment =true"></comment>
+									@reply="pid = $event.coid;showComment =true" :article="article"></comment>
 							</view>
 						</block>
 					</view>
 					<template #bottom>
 						<u-row customStyle="padding-top:10rpx;padding:20rpx" justify="space-between">
 							<u-col span="6">
-								<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;"
-									class="u-info-light-bg u-info" @click="showComment = true">
+								<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background:#85a3ff14"
+									class="u-info" @click="showComment = true">
 									<u-icon name="edit-pen" size="20"></u-icon>
 									<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
 								</u-row>
@@ -102,7 +145,7 @@
 			:customStyle="`padding:30rpx;padding-bottom:${keyboardHeight}px`">
 			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 				placeholder="灵感迸发" border="none"
-				customStyle="background:#f7f8f7;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
+				customStyle="background:#85a3ff14;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
 			<u-row customStyle="margin-top:10rpx" justify="space-between">
 				<u-col span="6">
 					<u-row justify="space-between">
@@ -194,6 +237,8 @@
 		data() {
 			return {
 				showReward: false,
+				showOrderList: false,
+				orderName: '全部评论',
 				isScroll: false,
 				cid: 0,
 				pid: 0,
@@ -210,11 +255,21 @@
 				swiperIndex: 0,
 				commentId: 0,
 				showSub: false,
-				commentTab: [{
-					name: '全部评论',
-				}, {
-					name: '只看楼主'
-				}],
+				orderList: [{
+						name: '全部评论',
+					}, {
+						name: '点赞最多'
+					},
+					{
+						name: '最新'
+					},
+					{
+						name: '最早'
+					},
+					{
+						name: '只看楼主'
+					}
+				],
 				cBtn: [{
 					name: '表情',
 					icon: 'heart',
@@ -270,7 +325,6 @@
 			}, 700)
 		},
 		beforeRouteLeave(to, from, next) {
-			console.log(to)
 			if (this.showComment || this.showMore || this.showSub || this.swiperIndex) {
 				this.showComment = false;
 				this.showSub = false;
@@ -359,7 +413,7 @@
 			replaceEmoji(html) {
 				return html.replace(
 					/<img[^>]*?alt="src=([^"]+)\|poster=([^"]+)\|type=video"[^>]*?>/g, (match, src, poster) => {
-						return `<video src="${src}" poster="${poster}" muted width="100%" />`
+						return `<video src="${src}" poster="${poster}" muted width="100%" style="border-radius:20rpx" />`
 					}).replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
 					const emoji = this.$emoji.data.find(e => e.name === name)
 					if (emoji) {
@@ -373,16 +427,7 @@
 
 			},
 			btnTap(type, num) {
-				switch (type) {
-					case 'likes':
-						this.article.isLike = !this.article.isLike
-						break;
-					case 'mark':
-						this.article.isMark = !this.article.isMark
-						break;
-					default:
-						break;
-				}
+
 				this.$http.post('/typechoUserlog/addLog', {
 					params: JSON.stringify({
 						type,
@@ -393,6 +438,16 @@
 					console.log(res)
 					if (res.data.code) {
 						uni.$u.toast(type == 'likes' ? '点赞' + res.data.msg : res.data.msg)
+						switch (type) {
+							case 'likes':
+								this.article.isLike = !this.article.isLike
+								break;
+							case 'mark':
+								this.article.isMark = !this.article.isMark
+								break;
+							default:
+								break;
+						}
 					} else {
 						uni.$u.toast(res.data.msg)
 					}
@@ -414,6 +469,10 @@
 				// 手指触摸后的移动事件
 				this.isScroll = true;
 			},
+			orderTap(item) {
+				this.orderName = item
+				this.showOrderList = false
+			}
 
 		}
 	}

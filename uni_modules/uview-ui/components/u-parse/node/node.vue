@@ -494,6 +494,7 @@ export default {
 ._video {
   width: 300px;
   height: 225px;
+  
 }
 /* #endif */
 </style>

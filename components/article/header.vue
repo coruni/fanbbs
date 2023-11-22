@@ -16,15 +16,15 @@
 			</u-row>
 			
 			<view style="display: flex;align-items: center;">
-				<u-button plain color="#a899e6" size="mini" shape="circle" customStyle="font-size:28rpx;height:50rpx"  @click.stop.prevent="">关注</u-button>
+				<u-button v-if="!data.authorInfo.isfollow && data.authorId != userInfo.uid" plain color="#a899e6" size="mini" shape="circle" customStyle="font-size:28rpx;height:50rpx"  @click.stop.prevent="">关注</u-button>
 				<u-icon name="more-dot-fill" size="20" customStyle="margin-left:30rpx"  @click.stop.prevent=""></u-icon>
 			</view>
-			
 		</u-row>
 	</view>
 </template>
 
 <script>
+	import {mapState} from 'vuex';
 	export default {
 		props: {
 			data: {
@@ -36,6 +36,9 @@
 			return {
 
 			}
+		},
+		computed:{
+			...mapState(['userInfo'])
 		},
 		created() {},
 		methods: {

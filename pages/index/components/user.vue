@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<z-paging ref="paging" refresher-only @onRefresh="onRefresh" @scroll="scroll"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" v-if="$store.state.hasLogin">
 			<template #top>
 				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`">
 					<view slot="left">
@@ -14,96 +14,78 @@
 							</u-row>
 						</u-row>
 					</view>
-					<u-icon name="list" slot="right" size="26" :color="opacity>0.4? 'black':'white'"
-						@click="showRightMenu = true"></u-icon>
+					<u-icon name="setting" slot="right" size="26" :color="opacity>0.4? 'black':'white'"
+											@click="showRightMenu = true"></u-icon>
 				</u-navbar>
 			</template>
-			<view style="position: relative;top: 0;" id="top">
-				<image :src="userInfo.userBg?userInfo.userBg:'/static/login.png'" mode="aspectFill"
-					style="width: 100%; height: 800rpx;"></image>
-				<view class="overlay"></view>
-				<view style="position: absolute;top: 160rpx;margin: 30rpx;">
-					<view style="position: relative;display: inline-block;">
-						<u-avatar :src="userInfo.avatar" size="70" customStyle="border:6rpx solid #fff"
-							@click="$store.state.hasLogin?goPage('avatarChange'):goLogin()">
-						</u-avatar>
-						<image class="avatar_head" mode="aspectFill"
-							:src="userInfo.opt && userInfo.opt.headStatus && userInfo.opt.head_picture"
-							v-if="userInfo && $store.state.hasLogin"></image>
-					</view>
+			<image :src="userInfo.userBg?userInfo.userBg:'/static/login.png'" mode="aspectFill"
+				style="width: 100%;height: 400rpx;transform: scale(1);"></image>
+			<view class="userPanel">
+				<view style="position: absolute;top: -80rpx;">
+					<u-avatar :src="userInfo.avatar" size="80">
+					</u-avatar>
+					<image class="avatar_head" mode="aspectFill"
+						:src="userInfo && userInfo.opt&&userInfo.opt.head_picture">
+					</image>
+				</view>
 
-					<!-- 已登录 -->
-					<view style="margin-top: 20rpx;display: flex;flex-direction: column;" v-if="$store.state.hasLogin">
-						<u-row @click="goPage('editUser')">
-							<text style="color: white;font-weight: bold;">{{userInfo.screenName}}</text>
-							<u-icon name="edit-pen" color="white" customStyle="margin-left:10rpx"></u-icon>
+				<u-row justify="space-between" align="top" customStyle="padding-top:20rpx">
+					<view>
+						<!-- 占位脱离文档流头像 -->
+						<u-gap height="40"></u-gap>
+						<!-- 占位结束 -->
+						<text style="font-weight: 600;font-size: 34rpx;">{{userInfo.screenName}}</text>
+						<u-row customStyle="font-size:28rpx">
+							<u-icon name="heart" color="#a899e6" customStyle="margin-right:10rpx"></u-icon>
+							<text>通行证ID：{{userInfo.uid}}</text>
 						</u-row>
 
-						<view style="font-size: 26rpx;display: flex;flex-direction: column;color: white;">
-							<text>通行证ID: {{userInfo.uid}}</text>
-							<text class="u-line-2">{{userInfo.introduce}}</text>
-						</view>
-						<view style="margin-top: 20rpx;">
-							<u-row>
-								<u-row
-									:customStyle="{background:userInfo.sex&&userInfo.sex=='男'?'#85e0ffc4':'#FB7299c4',padding:'8rpx 12rpx',color:'white',borderRadius:10+'rpx'}">
-									<u-icon :name="userInfo&&userInfo.sex=='男'?'man':'woman'" size="14"
-										color="white"></u-icon>
-									<text style="font-size: 24rpx;">{{userInfo&&userInfo.sex=='男'?'男':'女'}}</text>
-								</u-row>
-								<u-row
-									customStyle="margin-left:20rpx;background:#ffffff4c;padding:8rpx 12rpx;color:white;border-radius:10rpx">
-									<u-icon name="map" size="12" color="white"></u-icon>
-									<text style="font-size: 24rpx;">广东</text>
-								</u-row>
-							</u-row>
-						</view>
-						<view style="margin-top: 20rpx;">
-							<u-row justify="space-between">
-								<view style="color:#999">
-									<text style="color: white;">{{userMeta.fanNum}}</text>
-									<text style="font-size: 24rpx;margin-left: 5rpx;">粉丝</text>
-								</view>
-								<view style="color:#999;margin: 0 20rpx;">
-									<text style="color: white;">{{userMeta.followNum}}</text>
-									<text style="font-size: 24rpx;margin-left: 5rpx;">关注</text>
-								</view>
-								<view style="color:#999">
-									<text style="color: white;">{{userMeta.contentsNum}}</text>
-									<text style="font-size: 24rpx;margin-left: 5rpx;">帖子</text>
-								</view>
-
-							</u-row>
-						</view>
+						<u-row customStyle="font-size:28rpx">
+							<u-icon name="pushpin" customStyle="margin-right:10rpx"></u-icon>
+							<text style="color: #999;">{{userInfo.introduce}}</text>
+						</u-row>
 					</view>
-					<!-- 未登录占位 -->
-					<view style="margin-top: 20rpx;display: flex;flex-direction: column;" v-else>
-						<text style="color: white;font-weight: bold;" @click="goLogin">点击登录</text>
+					<view>
+						<u-button plain color="#a899e6" shape="circle" customStyle="height:60rpx"
+							@click="goPage('editUser')">
+							<u-icon name="edit-pen" color="#a899e6"></u-icon>
+							<text>编辑</text>
+						</u-button>
+					</view>
+				</u-row>
+				<u-row justify="space-around" customStyle="margin-top:40rpx">
+					<view class="userMate">
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.contentsNum}}</text>
+						<text>帖子</text>
+					</view>
+					<view class="userMate">
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.followNum}}</text>
+						<text>关注</text>
+					</view>
+					<view class="userMate">
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.fanNum}}</text>
+						<text>粉丝</text>
+					</view>
+					<view class="userMate">
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.commentsNum}}</text>
+						<text>评论</text>
+					</view>
+				</u-row>
+
+				<view style="margin-top: 40rpx;">
+					<view
+						style="background: #a899e6c8;color: white;padding: 12rpx 30rpx 12rpx 30rpx;border-radius: 10rpx;">
+						<text>创作中心</text>
 					</view>
 				</view>
 			</view>
-			<view style="position: relative;top: -50rpx;background: #fff;border-radius: 40rpx 40rpx 0 0;">
-				<view style="padding: 30rpx 30rpx 0 30rpx;" id="scrolllist">
-					<uv-scroll-list indicatorActiveColor="#a899e6" :indicator="false">
-						<block v-for="(item,index) in scrollList" :key="index">
-							<u-row justify="start" align="top"
-								customStyle="flex-direction:column;margin-right:20rpx;background: #f4f4f4;border-radius: 20rpx;padding:20rpx">
-								<u-row>
-									<u-icon :name="item.icon" color="#a899e6"></u-icon>
-									<text
-										style="font-size: 28rpx;font-weight: bold;margin-left: 10rpx;">{{item.name}}</text>
-								</u-row>
-								<text style="font-size: 22rpx;color: #999;">{{item.description}}</text>
-							</u-row>
-						</block>
-					</uv-scroll-list>
-				</view>
+			<view style="position: relative;top: -60rpx;">
 				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff">
-						<u-tabs :list="list" lineColor="#a899e6" activeStyle="color:#303133;font-weight:bold"
+						<u-tabs :list="list" lineColor="#a899e6" activeStyle="color:#303133;font-weight:bold;"
 							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"
-							v-if="isMounted"></></u-tabs>
+							v-if="isMounted"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
@@ -123,11 +105,12 @@
 						</swiper-item>
 					</swiper>
 				</view>
-				<view v-else style="margin-top: 100rpx;text-align: center;">
-					<text style="font-weight: bold;" @click="goLogin">登录查看更多精彩</text>
-				</view>
 			</view>
+
 		</z-paging>
+		<view v-else style="margin-top: 40vh;text-align: center;">
+			<text style="font-weight: bold;" @click="goLogin">登录查看更多精彩</text>
+		</view>
 		<!-- 组件 -->
 		<u-popup mode="right" :show="showRightMenu" @close="showRightMenu = false" bgColor="#f4f4f4"
 			customStyle="width:70vw">
@@ -378,5 +361,22 @@
 		height: 100%;
 		background-color: rgba(0, 0, 0, 0.1);
 		pointer-events: none;
+	}
+
+	.userMate {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		font-size: 26rpx;
+	}
+
+	.userPanel {
+		position: relative;
+		top: -60rpx;
+		background-color: #fff;
+		border-radius: 40rpx 40rpx 0 0;
+		padding: 0 40rpx 40rpx 40rpx;
+		border-bottom: 1rpx solid #f7f7f7;
 	}
 </style>

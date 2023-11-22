@@ -1,17 +1,25 @@
 <template>
 	<view>
-		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false" :fixed="false"
-			height="75vh">
-			<u-row align="top" customStyle="padding:30rpx">
+		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false">
+			<template #top>
+				<u-navbar autoBack placeholder></u-navbar>
+			</template>
+
+			<u-row align="top" customStyle="margin:30rpx;border-bottom: 1rpx #f7f7f7 solid;">
+
 				<view style="position: relative;">
 					<u-avatar :src="data.avatar" size="30" @click="goProfile(data.authorId)"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="data.opt&&data.opt.headStatus&&data.opt.head_picture">
 					</image>
 				</view>
-				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
-					<u-row justify="space-between">
-						<text :style="{color:data.isvip?'#a899e6':''}">{{data.author}}</text>
+				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;padding-bottom: 30rpx;">
+					<u-row>
+						<text
+							:style="{color:data.isvip?'#a899e6':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
+						<text
+							style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
+							v-if="data.authorId == data.ownerId">作者</text>
 					</u-row>
 					<view style="margin-top:10rpx;word-break: break-word;">
 						<u-parse :content="data.text"></u-parse>
@@ -24,35 +32,32 @@
 								class="u-info-light-bg"></image>
 						</u-grid-item>
 					</u-grid>
-					<u-gap height="6"></u-gap>
-
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFormat(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:25%" justify="space-between">
-							<u-icon name="thumb-up" color="#aaa" :label="1" size="20" labelColor="#aaa"
+							<u-icon name="chat" color="#aaa" size="20" labelColor="#aaa" label-size="12"></u-icon>
+							<u-icon name="thumb-up" color="#aaa" size="20" labelColor="#aaa" :label="1"
 								label-size="12"></u-icon>
-							<u-icon name="thumb-down" color="#aaa" size="20" labelColor="#aaa" label-size="12"></u-icon>
 						</u-row>
 					</u-row>
 				</view>
 			</u-row>
-			<u-gap height="8" bgColor="#f4f4f4"></u-gap>
+
 			<!-- 子评论开始 -->
 			<view>
 				<block v-for="(item,index) in comments" :key="index">
 					<view style="padding:30rpx">
 						<u-skeleton rows="2" avatar :loading="loading">
 							<u-row align="top">
-								<view style="position: relative;">
-									<u-avatar :src="item.avatar" size="30" @click="goProfile(item.authorId)"></u-avatar>
-									<image class="avatar_head" mode="aspectFill"
-										:src="item.opt&&item.opt.headStatus&&item.opt.head_picture">
-									</image>
-								</view>
+								<u-avatar :src="item.avatar" size="20" @click="goProfile(item.authorId)"></u-avatar>
 
 								<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
-									<u-row justify="space-between">
-										<text :style="{color:item.isvip?'#a899e6':''}">{{item.author}}</text>
+									<u-row>
+										<text
+											:style="{color:item.isvip?'#a899e6':'',fontSize:30+'rpx',fontWeight:600}">{{item.author}}</text>
+										<text
+											style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
+											v-if="item.authorId == data.ownerId">作者</text>
 									</u-row>
 									<view style="margin-top:10rpx;word-break: break-word;"
 										@click="commentCheck(true,item.coid,item.author)">
@@ -70,16 +75,15 @@
 										</u-grid-item>
 									</u-grid>
 									<u-gap height="6"></u-gap>
-									<view style="border-bottom:2rpx solid #f7f7f7;padding-bottom: 20rpx;">
+									<view>
 										<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 											<text>{{$u.timeFormat(item.created,'mm-dd')}}</text>
-											<u-row customStyle="flex-basis:40%" justify="space-between">
+											<u-row customStyle="flex-basis:30%" justify="space-between">
 												<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa"
 													label-size="12"></u-icon>
 												<u-icon name="thumb-up" color="#aaa" :label="1" size="20"
 													labelColor="#aaa" label-size="12"></u-icon>
-												<u-icon name="thumb-down" color="#aaa" size="20" labelColor="#aaa"
-													label-size="12"></u-icon>
+
 											</u-row>
 										</u-row>
 									</view>
@@ -90,8 +94,8 @@
 				</block>
 			</view>
 			<template #bottom>
-				<u-row customStyle="margin:20rpx;background:#fff" justify="space-between">
-					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1" class="u-info-light-bg u-info"
+				<u-row customStyle="margin:20rpx;" justify="space-between">
+					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1;background:#85a3ff14" class="u-info"
 						@click="commentCheck(false,data.coid,data.author);">
 						<u-icon name="edit-pen" size="20"></u-icon>
 						<text style="margin-left:10rpx;font-size: 28rpx;">回复{{data.author}}</text>
@@ -100,65 +104,42 @@
 				<!-- 回复评论弹窗 -->
 
 			</template>
-			<u-popup :show="showComment" @close="showComment = false" round="20"
-				:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
-				<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
-					:placeholder="`回复${replyWho}`" border="none"
-					customStyle="background:#f7f8f7;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
-				<u-row customStyle="margin-top:10rpx" justify="space-between">
-					<u-col span="6">
-						<u-row justify="space-between">
-							<block v-for="(item,index) in cBtn" :key="index">
-								<u-icon :name="item.icon" size="20" @click="cBtnTap(item.name)"></u-icon>
-							</block>
-						</u-row>
-					</u-col>
-					<view>
-						<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
-							@click="reply"></u-button>
-					</view>
-				</u-row>
-				<!-- 隐藏面板 -->
-				<block v-if="showComemntBtn == '表情'">
-					<!-- 这里加表情 -->
-					<!-- ui -->
-					表情
-				</block>
-			</u-popup>
-		</z-paging>
 
+		</z-paging>
+		<u-popup :show="showComment" @close="showComment = false" round="20"
+			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
+			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
+				:placeholder="`回复${replyWho}`" border="none"
+				customStyle="background:#85a3ff14;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
+			<u-row customStyle="margin-top:10rpx" justify="space-between">
+				<u-col span="6">
+					<u-row justify="space-between">
+						<block v-for="(item,index) in cBtn" :key="index">
+							<u-icon :name="item.icon" size="20" @click="cBtnTap(item.name)"></u-icon>
+						</block>
+					</u-row>
+				</u-col>
+				<view>
+					<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
+						@click="reply"></u-button>
+				</view>
+			</u-row>
+			<!-- 隐藏面板 -->
+			<block v-if="showComemntBtn == '表情'">
+				<!-- 这里加表情 -->
+				<!-- ui -->
+				表情
+			</block>
+		</u-popup>
 	</view>
 
 </template>
 
 <script>
 	export default {
-		name: 'subComment',
-		props: {
-			id: {
-				type: [String, Number],
-				default: 0
-			},
-			data: {
-				type: Object,
-				default: null,
-			},
-			keyHeigt: {
-				type: [String, Number],
-				default: 0,
-			}
-		},
-		watch: {
-			keyHeigt: {
-				handler(e) {
-					this.keyboardHeight = this.keyHeigt
-				}
-			},
-			immediate: true,
-			deep: true,
-		},
 		data() {
 			return {
+				data: null,
 				comments: [],
 				pid: 0,
 				keyboardHeight: 0,
@@ -172,6 +153,14 @@
 				replyWho: '',
 				loading: true,
 			}
+		},
+		created() {
+			uni.onKeyboardHeightChange(data => {
+				this.keyboardHeight = data.height
+			})
+		},
+		onLoad(params) {
+			this.data = uni.getStorageSync('subComment_' + params.id)
 		},
 		methods: {
 			getComments(page, limit) {
