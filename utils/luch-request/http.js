@@ -83,6 +83,7 @@ http.interceptors.response.use(async (response) => {
 				}
 			} else {
 				uni.$u.toast('用户信息已更新，重新登陆')
+				store.commit('logout')
 				router.push({
 					path: '/pages/user/login',
 					animationType: 'slide-in-bottom',
