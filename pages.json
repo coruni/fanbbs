@@ -12,9 +12,8 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
-			},
-			"perm": "login"
-
+			}
+			
 		}, {
 			"path": "pages/article/article",
 			"style": {
@@ -92,6 +91,14 @@
 		},
 		{
 			"path" : "pages/article/components/comments/subComment",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/common/category/categoryInfo",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",

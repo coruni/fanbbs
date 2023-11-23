@@ -8,7 +8,7 @@
 			<u-row align="top" customStyle="margin:30rpx;border-bottom: 1rpx #f7f7f7 solid;">
 
 				<view style="position: relative;">
-					<u-avatar :src="data.avatar" size="30" @click="goProfile(data.authorId)"></u-avatar>
+					<u-avatar :src="data.avatar" size="30" customStyle="border:4rpx solid #85a3ff32" @click="goProfile(data.authorId)"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="data.opt&&data.opt.headStatus&&data.opt.head_picture">
 					</image>
@@ -49,7 +49,7 @@
 					<view style="padding:30rpx">
 						<u-skeleton rows="2" avatar :loading="loading">
 							<u-row align="top">
-								<u-avatar :src="item.avatar" size="20" @click="goProfile(item.authorId)"></u-avatar>
+								<u-avatar :src="item.avatar" size="24" customStyle="border:4rpx solid #85a3ff32" @click="goProfile(item.authorId)"></u-avatar>
 
 								<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 									<u-row>
@@ -111,7 +111,7 @@
 			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 				:placeholder="`回复${replyWho}`" border="none"
 				customStyle="background:#85a3ff14;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
-			<u-row customStyle="margin-top:10rpx" justify="space-between">
+			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="6">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
@@ -120,7 +120,7 @@
 					</u-row>
 				</u-col>
 				<view>
-					<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
+					<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx" text="发送"
 						@click="reply"></u-button>
 				</view>
 			</u-row>

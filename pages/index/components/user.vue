@@ -379,4 +379,7 @@
 		padding: 0 40rpx 40rpx 40rpx;
 		border-bottom: 1rpx solid #f7f7f7;
 	}
+	.u-button::before {
+		background: #a899e6;
+	}
 </style>

@@ -526,7 +526,7 @@
 							});
 					}
 				})
-				if (this.article.text < 10) {
+				if (this.article.text&&this.article.text.length < 10) {
 					uni.$u.toast('再多写点吧~')
 					return
 				}

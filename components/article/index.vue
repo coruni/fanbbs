@@ -6,7 +6,7 @@
 				@click="swiperTap"></u-swiper>
 		</view>
 		<block v-for="(item,index) in content" :key="index">
-			<view @click.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item"></article-header>
 				<article-content :data="item"></article-content>
 				<article-footer :data="item"></article-footer>

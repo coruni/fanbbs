@@ -9,10 +9,11 @@
 		</u-row>
 
 		<u-row justify="space-between"
-			style="background: #85a3ff0a;padding: 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
-			<u-row>
+			style="background: #85a3ff0a;padding: 40rpx 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
+			<u-row @click="goProfile(data.authorId)">
 				<view style="position: relative;display: inline-block;">
-					<u-avatar :src="data.authorInfo.avatar" size="40"></u-avatar>
+					<u-avatar :src="data.authorInfo.avatar" size="40"
+						customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="data.authorInfo.opt && data.authorInfo.opt.headStatus && data.authorInfo.opt.head_picture">
 					</image>
@@ -26,7 +27,7 @@
 				<u-button :plain="!data.authorInfo.isfollow" shape="circle" hover-class="button_hover"
 					:color="data.authorInfo.isfollow?'#85a3ff0f':'#a899e6'" customStyle="width:160rpx;height:60rpx"
 					:style="{color:data.authorInfo.isfollow?'black':'#a899e6'}"
-					:text="data.authorInfo.isfollow?'已关注':'关注'" @click="follow()"></u-button>
+					:text="data.authorInfo.isfollow?'已关注':'关注'" @click="$emit('follow',data.authorId)"></u-button>
 			</view>
 		</u-row>
 
@@ -48,11 +49,12 @@
 			}
 		},
 		methods: {
-			follow() {
-				this.$http.post('/typechoUsers/follow', {
-					touid: this.data.authorId,
-				}).then(res => {
-					uni.$u.toast(res.data.msg)
+			goProfile(id) {
+				this.$Router.push({
+					path: '/pages/profile/profile',
+					query: {
+						id
+					}
 				})
 			}
 		}

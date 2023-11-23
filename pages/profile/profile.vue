@@ -17,70 +17,57 @@
 					<u-button color="#a899e6" size="mini" slot="right" v-show="opacity>=1">关注</u-button>
 				</u-navbar>
 			</template>
-			<image :src="info.avatar" mode="aspectFill" style="width: 100%;height: 380rpx;background: #000;"></image>
-			<view style="position: relative;top: -50rpx;background: #fff;border-radius: 40rpx 40rpx 0 0;">
-				<view id="profile">
-					<u-avatar :src="info.avatar" size="80"
-						customStyle="position:absolute;top:-80rpx;margin-left:60rpx;border:6rpx solid #fff"></u-avatar>
-					<u-row justify="end" customStyle="padding:20rpx">
-						<view>
-							<u-button color="#a899e6C4" plain size="normal"
-								customStyle="height:50rpx;border-radius:20rpx">私信</u-button>
-						</view>
-						<view style="margin-left:30rpx">
-							<u-button color="#a899e6C4" size="normal"
-								customStyle="height:50rpx;padding:0 60rpx ;border-radius:20rpx">关注</u-button>
-						</view>
-					</u-row>
-					<view style="margin:20rpx">
-						<u-row justify="space-between">
-							<u-row>
-								<text
-									:style="{color:info.isvip?'#a899e6':'',fontSize:50+'rpx'}">{{info.screenName}}</text>
-								<text
-									style="font-size: 20rpx;color:white;margin-left:10rpx;background:#a899e6;padding:0 10rpx;border-radius:8rpx;box-shadow:0 0 9rpx 0 #a899e6">
-									{{'Lv.'+ info.lv}}
-								</text>
-							</u-row>
-						</u-row>
-						<u-row class="u-info">
-							<u-icon name="file-text" size="20" class="u-info"></u-icon>
-							<text class="u-line-1">{{info.introduce?info.introduce:'暂时还没有简介哦~'}}</text>
-						</u-row>
-						<u-icon name="checkmark-circle-fill" label="管理员" color="red"
-							v-if="info.groupKey=='administrator'"></u-icon>
-					</view>
-					<u-gap height="8" custom-style="background:#f4f4f4"></u-gap>
+			<image :src="info.userBg?info.userBg:'/static/login.png'" mode="aspectFill"
+				style="width: 100%;height: 400rpx;transform: scale(1);"></image>
+			<view class="userPanel" id="profile">
+				<view style="position: absolute;top: -80rpx;">
+					<u-avatar :src="info.avatar" size="80">
+					</u-avatar>
+					<image class="avatar_head" mode="aspectFill" :src="info && info.opt&&info.opt.head_picture">
+					</image>
 				</view>
-				<!-- #ifndef H5 -->
-				<u-sticky offsetTop="60">
-					<u-tabs :list="tabs" lineColor="#a899e6" :current="tabsIndex" style="background: white;"
-						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
-						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="tabsIndex = $event.index">
-					</u-tabs>
-				</u-sticky>
-				<!-- #endif -->
-				<!-- #ifdef H5 -->
-				<u-sticky>
-					<u-tabs :list="tabs" lineColor="#a899e6" :current="tabsIndex" style="background: white;"
-						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
-						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="tabsIndex = $event.index">
-					</u-tabs>
-				</u-sticky>
-				<!-- #endif -->
 
-				<swiper style="height: 100vh;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current"
-					@touchmove.stop.passive>
-					<swiper-item>
-						<article-item :uid="info.uid" :isScroll="isScroll"></article-item>
-					</swiper-item>
-					<swiper-item style="overflow: auto;">
-						<article-item></article-item>
-					</swiper-item>
-					<swiper-item style="overflow: auto;">
-						<commentItem :uid="info.uid" :isScroll="isScroll"></commentItem>
-					</swiper-item>
-				</swiper>
+				<u-row justify="space-between" align="top" customStyle="padding-top:20rpx">
+					<view>
+						<!-- 占位脱离文档流头像 -->
+						<u-gap height="40"></u-gap>
+						<!-- 占位结束 -->
+						<text style="font-weight: 600;font-size: 34rpx;">{{info.screenName}}</text>
+						<u-row customStyle="font-size:28rpx">
+							<u-icon name="heart" color="#a899e6" customStyle="margin-right:10rpx"></u-icon>
+							<text>通行证ID：{{info.uid}}</text>
+						</u-row>
+
+						<u-row customStyle="font-size:28rpx">
+							<u-icon name="pushpin" customStyle="margin-right:10rpx"></u-icon>
+							<text style="color: #999;">{{info.introduce?info.introduce:'系统默认签名~'}}</text>
+						</u-row>
+					</view>
+					<view>
+						<u-button :plain="!isfollow" :color="!isfollow?'#a899e6':'#85a3ff0f'" shape="circle"
+							customStyle="height:60rpx;width:160rpx">
+							<text :style="{color:isfollow?'black':'#a899e6'}">{{isfollow?'已关注':'关注'}}</text>
+						</u-button>
+					</view>
+				</u-row>
+				<!-- <u-row justify="space-around" customStyle="margin-top:40rpx">
+					<view class="userMate">
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.contentsNum}}</text>
+						<text>帖子</text>
+					</view>
+					<view class="userMate">
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.followNum}}</text>
+						<text>关注</text>
+					</view>
+					<view class="userMate">
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.fanNum}}</text>
+						<text>粉丝</text>
+					</view>
+					<view class="userMate">
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.commentsNum}}</text>
+						<text>评论</text>
+					</view>
+				</u-row> -->
 			</view>
 		</z-paging>
 	</view>
@@ -110,6 +97,7 @@
 				info: {},
 				swiperIndex: 0,
 				tabsIndex: 0,
+				isfollow: false,
 				tabs: [{
 						name: '帖子'
 					},
@@ -129,14 +117,16 @@
 			};
 		},
 		onLoad(params) {
-			if (params) this.getAuthor(params.id)
+			if (params) {
+				this.getAuthor(params.id)
+				this.isFollow(params.id)
+			}
 		},
 		created() {
-			if (this.id) this.getAuthor(params.id)
+
 		},
 		onReady() {
 			uni.createSelectorQuery().in(this).select('#profile').boundingClientRect(data => {
-
 				this.elementHeight = data.bottom
 			}).exec()
 
@@ -154,10 +144,23 @@
 					}
 				})
 			},
+			isFollow(id) {
+				this.$http.get('/typechoUsers/isFollow', {
+					params: {
+						touid: id,
+						token: uni.getStorageSync('token')
+					}
+
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						this.isfollow = true
+					}
+				})
+			},
 			onRefresh() {
-				console.log(1)
 				setTimeout(() => {
-					this.$refs.paging.endRefresh();
+					this.$refs.paging.complete();
 				}, 1000)
 
 			},
@@ -182,5 +185,23 @@
 </script>
 
 <style lang="scss">
+	.userMate {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		font-size: 26rpx;
+	}
 
+	.userPanel {
+		position: relative;
+		top: -60rpx;
+		background-color: #fff;
+		border-radius: 40rpx 40rpx 0 0;
+		padding: 0 40rpx 40rpx 40rpx;
+		border-bottom: 1rpx solid #f7f7f7;
+	}
+	.u-button::before {
+		background: #a899e6;
+	}
 </style>

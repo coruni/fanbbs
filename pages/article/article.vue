@@ -1,152 +1,150 @@
 <template>
 	<z-paging-swiper>
-		<swiper style="height: 100%;" :current="swiperIndex" @animationfinish="animationfinish">
-			<swiper-item v-show="!loading">
-				<z-paging ref="comments" v-model="comments" @query="getComments" :auto-scroll-to-top-when-reload="false"
-					:auto-clean-list-when-reload="false">
-					<template #top>
-						<u-navbar placeholder autoBack @rightClick="showMore = true" fixed style="z-index: 10;">
-							<view slot="right">
-								<u-icon name="more-dot-fill"></u-icon>
-							</view>
-						</u-navbar>
-					</template>
-					<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd"
-						@touchmove="touchMove">
-						<articleHeader :data="article"></articleHeader>
-						<articleContent :data="article" :autoPreview="isScroll"></articleContent>
-						<articleFooter :data="article"></articleFooter>
-					</view>
-					<!-- 评论区 -->
-					<u-gap height="8" bgColor="#85a3ff0a"></u-gap>
-					<!-- #ifdef APP -->
-					<u-sticky bgColor="#fff">
-						<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;">
-							<u-row>
-								<view @click="showOrderList = !showOrderList"
-									style="display: flex; align-items: center;">
-									<text style="margin-right: 10rpx;">{{orderName}}</text>
-									<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
-										color="#999"></u-icon>
-								</view>
-							</u-row>
-							<u-transition :show="showOrderList"
-								style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
-								<view>
-									<!-- 半透明遮罩 -->
-									<view @click.stop="showOrderList = false"
-										style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
-									</view>
-									<view
-										style="font-size: 30rpx;color:#a899e6;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
-										<block v-for="(item,index) in orderList" :key="index">
-											<text @click.stop="orderTap(item.name)"
-												style="padding: 15rpx;">{{item.name}}</text>
-										</block>
-									</view>
-								</view>
-							</u-transition>
+		<z-paging ref="comments" v-model="comments" @query="getComments" :auto-scroll-to-top-when-reload="false"
+			:auto-clean-list-when-reload="false" v-show="!loading" @scroll="onScroll">
+			<template #top>
+				<u-navbar placeholder fixed style="z-index: 10;">
+					<view slot="left" style="display:flex;align-items: center;">
+						<u-icon name="arrow-left" size="20" @click="$Router.back()"></u-icon>
+						<view style="margin-left: 40rpx;display: flex;align-items: center;"
+							@click="goProfile(article.authorId)" v-if="showNavAvatar">
+							<u-avatar :src="article.authorInfo.avatar" size="28"
+								customStyle="border:4rpx solid #85a3ff32"></u-avatar>
+							<text
+								style="font-weight: 600;font-size: 30rpx;margin-left: 20rpx;">{{article.authorInfo.name}}</text>
 						</view>
-					</u-sticky>
-					<!-- #endif -->
-					<!-- #ifndef APP -->
-					<u-sticky bgColor="#fff" offsetTop="-44">
-						<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;">
-							<u-row>
-								<view @click="showOrderList = !showOrderList"
-									style="display: flex; align-items: center;">
-									<text style="margin-right: 10rpx;">{{orderName}}</text>
-									<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
-										color="#999"></u-icon>
-								</view>
-							</u-row>
-							<u-transition :show="showOrderList"
-								style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
-								<view>
-									<!-- 半透明遮罩 -->
-									<view @click.stop="showOrderList = false"
-										style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
-									</view>
-									<view
-										style="font-size: 30rpx;color:#a899e6;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
-										<block v-for="(item,index) in orderList" :key="index">
-											<text @click.stop="orderTap(item.name)"
-												style="padding: 15rpx;">{{item.name}}</text>
-										</block>
-									</view>
-								</view>
-							</u-transition>
-						</view>
-
-					</u-sticky>
-					<!-- #endif -->
-					<view style="margin: 30rpx;">
-						<!-- 开始 -->
-						<block v-for="(item,index) in comments" v-if="comments">
-							<view style="margin:10rpx 0">
-								<comment :data="item" @subComment="subComment = $event;showSub =true"
-									@reply="pid = $event.coid;showComment =true" :article="article"></comment>
-							</view>
-						</block>
 					</view>
-					<template #bottom>
-						<u-row customStyle="padding-top:10rpx;padding:20rpx" justify="space-between">
-							<u-col span="6">
-								<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background:#85a3ff14"
-									class="u-info" @click="showComment = true">
-									<u-icon name="edit-pen" size="20"></u-icon>
-									<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
-								</u-row>
-							</u-col>
-							<u-col span="5">
-								<u-row customStyle="margin-left:20rpx;flex:1" justify="space-around">
-									<view style="display: flex; flex-direction: column;align-items: center;"
-										@click="$refs.reward.open()">
-										<u-icon name="rmb-circle" size="20"></u-icon>
-										<u-text text="发电" size="12"></u-text>
-									</view>
-									<view style="display: flex; flex-direction: column;align-items: center;"
-										@click="$u.throttle(btnTap('mark'),1000,true)">
-										<u-icon :color="article && article.isMark?'#a899e6':''" name="star" size="22"
-											:class="{'animate__animated animate__pulse':article && article.isMark}"></u-icon>
-										<u-text text="收藏" size="12"></u-text>
-									</view>
+					<view slot="right">
+						<view v-if="showNavAvatar"
+							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #85a3ff32;padding: 8rpx 16rpx;">
+							<u-row customStyle="margin-right:20rpx;" @click="follow(article.authorId)">
+								<u-icon name="plus" size="12" :color="article.authorInfo.isfollow?'':'#a899e6'"
+									v-if="!article.authorInfo.isfollow"></u-icon>
+								<text style="font-size: 26rpx;margin-left: 10rpx;padding-right:20rpx;"
+									:style="{color:article.authorInfo.isfollow?'':'#a899e6'}">{{article.authorInfo.isfollow?'已关注':'关注'}}</text>
+							</u-row>
+							<u-icon name="more-dot-fill" @click="showMore = true"></u-icon>
+						</view>
+						<u-icon name="more-dot-fill" @click="showMore = true" v-else></u-icon>
+					</view>
+				</u-navbar>
+			</template>
+			<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
+				<articleHeader :data="article" @follow="follow($event)"></articleHeader>
+				<articleContent :data="article" :autoPreview="isScroll"></articleContent>
+				<articleFooter :data="article"></articleFooter>
+			</view>
+			<!-- 评论区 -->
+			<u-gap height="8" bgColor="#85a3ff0a"></u-gap>
+			<!-- #ifdef APP -->
+			<u-sticky bgColor="#fff">
+				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;">
+					<u-row>
+						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
+							<text style="margin-right: 10rpx;">{{orderName}}</text>
+							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
+								color="#999"></u-icon>
+						</view>
+					</u-row>
+					<u-transition :show="showOrderList"
+						style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
+						<view>
+							<!-- 半透明遮罩 -->
+							<view @click.stop="showOrderList = false"
+								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
+							</view>
+							<view
+								style="font-size: 30rpx;color:#a899e6;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								<block v-for="(item,index) in orderList" :key="index">
+									<text @click.stop="orderTap(item.name)" style="padding: 15rpx;">{{item.name}}</text>
+								</block>
+							</view>
+						</view>
+					</u-transition>
+				</view>
+			</u-sticky>
+			<!-- #endif -->
+			<!-- #ifndef APP -->
+			<u-sticky bgColor="#fff" offsetTop="-44">
+				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;">
+					<u-row>
+						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
+							<text style="margin-right: 10rpx;">{{orderName}}</text>
+							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
+								color="#999"></u-icon>
+						</view>
+					</u-row>
+					<u-transition :show="showOrderList"
+						style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
+						<view>
+							<!-- 半透明遮罩 -->
+							<view @click.stop="showOrderList = false"
+								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
+							</view>
+							<view
+								style="font-size: 30rpx;color:#a899e6;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								<block v-for="(item,index) in orderList" :key="index">
+									<text @click.stop="orderTap(item.name)" style="padding: 15rpx;">{{item.name}}</text>
+								</block>
+							</view>
+						</view>
+					</u-transition>
+				</view>
 
-									<view style="display: flex; flex-direction: column;align-items: center;"
-										@click="$u.throttle(btnTap('likes'),1000,true)">
-										<u-icon :color="article && article.isLike?'#a899e6':''" name="thumb-up"
-											size="22"
-											:class="{'animate__animated animate__bounceIn':article && article.isLike}"></u-icon>
-										<u-text text="点赞" size="12"></u-text>
-									</view>
-								</u-row>
-							</u-col>
+			</u-sticky>
+			<!-- #endif -->
+			<view style="margin: 30rpx;">
+				<!-- 开始 -->
+				<block v-for="(item,index) in comments" v-if="comments">
+					<view style="margin:10rpx 0">
+						<comment :data="item" @subComment="subComment = $event;showSub =true"
+							@reply="pid = $event.coid;showComment =true" :article="article"></comment>
+					</view>
+				</block>
+			</view>
+			<template #bottom>
+				<u-row customStyle="padding-top:10rpx;padding:20rpx" justify="space-between">
+					<u-col span="6">
+						<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background:#85a3ff14"
+							class="u-info" @click="showComment = true">
+							<u-icon name="edit-pen" size="20"></u-icon>
+							<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
 						</u-row>
-					</template>
-				</z-paging>
-			</swiper-item>
-			<swiper-item>
-				<z-paging refresher-only ref="author">
-					<template #top>
-						<u-navbar :bgColor="`rgba(255,255,255,0)`" placeholder
-							@leftClick="swiperIndex = 0;$u.toast(swiperIndex)" @rightClick="showMore = true" fixed>
-							<view slot="right">
-								<u-icon name="more-dot-fill"></u-icon>
+					</u-col>
+					<u-col span="5">
+						<u-row customStyle="margin-left:20rpx;flex:1" justify="space-around">
+							<view style="display: flex; flex-direction: column;align-items: center;"
+								@click="$refs.reward.open()">
+								<u-icon name="rmb-circle" size="20"></u-icon>
+								<u-text text="发电" size="12"></u-text>
 							</view>
-						</u-navbar>
-					</template>
-				</z-paging>
-			</swiper-item>
-		</swiper>
+							<view style="display: flex; flex-direction: column;align-items: center;"
+								@click="$u.throttle(btnTap('mark'),1000,true)">
+								<u-icon :color="article && article.isMark?'#a899e6':''" name="star" size="22"
+									:class="{'animate__animated animate__pulse':article && article.isMark}"></u-icon>
+								<u-text text="收藏" size="12"></u-text>
+							</view>
+
+							<view style="display: flex; flex-direction: column;align-items: center;"
+								@click="$u.throttle(btnTap('likes'),1000,true)">
+								<u-icon :color="article && article.isLike?'#a899e6':''" name="thumb-up" size="22"
+									:class="{'animate__animated animate__bounceIn':article && article.isLike}"></u-icon>
+								<u-text text="点赞" size="12"></u-text>
+							</view>
+						</u-row>
+					</u-col>
+				</u-row>
+			</template>
+		</z-paging>
 		<u-loading-page :loading="loading"></u-loading-page>
 		<!-- 页面公用组件 -->
 		<!-- 回复文章 -->
 		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20"
-			:customStyle="`padding:30rpx;padding-bottom:${keyboardHeight}px`">
+			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
 			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 				placeholder="灵感迸发" border="none"
 				customStyle="background:#85a3ff14;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
-			<u-row customStyle="margin-top:10rpx" justify="space-between">
+			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="6">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
@@ -155,8 +153,8 @@
 					</u-row>
 				</u-col>
 				<view>
-					<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx" size="mini" text="发送"
-						@click="reply"></u-button>
+					<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx"
+						text="发送" @click="reply"></u-button>
 				</view>
 			</u-row>
 			<!-- 隐藏面板 -->
@@ -165,27 +163,6 @@
 				<!-- ui -->
 				表情
 			</block>
-		</u-popup>
-		<!-- 分享&&管理弹窗 -->
-		<u-popup :show="showMore" @close="showMore = false" customStyle="padding:30rpx" round="20">
-			<u-row justify="space-between" style="border-bottom:1px solid #f7f8f7;padding-bottom: 30rpx;">
-				<u-col span="2" v-for="(item,index) in share" :key="index" align="center"
-					customStyle="flex-direction:column" @click="shareTap">
-					<view :style="{background:item.color,borderRadius:'50rpx',padding:'20rpx'}">
-						<u-icon :name="item.icon" color="white" size="26"></u-icon>
-					</view>
-					<text style="margin-top:10rpx">{{item.name}}</text>
-				</u-col>
-			</u-row>
-			<u-row customStyle="margin-top:30rpx">
-				<u-col span="2" v-for="(item,manageIndex) in manage" :key="manageIndex" align="center"
-					customStyle="flex-direction:column">
-					<view :style="{borderRadius:'50rpx',padding:'20rpx'}" class="u-info-light-bg">
-						<u-icon :name="item.icon" size="26"></u-icon>
-					</view>
-					<text style="margin-top:10rpx">{{item.name}}</text>
-				</u-col>
-			</u-row>
 		</u-popup>
 		<!-- 子评论 -->
 		<u-popup :show="showSub" @close="showSub = false;keyboardHeight = 0" round="20">
@@ -211,10 +188,41 @@
 						@click="btnTap('reward',reward?reward:selectReward)">投喂</u-button>
 				</view>
 			</view>
-
-
 			<view slot="confirmButton"></view>
 		</uv-modal>
+
+		<!-- 分享 -->
+		<u-popup mode="bottom" round="10" :show="showMore" @close="showMore =false">
+			<view style="position: absolute;top: 0;padding: 30rpx;">
+				<u-icon name="close" size="20" color="#999" @click="showMore = false"></u-icon>
+			</view>
+			<view style="padding: 30rpx;">
+				<view style="text-align: center;color: #999;">
+					<text>分享至</text>
+				</view>
+				<view style="margin-top: 50rpx;">
+					<u-row justify="space-between"
+						customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx">
+						<block v-for="(item,index) in share" :key="index">
+							<u-row align="center" customStyle="flex-direction:column">
+								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
+									<u-icon :name="item.icon" color="white" size="24"></u-icon>
+								</view>
+								<text style="margin-top: 20rpx;">{{item.name}}</text>
+							</u-row>
+						</block>
+					</u-row>
+					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
+						<text>我不喜欢这类内容</text>
+						<text>举报</text>
+						<text>屏蔽用户</text>
+						<text>屏蔽</text>
+						<text>复制链接</text>
+						<text>通过系统分享</text>
+					</view>
+				</view>
+			</view>
+		</u-popup>
 	</z-paging-swiper>
 </template>
 
@@ -238,6 +246,7 @@
 			return {
 				showReward: false,
 				showOrderList: false,
+				showNavAvatar: false,
 				orderName: '全部评论',
 				isScroll: false,
 				cid: 0,
@@ -313,6 +322,7 @@
 				reward: null,
 				selectReward: 0,
 				keyboardHeight: 0,
+				headerHeight: 0,
 			};
 		},
 		onLoad(params) {
@@ -445,6 +455,11 @@
 							case 'mark':
 								this.article.isMark = !this.article.isMark
 								break;
+							case 'reward':
+								uni.$u.toast('投喂' + res.data.msg)
+								setTimeout(() => {
+									this.$refs.reward.close()
+								}, 500)
 							default:
 								break;
 						}
@@ -472,7 +487,27 @@
 			orderTap(item) {
 				this.orderName = item
 				this.showOrderList = false
-			}
+			},
+			onScroll(data) {
+				if (data.detail.scrollTop > 160) this.showNavAvatar = true;
+				else this.showNavAvatar = false;
+			},
+			goProfile(id) {
+				this.$Router.push({
+					path: '/pages/profile/profile',
+					query: {
+						id
+					}
+				})
+			},
+			follow(id) {
+				this.$http.post('/typechoUsers/follow', {
+					touid: id,
+				}).then(res => {
+					uni.$u.toast(res.data.msg)
+					this.article.authorInfo.isfollow = !this.article.authorInfo.isfollow
+				})
+			},
 
 		}
 	}

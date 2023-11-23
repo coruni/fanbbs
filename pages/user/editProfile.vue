@@ -39,7 +39,7 @@
 			<view>
 				<u-text text="性别" bold color="#999"></u-text>
 				<view @click="showSexChoose = true">
-					<u-input type="idcard" v-model="info.sex" placeholder="输入昵称"
+					<u-input type="idcard" v-model="info.sex" placeholder="选择性别"
 						customStyle="padding:10rpx 20rpx;border-radius:10rpx" disabled disabledColor="">
 						<view slot="suffix">
 							<u-icon name="arrow-right" color="#999" size="12"></u-icon>
