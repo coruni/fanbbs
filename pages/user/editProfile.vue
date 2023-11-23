@@ -144,6 +144,7 @@
 						uid: this.userInfo.uid,
 						name: this.userInfo.name,
 						introduce: this.info.introduce,
+						sex: this.info.sex,
 						screenName: this.info.screenName,
 						avatar: this.info.avatar,
 						userBg: this.info.userBg
