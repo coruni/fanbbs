@@ -7,7 +7,7 @@
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
 					<view v-for="(item,index) in list1" :key="item.cid" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;max-height: 720rpx !important;"
+						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
 						@click="goArticle(item)">
 						<image
 							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
@@ -25,7 +25,7 @@
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
 					<view v-for="(item,index) in list2" :key="item.cid" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;max-height: 720rpx !important;"
+						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
 						@click="goArticle(item)">
 						<image
 							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
@@ -110,7 +110,8 @@
 						limit,
 						searchParams: JSON.stringify({
 							type: 'post'
-						})
+						}),
+						order:'created desc'
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {

@@ -4,11 +4,12 @@
 			style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<block v-for="(item,index) in article">
-				<view style="margin: 30rpx 40rpx;" @click="goArticle(item)">
+				<view style="margin: 30rpx;" @click="goArticle(item)">
 					<articleHeader :data="item"></articleHeader>
 					<articleContent :data="item"></articleContent>
 					<articleFooter :data="item"></articleFooter>
 				</view>
+				<view style="border-bottom:1rpx #f7f7f7 solid"></view>
 			</block>
 		</z-paging>
 	</view>

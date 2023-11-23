@@ -423,7 +423,7 @@
 			replaceEmoji(html) {
 				return html.replace(
 					/<img[^>]*?alt="src=([^"]+)\|poster=([^"]+)\|type=video"[^>]*?>/g, (match, src, poster) => {
-						return `<video src="${src}" poster="${poster}" muted width="100%" style="border-radius:20rpx" />`
+						return `<div style="border-radius:10px"><video src="${src}" poster="${poster}" muted width="100%" style="border-radius:10px" /></div>`
 					}).replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
 					const emoji = this.$emoji.data.find(e => e.name === name)
 					if (emoji) {
@@ -501,6 +501,7 @@
 				})
 			},
 			follow(id) {
+				if (this.userInfo.uid == id) return;
 				this.$http.post('/typechoUsers/follow', {
 					touid: id,
 				}).then(res => {
