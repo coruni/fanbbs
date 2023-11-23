@@ -4,14 +4,13 @@
 			style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<block v-for="(item,index) in article">
-				<view style="margin: 30rpx;" @click="goArticle(item)">
+				<view style="margin: 30rpx 40rpx;" @click="goArticle(item)">
 					<articleHeader :data="item"></articleHeader>
 					<articleContent :data="item"></articleContent>
 					<articleFooter :data="item"></articleFooter>
 				</view>
 			</block>
 		</z-paging>
-		<u-gap></u-gap>
 	</view>
 </template>
 
@@ -57,7 +56,7 @@
 						type: 'post',
 						authorId: this.$store.state.userInfo.uid
 					}),
-					order:'created desc'
+					order: 'created desc'
 
 				}).then(res => {
 					this.$refs.paging.complete(res.data.data)
