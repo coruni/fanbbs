@@ -70,6 +70,7 @@
 				})
 			},
 			follow() {
+				if(this.userInfo.uid == this.data.authorId) return;
 				this.$http.post('/typechoUsers/follow', {
 					toid: this.data.authorId
 				}).then(res => {

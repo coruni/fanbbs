@@ -114,17 +114,17 @@
 					<block v-for="(item,index) in article.opt.files" :key="index">
 						<u-row customStyle="margin-bottom:10rpx">
 							<u-col span="7">
-								<u-input placeholder="资源链接" border="none" font-size="12"
+								<u-input placeholder="资源链接" :adjustPosition="false" border="none" font-size="12"
 									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
 									v-model="article.opt.files[index].link"></u-input>
 							</u-col>
 							<u-col span="2" customStyle="margin-left:10rpx">
-								<u-input placeholder="提取码" border="none" font-size="12"
+								<u-input placeholder="提取码" :adjustPosition="false" border="none" font-size="12"
 									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
 									v-model="article.opt.files[index].password"></u-input>
 							</u-col>
 							<u-col span="2" customStyle="margin-left:5rpx">
-								<u-input placeholder="解压密码" border="none" font-size="12"
+								<u-input placeholder="解压密码" :adjustPosition="false" border="none" font-size="12"
 									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
 									v-model="article.opt.files[index].unzipPass"></u-input>
 							</u-col>

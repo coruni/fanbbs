@@ -36,7 +36,7 @@
 				<u-row justify="space-around"
 					customStyle="margin-top:30rpx;border-bottom:1rpx solid #cccccc36;padding-bottom:40rpx">
 					<block v-for="(item,index) in publish" :key="index">
-						<u-row customStyle="flex-direction:column;" @click="goPublish(item)">
+						<u-row customStyle="flex-direction:column;" @click="goPublish(item);showPublish = false">
 							<view style="background: #a899e64c;border-radius: 500rpx;padding: 15rpx;">
 								<u-icon :name="item.icon" size="30" color="#a899e6"></u-icon>
 							</view>
