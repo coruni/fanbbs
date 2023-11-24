@@ -608,7 +608,7 @@
 				})
 			},
 			follow(id) {
-				if (this.userInfo.uid == id) return;
+				if (this.$store.state.userInfo.uid == id) return;
 				this.$http.post('/typechoUsers/follow', {
 					touid: id,
 				}).then(res => {
