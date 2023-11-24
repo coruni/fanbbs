@@ -170,8 +170,12 @@
 									background: #a899e63c;
 									padding:4rpx 14rpx;
 									border-radius: 10rpx;">推荐</text>
-								<text style="margin-left: 20rpx;"
-									:style="{color:article.category && article.category.mid == item.mid?'#a899e6':''}">{{item.name}}</text>
+								<u-row>
+									<u-avatar :src="item.imgurl" size="30" shape="square" v-if="item.imgurl"
+										mode="aspectFill"></u-avatar>
+									<text style="margin-left: 20rpx;"
+										:style="{color:article.category && article.category.mid == item.mid?'#a899e6':''}">{{item.name}}</text>
+								</u-row>
 							</u-row>
 						</block>
 					</view>
@@ -515,6 +519,7 @@
 					uni.$u.toast('标题太短')
 					return
 				}
+				let textLength = '';
 				this.editorCtx.getContents({
 					success: res => {
 						this.article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
@@ -524,12 +529,14 @@
 								// 替换成_(提取的alt)_
 								return `_|#${alt}|`;
 							});
+						textLength = res.text;
 					}
 				})
-				if (this.article.text&&this.article.text.length < 10) {
+				if (textLength.length < 10) {
 					uni.$u.toast('再多写点吧~')
-					return
+					return;
 				}
+
 				this.$refs.publish.open()
 				let tags = this.article.tags.map(tag => tag.mid).join(',')
 				this.$http.post('/typechoContents/contentsAdd', {
@@ -556,6 +563,8 @@
 					}
 				})
 			},
+
+
 			showItem(item) {
 				if (this.itemName != item) {
 					this.itemName = item

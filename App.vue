@@ -109,6 +109,24 @@
 		image-rendering: -webkit-optimize-contrast;
 	}
 
+	.vipname {
+		color: $c-primary;
+	}
+
+	.category {
+		background: rgba($c-primary, 0.1);
+		color: $c-primary;
+	}
+
+	.primary {
+		color: $c-primary;
+	}
+
+	.primary-bg {
+		background: $c-primary;
+		color: white;
+	}
+
 	@import 'animate.css';
 	@import "@/uni_modules/uview-ui/index.scss";
 	/*每个页面公共css */

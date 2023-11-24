@@ -57,12 +57,5 @@
 </script>
 
 <style lang="scss">
-	.category {
-		background: rgba($c-primary, 0.1);
-		color: $c-primary;
-	}
-
-	.primary {
-		color: $c-primary;
-	}
+	
 </style>

@@ -87,11 +87,7 @@
 </script>
 
 <style lang="scss">
-	.vipname {
-		color: $c-primary;
-	}
-
 	.u-button::before {
-		background: #a899e6;
+		background: $c-primary;
 	}
 </style>
