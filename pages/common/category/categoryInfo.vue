@@ -7,7 +7,7 @@
 			</template>
 			<view class="info" id="infoPanel">
 				<image :src="info.imgurl" mode="aspectFill" style="width: 100%;height: 600rpx;"></image>
-				<view style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #faead778;">
+				<view :style="`position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: ${info.opt && $u.colorToRgba(info.opt.primary,0.5)};`">
 					<view class="info_lay"
 						:style="`background: linear-gradient(to top, ${info.opt && $u.colorToRgba(info.opt.primary,0.8)} 30%, rgba(0, 0, 0, 0) 70%);`">
 						<view style="margin:30rpx;margin-bottom: 60rpx;">
