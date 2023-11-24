@@ -82,7 +82,7 @@
 							type: 'post'
 						}),
 						order: 'istop desc,created desc',
-						uid: this.$store.state.hasLogin ? this.$store.state.userInfo.uid : ''
+						token: this.$store.state.hasLogin?uni.getStorageSync('token'):''
 					}
 				}).then(res => {
 					console.log(res)

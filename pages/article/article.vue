@@ -31,7 +31,7 @@
 			</template>
 			<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
 				<articleHeader :data="article" @follow="follow($event)"></articleHeader>
-				<articleContent :data="article" :autoPreview="isScroll"></articleContent>
+				<articleContent :data="article" :autoPreview="isScroll" @ready="loading = false"></articleContent>
 				<articleFooter :data="article"></articleFooter>
 			</view>
 			<!-- 评论区 -->
@@ -376,9 +376,7 @@
 			this.cid = params.id
 			this.author = uni.getStorageSync(`article_${params.id}`)
 			this.getData(params.id)
-			setTimeout(() => {
-				this.loading = false
-			}, 700)
+			
 		},
 		beforeRouteLeave(to, from, next) {
 			if (this.showComment || this.showMore || this.showSub || this.swiperIndex) {
@@ -418,6 +416,7 @@
 						key: id,
 						isMd: 1,
 						uid: this.$store.state.hasLogin ? this.$store.state.userInfo.uid : '',
+						token: uni.getStorageSync('token')
 					}
 				}).then(res => {
 					console.log(res)

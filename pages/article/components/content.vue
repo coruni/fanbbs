@@ -4,7 +4,7 @@
 		<!-- <u-parse>组件错误更换为uv-parse -->
 		<uv-parse :tag-style="{img:'border-radius:20rpx',video:'border-radius:20rpx !improtant',uniVideo:'border-radius:20rpx !improtant'}"
 			style="overflow: unset;white-space: normal;word-break: break-all" :show-img-menu="!isScroll"
-			:content="data.text" lazyLoad selectable></uv-parse>
+			:content="data.text" lazyLoad selectable @ready="$emit('ready',true)"></uv-parse>
 	</view>
 </template>
 
