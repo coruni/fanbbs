@@ -1,13 +1,14 @@
 <template>
 	<view>
-		<z-paging @query="getData" ref="paging" v-model="article" :scrollable="scroll" :refresher-enabled="false">
+		<z-paging @query="getData" ref="paging" v-model="article" :auto-scroll-to-top-when-reload="false"
+			:auto-clean-list-when-reload="false" :scrollable="scroll" :refresher-enabled="false">
 			<block v-for="(item,index) in article" :key="index">
 				<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 					<article-header :data="item"></article-header>
 					<article-content :data="item"></article-content>
 					<article-footer :data="item"></article-footer>
 				</view>
-				<view style="border-bottom:1rpx #f7f7f7 solid"></view>
+				<view :style="`border-bottom:1rpx ${border} solid`"></view>
 			</block>
 		</z-paging>
 	</view>
@@ -27,6 +28,10 @@
 			isScroll: {
 				type: Boolean,
 				default: false,
+			},
+			border: {
+				type: String,
+				default: null,
 			}
 
 		},
@@ -64,8 +69,9 @@
 						order: 'created desc'
 					}
 				}).then(res => {
-					console.log(res)
-					this.$refs.paging.complete(res.data.data)
+					if (res.data.code) {
+						this.$refs.paging.complete(res.data.data)
+					}
 				})
 			},
 			goArticle(data) {
@@ -76,6 +82,9 @@
 						id: data.cid
 					}
 				})
+			},
+			reload() {
+				this.$refs.paging.reload()
 			}
 		}
 	}

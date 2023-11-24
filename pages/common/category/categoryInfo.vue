@@ -33,24 +33,25 @@
 				:style="{background:info.opt && info.opt.primary}">
 				<!-- #ifndef APP -->
 				<u-sticky :bgColor="isSticky?info.opt&& info.opt.primary:''">
-					<u-tabs :list="list" :current="tabsIndex" @change="tabsIndex = $event.index" style="margin: 0 15rpx;" lineColor="#dccebf"></u-tabs>
+					<u-tabs :list="list" :current="tabsIndex" @change="tabsIndex = $event.index"
+						style="margin: 0 15rpx;" :lineColor="info.opt&& info.opt.underline"></u-tabs>
 				</u-sticky>
 				<!-- #endif -->
 
 				<!-- #ifdef APP -->
-				<u-sticky :bgColor="isSticky?'#faead7':''" offsetTop="60">
+				<u-sticky :bgColor="isSticky?info.opt&& info.opt.primary:''" offsetTop="60">
 					<u-tabs :list="list" :current="tabsIndex" @change="tabsIndex = $event.index"
-						style="margin: 0 15rpx;" lineColor="#dccebf"></u-tabs>
+						style="margin: 0 15rpx;" :lineColor="info.opt&& info.opt.underline"></u-tabs>
 				</u-sticky>
 				<!-- #endif -->
 
 				<swiper style="height: 100vh;" :current="tabsIndex"
 					@animationfinish="tabsIndex = $event.detail.current">
 					<swiper-item v-if="id">
-						<hot-article :mid="id" :isScroll="isScroll"></hot-article>
+						<hot-article :mid="id" :isScroll="isScroll" ref="hot" :border="info.opt&& info.opt.underline"></hot-article>
 					</swiper-item>
 					<swiper-item v-if="id">
-						<new-article :mid="id" :isScroll="isScroll"></new-article>
+						<new-article :mid="id" :isScroll="isScroll" ref="new" :border="info.opt&& info.opt.underline"></new-article>
 					</swiper-item>
 				</swiper>
 			</view>
@@ -115,6 +116,15 @@
 				})
 			},
 			onRefresh() {
+				switch (this.tabsIndex) {
+					case 0:
+						this.$refs.hot.reload()
+						break;
+					case 1:
+						this.$refs.new.reload()
+					default:
+						break;
+				}
 				setTimeout(() => {
 					this.$refs.paging.complete()
 				}, 1000)
