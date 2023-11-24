@@ -148,7 +148,8 @@
 				<u-col span="6">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
-							<u-icon :name="item.icon" size="20" @click="cBtnTap(item.name)"></u-icon>
+							<u-icon :name="item.icon" size="24" :color="showComemntBtn == item.name?'#a899e6':''"
+								@click="cBtnTap(item.name)"></u-icon>
 						</block>
 					</u-row>
 				</u-col>
@@ -160,8 +161,22 @@
 			<!-- 隐藏面板 -->
 			<block v-if="showComemntBtn == '表情'">
 				<!-- 这里加表情 -->
-				<!-- ui -->
-				表情
+				<block v-for="(one,oneIndex) in emojiData" :key="oneIndex">
+					<swiper style="height: 120px;" v-show="emojiIndex == oneIndex">
+						<swiper-item v-for="(two,twoIndex) in one.list" :key="twoIndex">
+							<u-row justify="space-between" customStyle="flex-wrap:wrap">
+								<image :src="one.base+one.slug+'_'+three+'.'+one.format" v-for="(three,key) in two"
+									:key="key" mode="aspectFill" style="width: 100rpx;height: 100rpx;margin: 10rpx;"
+									@click="commentText += `[${one.name}_${key}]`"></image>
+							</u-row>
+						</swiper-item>
+					</swiper>
+				</block>
+				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#a899e6"
+					itemStyle="height: 24px;"
+					:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
+					:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
+					style="position: static;"></u-tabs>
 			</block>
 		</u-popup>
 		<!-- 子评论 -->
@@ -253,6 +268,8 @@
 				pid: 0,
 				article: null,
 				comments: [],
+				emojiData: [],
+				emojiIndex: 0,
 				author: null,
 				subComment: null,
 				loading: true,
@@ -348,9 +365,18 @@
 
 		},
 		created() {
+			this.formatEmoji()
+		},
+		onShow() {
 			uni.onKeyboardHeightChange(data => {
 				console.log(data)
 				this.keyboardHeight = data.height
+			})
+		},
+		onUnload() {
+			// 取消监听
+			uni.offKeyboardHeightChange(data=>{
+				
 			})
 		},
 		methods: {
@@ -509,7 +535,50 @@
 					this.article.authorInfo.isfollow = !this.article.authorInfo.isfollow
 				})
 			},
+			formatEmoji() {
+				// 处理后的数据
+				let result = [];
 
+				// 每页表情对象的数量
+				const pageSize = 10;
+
+				// 遍历原始数据中的每个 item
+				this.$emoji.data.forEach(item => {
+					// 构建一个新的 item 对象
+					let newItem = {
+						"name": item.name,
+						"slug": item.slug,
+						"base": item.base,
+						"format": item.format,
+						"list": []
+					};
+					// 遍历原始数据中的每个子列表
+					let page = 1;
+					let pageList = {}; // 用于存储每一页的表情对象
+					Object.entries(item.list).forEach(([key, value]) => {
+						// 将表情对象添加到当前页的列表中
+						pageList[key] = value;
+
+						// 如果达到一页的数量，将当前页列表添加到 newItem 的 list 中，重置页码和列表
+						if (Object.keys(pageList).length === pageSize) {
+							newItem.list.push(pageList);
+							page++;
+							pageList = {};
+						}
+					});
+
+					// 添加最后一页的表情对象，如果不为空的话
+					if (Object.keys(pageList).length > 0) {
+						newItem.list.push(pageList);
+					}
+
+					// 将新的 item 添加到结果数组中
+					result.push(newItem);
+				});
+
+				this.emojiData = result;
+
+			},
 		}
 	}
 </script>

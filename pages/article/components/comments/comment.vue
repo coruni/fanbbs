@@ -11,7 +11,7 @@
 						v-if="data.authorId == article.authorId">作者</text>
 				</u-row>
 				<view style="margin-top:10rpx;word-break: break-word;" @click="reply(data)">
-					<u-parse :content="data.text"></u-parse>
+					<uv-parse :preview-img="false" :showImgMenu="false" :content="formatEmoji(data.text)"></uv-parse>
 				</view>
 				<u-grid :col="3" :border="false" v-if="data.longtext && data.longtext.images">
 					<u-grid-item v-for="(image,imageIndex) in data.longtext.images" :key="imageIndex"
@@ -38,7 +38,7 @@
 									v-if="item.authorId == article.authorId">作者</text>
 							</u-row>
 							<view>
-								<text style="font-size: 30rpx;color: #454545;">{{item.text}}</text>
+								<uv-parse selectable :showImgMenu="false" :preview-img="false" style="font-size:15px;color:#454545" :content="formatEmoji(item.text)"></uv-parse>
 							</view>
 						</u-row>
 					</block>
@@ -56,8 +56,8 @@
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFormat(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:30%" justify="space-between">
-							<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa"
-								label-size="12"></u-icon>
+							<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa" label-size="12"
+								@click="reply(data)"></u-icon>
 							<u-icon name="thumb-up" color="#aaa" :label="data.likes?data.likes:''" size="20"
 								labelColor="#aaa" label-size="12"></u-icon>
 						</u-row>
@@ -130,6 +130,17 @@
 					query: {
 						id: data.authorId
 					}
+				})
+			},
+			formatEmoji(html) {
+				return html.replace(/\[([^\]]+)_([^\]]+)\]/g, (match, name, key) => {
+				    const emoji = this.$emoji.data.find(e => e.name === name);
+				    if (emoji) {
+				        const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`;
+				        return `<img src=".${src}" style="width:80rpx;height:80rpx">`;
+				    }
+				    // 如果找不到对应的 emoji，可能需要返回原始的字符串或者给出一些提示
+				    return match;
 				})
 			}
 		}

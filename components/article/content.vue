@@ -8,8 +8,8 @@
 					customStyle="background: #a899e61e;padding:4rpx;border-radius:10rpx"></u-icon>
 			</view>
 		</u-row>
-		<u-parse :content="replaceEmoji(data.text)" class="u-line-2" style="overflow: hidden;"
-			:previewImg="false"></u-parse>
+		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2" style="overflow: hidden;"
+			:previewImg="false" :showImgMenu="false"></uv-parse>
 		<u-album :urls="data.images" maxCount="6" borderRadius="20" multipleSize="100" singleSize="200"></u-album>
 	</view>
 </template>
