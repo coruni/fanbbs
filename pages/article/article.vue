@@ -139,7 +139,7 @@
 		<u-loading-page :loading="loading"></u-loading-page>
 		<!-- 页面公用组件 -->
 		<!-- 回复文章 -->
-		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20"
+		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20" :z-index="10074"
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
 			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 				placeholder="灵感迸发" border="none"
@@ -158,6 +158,15 @@
 						text="发送" @click="reply"></u-button>
 				</view>
 			</u-row>
+			<uv-scroll-list :indicator="false" v-if="images.length"  style="margin-top: 20rpx;">
+				<view v-for="(item, index) in images" :key="index" style="position: relative; display: inline-block;height: 100rpx;width: 100rpx;">
+				    <image :src="item" mode="aspectFill" style="height: 100rpx; width: 100rpx; border-radius: 20rpx;">
+				    </image>
+				    <u-icon name="close-circle" style="position: absolute; top: 0; right: 0;"
+				        @click="images.splice(index, 1)">
+				    </u-icon>
+				</view>
+			</uv-scroll-list>
 			<!-- 隐藏面板 -->
 			<block v-if="showComemntBtn == '表情'">
 				<!-- 这里加表情 -->
@@ -238,6 +247,16 @@
 				</view>
 			</view>
 		</u-popup>
+		<!-- 上传进度 -->
+		<uv-modal :show="showLoading" ref="upload" :zIndex="10076"
+			@close="showLoading=false;uploadErr.status = false;uploadErr.msg=null;"
+			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
+			:title="uploadErr.status?'上传错误':'上传中...'">
+			<u-line-progress :percentage="percentage" activeColor="#a899e6" :showText="false"
+				v-if="!uploadErr.status"></u-line-progress>
+			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
+			<view slot="confirmButton"></view>
+		</uv-modal>
 	</z-paging-swiper>
 </template>
 
@@ -259,6 +278,13 @@
 		mixins: [ZPMixin],
 		data() {
 			return {
+				percentage: 30,
+				showLoading: false,
+				uploadErr: {
+					status: false,
+					msg: ''
+				},
+				images: [],
 				showReward: false,
 				showOrderList: false,
 				showNavAvatar: false,
@@ -299,6 +325,9 @@
 				cBtn: [{
 					name: '表情',
 					icon: 'heart',
+				}, {
+					name: '图片',
+					icon: 'photo',
 				}],
 				share: [{
 						name: '微信',
@@ -375,8 +404,8 @@
 		},
 		onUnload() {
 			// 取消监听
-			uni.offKeyboardHeightChange(data=>{
-				
+			uni.offKeyboardHeightChange(data => {
+
 			})
 		},
 		methods: {
@@ -399,9 +428,60 @@
 				})
 			},
 			cBtnTap(name) {
+				if (name == '图片') {
+					this.chooseImage()
+					return;
+				}
 				if (name == this.showComemntBtn) this.showComemntBtn = null;
 				else this.showComemntBtn = name
 				console.log(name)
+			},
+			async chooseImage() {
+				if (this.images.length >= 6) {
+					uni.$u.toast('至多可添加6张图片')
+					return;
+				}
+				try {
+					const res = await uni.chooseImage({
+						count: 6
+					});
+
+					const imageList = res.tempFilePaths;
+					this.$refs.upload.open()
+
+					const uploadPromises = imageList.map(async (item) => {
+						try {
+							const uploadedImage = await this.upload(item);
+							this.images.push(uploadedImage);
+						} catch (error) {
+							this.uploadErr.status = true
+							this.uploadErr.msg = error.data.msg
+							console.error("Upload failed:", error);
+						}
+					});
+
+					await Promise.all(uploadPromises);
+
+					this.$refs.upload.close()
+
+				} catch (error) {
+					this.$refs.upload.close()
+					console.error("Choose image failed:", error);
+				}
+			},
+			async upload(filePath) {
+				return new Promise((resolve, reject) => {
+					this.$http.upload('/upload/full', {
+						filePath,
+						name: 'file'
+					}).then(res => {
+						if (res.data.code) {
+							resolve(res.data.data.url)
+						} else {
+							reject(res)
+						}
+					})
+				});
 			},
 			getComments(page, limit) {
 				this.$http.get('/typechoComments/commentsList', {
@@ -431,7 +511,8 @@
 					ownerId: this.article.authorId,
 					parent: this.pid ? this.pid : 0,
 					allParent: this.pid ? this.pid : 0,
-					text: this.commentText
+					text: this.commentText,
+					images: this.images
 				})
 				this.$http.post('/typechoComments/commentsAdd', {
 					params

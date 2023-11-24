@@ -13,14 +13,8 @@
 				<view style="margin-top:10rpx;word-break: break-word;" @click="reply(data)">
 					<uv-parse :preview-img="false" :showImgMenu="false" :content="formatEmoji(data.text)"></uv-parse>
 				</view>
-				<u-grid :col="3" :border="false" v-if="data.longtext && data.longtext.images">
-					<u-grid-item v-for="(image,imageIndex) in data.longtext.images" :key="imageIndex"
-						v-if="imageIndex<9" @click.native.stop="preview"
-						:customStyle="{width:'210rpx',height:'210rpx',borderRadius:'20rpx',marginTop:'10rpx',marginRight:'10rpx'}">
-						<image :src="image" mode="aspectFill" style="width:210rpx;height:210rpx;border-radius:10rpx"
-							class="u-info-light-bg"></image>
-					</u-grid-item>
-				</u-grid>
+				<u-swiper :list="data.images" v-if="data.images && data.images.length" :autoplay="false" indicator
+					height="150" indicator-style="left" radius="10" @click="previewImg(data.images,$event)"></u-swiper>
 				<view style="margin-top: 10rpx;" v-if="data.sonComments.data&&data.sonComments.data.length"
 					@click="goSubComment(data)">
 					<block v-for="(item,index) in data.sonComments.data" :key="index" v-if="index<2">
@@ -38,7 +32,8 @@
 									v-if="item.authorId == article.authorId">作者</text>
 							</u-row>
 							<view>
-								<uv-parse selectable :showImgMenu="false" :preview-img="false" style="font-size:15px;color:#454545" :content="formatEmoji(item.text)"></uv-parse>
+								<uv-parse selectable :showImgMenu="false" :preview-img="false"
+									style="font-size:15px;color:#454545" :content="formatEmoji(item.text)"></uv-parse>
 							</view>
 						</u-row>
 					</block>
@@ -124,6 +119,12 @@
 					}
 				})
 			},
+			previewImg(urls, index) {
+				uni.previewImage({
+					urls: urls,
+					current: index
+				})
+			},
 			goProfile(data) {
 				this.$Router.push({
 					path: '/pages/profile/profile',
@@ -134,13 +135,13 @@
 			},
 			formatEmoji(html) {
 				return html.replace(/\[([^\]]+)_([^\]]+)\]/g, (match, name, key) => {
-				    const emoji = this.$emoji.data.find(e => e.name === name);
-				    if (emoji) {
-				        const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`;
-				        return `<img src=".${src}" style="width:80rpx;height:80rpx">`;
-				    }
-				    // 如果找不到对应的 emoji，可能需要返回原始的字符串或者给出一些提示
-				    return match;
+					const emoji = this.$emoji.data.find(e => e.name === name);
+					if (emoji) {
+						const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`;
+						return `<img src=".${src}" style="width:80rpx;height:80rpx">`;
+					}
+					// 如果找不到对应的 emoji，可能需要返回原始的字符串或者给出一些提示
+					return match;
 				})
 			}
 		}
