@@ -60,7 +60,7 @@
 				"enablePullDownRefresh": false
 
 			},
-			"name": "article",
+			"name": "articlePublish",
 			"perm": "login"
 		},
 		{
@@ -104,6 +104,16 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "publish/article/photo",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"photo"
+			// "perm": "login"
 		}
 	],
 	"globalStyle": {

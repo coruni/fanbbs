@@ -1,19 +1,22 @@
 <template>
-	<z-paging ref="paging" v-model="content" @query="getData" :auto="false" safe-area-inset-bottom
-		use-safe-area-placeholder>
-		<view style="margin: 20rpx;" v-if="isSwiper">
-			<u-swiper height="160" :list="swiperList" keyName="image" :autoplay="false" circular
-				@click="swiperTap"></u-swiper>
-		</view>
-		<block v-for="(item,index) in content" :key="index">
-			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
-				<article-header :data="item"></article-header>
-				<article-content :data="item"></article-content>
-				<article-footer :data="item"></article-footer>
+	<view>
+		<z-paging ref="paging" v-model="content" @query="getData" :auto="false" style="margin-bottom: 180rpx;">
+			<view style="margin: 20rpx;" v-if="isSwiper">
+				<u-swiper height="160" :list="swiperList" keyName="image" :autoplay="false" circular
+					@click="swiperTap"></u-swiper>
 			</view>
-			<view style="border-bottom:1rpx #f7f7f7 solid"></view>
-		</block>
-	</z-paging>
+			<block v-for="(item,index) in content" :key="index">
+				<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+					<article-header :data="item" @follow="$refs.paging.reload()"
+						@menuTap="showMenu= true"></article-header>
+					<article-content :data="item"></article-content>
+					<article-footer :data="item"></article-footer>
+				</view>
+				<view style="border-bottom:1rpx #f7f7f7 solid"></view>
+			</block>
+		</z-paging>
+	</view>
+
 </template>
 
 <script>
@@ -79,10 +82,10 @@
 						page,
 						limit,
 						searchParams: JSON.stringify({
-							type: 'post'
+							
 						}),
 						order: 'istop desc,created desc',
-						token: this.$store.state.hasLogin?uni.getStorageSync('token'):''
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
 					console.log(res)

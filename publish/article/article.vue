@@ -519,49 +519,46 @@
 					uni.$u.toast('标题太短')
 					return
 				}
-				let textLength = '';
+
 				this.editorCtx.getContents({
 					success: res => {
 						this.article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
-							function(
-								match,
-								alt) {
-								// 替换成_(提取的alt)_
+							function(match, alt) {
 								return `_|#${alt}|`;
 							});
-						textLength = res.text;
-					}
-				})
-				if (textLength.length < 10) {
-					uni.$u.toast('再多写点吧~')
-					return;
-				}
 
-				this.$refs.publish.open()
-				let tags = this.article.tags.map(tag => tag.mid).join(',')
-				this.$http.post('/typechoContents/contentsAdd', {
-					params: JSON.stringify({
-						title: this.article.title,
-						text: this.article.text,
-						category: this.article.category.mid,
-						tag: tags,
-						opt: JSON.stringify(this.article.opt),
-					}),
-					text: this.article.text,
-				}).then(res => {
-					if (res.data.code) {
-						setTimeout(() => {
-							this.$refs.publish.close()
-							uni.$u.toast(res.data.msg)
-							setTimeout(() => {
-								this.$Router.back(1)
-							}, 800)
-						}, 1500)
-					} else {
-						uni.$u.toast(res.data.msg)
-						this.$refs.publish.close()
+						if (this.article.text.length < 20) {
+							uni.$u.toast('再多写点吧~');
+							return;
+						}
+
+						this.$refs.publish.open();
+						let tags = this.article.tags.map(tag => tag.mid).join(',');
+						this.$http.post('/typechoContents/contentsAdd', {
+							params: JSON.stringify({
+								title: this.article.title,
+								text: this.article.text,
+								category: this.article.category.mid,
+								tag: tags,
+								opt: JSON.stringify(this.article.opt),
+							}),
+							text: this.article.text,
+						}).then(res => {
+							if (res.data.code) {
+								setTimeout(() => {
+									this.$refs.publish.close();
+									uni.$u.toast(res.data.msg);
+									setTimeout(() => {
+										this.$Router.back(1);
+									}, 800);
+								}, 1500);
+							} else {
+								uni.$u.toast(res.data.msg);
+								this.$refs.publish.close();
+							}
+						});
 					}
-				})
+				});
 			},
 
 

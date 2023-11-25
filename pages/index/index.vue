@@ -1,6 +1,6 @@
 <template>
 	<z-paging-swiper>
-		<index style="margin-bottom: 120rpx" @avatarTap="avatarTap()" v-show="tabbarIndex == 0"></index>
+		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0"></index>
 		<find v-show="tabbarIndex == 1" :index="tabbarIndex"></find>
 		<user v-show="tabbarIndex == 4" :index="tabbarIndex"></user>
 		<!-- 间隔 -->
@@ -79,7 +79,7 @@
 						name: '帖子',
 						type: 'article',
 						icon: 'edit-pen',
-						path: 'article'
+						path: 'articlePublish'
 					},
 					{
 						name: '图片',
@@ -175,7 +175,7 @@
 				this.tabbarIndex = 4
 			},
 			goPublish(data){
-				this.$Router.push({name:"article"})
+				this.$Router.push({name:data.path})
 			}
 		}
 	}
