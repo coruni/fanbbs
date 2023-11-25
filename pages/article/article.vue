@@ -145,7 +145,7 @@
 				placeholder="灵感迸发" border="none"
 				customStyle="background:#85a3ff14;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
-				<u-col span="6">
+				<u-col span="2">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
 							<u-icon :name="item.icon" size="24" :color="showComemntBtn == item.name?'#a899e6':''"

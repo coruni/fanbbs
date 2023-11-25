@@ -13,7 +13,7 @@
 						<view style="margin:30rpx;margin-bottom: 60rpx;">
 							<u-row>
 								<u-avatar :src="info.imgurl" size="70" shape="square" mode="aspectFill"
-									customStyle="border-radius:20rpx"></u-avatar>
+									customStyle="border-radius:20rpx !improtant" ></u-avatar>
 								<view style="display: flex;flex-direction: column;margin-left: 30rpx;">
 									<text style="font-size: 36rpx;color: white;">{{info.name}}</text>
 									<text>占位123</text>

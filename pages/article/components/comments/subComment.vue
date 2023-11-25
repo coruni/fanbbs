@@ -26,6 +26,8 @@
 						<uv-parse :previewImg="false" selectable :showImgMenu="false"
 							:content="formatEmoji(data.text)"></uv-parse>
 					</view>
+					<u-swiper :list="data.images" v-if="data.images && data.images.length" :autoplay="false" indicator
+						height="150" indicator-style="left" radius="10" @click="previewImg(data.images,$event)"></u-swiper>
 					<u-grid :col="3" :border="false" v-if="data.longtext && data.longtext.images">
 						<u-grid-item v-for="(image,imageIndex) in data.longtext.images" :key="imageIndex"
 							v-if="imageIndex<9" @click.native.stop="preview"
@@ -68,6 +70,8 @@
 										<uv-parse :previewImg="false" selectable :showImgMenu="false"
 											:content="item.parent != data.coid&&item.authorId!=item.parentComments.authorId?formatEmoji(formatText(item)):formatEmoji(item.text)"></uv-parse>
 									</view>
+									<u-swiper :list="item.images" v-if="item.images && item.images.length" :autoplay="false" indicator
+										height="150" indicator-style="left" radius="10" @click="previewImg(item.images,$event)"></u-swiper>
 									<u-grid :col=" 3" :border="false" v-if="item.longtext && item.longtext.images">
 										<u-grid-item v-for="(image,imageIndex) in item.longtext.images"
 											:key="imageIndex" v-if="imageIndex<9" @click.native.stop="preview"
@@ -116,10 +120,11 @@
 				:placeholder="`回复${replyWho}`" border="none"
 				customStyle="background:#85a3ff14;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
-				<u-col span="6">
+				<u-col span="2">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
-							<u-icon :name="item.icon" size="24" @click="cBtnTap(item.name)"></u-icon>
+							<u-icon :name="item.icon" size="24" :color="showComemntBtn == item.name?'#a899e6':''"
+								@click="cBtnTap(item.name)"></u-icon>
 						</block>
 					</u-row>
 				</u-col>
@@ -128,6 +133,15 @@
 						text="发送" @click="reply"></u-button>
 				</view>
 			</u-row>
+			<uv-scroll-list :indicator="false" v-if="images.length"  style="margin-top: 20rpx;">
+				<view v-for="(item, index) in images" :key="index" style="position: relative; display: inline-block;height: 100rpx;width: 100rpx;">
+				    <image :src="item" mode="aspectFill" style="height: 100rpx; width: 100rpx; border-radius: 20rpx;">
+				    </image>
+				    <u-icon name="close-circle" style="position: absolute; top: 0; right: 0;"
+				        @click="images.splice(index, 1)">
+				    </u-icon>
+				</view>
+			</uv-scroll-list>
 			<!-- 隐藏面板 -->
 			<block v-if="showComemntBtn == '表情'">
 				<!-- 这里加表情 -->
@@ -149,6 +163,14 @@
 					style="position: static;"></u-tabs>
 			</block>
 		</u-popup>
+		<uv-modal ref="upload" :zIndex="10076" @close="uploadErr.status = false;uploadErr.msg=null;"
+			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
+			:title="uploadErr.status?'上传错误':'上传中...'">
+			<u-line-progress :percentage="percentage" activeColor="#a899e6" :showText="false"
+				v-if="!uploadErr.status"></u-line-progress>
+			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
+			<view slot="confirmButton"></view>
+		</uv-modal>
 	</view>
 
 </template>
@@ -158,8 +180,14 @@
 		data() {
 			return {
 				data: null,
+				percentage: 30,
 				comments: [],
+				images: [],
 				pid: 0,
+				uploadErr: {
+					status: false,
+					msg: ''
+				},
 				keyboardHeight: 0,
 				showComment: false,
 				showComemntBtn: null,
@@ -169,6 +197,9 @@
 				cBtn: [{
 					name: '表情',
 					icon: 'heart',
+				}, {
+					name: '图片',
+					icon: 'photo',
 				}],
 				replyWho: '',
 				loading: true,
@@ -182,10 +213,10 @@
 			} else {
 				next();
 			}
-		
+
 		},
 		created() {
-			
+
 			this.formatEmojiData()
 		},
 		onShow() {
@@ -198,10 +229,10 @@
 		},
 		onUnload() {
 			// 取消键盘监听
-			uni.offKeyboardHeightChange(data=>{
+			uni.offKeyboardHeightChange(data => {
 				console.log('取消了')
 			})
-			
+
 		},
 		methods: {
 			getComments(page, limit) {
@@ -249,7 +280,7 @@
 					console.log(res)
 					if (res.data.code) {
 						uni.$u.toast('已发送~')
-						this.commentText = null
+						this.commentText = ''
 						this.showComment = false
 						this.$refs.paging.reload()
 						this.$emit('subReply', true)
@@ -331,9 +362,66 @@
 				this.emojiData = result;
 			},
 			cBtnTap(name) {
+				if (name == '图片') {
+					this.chooseImage()
+					return;
+				}
 				if (name == this.showComemntBtn) this.showComemntBtn = null;
 				else this.showComemntBtn = name
 				console.log(name)
+			},
+			async chooseImage() {
+				if (this.images.length >= 6) {
+					uni.$u.toast('至多可添加6张图片')
+					return;
+				}
+				try {
+					const res = await uni.chooseImage({
+						count: 6
+					});
+
+					const imageList = res.tempFilePaths;
+					this.$refs.upload.open()
+
+					const uploadPromises = imageList.map(async (item) => {
+						try {
+							const uploadedImage = await this.upload(item);
+							this.images.push(uploadedImage);
+						} catch (error) {
+							this.uploadErr.status = true
+							this.uploadErr.msg = error.data.msg
+							console.error("Upload failed:", error);
+						}
+					});
+
+					await Promise.all(uploadPromises);
+
+					this.$refs.upload.close()
+
+				} catch (error) {
+					this.$refs.upload.close()
+					console.error("Choose image failed:", error);
+				}
+			},
+			async upload(filePath) {
+				return new Promise((resolve, reject) => {
+					this.$http.upload('/upload/full', {
+						filePath,
+						name: 'file'
+					}).then(res => {
+						if (res.data.code) {
+							resolve(res.data.data.url)
+						} else {
+							reject(res)
+						}
+					})
+				});
+			},
+			previewImg(urls, index) {
+				uni.previewImage({
+					urls: urls,
+					current: index
+				})
 			},
 		}
 	}
