@@ -114,6 +114,14 @@
 			},
 			"name":"photo"
 			// "perm": "login"
+		},
+		{
+			"path" : "pages/notice/private",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

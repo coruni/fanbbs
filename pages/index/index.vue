@@ -2,6 +2,7 @@
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0"></index>
 		<find v-show="tabbarIndex == 1" :index="tabbarIndex"></find>
+		<notice v-show="tabbarIndex == 3"></notice>
 		<user v-show="tabbarIndex == 4" :index="tabbarIndex"></user>
 		<!-- 间隔 -->
 		<template #bottom>
@@ -20,7 +21,8 @@
 						<text :style="{color:item.active?'#a899e6':'',fontSize:30+'rpx'}">{{item.name}}</text>
 					</u-row>
 					<u-avatar :src="$store.state.userInfo.avatar" v-else size="35"
-						customStyle="border:6rpx solid #a899e6" @click="tabbarTap(index)" :class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
+						customStyle="border:6rpx solid #a899e6" @click="tabbarTap(index)"
+						:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
 				</block>
 			</u-row>
 		</template>
@@ -59,11 +61,13 @@
 	import index from './components/index.vue';
 	import find from './components/find.vue';
 	import user from './components/user.vue';
+	import notice from './components/notice.vue';
 	export default {
 		components: {
 			index,
 			user,
-			find
+			find,
+			notice
 		},
 		data() {
 			return {
@@ -174,8 +178,10 @@
 				});
 				this.tabbarIndex = 4
 			},
-			goPublish(data){
-				this.$Router.push({name:data.path})
+			goPublish(data) {
+				this.$Router.push({
+					name: data.path
+				})
 			}
 		}
 	}

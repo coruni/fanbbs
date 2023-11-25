@@ -16,11 +16,11 @@
 									customStyle="border-radius:20rpx !improtant" ></u-avatar>
 								<view style="display: flex;flex-direction: column;margin-left: 30rpx;">
 									<text style="font-size: 36rpx;color: white;">{{info.name}}</text>
-									<text>占位123</text>
+									
 								</view>
 							</u-row>
 							<view style="margin-top: 30rpx;">
-								<text>{{info.description}}</text>
+								<text :style="{color:info.opt.primary}">{{info.description}}</text>
 							</view>
 							<view style="margin-top: 30rpx;">
 								<u-button shape="circle" :color="info.opt&& info.opt.primary">加入</u-button>
