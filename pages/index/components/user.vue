@@ -126,7 +126,7 @@
 				</view>
 			</block>
 			<!-- 管理面板 -->
-			<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;">
+			<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;" v-if="userInfo && userInfo.groupKey =='administrator'">
 				<u-row customStyle="padding:30rpx" @click="goPage('manage')">
 					<u-icon name="setting" size="24"></u-icon>
 					<text style="margin-left:20rpx;font-weight: 600;">管理面板</text>
