@@ -5,10 +5,16 @@
 				<u-navbar placeholder title="消息通知">
 					<view slot="left"></view>
 				</u-navbar>
+				<view style="margin: 30rpx;">
+					<uv-scroll-list :indicator="false">
+						<block v-for="(item,index) in rooms" :key="index">
+							<u-avatar :src="item.pic"></u-avatar>
+						</block>
+
+					</uv-scroll-list>
+				</view>
 			</template>
-			<view style="margin: 30rpx;">
-				<uv-scroll-list></uv-scroll-list>
-			</view>
+
 			<view style="margin: 30rpx;">
 				<block v-for="(item, index) in messages" :key="index">
 					<u-row align="top" @click="goPrivate(item)">
@@ -16,9 +22,9 @@
 						<u-row style="flex-direction: column;margin-left: 20rpx;flex: 1;" align="top">
 							<text>{{item.userJson.name}}</text>
 							<u-row justify="space-between" style="flex:1;width: 100%;font-size: 26rpx;">
-								<text class="u-line-1">{{item.lastMsg}}</text>
+								<text class="u-line-1">{{item.lastMsg.text}}</text>
 								<text style="font-size: 26rpx;flex-shrink: 0;"
-									v-if="item.lastMsg">{{item.lastTime}}</text>
+									v-if="item.lastMsg">{{$u.timeFormat(item.lastTime,'hh:MM')}}</text>
 							</u-row>
 						</u-row>
 					</u-row>
@@ -36,12 +42,15 @@
 				rooms: [],
 			}
 		},
+		created() {
+			this.getRoom()
+		},
 		methods: {
 			getData(page, limit) {
+				if (!this.$store.state.hasLogin) return;
 				this.$http.post('/typechoChat/myChat', {
 					page,
 					limit,
-
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
@@ -52,9 +61,12 @@
 			getRoom(page, limit) {
 				this.$http.post('/typechoChat/allChat', {
 					type: 1,
-					order: 'lastTime desc'
+					order: 'lastTime'
 				}).then(res => {
 					console.log(res)
+					if (res.data.code) {
+						this.rooms = res.data.data
+					}
 				})
 			},
 			goPrivate(data) {

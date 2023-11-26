@@ -2,7 +2,7 @@
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0"></index>
 		<find v-show="tabbarIndex == 1" :index="tabbarIndex"></find>
-		<notice v-show="tabbarIndex == 3"></notice>
+		<notice v-show="tabbarIndex == 3" :index="tabbarIndex"></notice>
 		<user v-show="tabbarIndex == 4" :index="tabbarIndex"></user>
 		<!-- 间隔 -->
 		<template #bottom>
