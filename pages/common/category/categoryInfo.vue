@@ -6,21 +6,22 @@
 				<u-navbar autoBack :bgColor="$u.colorToRgba(info.opt && info.opt.primary,opacity)" fixed></u-navbar>
 			</template>
 			<view class="info" id="infoPanel">
-				<image :src="info.imgurl" mode="aspectFill" style="width: 100%;height: 600rpx;"></image>
-				<view :style="`position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: ${info.opt && $u.colorToRgba(info.opt.primary,0.5)};`">
+				<image :src="info.opt && info.opt.background" mode="aspectFill" style="width: 100%;height: 600rpx;"></image>
+				<view
+					:style="`position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: ${info.opt && $u.colorToRgba(info.opt.primary,0.5)};`">
 					<view class="info_lay"
 						:style="`background: linear-gradient(to top, ${info.opt && $u.colorToRgba(info.opt.primary,0.8)} 30%, rgba(0, 0, 0, 0) 70%);`">
 						<view style="margin:30rpx;margin-bottom: 60rpx;">
 							<u-row>
 								<u-avatar :src="info.imgurl" size="70" shape="square" mode="aspectFill"
-									customStyle="border-radius:20rpx !improtant" ></u-avatar>
+									customStyle="border-radius:20rpx !improtant"></u-avatar>
 								<view style="display: flex;flex-direction: column;margin-left: 30rpx;">
 									<text style="font-size: 36rpx;color: white;">{{info.name}}</text>
-									
+
 								</view>
 							</u-row>
 							<view style="margin-top: 30rpx;">
-								<text :style="{color:info.opt.primary}">{{info.description}}</text>
+								<text :style="{color:info.opt&&info.opt.primary}">{{info.description}}</text>
 							</view>
 							<view style="margin-top: 30rpx;">
 								<u-button shape="circle" :color="info.opt&& info.opt.primary">加入</u-button>
@@ -48,10 +49,12 @@
 				<swiper style="height: 100vh;" :current="tabsIndex"
 					@animationfinish="tabsIndex = $event.detail.current">
 					<swiper-item v-if="id">
-						<hot-article :mid="id" :isScroll="isScroll" ref="hot" :border="info.opt&& info.opt.underline"></hot-article>
+						<hot-article :mid="id" :isScroll="isScroll" ref="hot"
+							:border="info.opt&& info.opt.underline"></hot-article>
 					</swiper-item>
 					<swiper-item v-if="id">
-						<new-article :mid="id" :isScroll="isScroll" ref="new" :border="info.opt&& info.opt.underline"></new-article>
+						<new-article :mid="id" :isScroll="isScroll" ref="new"
+							:border="info.opt&& info.opt.underline"></new-article>
 					</swiper-item>
 				</swiper>
 			</view>

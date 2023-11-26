@@ -173,10 +173,13 @@
 					return;
 				}
 				if (this.$refs.uCode.canGetCode) {
-					this.$http.post('/typechoUsers/RegSendCode', {
-						params: JSON.stringify({
-							mail: this.account
-						})
+					this.$http.get('/typechoUsers/RegSendCode', {
+						params:{
+							params: JSON.stringify({
+								mail: this.account
+							})
+						}
+						
 					}).then(res => {
 						this.$refs.uCode.start();
 					})
@@ -188,12 +191,11 @@
 					return;
 				}
 				if (this.$refs.uCode1.canGetCode) {
-					this.$http.post('/typechoUsers/SendCode', {
-						params: JSON.stringify({
-							name: this.account
-						}),
-						custom: {
-							pass: true
+					this.$http.get('/typechoUsers/SendCode', {
+						params:{
+							params: JSON.stringify({
+								name: this.account
+							}),
 						}
 					}).then(res => {
 						this.$refs.uCode1.start();
@@ -205,14 +207,13 @@
 					uni.$u.toast('请同意协议')
 					return;
 				}
-				this.$http.post('/typechoUsers/userFoget', {
-					params: JSON.stringify({
-						name: this.account,
-						password: this.password,
-						code: this.code
-					}),
-					custom: {
-						pass: true
+				this.$http.get('/typechoUsers/userFoget', {
+					params:{
+						params: JSON.stringify({
+							name: this.account,
+							password: this.password,
+							code: this.code
+						}),
 					}
 				}).then(res => {
 					if (res.data.code) {
@@ -236,13 +237,12 @@
 					uni.$u.toast('请同意协议')
 					return
 				}
-				this.$http.post('/typechoUsers/userLogin', {
-					params: JSON.stringify({
-						name: this.account,
-						password: this.password
-					}),
-					custom: {
-						pass: true
+				this.$http.get('/typechoUsers/userLogin', {
+					params:{
+						params: JSON.stringify({
+							name: this.account,
+							password: this.password
+						}),
 					}
 				}).then(res => {
 					console.log(res)
@@ -282,7 +282,11 @@
 				})
 			},
 			getUserMeta() {
-				this.$http.post('/typechoUsers/userData').then(res => {
+				this.$http.get('/typechoUsers/userData',{
+					params:{
+						token:this.$store.state.hasLogin?uni.getStorageSync('token'):''
+					}
+				}).then(res => {
 					if (res.data.code) {
 						this.setUserMeta(res.data.data)
 					}
@@ -301,15 +305,14 @@
 					uni.$u.toast('验证码小于6')
 					return;
 				}
-				this.$http.post('/typechoUsers/userRegister', {
-					params: JSON.stringify({
-						name: this.username,
-						password: this.password,
-						mail: this.email,
-						code: this.code,
-					}),
-					custom: {
-						pass: true
+				this.$http.get('/typechoUsers/userRegister', {
+					params:{
+						params: JSON.stringify({
+							name: this.username,
+							password: this.password,
+							mail: this.email,
+							code: this.code,
+						}),
 					}
 				}).then(res => {
 					if (res.data.code) {
@@ -323,12 +326,11 @@
 			},
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
-					this.$http.post('/typechoUsers/RegSendCode', {
-						params: JSON.stringify({
-							mail: this.email
-						}),
-						custom: {
-							pass: true
+					this.$http.get('/typechoUsers/RegSendCode', {
+						params: {
+							params: JSON.stringify({
+								mail: this.email
+							}),
 						}
 					}).then(res => {
 						if (res.statusCode == 200) {
@@ -341,14 +343,13 @@
 				}
 			},
 			fogetPassword() {
-				this.$http.post('/typechoUsers/userFoget', {
-					params: JSON.stringify({
-						name: this.account,
-						password: this.password,
-						code: this.code,
-					}),
-					custom: {
-						pass: true
+				this.$http.get('/typechoUsers/userFoget', {
+					params: {
+						params: JSON.stringify({
+							name: this.account,
+							password: this.password,
+							code: this.code,
+						}),
 					}
 				})
 			},

@@ -11,6 +11,7 @@ const store = new Vuex.Store({
 		token: null,
 		config: {},
 		hasLogin: false,
+		appInfo: {},
 	},
 	mutations: {
 		setToken(state, payload) {
@@ -25,6 +26,13 @@ const store = new Vuex.Store({
 			state.userInfo = payload
 			uni.setStorage({
 				key: 'user',
+				data: payload
+			})
+		},
+		setAppInfo(state, payload) {
+			state.appInfo = payload
+			uni.setStorage({
+				key: 'appInfo',
 				data: payload
 			})
 		},
@@ -45,7 +53,7 @@ const store = new Vuex.Store({
 			state.token = null;
 			state.hasLogin = false
 			uni.reLaunch({
-				url:'/pages/index/index'
+				url: '/pages/index/index'
 			})
 		}
 	}

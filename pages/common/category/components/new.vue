@@ -57,18 +57,19 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/typechoContents/contentsList', {
-					params: {
+				this.$http.get('/typechoMetas/selectContents', {
+					params:{
 						page,
 						limit,
 						searchParams: JSON.stringify({
 							mid: this.mid,
-							type: 'post'
 						}),
-						uid: this.$store.state.hasLogin ? this.$store.state.userInfo.uid : 0,
-						order: 'created desc'
+						order: 'new',
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
+					
 				}).then(res => {
+					console.log(res)
 					if (res.data.code) {
 						this.$refs.paging.complete(res.data.data)
 					}

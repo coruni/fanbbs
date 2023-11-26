@@ -2,13 +2,14 @@
 	<view style="margin-top: 10rpx;">
 		<!-- 标题 -->
 		<u-row justify="space-between">
-			<text style="font-weight: 600;">{{data.title}}</text>
+			<text style="font-weight: 600;word-break: break-all;word-wrap: break-word;" class="u-line-2">{{data.title}}</text>
 			<view v-if="data.istop">
 				<u-icon name="arrow-up-fill" color="#a899e6" labelColor="#a899e6" size="14" label="置顶" label-size="14"
 					customStyle="background: #a899e61e;padding:4rpx;border-radius:10rpx"></u-icon>
 			</view>
 		</u-row>
-		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2" style="overflow: hidden;"
+		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
+			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
 		<u-album :urls="data.images" maxCount="6" borderRadius="20" multipleSize="100" singleSize="200"></u-album>
 	</view>

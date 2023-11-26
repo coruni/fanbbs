@@ -125,6 +125,13 @@
 					</block>
 				</view>
 			</block>
+			<!-- 管理面板 -->
+			<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;">
+				<u-row customStyle="padding:30rpx" @click="goPage('manage')">
+					<u-icon name="setting" size="24"></u-icon>
+					<text style="margin-left:20rpx;font-weight: 600;">管理面板</text>
+				</u-row>
+			</view>
 			<view style="position: fixed;bottom: 0;margin: 20rpx;background: #fff;border-radius: 20rpx; width: 65vw;">
 				<u-row justify="space-between" @click="goLogout">
 					<block v-for="(item,index) in static">
@@ -312,7 +319,11 @@
 				})
 			},
 			getUserMeta() {
-				this.$http.post('/typechoUsers/userData').then(res => {
+				this.$http.get('/typechoUsers/userData', {
+					params: {
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+					}
+				}).then(res => {
 					if (res.data.code) {
 						this.$store.commit('setUserMeta', res.data.data)
 					}
@@ -348,7 +359,7 @@
 					}
 				})
 			},
-			upload(url,) {
+			upload(url, ) {
 				this.$http.upload('/upload/full', {
 					filePath: url,
 					name: 'file'

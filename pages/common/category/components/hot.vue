@@ -57,17 +57,16 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/typechoContents/contentsList', {
-					params: {
+				this.$http.get('/typechoMetas/selectContents', {
+					params:{
 						page,
 						limit,
 						searchParams: JSON.stringify({
 							mid: this.mid,
-							type: 'post'
 						}),
 						random: 1,
-						uid: this.$store.state.hasLogin ? this.$store.state.userInfo.uid : 0,
-						order: 'likes desc,replyTime desc,text desc,views desc,created desc'
+						order: 'hot',
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
 					if (res.data.code) {
