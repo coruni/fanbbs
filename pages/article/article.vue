@@ -512,7 +512,7 @@
 							function(match, alt) {
 								return `[${alt}]`;
 							});
-						if (res.text.length < 3) {
+						if (this.commentText.length<15) {
 							uni.$u.toast('再多说点吧~')
 							return;
 						};
@@ -705,9 +705,6 @@
 						format: format
 					},
 					success: res => {
-						this.editorCtx.insertText({
-							text: '  '
-						})
 					}
 				})
 			},
