@@ -15,6 +15,7 @@
 						</u-row>
 					</view>
 					<u-button color="#a899e6" size="mini" slot="right" v-show="opacity>=1">关注</u-button>
+
 				</u-navbar>
 			</template>
 			<image :src="info.userBg?info.userBg:'/static/login.png'" mode="aspectFill"
@@ -43,7 +44,10 @@
 							<text style="color: #999;">{{info.introduce?info.introduce:'系统默认签名~'}}</text>
 						</u-row>
 					</view>
-					<view>
+					<view style="display: flex;justify-content: center;">
+						<u-button customStyle="height:60rpx;width:120rpx;margin-right:20rpx" color="#a899e6"
+							shape="circle" @click="goPrivate(info)"
+							v-if="info.uid != $store.state.userInfo.uid">私信</u-button>
 						<u-button :plain="!isfollow" :color="!isfollow?'#a899e6':'#85a3ff0f'" shape="circle"
 							customStyle="height:60rpx;width:160rpx">
 							<text :style="{color:isfollow?'black':'#a899e6'}">{{isfollow?'已关注':'关注'}}</text>
@@ -179,6 +183,19 @@
 				if (scrollTop >= this.elementHeight) this.isScroll = true
 				else this.isScroll = false
 			},
+			goPrivate(data) {
+				if ( data.uid == this.$store.state.userInfo.uid) {
+					uni.$u.toast('不能私聊自己')
+					return;
+				}
+				this.$Router.push({
+					path: '/pages/notice/private',
+					query: {
+						id: data.uid,
+						nickname: data.screenName
+					}
+				})
+			},
 
 		}
 	}
@@ -201,6 +218,7 @@
 		padding: 0 40rpx 40rpx 40rpx;
 		border-bottom: 1rpx solid #f7f7f7;
 	}
+
 	.u-button::before {
 		background: #a899e6;
 	}

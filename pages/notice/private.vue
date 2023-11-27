@@ -50,7 +50,7 @@
 			return {
 				nickname: null,
 				id: 0,
-				roomId: 1,
+				roomId: 0,
 				messages: [],
 				editorCtx: null,
 			}
@@ -62,6 +62,7 @@
 		},
 		onLoad(params) {
 			this.nickname = params.nickname
+			this.id = params.id
 			this.getData(params.id)
 			console.log(params)
 		},

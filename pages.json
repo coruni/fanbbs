@@ -120,7 +120,8 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
-			}
+			},
+			"perm":"login"
 		}, {
 			"path": "uni_modules/rt-uni-update/components/rt-uni-update/rt-uni-update",
 			"style": {
