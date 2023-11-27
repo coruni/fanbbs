@@ -195,6 +195,7 @@
 						title: this.article.title,
 						text: this.article.text,
 						category: this.article.category.mid,
+						mid: this.article.category.mid,
 						tag: tags,
 						type: 'photo',
 						opt: JSON.stringify(this.article.opt),

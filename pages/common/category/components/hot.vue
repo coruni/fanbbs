@@ -57,7 +57,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/typechoMetas/selectContents', {
+				this.$http.get('/typechoContents/contentsList', {
 					params:{
 						page,
 						limit,
@@ -65,7 +65,7 @@
 							mid: this.mid,
 						}),
 						random: 1,
-						order: 'hot',
+						order: 'likes desc,replyTime desc,text desc,views desc,created desc',
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {

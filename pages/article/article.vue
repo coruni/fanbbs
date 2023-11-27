@@ -158,13 +158,14 @@
 						text="发送" @click="reply"></u-button>
 				</view>
 			</u-row>
-			<uv-scroll-list :indicator="false" v-if="images.length"  style="margin-top: 20rpx;">
-				<view v-for="(item, index) in images" :key="index" style="position: relative; display: inline-block;height: 100rpx;width: 100rpx;">
-				    <image :src="item" mode="aspectFill" style="height: 100rpx; width: 100rpx; border-radius: 20rpx;">
-				    </image>
-				    <u-icon name="close-circle" style="position: absolute; top: 0; right: 0;"
-				        @click="images.splice(index, 1)">
-				    </u-icon>
+			<uv-scroll-list :indicator="false" v-if="images.length" style="margin-top: 20rpx;">
+				<view v-for="(item, index) in images" :key="index"
+					style="position: relative; display: inline-block;height: 100rpx;width: 100rpx;">
+					<image :src="item" mode="aspectFill" style="height: 100rpx; width: 100rpx; border-radius: 20rpx;">
+					</image>
+					<u-icon name="close-circle" style="position: absolute; top: 0; right: 0;"
+						@click="images.splice(index, 1)">
+					</u-icon>
 				</view>
 			</uv-scroll-list>
 			<!-- 隐藏面板 -->
@@ -376,7 +377,7 @@
 			this.cid = params.id
 			this.author = uni.getStorageSync(`article_${params.id}`)
 			this.getData(params.id)
-			
+
 		},
 		beforeRouteLeave(to, from, next) {
 			if (this.showComment || this.showMore || this.showSub || this.swiperIndex) {
@@ -607,7 +608,10 @@
 				})
 			},
 			follow(id) {
-				if (this.$store.state.userInfo.uid == id) return;
+				if (this.$store.state.userInfo.uid == id) {
+					uni.$u.toast('不可以关注自己');
+					return;
+				};
 				this.$http.post('/typechoUsers/follow', {
 					touid: id,
 				}).then(res => {

@@ -48,9 +48,13 @@
 		methods: {
 			getData(page, limit) {
 				if (!this.$store.state.hasLogin) return;
-				this.$http.post('/typechoChat/myChat', {
-					page,
-					limit,
+				this.$http.get('/typechoChat/myChat', {
+					params: {
+						page,
+						limit,
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+					}
+
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
@@ -59,9 +63,13 @@
 				})
 			},
 			getRoom(page, limit) {
-				this.$http.post('/typechoChat/allChat', {
-					type: 1,
-					order: 'lastTime'
+				this.$http.get('/typechoChat/allChat', {
+					params: {
+						type: 1,
+						order: 'lastTime',
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+					}
+
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {

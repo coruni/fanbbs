@@ -539,6 +539,7 @@
 								title: this.article.title,
 								text: this.article.text,
 								category: this.article.category.mid,
+								mid: this.article.category.mid,
 								tag: tags,
 								opt: JSON.stringify(this.article.opt),
 							}),

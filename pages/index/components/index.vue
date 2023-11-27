@@ -29,7 +29,7 @@
 		</u-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @animationfinish="animationfinish">
 			<swiper-item v-for="(page,pageIndex) in topTabbar" :key="pageIndex">
-				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" v-if="!page.isrecommend" :isSwiper="!pageIndex">
+				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.isrecommend" :isSwiper="!pageIndex">
 				</articleIndex>
 				<water-fall-index v-else :swiper="pageIndex" :tabbar="topTabIndex"
 					style="margin-bottom: 60rpx;background: #f7f7f7;"></water-fall-index>

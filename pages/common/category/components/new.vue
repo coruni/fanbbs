@@ -57,14 +57,14 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/typechoMetas/selectContents', {
+				this.$http.get('/typechoContents/contentsList', {
 					params:{
 						page,
 						limit,
 						searchParams: JSON.stringify({
 							mid: this.mid,
 						}),
-						order: 'new',
+						order: 'created desc',
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 					

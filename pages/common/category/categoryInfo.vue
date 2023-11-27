@@ -3,10 +3,13 @@
 		<z-paging refresher-only @onRefresh="onRefresh" ref="paging" :style="{background:info.opt&& info.opt.primary}"
 			@scroll="onScroll">
 			<template #top>
-				<u-navbar autoBack :bgColor="$u.colorToRgba(info.opt && info.opt.primary,opacity)" fixed></u-navbar>
+				<u-navbar autoBack
+					:bgColor="info.opt&& info.opt.primary?$u.colorToRgba(info.opt && info.opt.primary,opacity):$u.colorToRgba('#fff',opacity)"
+					fixed></u-navbar>
 			</template>
 			<view class="info" id="infoPanel">
-				<image :src="info.opt && info.opt.background" mode="aspectFill" style="width: 100%;height: 600rpx;"></image>
+				<image :src="info.opt && info.opt.background" mode="aspectFill" style="width: 100%;height: 600rpx;">
+				</image>
 				<view
 					:style="`position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: ${info.opt && $u.colorToRgba(info.opt.primary,0.5)};`">
 					<view class="info_lay"
@@ -21,7 +24,8 @@
 								</view>
 							</u-row>
 							<view style="margin-top: 30rpx;">
-								<text :style="{color:info.opt&&info.opt.primary}">{{info.description}}</text>
+								<text
+									:style="{color:info.opt&&info.opt.primary?info.opt&&info.opt.primary:'#fff'}">{{info.description}}</text>
 							</view>
 							<view style="margin-top: 30rpx;">
 								<u-button shape="circle" :color="info.opt&& info.opt.primary">加入</u-button>
@@ -31,16 +35,17 @@
 				</view>
 			</view>
 			<view style="position: relative;top: -30rpx;border-radius: 40rpx 40rpx 0 0;"
-				:style="{background:info.opt && info.opt.primary}">
+				:style="{background:info.opt && info.opt.primary?info.opt && info.opt.primary:'#fff'}">
 				<!-- #ifndef APP -->
-				<u-sticky :bgColor="isSticky?info.opt&& info.opt.primary:''">
+				<u-sticky :bgColor="isSticky?info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff':''">
 					<u-tabs :list="list" :current="tabsIndex" @change="tabsIndex = $event.index"
 						style="margin: 0 15rpx;" :lineColor="info.opt&& info.opt.underline"></u-tabs>
 				</u-sticky>
 				<!-- #endif -->
 
 				<!-- #ifdef APP -->
-				<u-sticky :bgColor="isSticky?info.opt&& info.opt.primary:''" offsetTop="60">
+				<u-sticky :bgColor="isSticky?info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff':''"
+					offsetTop="60">
 					<u-tabs :list="list" :current="tabsIndex" @change="tabsIndex = $event.index"
 						style="margin: 0 15rpx;" :lineColor="info.opt&& info.opt.underline"></u-tabs>
 				</u-sticky>
@@ -50,11 +55,11 @@
 					@animationfinish="tabsIndex = $event.detail.current">
 					<swiper-item v-if="id">
 						<hot-article :mid="id" :isScroll="isScroll" ref="hot"
-							:border="info.opt&& info.opt.underline"></hot-article>
+							:border="info.opt&& info.opt.underline?info.opt&& info.opt.underline:'#f7f7f7'"></hot-article>
 					</swiper-item>
 					<swiper-item v-if="id">
 						<new-article :mid="id" :isScroll="isScroll" ref="new"
-							:border="info.opt&& info.opt.underline"></new-article>
+							:border="info.opt&& info.opt.underline?info.opt&& info.opt.underline:'#f7f7f7'"></new-article>
 					</swiper-item>
 				</swiper>
 			</view>

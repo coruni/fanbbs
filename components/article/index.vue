@@ -48,6 +48,10 @@
 			isSwiper: {
 				type: Boolean,
 				default: false,
+			},
+			mid: {
+				type: [String, Number],
+				default: 0,
 			}
 		},
 		watch: {
@@ -82,7 +86,7 @@
 						page,
 						limit,
 						searchParams: JSON.stringify({
-							
+							mid: this.mid ? this.mid : '',
 						}),
 						order: 'istop desc,created desc',
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
