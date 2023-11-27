@@ -163,7 +163,7 @@
 					<text style="font-weight: bold;font-size: 34rpx;">选择分类</text>
 					<view style="padding-top: 20rpx;">
 						<block v-for="(item,index) in category" :key="index">
-							<u-row @click="article.category = item;showCategory = false">
+							<u-row @click="article.category = item;showCategory = false" style="margin-bottom: 20rpx;">
 								<text v-if="item.isrecommend" style="
 									font-size: 26rpx;
 									color:#a899e6;
