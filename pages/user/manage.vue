@@ -26,11 +26,33 @@
 							@edit="$refs.editCategory.open();editCategory = $event"></meta-item>
 					</swiper-item>
 				</swiper>
+			</view>
 
+			<view style="margin-top: 20rpx;">
+				<u-row justify="space-between">
+					<text style="flex-shrink: 0;">文章管理</text>
+					<u-tabs :list="articleType" :current="typeIndex" @change="typeIndex = $event.index"></u-tabs>
+					<view>
+						<u-input v-model="articleSearchKey" border="none" placeholder="搜索文章"
+							customStyle="background: #85a3ff1e;border-radius: 50rpx;padding: 10rpx 20rpx;">
+							<view slot="suffix">
+								<u-icon name="search" size="20"></u-icon>
+							</view>
+						</u-input>
+					</view>
+				</u-row>
+				<swiper :current="typeIndex" style="height: 400rpx;"
+					@animationfinish="typeIndex = $event.detail.current">
+					<swiper-item style="overflow: auto;" v-for="(item,index) in articleType" :key="index">
+						<article-item :type="item.status"
+							@edit="editArticle = $event;$refs.editArticle.open();"></article-item>
+					</swiper-item>
+				</swiper>
 			</view>
 		</view>
 
-		<uv-modal ref="editCategory" :showConfirmButton="false" :title="metaIndex?'修改话题':'修改板块'" :zIndex="20" @close="resetData()">
+		<uv-modal ref="editCategory" :showConfirmButton="false" :title="metaIndex?'修改话题':'修改板块'" :zIndex="20"
+			@close="resetData()">
 			<view style="width: 100%;">
 				<u-row justify="space-between">
 					<u-avatar :src="editCategory.imgurl" shape="square" size="50" @click="choose(true)"></u-avatar>
@@ -68,6 +90,55 @@
 			<view slot="confirmButton"></view>
 
 		</uv-modal>
+		<uv-modal ref="editArticle" :showConfirmButton="false" title="帖子修改">
+			<view style="width: 100%;" v-if="editArticle">
+				<text style="font-weight: 600;font-size: 36rpx;">{{editArticle.title}}</text>
+				<view style="margin: 10rpx 0;">
+					<u-button color="#a899e6" shape="circle" @click="getContentInfo(editArticle.cid)">查看内容</u-button>
+				</view>
+
+				<view style="margin-top: 20rpx;">
+					<text style="font-weight: 600;">选择圈子</text>
+				</view>
+
+				<view style="margin-top: 20rpx;">
+					<text style="font-weight: 600;">文章属性</text>
+					<u-row justify="space-between" customStyle="flex-wrap:wrap">
+						<u-row>
+							<text style="margin-right: 10rpx;">推荐</text>
+							<u-switch v-model="editArticle.isrecommend" :inactiveValue="0" :activeValue="1"
+								size="20"></u-switch>
+						</u-row>
+						<u-row>
+							<text style="margin-right: 10rpx;">置顶</text>
+							<u-switch v-model="editArticle.istop" :inactiveValue="0" :activeValue="1"
+								size="20"></u-switch>
+						</u-row>
+						<u-row>
+							<text style="margin-right: 10rpx;">轮播</text>
+							<u-switch v-model="editArticle.isswiper" :inactiveValue="0" :activeValue="1"
+								size="20"></u-switch>
+						</u-row>
+						<u-row customStyle="margin-top:10rpx">
+							<text style="margin-right: 10rpx;">发布</text>
+							<u-switch v-model="editArticle.status" inactiveValue="waiting" activeValue="publish"
+								size="20"></u-switch>
+						</u-row>
+
+					</u-row>
+				</view>
+				<view style="margin-top: 50rpx;">
+					<u-button color="#a899e6" shape="circle" @click="saveArticle()">保存</u-button>
+				</view>
+			</view>
+			<view slot="confirmButton"></view>
+		</uv-modal>
+
+		<uv-modal ref="showContent" title="查看内容" :zIndex="10077">
+			<view style="width: 100%;" v-if="contentInfo">
+				<uv-parse :content="contentInfo.text"></uv-parse>
+			</view>
+		</uv-modal>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
 			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false" is-limit-move
 			is-lock-ratio :width="1280" :height="720" :min-width="1280" :min-height="720" :max-width="1920"
@@ -80,10 +151,12 @@
 </template>
 
 <script>
+	import articleItem from './components/manage/articleItem.vue';
 	import metaItem from './components/manage/category.vue';
 	export default {
 		components: {
-			metaItem
+			metaItem,
+			articleItem
 		},
 		data() {
 			return {
@@ -110,11 +183,26 @@
 				cropperBg: null,
 				backgroundShow: false,
 				showClipper: false,
+				articleSearchKey: '',
+				articleType: [{
+					name: '发布',
+					status: 'publish'
+				}, {
+					name: '审核',
+					status: 'waiting'
+				}],
+				typeIndex: 0,
+				editArticle: null,
+				status: false,
+				contentInfo: null,
 			};
 		},
 		created() {
 			this.initData()
 			this.getCategory()
+		},
+		computed: {
+
 		},
 		methods: {
 			initData() {
@@ -199,7 +287,7 @@
 					params: JSON.stringify({
 						imgurl: this.editCategory.imgurl,
 						name: this.editCategory.name,
-						type: this.metaIndex?'tag':'category',
+						type: this.metaIndex ? 'tag' : 'category',
 						description: this.editCategory.description,
 						opt: JSON.stringify(this.editCategory.opt)
 					})
@@ -258,6 +346,53 @@
 					}
 				}, 500)
 
+			},
+			statusChange(status) {
+				if (status == 'publish') {
+					this.editArticle.status = 'waiting'
+					this.status = false
+				} else {
+					this.editArticle.status = 'publish'
+					this.status = true
+				}
+			},
+			getContentInfo(id) {
+				this.$http.get('/typechoContents/contentsInfo', {
+					params: {
+						key: id,
+						isMd: 1,
+					}
+				}).then(res => {
+					console.log(res)
+					if (res.data) {
+						this.contentInfo = res.data
+						this.$refs.showContent.open();
+					}
+				})
+			},
+			saveArticle() {
+				console.log(this.editArticle.status)
+				this.$http.post('/typechoContents/contentsUpdate', {
+					params: JSON.stringify({
+						title: this.editArticle.title,
+						cid: this.editArticle.cid,
+						mid: this.editArticle.mid,
+						text: this.editArticle.text,
+						istop: this.editArticle.istop,
+						isswiper: this.editArticle.isswiper,
+						isrecommend: this.editArticle.isrecommend
+					}),
+					postStatus: this.editArticle.status
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						uni.$u.toast(res.data.msg)
+						setTimeout(() => {
+							this.$refs.editArticle.close()
+							this.editArticle = null
+						}, 500)
+					}
+				})
 			}
 		}
 	}
