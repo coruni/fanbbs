@@ -25,10 +25,11 @@
 							</u-row>
 							<view style="margin-top: 30rpx;">
 								<text
-									:style="{color:info.opt&&info.opt.primary?info.opt&&info.opt.primary:'#fff'}">{{info.description}}</text>
+									:style="{color:info.opt&&info.opt.color?info.opt&&info.opt.color:'#fff'}">{{info.description}}</text>
 							</view>
 							<view style="margin-top: 30rpx;">
-								<u-button shape="circle" :color="info.opt&& info.opt.primary">加入</u-button>
+								<u-button shape="circle"
+									:color="info.opt&& info.opt.color?info.opt&& info.opt.color:'#fff'">加入</u-button>
 							</view>
 						</view>
 					</view>
