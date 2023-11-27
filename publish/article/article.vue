@@ -3,13 +3,13 @@
 		<u-navbar placeholder autoBack id="navbar">
 
 			<view slot="center">
-				<text>发布帖子</text>
+				<text>{{update?'更新帖子':'发布帖子'}}</text>
 			</view>
 			<view slot="right">
 				<u-row>
-					<u-button plain color="#a899e6" size="mini">草稿箱</u-button>
+					<u-button plain color="#a899e6" size="mini" v-if="!update">草稿箱</u-button>
 					<u-button plain color="#a899e6" size="mini" customStyle="font-size:30rpx;margin-left:20rpx"
-						@click="$u.throttle(save(),1000,true)">发布</u-button>
+						@click="update && article.cid? $u.throttle(updateArticle(),1000,true): $u.throttle(save(),1000,true)">{{update?'更新':'发布'}}</u-button>
 				</u-row>
 			</view>
 		</u-navbar>
@@ -25,7 +25,8 @@
 		<view id="toolbar" style="background: #fff;padding: 10rpx 30rpx; 0rpx 30rpx">
 			<u-row justify="space-between" @click="showCategory = true">
 				<text>选择发布位置</text>
-				<u-row><text>{{article.category.name}}</text>
+				<u-row>
+					<text>{{article.category.name}}</text>
 					<u-icon name="arrow-right" color="#999"></u-icon>
 				</u-row>
 			</u-row>
@@ -300,6 +301,7 @@
 				article: {
 					title: null,
 					text: null,
+					type: 'post',
 					category: {
 						mid: 1
 					},
@@ -318,7 +320,8 @@
 						gift: [],
 						// Gift type 可选 item 可选
 					}
-				}
+				},
+				update: 0,
 			}
 		},
 		onReady() {
@@ -340,7 +343,14 @@
 			}).exec()
 
 		},
-		onLoad() {},
+		onLoad(params) {
+			console.log(params)
+			this.update = params.update
+			if (params.update) {
+				this.getContentInfo(params.id)
+			}
+
+		},
 		created() {
 			this.formatEmoji()
 			this.initData()
@@ -705,6 +715,67 @@
 					this.article.opt.files.splice(index, 1);
 				}
 			},
+			getContentInfo(id) {
+				console.log(id)
+				this.$http.get('/typechoContents/contentsInfo', {
+					params: {
+						key: id,
+						isMd: 1
+					}
+				}).then(res => {
+					if (res.data) {
+						this.article.cid = res.data.cid
+						this.article.title = res.data.title
+						this.article.text = res.data.text
+						this.article.category = res.data.category[0] ? res.data.category[0] : this.category[0]
+						this.article.tags = res.data.tag
+						this.article.mid = res.data.mid
+						this.article.opt = res.data.opt
+						if(this.editorCtx!=null){
+							this.editorCtx.setContents({
+								html: this.article.text
+							})
+						}
+					}
+				})
+			},
+			updateArticle() {
+				this.editorCtx.getContents({
+					success: (res) => {
+						if (res.text.length < 3) {
+							uni.$u.toast('再多写点吧~')
+							return;
+						}
+						if (this.article.title.length < 3) {
+							uni.$u.toast('标题太短')
+							return;
+						}
+						console.log(this.article)
+						let tags = this.article.tags.map(tag => tag.mid).join(',');
+						this.$http.post('/typechoContents/contentsUpdate', {
+							params: JSON.stringify({
+								cid: this.article.cid,
+								title: this.article.title,
+								text: res.html,
+								category: this.article.category.mid ? this.article.category
+									.mid : this.article.mid,
+								mid: this.article.category.mid ? this.article.category.mid :
+									this.article.mid,
+								tag: tags,
+								opt: JSON.stringify(this.article.opt)
+							})
+						}).then(res => {
+							if (res.data.code) {
+								uni.$u.toast(res.data.msg)
+								setTimeout(() => {
+									this.$Router.back(1)
+								}, 500)
+							}
+						})
+					}
+				})
+
+			}
 		}
 	}
 </script>

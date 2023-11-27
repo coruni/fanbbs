@@ -242,14 +242,29 @@
 						</block>
 					</u-row>
 					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
-						<text>我不喜欢这类内容</text>
-						<text>举报</text>
-						<text>屏蔽用户</text>
-						<text>屏蔽</text>
-						<text>复制链接</text>
-						<text>通过系统分享</text>
+						<u-row customStyle="margin-bottom:20rpx">
+							<u-icon name="thumb-down" size="24"></u-icon>
+							<text style="margin-left:10rpx">我不喜欢这类内容</text>
+						</u-row>
+						<u-row customStyle="margin-bottom:20rpx">
+							<u-icon name="warning" size="24"></u-icon>
+							<text style="margin-left:10rpx">举报</text>
+						</u-row>
+						<u-row customStyle="margin-bottom:20rpx">
+							<u-icon name="close-circle" size="24"></u-icon>
+							<text style="margin-left:10rpx">屏蔽用户</text>
+						</u-row>
+						<u-row customStyle="margin-bottom:20rpx">
+							<u-icon name="share" size="24"></u-icon>
+							<text style="margin-left:10rpx">复制链接</text>
+						</u-row>
+						<u-row customStyle="margin-bottom:20rpx">
+							<u-icon name="more-dot-fill" size="24"></u-icon>
+							<text style="margin-left:10rpx">通过系统分享</text>
+						</u-row>
 						<text
-							v-if="article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.groupKey =='administrator'">编辑</text>
+							v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.groupKey =='administrator'"
+							@click="goEdit()">编辑</text>
 					</view>
 				</view>
 			</view>
@@ -387,11 +402,10 @@
 
 		},
 		beforeRouteLeave(to, from, next) {
-			if (this.showComment || this.showMore || this.showSub || this.swiperIndex) {
+			if (this.showComment || this.showMore || this.showSub) {
 				this.showComment = false;
 				this.showSub = false;
 				this.showMore = false;
-				this.swiperIndex = 0;
 				next(false)
 				this.$Router.$lockStatus = false
 			} else {
@@ -710,6 +724,20 @@
 					success: res => {}
 				})
 			},
+
+			goEdit() {
+				this.showMore = false
+				setTimeout(()=>{
+					this.$Router.push({
+						path: '/publish/article/article',
+						query: {
+							update: 1,
+							id: this.article.cid
+						}
+					})
+				},500)
+				
+			}
 		}
 	}
 </script>
