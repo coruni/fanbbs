@@ -179,9 +179,11 @@
 				this.tabbarIndex = 4
 			},
 			goPublish(data) {
+				if(!data) return;
 				this.$Router.push({
 					name: data.path
 				})
+				this.$Router.$lockStatus = false
 			}
 		}
 	}
