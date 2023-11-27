@@ -274,7 +274,7 @@
 							function(match, alt) {
 								return `[${alt}]`;
 							});
-						if (this.commentText.length<15) {
+						if (this.commentText.length < 10 || res.text.length < 1) {
 							uni.$u.toast('再多说点吧~')
 							return;
 						};

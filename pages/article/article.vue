@@ -141,7 +141,8 @@
 		<!-- 回复文章 -->
 		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20" :z-index="10074"
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
-			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false" :show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
+			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
+				:show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
 				style="background: #85a3ff14;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<!-- <u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
@@ -247,6 +248,8 @@
 						<text>屏蔽</text>
 						<text>复制链接</text>
 						<text>通过系统分享</text>
+						<text
+							v-if="article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.groupKey =='administrator'">编辑</text>
 					</view>
 				</view>
 			</view>
@@ -512,11 +515,11 @@
 							function(match, alt) {
 								return `[${alt}]`;
 							});
-						if (this.commentText.length<15) {
+						if (this.commentText.length < 10 || res.text.length < 1) {
 							uni.$u.toast('再多说点吧~')
 							return;
 						};
-						
+
 						let params = JSON.stringify(params = {
 							cid: this.cid,
 							ownerId: this.article.authorId,
@@ -525,7 +528,7 @@
 							text: this.commentText,
 							images: this.images
 						})
-						
+
 						this.$http.post('/typechoComments/commentsAdd', {
 							params
 						}).then(res => {
@@ -704,8 +707,7 @@
 						emoji: emoji,
 						format: format
 					},
-					success: res => {
-					}
+					success: res => {}
 				})
 			},
 		}
