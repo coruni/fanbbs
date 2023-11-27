@@ -13,35 +13,24 @@
 
 			<view style="margin-top: 20rpx;">
 				<u-row justify="space-between">
-					<view>
-						<text>板块列表</text>
-					</view>
+					<u-tabs :list="metasList" :current="metaIndex" @change="metaIndex = $event.index"></u-tabs>
 					<view>
 						<u-button size="mini" color="#a899e6" plain shape="circle"
-							@click="$refs.editCategory.open()">创建板块</u-button>
+							@click="$refs.editCategory.open()">{{metaIndex?'创建话题':'创建板块'}}</u-button>
 					</view>
 				</u-row>
-				<scroll-view style="height: 400rpx;overflow: hidden;" scroll-y>
-					<block v-for="(item,index) in category" :key="index">
-						<u-row customStyle="margin-top:20rpx" justify="space-between">
-							<view style="display: flex;">
-								<u-avatar shape="square" :src="item.imgurl"></u-avatar>
-								<view style="display: flex;flex-direction: column;margin-left: 20rpx;">
-									<text>{{item.name}}</text>
-									<text style="font-size: 26rpx;" class="u-line-1">{{item.description}}</text>
-								</view>
-							</view>
-							<view>
-								<u-button plain color="#a899e6" size="mini"
-									@click="$refs.editCategory.open();editCategory = item">编辑</u-button>
-							</view>
-						</u-row>
-					</block>
-				</scroll-view>
+				<swiper :current="metaIndex" style="height: 400rpx;"
+					@animationfinish="metaIndex = $event.detail.current">
+					<swiper-item style="overflow: auto;" v-for="(item,index) in metasList" :key="index">
+						<meta-item :type="item.type"
+							@edit="$refs.editCategory.open();editCategory = $event"></meta-item>
+					</swiper-item>
+				</swiper>
+
 			</view>
 		</view>
 
-		<uv-modal ref="editCategory" :showConfirmButton="false" title="编辑分类" :zIndex="20">
+		<uv-modal ref="editCategory" :showConfirmButton="false" :title="metaIndex?'修改话题':'修改板块'" :zIndex="20" @close="resetData()">
 			<view style="width: 100%;">
 				<u-row justify="space-between">
 					<u-avatar :src="editCategory.imgurl" shape="square" size="50" @click="choose(true)"></u-avatar>
@@ -91,7 +80,11 @@
 </template>
 
 <script>
+	import metaItem from './components/manage/category.vue';
 	export default {
+		components: {
+			metaItem
+		},
 		data() {
 			return {
 				data: [],
@@ -102,6 +95,16 @@
 					description: null,
 					opt: {}
 				},
+				metasList: [{
+						name: '板块',
+						type: 'category'
+					},
+					{
+						name: '话题',
+						type: 'tag'
+					}
+				],
+				metaIndex: 0,
 				showEditCategory: false,
 				avatarImage: null,
 				cropperBg: null,
@@ -196,7 +199,7 @@
 					params: JSON.stringify({
 						imgurl: this.editCategory.imgurl,
 						name: this.editCategory.name,
-						type: 'category',
+						type: this.metaIndex?'tag':'category',
 						description: this.editCategory.description,
 						opt: JSON.stringify(this.editCategory.opt)
 					})
@@ -245,6 +248,17 @@
 					}
 				})
 			},
+			resetData() {
+				setTimeout(() => {
+					this.editCategory = {
+						name: null,
+						imgurl: null,
+						description: null,
+						opt: {}
+					}
+				}, 500)
+
+			}
 		}
 	}
 </script>

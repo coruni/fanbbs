@@ -29,7 +29,8 @@
 							</view>
 							<view style="margin-top: 30rpx;">
 								<u-button shape="circle"
-									:color="info.opt&& info.opt.color?info.opt&& info.opt.color:'#fff'">加入</u-button>
+									:color="info.opt&& info.opt.primary?info.opt&& info.opt.primary:'#fff'"
+									:customStyle="{color:info.opt&&info.opt.color?info.opt&&info.opt.color:'#000'}">加入</u-button>
 							</view>
 						</view>
 					</view>
