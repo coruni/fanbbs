@@ -141,9 +141,12 @@
 		<!-- 回复文章 -->
 		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20" :z-index="10074"
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
-			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
+			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false" :show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
+				style="background: #85a3ff14;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+			</editor>
+			<!-- <u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
 				placeholder="灵感迸发" border="none"
-				customStyle="background:#85a3ff14;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
+				customStyle="background:#85a3ff14;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea> -->
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="2">
 					<u-row justify="space-between">
@@ -177,7 +180,7 @@
 							<u-row justify="space-between" customStyle="flex-wrap:wrap">
 								<image :src="one.base+one.slug+'_'+three+'.'+one.format" v-for="(three,key) in two"
 									:key="key" mode="aspectFill" style="width: 100rpx;height: 100rpx;margin: 10rpx;"
-									@click="commentText += `[${one.name}_${key}]`"></image>
+									@click="insertEmoji(one.base,one.name,one.slug,three,one.format,key)"></image>
 							</u-row>
 						</swiper-item>
 					</swiper>
@@ -279,6 +282,7 @@
 		mixins: [ZPMixin],
 		data() {
 			return {
+				editorCtx: null,
 				percentage: 30,
 				showLoading: false,
 				uploadErr: {
@@ -502,30 +506,45 @@
 				})
 			},
 			reply() {
-				if (this.commentText.length < 3) {
-					uni.$u.toast('再多说点吧~')
-					return;
-				};
-				let params = JSON.stringify(params = {
-					cid: this.cid,
-					ownerId: this.article.authorId,
-					parent: this.pid ? this.pid : 0,
-					allParent: this.pid ? this.pid : 0,
-					text: this.commentText,
-					images: this.images
-				})
-				this.$http.post('/typechoComments/commentsAdd', {
-					params
-				}).then(res => {
-					if (res.data.code) {
-						uni.$u.toast('已发送~')
-						this.commentText = null
-						this.showComment = false
-						this.$refs.comments.reload()
-					} else {
-						uni.$u.toast(res.data.msg)
+				this.editorCtx.getContents({
+					success: (res) => {
+						this.commentText = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
+							function(match, alt) {
+								return `[${alt}]`;
+							});
+						if (res.text.length < 3) {
+							uni.$u.toast('再多说点吧~')
+							return;
+						};
+						
+						let params = JSON.stringify(params = {
+							cid: this.cid,
+							ownerId: this.article.authorId,
+							parent: this.pid ? this.pid : 0,
+							allParent: this.pid ? this.pid : 0,
+							text: this.commentText,
+							images: this.images
+						})
+						
+						this.$http.post('/typechoComments/commentsAdd', {
+							params
+						}).then(res => {
+							if (res.data.code) {
+								uni.$u.toast('已发送~')
+								this.commentText = null
+								this.showComment = false
+								this.$refs.comments.reload()
+							} else {
+								uni.$u.toast(res.data.msg)
+							}
+						})
 					}
+
 				})
+
+
+
+
 			},
 			replaceEmoji(html) {
 				return html.replace(
@@ -619,6 +638,17 @@
 					this.article.authorInfo.isfollow = !this.article.authorInfo.isfollow
 				})
 			},
+			onEditorReady() {
+				// #ifdef MP-BAIDU
+				this.editorCtx = requireDynamicLib('editorLib').createEditorContext('editor');
+				// #endif
+
+				// #ifdef APP-PLUS || H5 ||MP-WEIXIN
+				uni.createSelectorQuery().select('#editor').context((res) => {
+					this.editorCtx = res.context
+				}).exec()
+				// #endif
+			},
 			formatEmoji() {
 				// 处理后的数据
 				let result = [];
@@ -663,10 +693,32 @@
 				this.emojiData = result;
 
 			},
+			insertEmoji(base, name, slug, emoji, format, key) {
+				this.editorCtx.insertImage({
+					src: base + slug + '_' + emoji + '.' + format,
+					alt: name + '_' + key + '_' + 'emoji',
+					width: '30px',
+					height: '30px',
+					data: {
+						name: name,
+						emoji: emoji,
+						format: format
+					},
+					success: res => {
+						this.editorCtx.insertText({
+							text: '  '
+						})
+					}
+				})
+			},
 		}
 	}
 </script>
 
 <style lang="scss">
-
+	.ql-container ::v-deep .ql-blank::before {
+		min-height: 60rpx;
+		height: 60rpx;
+		font-style: normal;
+	}
 </style>

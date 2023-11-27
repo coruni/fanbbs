@@ -18,7 +18,10 @@
 			"path": "pages/article/article",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"softinputmode": "nothing"
+				}
 			}
 
 		},
@@ -150,7 +153,8 @@
 		"navigationStyle": "custom",
 		"app-plus": {
 			"bounce": "none",
-			"scrollIndicator": "none"
+			"scrollIndicator": "none",
+			"softinputmode": "nothing"
 		}
 	},
 	"uniIdRouter": {},

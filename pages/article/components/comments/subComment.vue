@@ -27,7 +27,8 @@
 							:content="formatEmoji(data.text)"></uv-parse>
 					</view>
 					<u-swiper :list="data.images" v-if="data.images && data.images.length" :autoplay="false" indicator
-						height="150" indicator-style="left" radius="10" @click="previewImg(data.images,$event)"></u-swiper>
+						height="150" indicator-style="left" radius="10"
+						@click="previewImg(data.images,$event)"></u-swiper>
 					<u-grid :col="3" :border="false" v-if="data.longtext && data.longtext.images">
 						<u-grid-item v-for="(image,imageIndex) in data.longtext.images" :key="imageIndex"
 							v-if="imageIndex<9" @click.native.stop="preview"
@@ -70,8 +71,9 @@
 										<uv-parse :previewImg="false" selectable :showImgMenu="false"
 											:content="item.parent != data.coid&&item.authorId!=item.parentComments.authorId?formatEmoji(formatText(item)):formatEmoji(item.text)"></uv-parse>
 									</view>
-									<u-swiper :list="item.images" v-if="item.images && item.images.length" :autoplay="false" indicator
-										height="150" indicator-style="left" radius="10" @click="previewImg(item.images,$event)"></u-swiper>
+									<u-swiper :list="item.images" v-if="item.images && item.images.length"
+										:autoplay="false" indicator height="150" indicator-style="left" radius="10"
+										@click="previewImg(item.images,$event)"></u-swiper>
 									<u-grid :col=" 3" :border="false" v-if="item.longtext && item.longtext.images">
 										<u-grid-item v-for="(image,imageIndex) in item.longtext.images"
 											:key="imageIndex" v-if="imageIndex<9" @click.native.stop="preview"
@@ -116,9 +118,10 @@
 		</z-paging>
 		<u-popup :show="showComment" @close="showComment = false" round="20"
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
-			<u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
-				:placeholder="`回复${replyWho}`" border="none"
-				customStyle="background:#85a3ff14;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea>
+			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
+				:show-img-toolbar="false" @ready="onEditorReady" :placeholder="`回复${replyWho}`"
+				style="background: #85a3ff14;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="2">
 					<u-row justify="space-between">
@@ -133,13 +136,14 @@
 						text="发送" @click="reply"></u-button>
 				</view>
 			</u-row>
-			<uv-scroll-list :indicator="false" v-if="images.length"  style="margin-top: 20rpx;">
-				<view v-for="(item, index) in images" :key="index" style="position: relative; display: inline-block;height: 100rpx;width: 100rpx;">
-				    <image :src="item" mode="aspectFill" style="height: 100rpx; width: 100rpx; border-radius: 20rpx;">
-				    </image>
-				    <u-icon name="close-circle" style="position: absolute; top: 0; right: 0;"
-				        @click="images.splice(index, 1)">
-				    </u-icon>
+			<uv-scroll-list :indicator="false" v-if="images.length" style="margin-top: 20rpx;">
+				<view v-for="(item, index) in images" :key="index"
+					style="position: relative; display: inline-block;height: 100rpx;width: 100rpx;">
+					<image :src="item" mode="aspectFill" style="height: 100rpx; width: 100rpx; border-radius: 20rpx;">
+					</image>
+					<u-icon name="close-circle" style="position: absolute; top: 0; right: 0;"
+						@click="images.splice(index, 1)">
+					</u-icon>
 				</view>
 			</uv-scroll-list>
 			<!-- 隐藏面板 -->
@@ -151,7 +155,7 @@
 							<u-row justify="space-between" customStyle="flex-wrap:wrap">
 								<image :src="one.base+one.slug+'_'+three+'.'+one.format" v-for="(three,key) in two"
 									:key="key" mode="aspectFill" style="width: 100rpx;height: 100rpx;margin: 10rpx;"
-									@click="commentText += `[${one.name}_${key}]`"></image>
+									@click="insertEmoji(one.base,one.name,one.slug,three,one.format,key)"></image>
 							</u-row>
 						</swiper-item>
 					</swiper>
@@ -264,27 +268,40 @@
 				this.showComment = true
 			},
 			reply() {
-				if (this.commentText.length < 3) {
-					uni.$u.toast('再多说点吧~')
-					return;
-				};
-				let params = JSON.stringify(params = {
-					cid: this.data.cid,
-					parent: this.pid,
-					allparent: this.data.coid,
-					text: this.commentText,
-				})
-				this.$http.post('/typechoComments/commentsAdd', {
-					params
-				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
-						uni.$u.toast('已发送~')
-						this.commentText = ''
-						this.showComment = false
-						this.$refs.paging.reload()
-						this.$emit('subReply', true)
+				this.editorCtx.getContents({
+					success: (res) => {
+						this.commentText = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
+							function(match, alt) {
+								return `[${alt}]`;
+							});
+						if (res.text.length < 3) {
+							uni.$u.toast('再多说点吧~')
+							return;
+						};
+
+						let params = JSON.stringify(params = {
+							cid: this.data.cid,
+							parent: this.pid,
+							allparent: this.data.coid,
+							text: this.commentText,
+							images: this.images
+						})
+
+						this.$http.post('/typechoComments/commentsAdd', {
+							params
+						}).then(res => {
+							if (res.data.code) {
+								uni.$u.toast('已发送~')
+								this.commentText = ''
+								this.showComment = false
+								this.$refs.paging.reload()
+								this.$emit('subReply', true)
+							} else {
+								uni.$u.toast(res.data.msg)
+							}
+						})
 					}
+
 				})
 			},
 			formatText(item) {
@@ -423,9 +440,41 @@
 					current: index
 				})
 			},
+			onEditorReady() {
+				// #ifdef MP-BAIDU
+				this.editorCtx = requireDynamicLib('editorLib').createEditorContext('editor');
+				// #endif
+
+				// #ifdef APP-PLUS || H5 ||MP-WEIXIN
+				uni.createSelectorQuery().select('#editor').context((res) => {
+					this.editorCtx = res.context
+				}).exec()
+				// #endif
+			},
+			insertEmoji(base, name, slug, emoji, format, key) {
+				this.editorCtx.insertImage({
+					src: base + slug + '_' + emoji + '.' + format,
+					alt: name + '_' + key + '_' + 'emoji',
+					width: '30px',
+					height: '30px',
+					data: {
+						name: name,
+						emoji: emoji,
+						format: format
+					},
+					success: res => {
+
+					}
+				})
+			},
 		}
 	}
 </script>
 
 <style>
+	.ql-container ::v-deep .ql-blank::before {
+		min-height: 60rpx;
+		height: 60rpx;
+		font-style: normal;
+	}
 </style>
