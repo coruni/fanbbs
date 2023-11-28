@@ -164,8 +164,9 @@
 			</u-row>
 			<uv-scroll-list :indicator="false" v-if="images.length" style="margin-top: 20rpx;">
 				<view v-for="(item, index) in images" :key="index"
-					style="position: relative; display: inline-block;height: 100rpx;width: 100rpx;">
-					<image :src="item" mode="aspectFill" style="height: 100rpx; width: 100rpx; border-radius: 20rpx;">
+					style="position: relative; display: inline-block;height: 100rpx;width: 100rpx;margin-right: 10rpx;">
+					<image :src="item" mode="aspectFill" style="height: 100rpx; width: 100rpx; border-radius: 20rpx;"
+						@click="preview(images,index)">
 					</image>
 					<u-icon name="close-circle" style="position: absolute; top: 0; right: 0;"
 						@click="images.splice(index, 1)">
@@ -550,6 +551,7 @@
 								uni.$u.toast('已发送~')
 								this.commentText = null
 								this.showComment = false
+								this.images = []
 								this.$refs.comments.reload()
 							} else {
 								uni.$u.toast(res.data.msg)
@@ -727,16 +729,24 @@
 
 			goEdit() {
 				this.showMore = false
-				setTimeout(()=>{
-					this.$Router.push({
-						path: '/publish/article/article',
-						query: {
-							update: 1,
-							id: this.article.cid
-						}
-					})
-				},500)
+				if(this.article.type=='post'){
+					setTimeout(() => {
+						this.$Router.push({
+							path: '/publish/article/article',
+							query: {
+								update: 1,
+								id: this.article.cid
+							}
+						})
+					}, 500)
+				}
 				
+			},
+			preview(urls, current) {
+				uni.previewImage({
+					urls,
+					current
+				})
 			}
 		}
 	}
