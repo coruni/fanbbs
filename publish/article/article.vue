@@ -702,6 +702,10 @@
 					this.editorCtx = res.context
 				}).exec()
 				// #endif
+				
+				setTimeout(()=>{
+					this.setContents()
+				},500)
 			},
 			statuschange(event) {
 				this.formatStatus = event.detail
@@ -731,15 +735,12 @@
 						this.article.tags = res.data.tag
 						this.article.mid = res.data.mid
 						this.article.opt = res.data.opt
-						if(this.editorCtx!=null){
-							setTimeout(()=>{
-								this.editorCtx.setContents({
-									html: this.article.text
-								})
-							},500)
-							
-						}
 					}
+				})
+			},
+			setContents(){
+				this.editorCtx.setContents({
+					html:this.article.text
 				})
 			},
 			updateArticle() {
