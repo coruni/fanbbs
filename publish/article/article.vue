@@ -732,9 +732,12 @@
 						this.article.mid = res.data.mid
 						this.article.opt = res.data.opt
 						if(this.editorCtx!=null){
-							this.editorCtx.setContents({
-								html: this.article.text
-							})
+							setTimeout(()=>{
+								this.editorCtx.setContents({
+									html: this.article.text
+								})
+							},500)
+							
 						}
 					}
 				})
