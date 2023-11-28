@@ -17,7 +17,7 @@
 
 			<view style="margin: 30rpx;">
 				<block v-for="(item, index) in messages" :key="index">
-					<u-row align="top" @click="goPrivate(item)">
+					<u-row align="top" @click="goPrivate(item)" customStyle="margin-bottom:20rpx">
 						<u-avatar :src="item.userJson.avatar"></u-avatar>
 						<u-row style="flex-direction: column;margin-left: 20rpx;flex: 1;" align="top">
 							<text>{{item.userJson.name}}</text>

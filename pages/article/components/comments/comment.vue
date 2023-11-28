@@ -1,7 +1,13 @@
 <template>
 	<view>
 		<u-row align="top">
-			<u-avatar :src="data.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"></u-avatar>
+			
+			<view style="position: relative;top: 0;">
+				<u-avatar :src="data.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"></u-avatar>
+				<image class="avatar_head" mode="aspectFill"
+					:src="data.opt && data.opt.head_picture">
+				</image>
+			</view>
 			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 				<u-row align="center">
 					<text

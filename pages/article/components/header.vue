@@ -15,7 +15,7 @@
 					<u-avatar :src="data.authorInfo.avatar" size="40"
 						customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
-						:src="data.authorInfo.opt && data.authorInfo.opt.headStatus && data.authorInfo.opt.head_picture">
+						:src="data.authorInfo.opt  && data.authorInfo.opt.head_picture">
 					</image>
 				</view>
 				<view style="display: flex;flex-direction: column;margin-left:20rpx;font-size: 30rpx;">
