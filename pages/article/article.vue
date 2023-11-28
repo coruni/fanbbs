@@ -7,7 +7,7 @@
 					<view slot="left" style="display:flex;align-items: center;">
 						<u-icon name="arrow-left" size="20" @click="$Router.back()"></u-icon>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
-							@click="goProfile(article.authorId)" v-if="showNavAvatar">
+							@click="goProfile(article.authorId)" v-show="showNavAvatar">
 							<u-avatar :src="article.authorInfo.avatar" size="28"
 								customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 							<text
