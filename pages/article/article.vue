@@ -8,10 +8,10 @@
 						<u-icon name="arrow-left" size="20" @click="$Router.back()"></u-icon>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
 							@click="goProfile(article.authorId)" v-show="showNavAvatar">
-							<u-avatar :src="article.authorInfo.avatar" size="28"
+							<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="28"
 								customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 							<text
-								style="font-weight: 600;font-size: 30rpx;margin-left: 20rpx;">{{article.authorInfo.name}}</text>
+								style="font-weight: 600;font-size: 30rpx;margin-left: 20rpx;">{{article && article.authorInfo && article.authorInfo.name}}</text>
 						</view>
 					</view>
 					<view slot="right">

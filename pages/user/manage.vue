@@ -377,7 +377,6 @@
 						title: this.editArticle.title,
 						cid: this.editArticle.cid,
 						mid: this.editArticle.mid,
-						text: this.editArticle.text,
 						istop: this.editArticle.istop,
 						isswiper: this.editArticle.isswiper,
 						isrecommend: this.editArticle.isrecommend

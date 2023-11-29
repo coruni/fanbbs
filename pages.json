@@ -121,7 +121,7 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			},
-			"perm":"login"
+			"perm": "login"
 		}, {
 			"path": "uni_modules/rt-uni-update/components/rt-uni-update/rt-uni-update",
 			"style": {
@@ -144,6 +144,14 @@
 				"enablePullDownRefresh": false
 			},
 			"name": "manage"
+		},
+		{
+			"path": "pages/common/search/search",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"name": "search"
 		}
 	],
 	"globalStyle": {

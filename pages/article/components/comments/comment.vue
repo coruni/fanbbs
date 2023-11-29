@@ -1,11 +1,10 @@
 <template>
 	<view>
 		<u-row align="top">
-			
+
 			<view style="position: relative;top: 0;">
 				<u-avatar :src="data.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"></u-avatar>
-				<image class="avatar_head" mode="aspectFill"
-					:src="data.opt && data.opt.head_picture">
+				<image class="avatar_head" mode="aspectFill" :src="data.opt && data.opt.head_picture">
 				</image>
 			</view>
 			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
@@ -30,8 +29,8 @@
 							<u-row>
 								<u-row>
 									<u-avatar :src="item.avatar" size="20"></u-avatar>
-									<text style="margin-left: 10rpx;font-size: 30rpx;font-weight: 600;"
-										:style="{color:data.isvip?'#a899e6':''}">{{item.author}}</text>
+									<text
+										style="margin-left: 10rpx;font-size: 30rpx;font-weight: 600;">{{item.author}}</text>
 								</u-row>
 								<text
 									style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"

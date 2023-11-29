@@ -702,10 +702,10 @@
 					this.editorCtx = res.context
 				}).exec()
 				// #endif
-				
-				setTimeout(()=>{
+
+				setTimeout(() => {
 					this.setContents()
-				},500)
+				}, 500)
 			},
 			statuschange(event) {
 				this.formatStatus = event.detail
@@ -738,14 +738,19 @@
 					}
 				})
 			},
-			setContents(){
+			setContents() {
 				this.editorCtx.setContents({
-					html:this.article.text
+					html: this.article.text
 				})
 			},
 			updateArticle() {
 				this.editorCtx.getContents({
 					success: (res) => {
+						this.article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
+							function(match, alt) {
+								return `_|#${alt}|`;
+							});
+
 						if (res.text.length < 3) {
 							uni.$u.toast('再多写点吧~')
 							return;
@@ -760,15 +765,17 @@
 							params: JSON.stringify({
 								cid: this.article.cid,
 								title: this.article.title,
-								text: res.html,
+								text: this.article.text,
 								category: this.article.category.mid ? this.article.category
 									.mid : this.article.mid,
 								mid: this.article.category.mid ? this.article.category.mid :
 									this.article.mid,
 								tag: tags,
 								opt: JSON.stringify(this.article.opt)
-							})
+							}),
+							isMd: 0,
 						}).then(res => {
+							console.log(res)
 							if (res.data.code) {
 								uni.$u.toast(res.data.msg)
 								setTimeout(() => {

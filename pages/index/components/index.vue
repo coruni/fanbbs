@@ -8,9 +8,11 @@
 				<view slot="center" style="flex: 1;margin: 0 20rpx;">
 					<u-row>
 						<u-icon name="gift" size="22"></u-icon>
-						<u-input placeholder="搜索" border="none" placeholder-style="color:#aaa;" class="u-info-light-bg"
-							suffixIcon="search" suffixIconStyle="margin-right:10rpx"
-							customStyle="margin-left:20rpx;padding:10rpx 20rpx;border-radius:50rpx;" />
+						<view @click="goSearch()"
+							style="display: flex;justify-content: space-between;flex:1;background: #f7f7f7;padding:10rpx 20rpx;border-radius: 50rpx;margin-left: 20rpx;">
+							<text style="color: #999;">搜索</text>
+							<u-icon name="search" size="20"></u-icon>
+						</view>
 						<u-avatar :src="userInfo.avatar" size="30" customStyle="margin-left:20rpx"
 							@click="avatarTap()"></u-avatar>
 					</u-row>
@@ -29,7 +31,8 @@
 		</u-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @animationfinish="animationfinish">
 			<swiper-item v-for="(page,pageIndex) in topTabbar" :key="pageIndex">
-				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.isrecommend" :isSwiper="!pageIndex">
+				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.isrecommend"
+					:isSwiper="!pageIndex">
 				</articleIndex>
 				<water-fall-index v-else :swiper="pageIndex" :tabbar="topTabIndex"
 					style="margin-bottom: 60rpx;background: #f7f7f7;"></water-fall-index>
@@ -163,6 +166,12 @@
 			goLogin() {
 				this.$Router.push({
 					path: '/pages/user/login'
+				})
+			},
+			goSearch() {
+				console.log('点击了搜索')
+				this.$Router.push({
+					path: '/pages/common/search/search'
 				})
 			}
 		}
