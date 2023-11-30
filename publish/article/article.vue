@@ -108,10 +108,14 @@
 
 				<!-- 更多 -->
 				<view v-show="itemName=='more'">
-					<u-row justify="space-between">
+					<u-row justify="space-between" style="padding-bottom: 10rpx;">
 						<text style="font-weight: bold;">添加文件</text>
+						<u-row>
+							<u-icon name="photo" size="24" style="margin-right: 20rpx;"
+								@click="$refs.insertImage.open()"></u-icon>
+							<u-icon name="play-circle" size="24"></u-icon>
+						</u-row>
 					</u-row>
-
 					<block v-for="(item,index) in article.opt.files" :key="index">
 						<u-row customStyle="margin-bottom:10rpx">
 							<u-col span="7">
@@ -243,6 +247,19 @@
 			<uv-loading-icon text="发布中..." mode="circle" color="#a899e6"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
+		<uv-modal ref="insertImage" :showConfirmButton="false" title="插入图片">
+			<view style="display: flex;flex-direction: column;width: 100%;">
+				<view>
+					<u-input v-model="images" border="bottom" customStyle="padding:10rpx 0rpx"
+						placeholder="https://"></u-input>
+				</view>
+				<view style="margin-top: 30rpx;">
+					<u-button shape="circle" color="#a899e6" @click="insertImages()">插入</u-button>
+				</view>
+			</view>
+
+			<view slot="confirmButton"></view>
+		</uv-modal>
 	</view>
 </template>
 
@@ -264,6 +281,7 @@
 					poster: null,
 				},
 				chooseFrame: false,
+				images: [],
 				emojiData: [],
 				percentage: 30,
 				showLoading: false,
@@ -785,7 +803,19 @@
 						})
 					}
 				})
-
+			},
+			insertImages() {
+				this.editorCtx.insertImage({
+					src: this.images,
+					alt: 'IMAGE',
+					success: (res) => {
+						this.images = ''
+						this.editorCtx.insertText({
+							text: '\n'
+						})
+						this.$refs.insertImage.close()
+					}
+				});
 			}
 		}
 	}
