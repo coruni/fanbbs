@@ -18,7 +18,8 @@
 										style="margin-left: 20rpx;padding-right: 20rpx;margin-right: 10rpx;border-right: #a899e6 solid 1rpx;"></u-icon>
 								</view>
 								<u-input v-model="search" :adjust-position="false" style="padding: 0 10rpx;"
-									border="none" @input="inputSearch()" @focus="searchTap = false"></u-input>
+									border="none" @input="inputSearch()" @confirm="searchTap=true"
+									@focus="searchTap = false"></u-input>
 							</view>
 							<text style="color: #a899e6;margin-left:20rpx" @click="$Router.back(1)">取消</text>
 						</u-row>
@@ -38,14 +39,15 @@
 				</block>
 			</view>
 			<view v-if="searchTap">
-				<swiper style="height: 100vh;" @animationfinish="tabsIndex = $event.detail.current"
-					:current="tabsIndex">
+				<swiper style="height: 90vh;" @animationfinish="tabsIndex = $event.detail.current" :current="tabsIndex">
 					<swiper-item style="overflow: auto;">
-						<allArticle ref="allarticle" :search="search" :mid="selectCategory&&selectCategory.mid?selectCategory.mid:0">
+						<allArticle ref="allarticle" :search="search"
+							:mid="selectCategory&&selectCategory.mid?selectCategory.mid:0">
 						</allArticle>
 					</swiper-item>
 					<swiper-item style="overflow: auto;">
-						<allArticle ref="allarticle" :search="search" :mid="selectCategory&&selectCategory.mid?selectCategory.mid:0">
+						<allArticle ref="allarticle" :search="search"
+							:mid="selectCategory&&selectCategory.mid?selectCategory.mid:0">
 						</allArticle>
 					</swiper-item>
 					<swiper-item style="overflow: auto;">
@@ -56,8 +58,9 @@
 			<!-- 组件 -->
 			<u-popup mode="top" @close="showCategory = false" :show="showCategory"
 				style="position: absolute;z-index: 10074;" round="20">
-				<u-gap height="50"></u-gap>
-				<z-paging ref="category" :fixed="false" height="600rpx" @query="getCategory" v-model="categories">
+				<u-gap height="60"></u-gap>
+				<z-paging ref="category" :fixed="false" height="600rpx" @query="getCategory" v-model="categories"
+					:refresher-enabled="false">
 					<view style="margin:0 20rpx;display: flex;flex-direction: column;">
 						<u-row customStyle="padding: 20rpx 10rpx;" @click="selectCategory = null;showCategory = false">
 							<u-avatar src="/static/login.png" size="24"></u-avatar>

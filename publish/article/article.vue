@@ -975,9 +975,7 @@
 
 
 <style>
-	page {
-		background: #f7f7f7;
-	}
+
 
 	.panel {
 		transform: translateY(10vh);
