@@ -16,7 +16,7 @@
 			</template>
 
 			<view style="margin: 30rpx;">
-				<u-row customStyle="margin-bottom:30rpx" justify="space-between">
+				<u-row customStyle="margin-bottom:30rpx" justify="space-between" @click="goPath('finance')">
 					<u-row>
 						<view
 							style="background: #8c68f8;border-radius: 500rpx;padding: 20rpx;box-shadow: 0 0 8px 0 #8c68f8;">
@@ -26,7 +26,7 @@
 					</u-row>
 					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="noticeNum.finances"></i>
 				</u-row>
-				<u-row customStyle="margin-bottom:30rpx" justify="space-between">
+				<u-row customStyle="margin-bottom:30rpx" justify="space-between" @click="goPath('systems')">
 					<u-row>
 						<view
 							style="background: #f8d568;border-radius: 500rpx;padding: 20rpx;box-shadow: 0 0 8px 0 #f8d568;">
@@ -36,7 +36,7 @@
 					</u-row>
 					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="noticeNum.systems"></i>
 				</u-row>
-				<u-row customStyle="margin-bottom:30rpx" justify="space-between">
+				<u-row customStyle="margin-bottom:30rpx" justify="space-between" @click="goPath('comments')">
 					<u-row>
 						<view
 							style="background: #68d4f8;border-radius: 500rpx;padding: 20rpx;box-shadow: 0 0 8px 0 #68d4f8;">
@@ -121,8 +121,8 @@
 					}
 				})
 			},
-			onRefresh(){
-				if(this.$store.state.hasLogin){
+			onRefresh() {
+				if (this.$store.state.hasLogin) {
 					this.getNoticeNum()
 				}
 			},
@@ -139,6 +139,11 @@
 					if (res.data.code) {
 						this.noticeNum = res.data.data
 					}
+				})
+			},
+			goPath(path) {
+				this.$Router.push({
+					name: path
 				})
 			}
 		}

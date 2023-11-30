@@ -152,6 +152,33 @@
 				"enablePullDownRefresh": false
 			},
 			"name": "search"
+		},
+		{
+			"path" : "pages/notice/message/finance",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"finance"
+		},
+		{
+			"path" : "pages/notice/message/systems",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"systems"
+		},
+		{
+			"path" : "pages/notice/message/comments",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"comments"
 		}
 	],
 	"globalStyle": {
