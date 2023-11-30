@@ -1,13 +1,12 @@
 <template>
 	<view>
 		<u-navbar placeholder autoBack id="navbar">
-
 			<view slot="center">
 				<text>{{update?'更新帖子':'发布帖子'}}</text>
 			</view>
 			<view slot="right">
 				<u-row>
-					<u-button plain color="#a899e6" size="mini" v-if="!update">草稿箱</u-button>
+					<u-button plain color="#a899e6" size="mini" v-if="!update" @click="showDraft=true">草稿箱</u-button>
 					<u-button plain color="#a899e6" size="mini" customStyle="font-size:30rpx;margin-left:20rpx"
 						@click="update && article.cid? $u.throttle(updateArticle(),1000,true): $u.throttle(save(),1000,true)">{{update?'更新':'发布'}}</u-button>
 				</u-row>
@@ -112,7 +111,7 @@
 						<text style="font-weight: bold;">添加文件</text>
 						<u-row>
 							<u-icon name="photo" size="24" style="margin-right: 20rpx;"
-								@click="$refs.insertImage.open()"></u-icon>
+								@click="$refs.insertImage.open();showInsertImage = true"></u-icon>
 							<u-icon name="play-circle" size="24"></u-icon>
 						</u-row>
 					</u-row>
@@ -247,7 +246,8 @@
 			<uv-loading-icon text="发布中..." mode="circle" color="#a899e6"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
-		<uv-modal ref="insertImage" :showConfirmButton="false" title="插入图片">
+		<uv-modal ref="insertImage" :showConfirmButton="false" title="插入图片" :zIndex="100"
+			@close="showInsertImage = false">
 			<view style="display: flex;flex-direction: column;width: 100%;">
 				<view>
 					<u-input v-model="images" border="bottom" customStyle="padding:10rpx 0rpx"
@@ -257,9 +257,27 @@
 					<u-button shape="circle" color="#a899e6" @click="insertImages()">插入</u-button>
 				</view>
 			</view>
-
 			<view slot="confirmButton"></view>
 		</uv-modal>
+		<!-- 草稿箱 -->
+		<u-popup :show="showDraft" mode="bottom" round="20" @close="showDraft = false" :closeable="true">
+			<u-gap height="30"></u-gap>
+			<view style="margin: 30rpx;height: 60vh;">
+				<text style="font-size: 34rpx;font-weight: 600;">草稿箱</text>
+				<scroll-view style="overflow: scroll;height: 55vh;" scroll-y>
+					<view v-if="draftList">
+						<block v-for="(item,index) in draftList" v-if="item.draftId !=draftId">
+							<view style="padding:30rpx;background:#85a3ff0a;border-radius: 20rpx;margin-bottom: 20rpx;"
+								@click="insertDraft(item)">
+								<text v-if="item.title">{{item.title}}</text>
+								<u-parse style="overflow: hidden;" :content="item.text" v-if="item.text" class="u-line-2"></u-parse>
+							</view>
+						</block>
+					</view>
+				</scroll-view>
+
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -271,6 +289,10 @@
 	export default {
 		data() {
 			return {
+				showDraft: false,
+				draftList: [],
+				draftId: 0,
+				showInsertImage: false,
 				videoPath: null,
 				VideoFrame: [],
 				videoInfo: {
@@ -281,7 +303,7 @@
 					poster: null,
 				},
 				chooseFrame: false,
-				images: [],
+				images: '',
 				emojiData: [],
 				percentage: 30,
 				showLoading: false,
@@ -340,6 +362,7 @@
 					}
 				},
 				update: 0,
+				timer: null,
 			}
 		},
 		onReady() {
@@ -368,13 +391,56 @@
 				this.getContentInfo(params.id)
 			}
 
+			if (!params.update) {
+				this.timer = setInterval(() => {
+					this.editorCtx.getContents({
+						success: (res) => {
+							console.log('执行1')
+							if (res.text.length > 2) {
+								console.log('执行2', this.draftId)
+								const index = this.draftList.findIndex(draft => draft.draftId === this
+									.draftId);
+								if (index !== -1) {
+									// Update existing draft
+									this.$set(this.draftList, index, {
+										draftId: this.draftId,
+										...this.article,
+										text: res.html,
+									});
+									uni.setStorageSync('draftList', this.draftList);
+								} else {
+									// Add new draft
+									this.draftList.push({
+										draftId: this.draftId,
+										...this.article,
+										text: res.html
+									});
+								}
+							}
+						}
+					});
+				}, 5000);
+			}
+
 		},
 		created() {
 			this.formatEmoji()
 			this.initData()
+			this.draftList = uni.getStorageSync('draftList')
+			if (!this.draftList.length) this.draftList = [];
+			this.draftId = this.draftList.length + 1
+		},
+		beforeDestroy() {
+			clearInterval(this.timer);
 		},
 		beforeRouteLeave(to, from, next) {
-
+			if (this.showInsertImage || this.showCategory || this.showDraft) {
+				this.showInsertImage = false;
+				this.showCategory = false;
+				this.showDraft = false;
+				this.$refs.insertImage.close()
+				return
+			}
 			next()
 		},
 		methods: {
@@ -805,6 +871,10 @@
 				})
 			},
 			insertImages() {
+				if (!this.images) {
+					uni.$u.toast('链接不可为空')
+					return;
+				}
 				this.editorCtx.insertImage({
 					src: this.images,
 					alt: 'IMAGE',
@@ -816,6 +886,19 @@
 						this.$refs.insertImage.close()
 					}
 				});
+			},
+			insertDraft(data) {
+				console.log(data)
+				this.article = data
+				this.draftId = data.draftId
+				this.editorCtx.setContents({
+					html: this.article.text,
+
+					success: (res) => {
+						this.showDraft = false
+						
+					}
+				})
 			}
 		}
 	}
@@ -902,5 +985,10 @@
 		transition: transform 0.3s ease;
 		background: #fff;
 
+	}
+
+	.ql-container ::v-deep .ql-blank::before {
+		font-style: normal;
+		color: #999;
 	}
 </style>
