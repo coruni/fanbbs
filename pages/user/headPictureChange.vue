@@ -50,7 +50,7 @@
 				this.$http.get('/typechoUsers/headpictureList', {
 					params: {
 						page,
-						limit,
+						limit:50,
 						searchParams: JSON.stringify({
 							type: 0
 						}),

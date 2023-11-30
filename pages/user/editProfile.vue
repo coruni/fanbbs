@@ -8,7 +8,7 @@
 					<u-avatar :src="userInfo.avatar" mode="aspectFill" size="85">
 					</u-avatar>
 					<image class="avatar_head" mode="aspectFill"
-						:src="userInfo.opt&&userInfo.opt.headStatus&&userInfo.opt.head_picture">
+						:src="userInfo.opt&&userInfo.opt.head_picture">
 					</image>
 				</view>
 
