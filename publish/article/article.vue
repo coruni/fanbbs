@@ -270,7 +270,8 @@
 							<view style="padding:30rpx;background:#85a3ff0a;border-radius: 20rpx;margin-bottom: 20rpx;"
 								@click="insertDraft(item)">
 								<text v-if="item.title">{{item.title}}</text>
-								<u-parse style="overflow: hidden;" :content="item.text" v-if="item.text" class="u-line-2"></u-parse>
+								<u-parse style="overflow: hidden;" :content="item.text" v-if="item.text"
+									class="u-line-2"></u-parse>
 							</view>
 						</block>
 					</view>
@@ -395,9 +396,7 @@
 				this.timer = setInterval(() => {
 					this.editorCtx.getContents({
 						success: (res) => {
-							console.log('执行1')
 							if (res.text.length > 2) {
-								console.log('执行2', this.draftId)
 								const index = this.draftList.findIndex(draft => draft.draftId === this
 									.draftId);
 								if (index !== -1) {
@@ -896,7 +895,7 @@
 
 					success: (res) => {
 						this.showDraft = false
-						
+
 					}
 				})
 			}
