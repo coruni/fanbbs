@@ -38,9 +38,18 @@
 				</block>
 			</view>
 			<view v-if="searchTap">
-				<swiper style="height: 100vh;" @animationfinish="tabsIndex = $event.detail.current" :current="tabsIndex">
+				<swiper style="height: 100vh;" @animationfinish="tabsIndex = $event.detail.current"
+					:current="tabsIndex">
 					<swiper-item style="overflow: auto;">
-						<allArticle :search="search"></allArticle>
+						<allArticle ref="allarticle" :search="search" :mid="selectCategory&&selectCategory.mid?selectCategory.mid:0">
+						</allArticle>
+					</swiper-item>
+					<swiper-item style="overflow: auto;">
+						<allArticle ref="allarticle" :search="search" :mid="selectCategory&&selectCategory.mid?selectCategory.mid:0">
+						</allArticle>
+					</swiper-item>
+					<swiper-item style="overflow: auto;">
+						<tagItem></tagItem>
 					</swiper-item>
 				</swiper>
 			</view>
@@ -67,16 +76,18 @@
 			</u-popup>
 			<template #loadingMoreNoMore></template>
 		</z-paging>
-		
-		
+
+
 	</view>
 </template>
 
 <script>
 	import allArticle from './components/all.vue'
+	import tagItem from './components/tag.vue'
 	export default {
-		components:{
-			allArticle
+		components: {
+			allArticle,
+			tagItem
 		},
 		data() {
 			return {
@@ -142,7 +153,7 @@
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background: #85a3ff0a;
 	}
 </style>

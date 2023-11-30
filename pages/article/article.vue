@@ -579,7 +579,6 @@
 					// 即删除整个匹配文本
 					return ''
 				}).replace(/\|</g, '<').replace(/>\|/g, '>')
-
 			},
 			btnTap(type, num) {
 
