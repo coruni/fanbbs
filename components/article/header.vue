@@ -3,7 +3,7 @@
 		<u-row justify="space-between">
 			<u-row>
 				<view style="position: relative;" @tap.stop.prevent="goProfile(data.authorId)">
-					<u-avatar :src="data.authorInfo.avatar" size="34"
+					<u-avatar :src="data&& data.authorInfo && data.authorInfo.avatar" size="34"
 						customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="data.authorInfo.opt && data.authorInfo.opt.head_picture">
@@ -11,14 +11,14 @@
 				</view>
 				<view style="display: flex;flex-direction: column;margin-left:20rpx">
 					<text style="font-size: 30rpx;font-weight: 600;"
-						:class="{'vipname':data.authorInfo.isvip}">{{data.authorInfo.name}}</text>
+						:class="{'vipname':data&& data.authorInfo && data.authorInfo.isvip}">{{data&& data.authorInfo && data.authorInfo.name}}</text>
 					<text style="font-size: 26rpx;color: #999;">{{$u.timeFormat(data.created,'mm-dd')}}</text>
 				</view>
 			</u-row>
 
 			<view style="display: flex;align-items: center;">
 				<view @click.stop="follow(data.authorId)">
-					<u-button v-if="!isfollow && data.authorId !== userInfo.uid" plain color="#a899e6" size="mini"
+					<u-button v-if="!isfollow && data && data.authorId !== userInfo.uid" plain color="#a899e6" size="mini"
 						shape="circle" customStyle="font-size:28rpx;height:50rpx" @click="$emit('follow',true)">关注</u-button>
 				</view>
 				<view @click.stop="">

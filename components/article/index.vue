@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<z-paging ref="paging" v-model="content" @query="getData" :auto="false" :auto-clean-list-when-reload="false" :auto-scroll-to-top-when-reload="false" style="margin-bottom: 180rpx;">
-			<view style="margin: 20rpx;" v-if="isSwiper">
+			<view style="margin: 20rpx;" v-if="isSwiper" @onRefresh="onRefresh">
 				<u-swiper height="160" :list="swiperList" keyName="image" :autoplay="false" circular
 					@click="swiperTap"></u-swiper>
 			</view>
@@ -135,6 +135,9 @@
 						id: data.cid
 					}
 				})
+			},
+			onRefresh(){
+				this.getSwiper()
 			}
 		}
 	}

@@ -54,9 +54,10 @@
 								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
 							</view>
 							<view
-								style="font-size: 30rpx;color:#a899e6;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								style="font-size: 30rpx;color:#85a3ff;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
 								<block v-for="(item,index) in orderList" :key="index">
-									<text @click.stop="orderTap(item.name)" style="padding: 15rpx;">{{item.name}}</text>
+									<text @click.stop="orderTap(item.name);$refs.comments.reload()"
+										style="padding: 15rpx;">{{item.name}}</text>
 								</block>
 							</view>
 						</view>
@@ -82,9 +83,10 @@
 								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
 							</view>
 							<view
-								style="font-size: 30rpx;color:#a899e6;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								style="font-size: 30rpx;color:#85a3ff;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
 								<block v-for="(item,index) in orderList" :key="index">
-									<text @click.stop="orderTap(item.name)" style="padding: 15rpx;">{{item.name}}</text>
+									<text @click.stop="orderTap(item.name);$refs.comments.reload()"
+										style="padding: 15rpx;">{{item.name}}</text>
 								</block>
 							</view>
 						</view>
@@ -223,13 +225,14 @@
 
 		<!-- 分享 -->
 		<u-popup mode="bottom" round="10" :show="showMore" @close="showMore =false" :closeable="true">
-			
+
 			<view style="padding: 30rpx;">
 				<view style="text-align: center;color: #999;">
 					<text>分享至</text>
 				</view>
 				<view style="margin-top: 50rpx;">
-					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx" justify="space-between">
+					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx"
+						justify="space-between">
 						<block v-for="(item,index) in share" :key="index">
 							<u-row align="center" customStyle="flex-direction:column">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
@@ -333,17 +336,22 @@
 				showSub: false,
 				orderList: [{
 						name: '全部评论',
+						order: ''
 					}, {
-						name: '点赞最多'
+						name: '点赞最多',
+						order: 'likes'
 					},
 					{
-						name: '最新'
+						name: '最新',
+						order: 'created desc'
 					},
 					{
-						name: '最早'
+						name: '最早',
+						order: 'created asc'
 					},
 					{
-						name: '只看楼主'
+						name: '只看楼主',
+						order: 'author'
 					}
 				],
 				cBtn: [{
@@ -497,16 +505,25 @@
 				});
 			},
 			getComments(page, limit) {
+				let order = this.orderList.find(order => order.name == this.orderName)
+				let params = {
+					page,
+					limit,
+					searchParams: JSON.stringify({
+						type: 'comment',
+						cid: this.cid,
+						parent: 0,
+						authorId: order.name == '只看楼主' ? this.article.authorId : null
+
+					}),
+					order: order.order
+				}
+
+				if (order.name == '只看楼主') {
+					params.order = null
+				}
 				this.$http.get('/typechoComments/commentsList', {
-					params: {
-						page,
-						limit,
-						searchParams: JSON.stringify({
-							type: 'comment',
-							cid: this.cid,
-							parent: 0,
-						})
-					}
+					params
 				}).then(res => {
 					console.log(res)
 					if (res.statusCode == 200) {
