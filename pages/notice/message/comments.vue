@@ -5,7 +5,8 @@
 				<u-navbar bgColor="transparent" title="评论" placeholder autoBack></u-navbar>
 			</template>
 			<block v-for="(item,index) in comments">
-				<view style="margin:30rpx;background: #fff;border-radius: 20rpx;padding: 30rpx;">
+				<view style="margin:30rpx;background: #fff;border-radius: 20rpx;padding: 30rpx;"
+					@click="goArticle(item)">
 					<u-row customStyle="margin-bottom:20rpx">
 						<u-avatar :src="item.userJson.avatar" size="24"></u-avatar>
 						<text style="margin-left:20rpx;font-weight: 600;">{{item.userJson.name}}</text>
@@ -56,6 +57,15 @@
 					}
 					// 如果找不到对应的 emoji，可能需要返回原始的字符串或者给出一些提示
 					return match;
+				})
+			},
+			goArticle(data) {
+				console.log(data)
+				this.$Router.push({
+					path: '/pages/article/article',
+					query: {
+						id: data.contentsInfo.cid
+					}
 				})
 			}
 		}

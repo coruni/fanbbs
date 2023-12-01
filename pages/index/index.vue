@@ -1,6 +1,6 @@
 <template>
 	<z-paging-swiper>
-		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0"></index>
+		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
 		<find v-show="tabbarIndex == 1" :index="tabbarIndex"></find>
 		<notice v-show="tabbarIndex == 3" :index="tabbarIndex"></notice>
 		<user v-show="tabbarIndex == 4" :index="tabbarIndex"></user>
@@ -18,7 +18,6 @@
 								customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
 								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
 						</view>
-						<text :style="{color:item.active?'#a899e6':'',fontSize:30+'rpx'}">{{item.name}}</text>
 					</u-row>
 					<u-avatar :src="$store.state.userInfo.avatar" v-else size="35"
 						customStyle="border:6rpx solid #a899e6" @click="tabbarTap(index)"
@@ -53,6 +52,9 @@
 				</view>
 			</view>
 		</u-popup>
+		<u-popup round="10" :show="showMoreMenu" @close="showMoreMenu = false">
+			123123123
+		</u-popup>
 	</z-paging-swiper>
 
 </template>
@@ -76,6 +78,8 @@
 					name: '首页',
 				}],
 				page: 1,
+				data: null,
+				showMoreMenu: false,
 				topTabIndex: 0,
 				tabbarIndex: 0,
 				showPublish: false,
@@ -179,7 +183,7 @@
 				this.tabbarIndex = 4
 			},
 			goPublish(data) {
-				if(!data) return;
+				if (!data) return;
 				this.$Router.push({
 					name: data.path
 				})

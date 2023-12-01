@@ -231,8 +231,7 @@
 					<text>分享至</text>
 				</view>
 				<view style="margin-top: 50rpx;">
-					<u-row justify="space-between"
-						customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx">
+					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx" justify="space-between">
 						<block v-for="(item,index) in share" :key="index">
 							<u-row align="center" customStyle="flex-direction:column">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
@@ -243,29 +242,32 @@
 						</block>
 					</u-row>
 					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
-						<u-row customStyle="margin-bottom:20rpx">
+						<u-row customStyle="margin:20rpx 0">
 							<u-icon name="thumb-down" size="24"></u-icon>
 							<text style="margin-left:10rpx">我不喜欢这类内容</text>
 						</u-row>
-						<u-row customStyle="margin-bottom:20rpx">
+						<u-row customStyle="margin:20rpx 0">
 							<u-icon name="warning" size="24"></u-icon>
 							<text style="margin-left:10rpx">举报</text>
 						</u-row>
-						<u-row customStyle="margin-bottom:20rpx">
+						<u-row customStyle="margin:20rpx 0">
 							<u-icon name="close-circle" size="24"></u-icon>
 							<text style="margin-left:10rpx">屏蔽用户</text>
 						</u-row>
-						<u-row customStyle="margin-bottom:20rpx">
+						<u-row customStyle="margin:20rpx 0">
 							<u-icon name="share" size="24"></u-icon>
 							<text style="margin-left:10rpx">复制链接</text>
 						</u-row>
-						<u-row customStyle="margin-bottom:20rpx">
+						<u-row customStyle="margin:20rpx 0">
 							<u-icon name="more-dot-fill" size="24"></u-icon>
 							<text style="margin-left:10rpx">通过系统分享</text>
 						</u-row>
-						<text
-							v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.groupKey =='administrator'"
-							@click="goEdit()">编辑</text>
+						<view style="margin: 20rpx 0;">
+							<text
+								v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.groupKey =='administrator'"
+								@click="goEdit()">编辑</text>
+						</view>
+
 					</view>
 				</view>
 			</view>
@@ -359,25 +361,16 @@
 						color: 'green'
 					},
 					{
-						name: '微信',
-						icon: 'weixin-fill',
+						name: '朋友圈',
+						icon: 'moments',
 						color: 'green'
 					},
 					{
-						name: '微信',
-						icon: 'weixin-fill',
-						color: 'green'
+						name: 'QQ',
+						icon: 'qq-fill',
+						color: 'blue'
 					},
-					{
-						name: '微信',
-						icon: 'weixin-fill',
-						color: 'green'
-					},
-					{
-						name: '微信',
-						icon: 'weixin-fill',
-						color: 'green'
-					}
+
 				],
 				manage: [{
 						name: '举报',
@@ -530,8 +523,8 @@
 							function(match, alt) {
 								return `[${alt}]`;
 							});
-							console.log(res.text,this.commentText.length)
-						if (res.text.length<2) {
+						console.log(res.text, this.commentText.length)
+						if (res.text.length < 2) {
 							uni.$u.toast('再多说点吧~')
 							return;
 						};
@@ -729,7 +722,7 @@
 
 			goEdit() {
 				this.showMore = false
-				if(this.article.type=='post'){
+				if (this.article.type == 'post') {
 					setTimeout(() => {
 						this.$Router.push({
 							path: '/publish/article/article',
@@ -740,7 +733,7 @@
 						})
 					}, 500)
 				}
-				
+
 			},
 			preview(urls, current) {
 				uni.previewImage({

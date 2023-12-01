@@ -8,7 +8,7 @@
 			<block v-for="(item,index) in content" :key="index">
 				<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 					<article-header :data="item" @follow="$refs.paging.reload()"
-						@menuTap="showMenu= true"></article-header>
+						@menuTap="$emit('edit',$event)"></article-header>
 					<article-content :data="item"></article-content>
 					<article-footer :data="item"></article-footer>
 				</view>
@@ -73,6 +73,8 @@
 				content: [],
 				is_loaded: false,
 				swiperList: [],
+				data: null,
+				showMenu: false,
 
 			};
 		},
