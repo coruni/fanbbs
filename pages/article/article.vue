@@ -38,7 +38,7 @@
 			<u-gap height="8" bgColor="#85a3ff0a"></u-gap>
 			<!-- #ifdef APP -->
 			<u-sticky bgColor="#fff">
-				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;">
+				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text style="margin-right: 10rpx;">{{orderName}}</text>
@@ -67,7 +67,7 @@
 			<!-- #endif -->
 			<!-- #ifndef APP -->
 			<u-sticky bgColor="#fff" offsetTop="-44">
-				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;">
+				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text style="margin-right: 10rpx;">{{orderName}}</text>
