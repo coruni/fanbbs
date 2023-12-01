@@ -1,6 +1,8 @@
 <template>
 	<view>
-		<z-paging ref="paging" v-model="comments" @query="getData" :refresher-enabled="false">
+		<u-loading-page :loading="loading"></u-loading-page>
+		<z-paging ref="paging" v-model="comments" @query="getData" :refresher-enabled="false" v-show="!loading">
+			
 			<template #top>
 				<u-navbar bgColor="transparent" title="评论" placeholder autoBack></u-navbar>
 			</template>
@@ -34,7 +36,8 @@
 	export default {
 		data() {
 			return {
-				comments: []
+				comments: [],
+				loading: true,
 			}
 		},
 		methods: {
@@ -46,6 +49,9 @@
 				}).then(res => {
 					console.log(res)
 					this.$refs.paging.complete(res.data.data)
+					setTimeout(()=>{
+						this.loading = false
+					},500)
 				})
 			},
 			formatEmoji(html) {

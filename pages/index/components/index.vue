@@ -7,9 +7,10 @@
 				<view slot="left"></view>
 				<view slot="center" style="flex: 1;margin: 0 20rpx;">
 					<u-row>
-						<u-icon name="gift" size="22"></u-icon>
+						<u-icon name="gift" size="24" customStyle="background:#f7f7f7;border-radius:50rpx;padding:10rpx"
+							@click="checkUp()"></u-icon>
 						<view @click="goSearch()"
-							style="display: flex;justify-content: space-between;flex:1;background: #f7f7f7;padding:10rpx 20rpx;border-radius: 50rpx;margin-left: 20rpx;">
+							style="display: flex;justify-content: space-between;flex:1;background: #f7f7f7;padding:6rpx 20rpx;border-radius: 50rpx;margin-left: 20rpx;">
 							<text style="color: #999;">搜索</text>
 							<u-icon name="search" size="20"></u-icon>
 						</view>
@@ -174,6 +175,22 @@
 				console.log('点击了搜索')
 				this.$Router.push({
 					path: '/pages/common/search/search'
+				})
+			},
+			checkUp() {
+				this.$http.post('/typechoUserlog/addLog', {
+					params: JSON.stringify({
+						type: 'clock'
+					})
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						uni.$u.toast('签到'+res.data.msg)
+					}else{
+						if(res.data.msg!='你的操作太频繁了'){
+							uni.$u.toast(res.data.msg)
+						}
+					}
 				})
 			}
 		}

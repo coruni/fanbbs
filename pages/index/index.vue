@@ -10,7 +10,7 @@
 			<u-row justify="space-between" customStyle="padding:10rpx 30rpx 20rpx 30rpx;background:white;z-index:999">
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)" v-if="index!=4">
-						<view style="position: relative;">
+						<view style="position: relative;padding: 20rpx;">
 							<u-icon :name="item.icon" size="22" :color="item.active?'#a899e6':''"
 								customStyle="z-index:2"
 								:class="{'animate__animated animate__zoomIn':item.active}"></u-icon>
@@ -52,9 +52,41 @@
 				</view>
 			</view>
 		</u-popup>
-		<u-popup round="10" :show="showMoreMenu" @close="showMoreMenu = false">
-			123123123
+		<u-popup :show="showMoreMenu" @close="showMoreMenu = false" :closeable="true" round="10">
+			<view style="padding: 30rpx;">
+				<view style="text-align: center;color: #999;">
+					<text>分享至</text>
+				</view>
+				<view style="margin-top: 50rpx;">
+					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx"
+						justify="space-between">
+						<block v-for="(item,index) in share" :key="index">
+							<u-row align="center" customStyle="flex-direction:column">
+								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
+									<u-icon :name="item.icon" color="white" size="24"></u-icon>
+								</view>
+								<text style="margin-top: 20rpx;">{{item.name}}</text>
+							</u-row>
+						</block>
+					</u-row>
+					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
+						<u-row customStyle="margin:20rpx 0">
+							<u-icon name="thumb-down" size="24"></u-icon>
+							<text style="margin-left:10rpx">我不喜欢这类内容</text>
+						</u-row>
+						<u-row customStyle="margin:20rpx 0">
+							<u-icon name="share" size="24"></u-icon>
+							<text style="margin-left:10rpx">复制链接</text>
+						</u-row>
+						<u-row customStyle="margin:20rpx 0">
+							<u-icon name="more-dot-fill" size="24"></u-icon>
+							<text style="margin-left:10rpx">通过系统分享</text>
+						</u-row>
+					</view>
+				</view>
+			</view>
 		</u-popup>
+
 	</z-paging-swiper>
 
 </template>
@@ -101,6 +133,23 @@
 						icon: 'play-circle',
 						path: 'video'
 					},
+				],
+				share: [{
+						name: '微信',
+						icon: 'weixin-fill',
+						color: 'green'
+					},
+					{
+						name: '朋友圈',
+						icon: 'moments',
+						color: 'green'
+					},
+					{
+						name: 'QQ',
+						icon: 'qq-fill',
+						color: 'blue'
+					},
+
 				],
 				tabbar: [{
 						name: '首页',

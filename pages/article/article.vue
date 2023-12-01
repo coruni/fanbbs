@@ -222,10 +222,8 @@
 		</uv-modal>
 
 		<!-- 分享 -->
-		<u-popup mode="bottom" round="10" :show="showMore" @close="showMore =false">
-			<view style="position: absolute;top: 0;padding: 30rpx;">
-				<u-icon name="close" size="20" color="#999" @click="showMore = false"></u-icon>
-			</view>
+		<u-popup mode="bottom" round="10" :show="showMore" @close="showMore =false" :closeable="true">
+			
 			<view style="padding: 30rpx;">
 				<view style="text-align: center;color: #999;">
 					<text>分享至</text>

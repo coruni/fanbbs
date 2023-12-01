@@ -22,7 +22,7 @@
 						shape="circle" customStyle="font-size:28rpx;height:50rpx" @click="$emit('follow',true)">关注</u-button>
 				</view>
 				<view @click.stop="">
-					<u-icon name="more-dot-fill" size="20" customStyle="margin-left:30rpx" @click="$emit('menuTap',true)"></u-icon>
+					<u-icon name="more-dot-fill" size="20" customStyle="margin-left:30rpx" @click="$emit('menuTap',data)"></u-icon>
 				</view>
 			</view>
 		</u-row>
