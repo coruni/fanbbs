@@ -21,24 +21,38 @@
 					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="username">
 				</u--input>
 				<u-gap></u-gap>
-				
+
 				<u--input placeholder="密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
 					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
 				</u--input>
 				<u-gap></u-gap>
-				<u-row customStyle="border-bottom:1rpx solid #dadbde">
-					<u--input placeholder="邮箱" prefixIcon="email" prefixIconStyle="font-size:40rpx"
-						customStyle="padding:15rpx 0 0 0" border="none" v-model="email">
-					</u--input>
-					<view>
-						<u-code ref="uCode" @change="codeChange" seconds="120"></u-code>
-						<u-button @tap="getCode" plain color="#a899e6" size="mini">{{tips}}</u-button>
-					</view>
-				</u-row>
-				<u-gap></u-gap>
-				<u--input placeholder="验证码" type="number" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="code">
+				<u--input placeholder="邮箱" prefixIcon="email" prefixIconStyle="font-size:40rpx"
+					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="email">
 				</u--input>
+				<u-gap></u-gap>
+				<view v-if="config && config.isEmail">
+					<u-row customStyle="border-bottom:1rpx solid #dadbde">
+						<u--input placeholder="验证码" type="number" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
+							customStyle="padding:15rpx 0 0 0" border="none" v-model="code">
+						</u--input>
+						<view>
+							<u-code ref="uCode" @change="codeChange" seconds="120"></u-code>
+							<u-button @tap="getCode" plain color="#a899e6" size="mini">{{tips}}</u-button>
+						</view>
+					</u-row>
+					<u-gap></u-gap>
+				</view>
+				<view v-else>
+					<u--input placeholder="确认密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
+						customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password2">
+					</u--input>
+				</view>
+				<view v-if="config.isInvite">
+					<u-gap></u-gap>
+					<u--input placeholder="邀请码" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
+						customStyle="padding:15rpx 0 0 0" border="bottom" v-model="inviteCode">
+					</u--input>
+				</view>
 			</view>
 			<u-row justify="space-between"
 				customStyle="margin-top:20rpx;font-weight:bold;font-size:30rpx;color:#414141">
@@ -133,11 +147,14 @@
 	export default {
 		data() {
 			return {
+				config: {},
 				username: '',
 				account: '',
 				password: '',
+				password2: '',
 				email: '',
 				code: '',
+				inviteCode:'',
 				isLogin: true,
 				isForget: false,
 				tips: '12312',
@@ -159,6 +176,9 @@
 			};
 
 		},
+		created() {
+			this.getConfig()
+		},
 		computed: {
 
 		},
@@ -169,7 +189,7 @@
 				this.tips = text
 			},
 			// getCode() {
-				
+
 			// 	if (this.$refs.uCode.canGetCode) {
 			// 		this.$http.get('/typechoUsers/RegSendCode', {
 			// 			params: {
@@ -184,6 +204,14 @@
 			// 		})
 			// 	}
 			// },
+			getConfig() {
+				this.$http.get('/typechoUsers/regConfig').then(res => {
+					console.log(res)
+					if (res.data.code) {
+						this.config = res.data.data
+					}
+				})
+			},
 			getAllCode() {
 				if (!this.account.length) {
 					uni.$u.toast('账号为空');
@@ -197,11 +225,11 @@
 							}),
 						}
 					}).then(res => {
-						if(res.data.code){
+						if (res.data.code) {
 							this.$refs.uCode1.start();
 						}
 						uni.$u.toast(res.data.msg)
-						
+
 					})
 				}
 			},
@@ -300,12 +328,25 @@
 					uni.$u.toast('用户名为空')
 					return;
 				}
-				if (this.password.length < 6) {
-					uni.$u.toast('密码小于6')
+				if(!this.email.length){
+					uni.$u.toast('请填写邮箱')
 					return;
 				}
-				if (this.code.length < 6) {
+				if (this.password.length < 8) {
+					uni.$u.toast('密码强度不合格')
+					return;
+				}
+
+				if (!this.config.isEmail && this.password != this.password2) {
+					uni.$u.toast('两次密码不相同')
+					return;
+				}
+				if (this.config.isEmail && this.code.length < 6) {
 					uni.$u.toast('验证码错误')
+					return;
+				}
+				if(this.config.isInvite && !this.inviteCode.length){
+					uni.$u.toast('邀请码不可为空')
 					return;
 				}
 				this.$http.get('/typechoUsers/userRegister', {
@@ -349,7 +390,7 @@
 					})
 				}
 			},
-			
+
 			start() {
 
 			},
