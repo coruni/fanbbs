@@ -226,7 +226,7 @@
 					]
 				},
 				static: [{
-						name: '设置',
+						name: '退出',
 						path: '',
 						icon: 'setting'
 					}, {

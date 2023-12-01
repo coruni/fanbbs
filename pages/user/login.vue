@@ -21,6 +21,11 @@
 					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="username">
 				</u--input>
 				<u-gap></u-gap>
+				
+				<u--input placeholder="密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
+					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
+				</u--input>
+				<u-gap></u-gap>
 				<u-row customStyle="border-bottom:1rpx solid #dadbde">
 					<u--input placeholder="邮箱" prefixIcon="email" prefixIconStyle="font-size:40rpx"
 						customStyle="padding:15rpx 0 0 0" border="none" v-model="email">
@@ -30,10 +35,6 @@
 						<u-button @tap="getCode" plain color="#a899e6" size="mini">{{tips}}</u-button>
 					</view>
 				</u-row>
-				<u-gap></u-gap>
-				<u--input placeholder="密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
-				</u--input>
 				<u-gap></u-gap>
 				<u--input placeholder="验证码" type="number" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
 					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="code">
@@ -132,11 +133,11 @@
 	export default {
 		data() {
 			return {
-				username: null,
-				account: null,
-				password: null,
-				email: null,
-				code: null,
+				username: '',
+				account: '',
+				password: '',
+				email: '',
+				code: '',
 				isLogin: true,
 				isForget: false,
 				tips: '12312',
@@ -167,38 +168,40 @@
 
 				this.tips = text
 			},
-			getCode() {
-				if (this.account == null) {
-					uni.$u.toast('邮箱为空');
-					return;
-				}
-				if (this.$refs.uCode.canGetCode) {
-					this.$http.get('/typechoUsers/RegSendCode', {
-						params:{
-							params: JSON.stringify({
-								mail: this.account
-							})
-						}
-						
-					}).then(res => {
-						this.$refs.uCode.start();
-					})
-				}
-			},
+			// getCode() {
+				
+			// 	if (this.$refs.uCode.canGetCode) {
+			// 		this.$http.get('/typechoUsers/RegSendCode', {
+			// 			params: {
+			// 				params: JSON.stringify({
+			// 					mail: this.account
+			// 				})
+			// 			}
+
+			// 		}).then(res => {
+			// 			console.log(res)
+			// 			this.$refs.uCode.start();
+			// 		})
+			// 	}
+			// },
 			getAllCode() {
-				if (this.account == null) {
-					uni.$u.toast('邮箱为空');
+				if (!this.account.length) {
+					uni.$u.toast('账号为空');
 					return;
 				}
 				if (this.$refs.uCode1.canGetCode) {
 					this.$http.get('/typechoUsers/SendCode', {
-						params:{
+						params: {
 							params: JSON.stringify({
 								name: this.account
 							}),
 						}
 					}).then(res => {
-						this.$refs.uCode1.start();
+						if(res.data.code){
+							this.$refs.uCode1.start();
+						}
+						uni.$u.toast(res.data.msg)
+						
 					})
 				}
 			},
@@ -208,7 +211,7 @@
 					return;
 				}
 				this.$http.get('/typechoUsers/userFoget', {
-					params:{
+					params: {
 						params: JSON.stringify({
 							name: this.account,
 							password: this.password,
@@ -225,11 +228,11 @@
 				})
 			},
 			login() {
-				if (this.account == null) {
+				if (!this.account.length) {
 					uni.$u.toast('请填写账号')
 					return
 				}
-				if (this.password == null) {
+				if (!this.password.length) {
 					uni.$u.toast('请填写密码')
 					return
 				}
@@ -238,7 +241,7 @@
 					return
 				}
 				this.$http.get('/typechoUsers/userLogin', {
-					params:{
+					params: {
 						params: JSON.stringify({
 							name: this.account,
 							password: this.password
@@ -282,9 +285,9 @@
 				})
 			},
 			getUserMeta() {
-				this.$http.get('/typechoUsers/userData',{
-					params:{
-						token:this.$store.state.hasLogin?uni.getStorageSync('token'):''
+				this.$http.get('/typechoUsers/userData', {
+					params: {
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
 					if (res.data.code) {
@@ -293,20 +296,20 @@
 				})
 			},
 			register() {
-				if (!this.username) {
+				if (!this.username.length) {
 					uni.$u.toast('用户名为空')
 					return;
 				}
-				if (this.password < 6) {
+				if (this.password.length < 6) {
 					uni.$u.toast('密码小于6')
 					return;
 				}
-				if (this.code < 6) {
-					uni.$u.toast('验证码小于6')
+				if (this.code.length < 6) {
+					uni.$u.toast('验证码错误')
 					return;
 				}
 				this.$http.get('/typechoUsers/userRegister', {
-					params:{
+					params: {
 						params: JSON.stringify({
 							name: this.username,
 							password: this.password,
@@ -325,6 +328,10 @@
 				})
 			},
 			getCode() {
+				if (!this.email.length) {
+					uni.$u.toast('邮箱为空');
+					return;
+				}
 				if (this.$refs.uCode.canGetCode) {
 					this.$http.get('/typechoUsers/RegSendCode', {
 						params: {
@@ -342,17 +349,7 @@
 					})
 				}
 			},
-			fogetPassword() {
-				this.$http.get('/typechoUsers/userFoget', {
-					params: {
-						params: JSON.stringify({
-							name: this.account,
-							password: this.password,
-							code: this.code,
-						}),
-					}
-				})
-			},
+			
 			start() {
 
 			},
