@@ -166,7 +166,12 @@
 					name: null,
 					imgurl: null,
 					description: null,
-					opt: {}
+					opt: {
+						background: null,
+						primary: null,
+						underline: null,
+						color: null
+					}
 				},
 				metasList: [{
 						name: '板块',

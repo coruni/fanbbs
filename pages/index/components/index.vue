@@ -121,6 +121,14 @@
 			...mapState(['userInfo'])
 		},
 		onReady() {},
+		beforeRouteLeave(to, from, next) {
+			if (this.showPublish || this.showMoreMenu) {
+				this.showMoreMenu = false
+				this.showPublish = false
+				return
+			}
+			next()
+		},
 		methods: {
 			initData() {
 				this.getCategory()
@@ -185,9 +193,9 @@
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
-						uni.$u.toast('签到'+res.data.msg)
-					}else{
-						if(res.data.msg!='你的操作太频繁了'){
+						uni.$u.toast('签到' + res.data.msg)
+					} else {
+						if (res.data.msg != '你的操作太频繁了') {
 							uni.$u.toast(res.data.msg)
 						}
 					}

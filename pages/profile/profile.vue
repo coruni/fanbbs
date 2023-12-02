@@ -18,7 +18,7 @@
 
 				</u-navbar>
 			</template>
-			<image :src="info.userBg?info.userBg:'/static/login.png'" mode="aspectFill"
+			<image :src="info && info.userBg?info.userBg:info.avatar" mode="aspectFill"
 				style="width: 100%;height: 400rpx;transform: scale(1);"></image>
 			<view class="userPanel" id="profile">
 				<view style="position: absolute;top: -80rpx;">
@@ -53,24 +53,49 @@
 						</u-button>
 					</view>
 				</u-row>
-				<!-- <u-row justify="space-around" customStyle="margin-top:40rpx">
+				<u-row justify="space-around" customStyle="margin-top:40rpx">
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.contentsNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.contentsNum}}</text>
 						<text>帖子</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.followNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.followNum}}</text>
 						<text>关注</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.fanNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.fanNum}}</text>
 						<text>粉丝</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.commentsNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.commentsNum}}</text>
 						<text>评论</text>
 					</view>
-				</u-row> -->
+				</u-row>
+			</view>
+			<view style="position: relative;top: -60rpx;">
+				<view>
+					<!-- #ifndef APP -->
+					<u-sticky bgColor="#fff">
+						<u-tabs :list="tabs" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold;"
+							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"></u-tabs>
+					</u-sticky>
+					<!-- #endif -->
+					<!-- #ifdef APP -->
+					<u-sticky bgColor="#fff" offsetTop="60">
+						<u-tabs :list="tabs" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold"
+							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"></u-tabs>
+					</u-sticky>
+					<!-- #endif -->
+					<swiper style="height: 100vh;" :current="tabsIndex"
+						@animationfinish="tabsIndex = $event.detail.current">
+						<swiper-item style="overflow: auto;">
+							<publish :isScroll="isScroll" :uid="id" ref="publish" v-if=""></publish>
+						</swiper-item>
+						<swiper-item style="overflow: auto;">
+							<comment :isScroll="isScroll" :uid="id" ref="comment"></comment>
+						</swiper-item>
+					</swiper>
+				</view>
 			</view>
 		</z-paging>
 	</view>
@@ -78,37 +103,37 @@
 </template>
 
 <script>
-	import articleItem from './components/articleItem.vue';
-	import commentItem from './components/commentItem.vue';
+	import publish from './components/articleItem.vue';
+	import comment from './components/commentItem.vue';
 	export default {
 		components: {
-			articleItem,
-			commentItem,
+			publish,
+			comment,
 		},
 		props: {
 			nav: {
 				type: Boolean,
 				default: false
 			},
-			id: {
-				type: [Number, String],
-				default: 0
-			}
+
 		},
 		data() {
 			return {
+				id: 0,
 				info: {},
 				swiperIndex: 0,
 				tabsIndex: 0,
 				isfollow: false,
+				userData: {},
+				isScroll: false,
 				tabs: [{
 						name: '帖子'
 					},
 					{
-						name: '动态'
+						name: '评论'
 					},
 					{
-						name: '评论'
+						name: '收藏'
 					}
 				],
 				stopMove: false,
@@ -121,8 +146,10 @@
 		},
 		onLoad(params) {
 			if (params) {
+				this.id = params.id
 				this.getAuthor(params.id)
 				this.isFollow(params.id)
+				this.getUserData(params.id)
 			}
 		},
 		created() {
@@ -132,7 +159,6 @@
 			uni.createSelectorQuery().in(this).select('#profile').boundingClientRect(data => {
 				this.elementHeight = data.bottom
 			}).exec()
-
 		},
 		methods: {
 			getAuthor(id) {
@@ -181,6 +207,17 @@
 				this.opacity = scrollTop / 200;
 				if (scrollTop >= this.elementHeight) this.isScroll = true
 				else this.isScroll = false
+			},
+			getUserData(uid) {
+				this.$http.get('/typechoUsers/userData', {
+					params: {
+						uid
+					}
+				}).then(res => {
+					if (res.data.code) {
+						this.userData = res.data.data
+					}
+				})
 			},
 			goPrivate(data) {
 				if (data.uid == this.$store.state.userInfo.uid) {

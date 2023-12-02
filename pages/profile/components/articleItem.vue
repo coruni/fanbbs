@@ -4,36 +4,50 @@
 			:auto-hide-loading-after-first-loaded="false" :auto-scroll-to-top-when-reload="false"
 			:auto-clean-list-when-reload="false">
 			<block v-for="(item,index) in article">
-				<u-row customStyle="flex-direction:column;margin: 20rpx 30rpx;" align="top" @click="goArticle(item)">
-					<text
-						style="color: #999;font-size: 26rpx;">{{$u.timeFormat(item.created,'yyyy年mm月dd日')}}·{{item.category[0].name}}</text>
-					<text style="font-weight: bold;">{{item.title}}</text>
-					<text class="u-line-2">{{item.text}}</text>
-					<image v-if="item.images.length>0" :src="item.images[0]" style="width: 100%;height: 350rpx;"
-						mode="aspectFill"></image>
-				</u-row>
-				<u-gap height="6" customStyle="background:#f7f7f7"></u-gap>
+				<view style="margin: 30rpx;" @click="goArticle(item)">
+					<u-row align="bottom" customStyle="margin-bottom:20rpx">
+						<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
+						<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
+						<view v-if="item.category.length" style="color: #999;">
+							<text style="margin: 0 10rpx;">·</text>
+							<text>{{item.category[0].name}}</text>
+						</view>
+					</u-row>
+					<articleContent :data="item"></articleContent>
+					<articleFooter :data="item"></articleFooter>
+				</view>
+				<view style="border-bottom:1rpx #f7f7f7 solid"></view>
 			</block>
 		</z-paging>
 	</view>
-
 </template>
 
 <script>
+	import articleContent from '@/components/article/content.vue';
+	import articleFooter from '@/components/article/footer.vue';
 	export default {
-		name: 'articleItem',
+		components: {
+			articleContent,
+			articleFooter
+		},
+		name: 'publish',
 		props: {
-			uid: {
-				type: [String, Number],
-				default: 0
-			},
-			pageScroll: {
-				type: Boolean,
-				default: true
-			},
 			isScroll: {
 				type: Boolean,
 				default: false,
+			},
+			uid: {
+				type: [String, Number],
+				default: 0,
+			}
+		},
+		watch: {
+			isScroll: {
+				handler(e) {
+					this.scroll = e
+				},
+				deep: true,
+				immediate: true
 			}
 		},
 		data() {
@@ -42,32 +56,35 @@
 				scroll: false,
 			}
 		},
-		watch: {
-			isScroll: {
-				handler(e) {
-					this.scroll = e
-				}
-			}
-		},
 		created() {
-			console.log('已挂载article')
+
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/typechoContents/contentsList', {
-					params: {
-						page,
-						limit,
-						searchParams: JSON.stringify({
-							type: 'post',
-							uid: this.uid
-						})
-					}
+				this.$http.post('/typechoContents/contentsList', {
+					page,
+					limit,
+					searchParams: JSON.stringify({
+						type: 'post',
+						authorId: this.uid
+					}),
+					order: 'created desc'
+
 				}).then(res => {
-					if (res.statusCode == 200) {
-						this.$refs.paging.complete(res.data.data)
+					this.$refs.paging.complete(res.data.data)
+				})
+			},
+			goArticle(data) {
+				uni.setStorageSync(`article_${data.cid}`, data)
+				this.$Router.push({
+					path: '/pages/article/article',
+					query: {
+						id: data.cid
 					}
 				})
+			},
+			reload() {
+				this.$refs.paging.reload();
 			},
 		}
 	}
