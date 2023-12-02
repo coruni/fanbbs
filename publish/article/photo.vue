@@ -2,7 +2,7 @@
 	<view>
 		<uv-navbar autoBack placeholder rightText="">
 			<view slot="right">
-				<u-button :color="article.category.mid&&article.title?'#a899e6':'#aaa'" shape="circle"
+				<u-button :color="article.category.mid&&article.title?'#85a3ff':'#aaa'" shape="circle"
 					customStyle="width:150rpx;height:50rpx"
 					@click="article.category.mid&&article.title?save():$u.toast('要选择正确的板块哦~')">下一步</u-button>
 			</view>
@@ -34,7 +34,7 @@
 		</view>
 		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false"
 			width="300rpx">
-			<uv-loading-icon text="发布中..." mode="circle" color="#a899e6"></uv-loading-icon>
+			<uv-loading-icon text="发布中..." mode="circle" color="#85a3ff"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
 		<u-popup customStyle="border-radius:40rpx 40rpx 0 0" :show="showCategory" @close="showCategory = false">

@@ -4,8 +4,8 @@
 			<u-row>
 				<view>
 					<text
-						style="border-radius: 10rpx;padding: 8rpx 20rpx ;text-align: center;font-size: 14px;background-color: rgba(168,153,230,0.1);color: #a899e6; "
-						v-if="data.category.length>0">{{data.category[0].name}}</text>
+						style="border-radius: 10rpx;padding: 8rpx 20rpx ;text-align: center;font-size: 14px;background-color: rgba(168,153,230,0.1);color: #85a3ff; "
+						v-if="data &&data.category && data.category.length>0">{{data.category[0].name}}</text>
 				</view>
 				<block v-for="(tag,index) in data.tag" :key="index" v-if="data.tag">
 					<view>
@@ -26,7 +26,7 @@
 					<view>
 						<u-button plain
 							customStyle="height:60rpx;width:auto;font-size:30rpx;border-radius:10rpx;margin-left:20rpx"
-							color="#a899e6" @click="copy(item.unzipPass,'解压码')">解压码</u-button>
+							color="#85a3ff" @click="copy(item.unzipPass,'解压码')">解压码</u-button>
 					</view>
 				</u-row>
 			</block>

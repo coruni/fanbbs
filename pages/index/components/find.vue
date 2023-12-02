@@ -5,7 +5,7 @@
 				<u-navbar placeholder>
 					<view slot="left"></view>
 					<view slot="center" v-if="swiperIndex==1">
-						<u-tabs :list="tabs" :current="tabsIndex" lineColor="#a899e6"
+						<u-tabs :list="tabs" :current="tabsIndex" lineColor="#85a3ff"
 							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
 							:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3"

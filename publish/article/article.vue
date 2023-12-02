@@ -6,8 +6,8 @@
 			</view>
 			<view slot="right">
 				<u-row>
-					<u-button plain color="#a899e6" size="mini" v-if="!update" @click="showDraft=true">草稿箱</u-button>
-					<u-button plain color="#a899e6" size="mini" customStyle="font-size:30rpx;margin-left:20rpx"
+					<u-button plain color="#85a3ff" size="mini" v-if="!update" @click="showDraft=true">草稿箱</u-button>
+					<u-button plain color="#85a3ff" size="mini" customStyle="font-size:30rpx;margin-left:20rpx"
 						@click="update && article.cid? $u.throttle(updateArticle(),1000,true): $u.throttle(save(),1000,true)">{{update?'更新':'发布'}}</u-button>
 				</u-row>
 			</view>
@@ -59,8 +59,8 @@
 						<u-icon name="plus-circle" size="24" @click="showItem('more')"></u-icon>
 					</u-row>
 					<view style="margin-left: 140rpx;">
-						<u-icon name="setting-fill" size="20" color="#a899e6" @click="showItem('opt')"
-							customStyle="background:#a899e664;border-radius:50rpx;padding:10rpx;box-shadow: 0 0 9rpx #a899e6"></u-icon>
+						<u-icon name="setting-fill" size="20" color="#85a3ff" @click="showItem('opt')"
+							customStyle="background:#85a3ff64;border-radius:50rpx;padding:10rpx;box-shadow: 0 0 9rpx #85a3ff"></u-icon>
 					</view>
 				</u-row>
 			</view>
@@ -80,7 +80,7 @@
 							</swiper-item>
 						</swiper>
 					</block>
-					<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#a899e6"
+					<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#85a3ff"
 						itemStyle="height: 24px;"
 						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
@@ -134,7 +134,7 @@
 							</u-col>
 							<u-col span="1" customStyle="margin-left:10rpx">
 								<u-icon :name="article.opt.files.length>=2?'minus-circle':'plus-circle'" size="20"
-									color="#a899e6" @click="addFile(index)"></u-icon>
+									color="#85a3ff" @click="addFile(index)"></u-icon>
 							</u-col>
 						</u-row>
 					</block>
@@ -147,12 +147,12 @@
 							<text style="font-size: 32rpx;font-weight: bold;">创作声明</text>
 							<text style="font-size: 26rpx;color: #999;">开启之后文章显示创作声明</text>
 						</u-row>
-						<u-switch size="20" v-model="article.opt.create" activeColor="#a899e6"></u-switch>
+						<u-switch size="20" v-model="article.opt.create" activeColor="#85a3ff"></u-switch>
 					</u-row>
 					<u-gap height="6"></u-gap>
 					<u-row justify="space-between">
 						<text style="font-size: 32rpx;font-weight: bold;">允许评论</text>
-						<u-switch size="20" v-model="article.allowComment" activeColor="#a899e6"></u-switch>
+						<u-switch size="20" v-model="article.allowComment" activeColor="#85a3ff"></u-switch>
 
 					</u-row>
 				</view>
@@ -170,15 +170,15 @@
 							<u-row @click="article.category = item;showCategory = false" style="margin-bottom: 20rpx;">
 								<text v-if="item.isrecommend" style="
 									font-size: 26rpx;
-									color:#a899e6;
-									background: #a899e63c;
+									color:#85a3ff;
+									background: #85a3ff3c;
 									padding:4rpx 14rpx;
 									border-radius: 10rpx;">推荐</text>
 								<u-row>
 									<u-avatar :src="item.imgurl" size="30" shape="square" v-if="item.imgurl"
 										mode="aspectFill"></u-avatar>
 									<text style="margin-left: 20rpx;"
-										:style="{color:article.category && article.category.mid == item.mid?'#a899e6':''}">{{item.name}}</text>
+										:style="{color:article.category && article.category.mid == item.mid?'#85a3ff':''}">{{item.name}}</text>
 								</u-row>
 							</u-row>
 						</block>
@@ -205,7 +205,7 @@
 						<block v-for="(item,index) in tags" :key="index">
 							<view @click="tagTap(item)">
 								<text
-									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#a899e6':''}">{{item.name}}</text>
+									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#85a3ff':''}">{{item.name}}</text>
 							</view>
 						</block>
 					</scroll-view>
@@ -216,7 +216,7 @@
 			@close="showLoading=false;uploadErr.status = false;uploadErr.msg=null;"
 			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
 			:title="uploadErr.status?'上传错误':'上传中...'">
-			<u-line-progress :percentage="percentage" activeColor="#a899e6" :showText="false"
+			<u-line-progress :percentage="percentage" activeColor="#85a3ff" :showText="false"
 				v-if="!uploadErr.status"></u-line-progress>
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 		</u-modal>
@@ -231,19 +231,19 @@
 						<view
 							style="position: absolute;bottom:22rpx;right:8rpx;background-color: #fff;height:40rpx;width: 40rpx;text-align: center;border-radius: 10rpx 0 10rpx 0;box-shadow: -2px -2px 2px #0000001e;"
 							@click="videoInfo.poster = item">
-							<u-icon name="checkmark" color="#a899e6" size="18"
+							<u-icon name="checkmark" color="#85a3ff" size="18"
 								v-show="videoInfo.poster&&videoInfo.poster.url == item.url"></u-icon>
 						</view>
 					</view>
 				</block>
-				<u-button text="添加视频" color="#a899e6" shape="circle" @click="insertVideo()"></u-button>
+				<u-button text="添加视频" color="#85a3ff" shape="circle" @click="insertVideo()"></u-button>
 			</view>
 
 			<view slot="confirmButton"></view>
 		</uv-modal>
 		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false"
 			width="300rpx">
-			<uv-loading-icon text="发布中..." mode="circle" color="#a899e6"></uv-loading-icon>
+			<uv-loading-icon text="发布中..." mode="circle" color="#85a3ff"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
 		<uv-modal ref="insertImage" :showConfirmButton="false" title="插入图片" :zIndex="100"
@@ -254,7 +254,7 @@
 						placeholder="https://"></u-input>
 				</view>
 				<view style="margin-top: 30rpx;">
-					<u-button shape="circle" color="#a899e6" @click="insertImages()">插入</u-button>
+					<u-button shape="circle" color="#85a3ff" @click="insertImages()">插入</u-button>
 				</view>
 			</view>
 			<view slot="confirmButton"></view>
@@ -310,7 +310,7 @@
 				showLoading: false,
 				showPanel: false,
 				format: {
-					color: ['#a899e6', '#5bd784', '#ffa600', '#0dd0f2', '#fb4f14', '#000000'],
+					color: ['#85a3ff', '#5bd784', '#ffa600', '#0dd0f2', '#fb4f14', '#000000'],
 					method: [{
 						name: '粗体',
 						tool: 'bold'

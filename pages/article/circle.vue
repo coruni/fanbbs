@@ -11,7 +11,7 @@
 				<u-row>
 					<u-avatar :src="article.userJson.avatar" size="30"></u-avatar>
 					<text style="margin-left: 20rpx;"
-						:style="{color:article.userJson.isvip?'#a899e6':''}">{{article.userJson.name}}</text>
+						:style="{color:article.userJson.isvip?'#85a3ff':''}">{{article.userJson.name}}</text>
 				</u-row>
 				<view style="margin-top: 20rpx;">
 					<u-parse :content="article.text" style="word-wrap: break-word;word-break: break-all;"></u-parse>

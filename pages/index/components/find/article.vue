@@ -11,7 +11,7 @@
 
 					<view style="margin-left: 20rpx;">
 						<u-row>
-							<text :style="{color: item.userJson.isvip ? '#a899e6' : '',fontWeight:600}">{{item.userJson.name}}</text>
+							<text :style="{color: item.userJson.isvip ? '#85a3ff' : '',fontWeight:600}">{{item.userJson.name}}</text>
 						</u-row>
 						<text style="word-break: break-all;">{{item.text}}</text>
 						<u-album :urls="item.pic.images" multipleSize="94" :borderRadius="10"
@@ -21,8 +21,8 @@
 								<view>
 									<text style="
 										font-size: 28rpx;
-										background:#a899e63c;
-										color: #a899e6;
+										background:#85a3ff3c;
+										color: #85a3ff;
 										padding:4rpx 14rpx;
 										border-radius: 500rpx;
 										">#{{tags.name}}</text>
@@ -38,7 +38,7 @@
 									<text style="margin-left: 40rpx;">{{item.likes}}点赞</text>
 								</view>
 								<view>
-									<text style="color: #a899e6;font-size: 30rpx;"
+									<text style="color: #85a3ff;font-size: 30rpx;"
 										@click.stop="$emit('comments',item)">查看详情</text>
 								</view>
 							</u-row>

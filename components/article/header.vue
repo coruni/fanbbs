@@ -18,7 +18,7 @@
 
 			<view style="display: flex;align-items: center;">
 				<view @click.stop="follow(data.authorId)">
-					<u-button v-if="!isfollow && data && data.authorId !== userInfo.uid" plain color="#a899e6" size="mini"
+					<u-button v-if="!isfollow && data && data.authorId !== userInfo.uid" plain color="#85a3ff" size="mini"
 						shape="circle" customStyle="font-size:28rpx;height:50rpx" @click="$emit('follow',true)">关注</u-button>
 				</view>
 				<view @click.stop="">

@@ -11,16 +11,16 @@
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)" v-if="index!=4">
 						<view style="position: relative;padding: 20rpx;">
-							<u-icon :name="item.icon" size="22" :color="item.active?'#a899e6':''"
+							<u-icon :name="item.icon" size="22" :color="item.active?'#85a3ff':''"
 								customStyle="z-index:2"
 								:class="{'animate__animated animate__zoomIn':item.active}"></u-icon>
-							<u-badge :isDot="true" bgColor="#a899e6c4" :offset="[12,7]" absolute
+							<u-badge :isDot="true" bgColor="#85a3ffc4" :offset="[12,7]" absolute
 								customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
 								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
 						</view>
 					</u-row>
 					<u-avatar :src="$store.state.userInfo.avatar" v-else size="35"
-						customStyle="border:6rpx solid #a899e6" @click="tabbarTap(index)"
+						customStyle="border:6rpx solid #85a3ff" @click="tabbarTap(index)"
 						:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
 				</block>
 			</u-row>
@@ -31,15 +31,15 @@
 				<view style="position: relative;text-align: center;">
 					<u--text text="发布文章" size="16" bold customStyle="z-index:1"></u--text>
 					<view
-						style="z-index: 0;position: absolute;background-color: #a899e6;top: 30rpx;padding: 6rpx 68rpx;box-shadow: 0 0 9px 0 #a899e6;border-radius: 500rpx;">
+						style="z-index: 0;position: absolute;background-color: #85a3ff;top: 30rpx;padding: 6rpx 68rpx;box-shadow: 0 0 9px 0 #85a3ff;border-radius: 500rpx;">
 					</view>
 				</view>
 				<u-row justify="space-around"
 					customStyle="margin-top:30rpx;border-bottom:1rpx solid #cccccc36;padding-bottom:40rpx">
 					<block v-for="(item,index) in publish" :key="index">
 						<u-row customStyle="flex-direction:column;" @click="goPublish(item);showPublish = false">
-							<view style="background: #a899e64c;border-radius: 500rpx;padding: 15rpx;">
-								<u-icon :name="item.icon" size="30" color="#a899e6"></u-icon>
+							<view style="background: #85a3ff4c;border-radius: 500rpx;padding: 15rpx;">
+								<u-icon :name="item.icon" size="30" color="#85a3ff"></u-icon>
 							</view>
 							<text style="margin-top: 10rpx;">{{item.name}}</text>
 						</u-row>

@@ -5,8 +5,8 @@
 				<block v-for="(item,index) in data.tag" :key="index">
 					<view style="
 						font-size: 26rpx;
-						background:#a899e61e;
-						color: #a899e6;
+						background:#85a3ff1e;
+						color: #85a3ff;
 						padding:8rpx 14rpx;
 						border-radius: 500rpx;
 						margin-right: 20rpx;

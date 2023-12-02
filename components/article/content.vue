@@ -5,7 +5,7 @@
 			<text style="font-weight: 600;word-break: break-all;word-wrap: break-word;" class="u-line-2">{{data.title}}</text>
 			<view v-if="data.istop">
 				<u-icon name="arrow-up-fill" color="#a899e6" labelColor="#a899e6" size="14" label="置顶" label-size="14"
-					customStyle="background: #a899e61e;padding:4rpx;border-radius:10rpx"></u-icon>
+					customStyle="background: #85a3ff1e;padding:4rpx;border-radius:10rpx"></u-icon>
 			</view>
 		</u-row>
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"

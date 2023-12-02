@@ -32,7 +32,7 @@
 						<editor id="editor" @ready="onEditorReady"
 							style="background: #85a3ff32;height: auto;min-height: unset;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 						</editor>
-						<u-button color="#a899e6" style="width: 140rpx;height: 60rpx;margin-left: 20rpx;" shape="circle"
+						<u-button color="#85a3ff" style="width: 140rpx;height: 60rpx;margin-left: 20rpx;" shape="circle"
 							@click="sendMessage()">发送</u-button>
 					</u-row>
 				</view>

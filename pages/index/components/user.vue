@@ -36,7 +36,7 @@
 						<!-- 占位结束 -->
 						<text style="font-weight: 600;font-size: 34rpx;">{{userInfo.screenName}}</text>
 						<u-row customStyle="font-size:28rpx">
-							<u-icon name="heart" color="#a899e6" customStyle="margin-right:10rpx"></u-icon>
+							<u-icon name="heart" color="#85a3ff" customStyle="margin-right:10rpx"></u-icon>
 							<text>通行证ID：{{userInfo.uid}}</text>
 						</u-row>
 
@@ -46,9 +46,9 @@
 						</u-row>
 					</view>
 					<view>
-						<u-button plain color="#a899e6" shape="circle" customStyle="height:60rpx"
+						<u-button plain color="#85a3ff" shape="circle" customStyle="height:60rpx"
 							@click="goPage('editUser')">
-							<u-icon name="edit-pen" color="#a899e6"></u-icon>
+							<u-icon name="edit-pen" color="#85a3ff"></u-icon>
 							<text>编辑</text>
 						</u-button>
 					</view>
@@ -74,7 +74,7 @@
 
 				<view style="margin-top: 40rpx;">
 					<view
-						style="background: #a899e6c8;color: white;padding: 12rpx 30rpx 12rpx 30rpx;border-radius: 10rpx;">
+						style="background: #85a3ffc8;color: white;padding: 12rpx 30rpx 12rpx 30rpx;border-radius: 10rpx;">
 						<text>创作中心</text>
 					</view>
 				</view>
@@ -83,14 +83,14 @@
 				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff">
-						<u-tabs :list="list" lineColor="#a899e6" activeStyle="color:#303133;font-weight:bold;"
+						<u-tabs :list="list" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold;"
 							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"
 							v-if="isMounted"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
 					<u-sticky bgColor="#fff" offsetTop="60">
-						<u-tabs :list="list" lineColor="#a899e6" activeStyle="color:#303133;font-weight:bold"
+						<u-tabs :list="list" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold"
 							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"
 							v-if="isMounted"></u-tabs>
 					</u-sticky>
@@ -432,6 +432,6 @@
 	}
 
 	.u-button::before {
-		background: #a899e6;
+		background: #85a3ff;
 	}
 </style>

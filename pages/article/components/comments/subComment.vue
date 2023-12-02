@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false">
+		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false" :auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<template #top>
 				<u-navbar autoBack placeholder></u-navbar>
 			</template>
@@ -17,7 +17,7 @@
 				<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;padding-bottom: 30rpx;">
 					<u-row>
 						<text
-							:style="{color:data.isvip?'#a899e6':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
+							:style="{color:data.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
 						<text
 							style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
 							v-if="data.authorId == data.ownerId">作者</text>
@@ -29,14 +29,6 @@
 					<u-swiper :list="data.images" v-if="data.images && data.images.length" :autoplay="false" indicator
 						height="150" indicator-style="left" radius="10"
 						@click="previewImg(data.images,$event)"></u-swiper>
-					<u-grid :col="3" :border="false" v-if="data.longtext && data.longtext.images">
-						<u-grid-item v-for="(image,imageIndex) in data.longtext.images" :key="imageIndex"
-							v-if="imageIndex<9" @click.native.stop="preview"
-							:customStyle="{width:'210rpx',height:'210rpx',borderRadius:'20rpx',marginTop:'10rpx',marginRight:'10rpx'}">
-							<image :src="image" mode="aspectFill" style="width:210rpx;height:210rpx;border-radius:10rpx"
-								class="u-info-light-bg"></image>
-						</u-grid-item>
-					</u-grid>
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFormat(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:25%" justify="space-between">
@@ -60,7 +52,7 @@
 								<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 									<u-row>
 										<text
-											:style="{color:item.isvip?'#a899e6':'',fontSize:30+'rpx',fontWeight:600}">{{item.author}}</text>
+											:style="{color:item.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{item.author}}</text>
 										<text
 											style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
 											v-if="item.authorId == data.ownerId">作者</text>
@@ -74,16 +66,6 @@
 									<u-swiper :list="item.images" v-if="item.images && item.images.length"
 										:autoplay="false" indicator height="150" indicator-style="left" radius="10"
 										@click="previewImg(item.images,$event)"></u-swiper>
-									<u-grid :col=" 3" :border="false" v-if="item.longtext && item.longtext.images">
-										<u-grid-item v-for="(image,imageIndex) in item.longtext.images"
-											:key="imageIndex" v-if="imageIndex<9" @click.native.stop="preview"
-											:customStyle="{width:'210rpx',height:'210rpx',borderRadius:'20rpx',marginTop:'10rpx',marginRight:'10rpx'}">
-											<image :src="image" mode="aspectFill"
-												style="width:210rpx;height:210rpx;border-radius:10rpx"
-												class="u-info-light-bg">
-											</image>
-										</u-grid-item>
-									</u-grid>
 									<u-gap height="6"></u-gap>
 									<view>
 										<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
@@ -105,7 +87,7 @@
 			</view>
 			<template #bottom>
 				<u-row customStyle="margin:20rpx;" justify="space-between">
-					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1;background:#85a3ff14"
+					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1;background:#85a3ff1e"
 						class="u-info" @click="commentCheck(false,data.coid,data.author);">
 						<u-icon name="edit-pen" size="20"></u-icon>
 						<text style="margin-left:10rpx;font-size: 28rpx;">回复{{data.author}}</text>
@@ -120,20 +102,20 @@
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
 			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
 				:show-img-toolbar="false" @ready="onEditorReady" :placeholder="`回复${replyWho}`"
-				style="background: #85a3ff14;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+				style="background: #85a3ff1e;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="2">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
-							<u-icon :name="item.icon" size="24" :color="showComemntBtn == item.name?'#a899e6':''"
+							<u-icon :name="item.icon" size="24" :color="showComemntBtn == item.name?'#85a3ff':''"
 								@click="cBtnTap(item.name)"></u-icon>
 						</block>
 					</u-row>
 				</u-col>
 				<view>
-					<u-button shape="circle" color="#a899e6" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx"
-						text="发送" @click="reply"></u-button>
+					<u-button shape="circle" color="#85a3ff" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx"
+						text="发送" @click="$u.throttle(reply(),2000,true)"></u-button>
 				</view>
 			</u-row>
 			<uv-scroll-list :indicator="false" v-if="images.length" style="margin-top: 20rpx;">
@@ -161,7 +143,7 @@
 						</swiper-item>
 					</swiper>
 				</block>
-				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#a899e6"
+				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#85a3ff"
 					itemStyle="height: 24px;"
 					:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 					:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
@@ -171,7 +153,7 @@
 		<uv-modal ref="upload" :zIndex="10076" @close="uploadErr.status = false;uploadErr.msg=null;"
 			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
 			:title="uploadErr.status?'上传错误':'上传中...'">
-			<u-line-progress :percentage="percentage" activeColor="#a899e6" :showText="false"
+			<u-line-progress :percentage="percentage" activeColor="#85a3ff" :showText="false"
 				v-if="!uploadErr.status"></u-line-progress>
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 			<view slot="confirmButton"></view>

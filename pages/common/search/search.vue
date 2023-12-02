@@ -8,20 +8,20 @@
 					<view slot="center" style="flex: 1;margin: 0 20rpx;">
 						<u-row justify="space-between">
 							<view
-								style="border: 1rpx solid #a899e6;border-radius: 50rpx;padding:10rpx;display: flex;align-items: center;flex:1">
+								style="border: 1rpx solid #85a3ff;border-radius: 50rpx;padding:10rpx;display: flex;align-items: center;flex:1">
 								<view @click="showCategory=!showCategory" style="display: flex;align-items: center;">
 									<u-avatar
 										:src="selectCategory && selectCategory.imgurl?selectCategory.imgurl:'/static/login.png'"
 										size="20"></u-avatar>
 									<u-icon size="10" color="#999"
 										:name="showCategory?'arrow-up-fill':'arrow-down-fill'"
-										style="margin-left: 20rpx;padding-right: 20rpx;margin-right: 10rpx;border-right: #a899e6 solid 1rpx;"></u-icon>
+										style="margin-left: 20rpx;padding-right: 20rpx;margin-right: 10rpx;border-right: #85a3ff solid 1rpx;"></u-icon>
 								</view>
 								<u-input v-model="search" :adjust-position="false" style="padding: 0 10rpx;"
 									border="none" @input="inputSearch()" @confirm="searchTap=true"
 									@focus="searchTap = false"></u-input>
 							</view>
-							<text style="color: #a899e6;margin-left:20rpx" @click="$Router.back(1)">取消</text>
+							<text style="color: #85a3ff;margin-left:20rpx" @click="$Router.back(1)">取消</text>
 						</u-row>
 					</view>
 				</u-navbar>

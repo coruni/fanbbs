@@ -14,7 +14,7 @@
 							</u-row>
 						</u-row>
 					</view>
-					<u-button color="#a899e6" size="mini" slot="right" v-show="opacity>=1">关注</u-button>
+					<u-button color="#85a3ff" size="mini" slot="right" v-show="opacity>=1">关注</u-button>
 
 				</u-navbar>
 			</template>
@@ -35,7 +35,7 @@
 						<!-- 占位结束 -->
 						<text style="font-weight: 600;font-size: 34rpx;">{{info.screenName}}</text>
 						<u-row customStyle="font-size:28rpx">
-							<u-icon name="heart" color="#a899e6" customStyle="margin-right:10rpx"></u-icon>
+							<u-icon name="heart" color="#85a3ff" customStyle="margin-right:10rpx"></u-icon>
 							<text>通行证ID：{{info.uid}}</text>
 						</u-row>
 
@@ -45,11 +45,11 @@
 						</u-row>
 					</view>
 					<view style="display: flex;justify-content: center;" v-if="info.uid != $store.state.userInfo.uid">
-						<u-button customStyle="height:60rpx;width:120rpx;margin-right:20rpx" color="#a899e6"
+						<u-button customStyle="height:60rpx;width:120rpx;margin-right:20rpx" color="#85a3ff"
 							shape="circle" @click="goPrivate(info)">私信</u-button>
-						<u-button :plain="!isfollow" :color="!isfollow?'#a899e6':'#85a3ff0f'" shape="circle"
+						<u-button :plain="!isfollow" :color="!isfollow?'#85a3ff':'#85a3ff0f'" shape="circle"
 							customStyle="height:60rpx;width:160rpx">
-							<text :style="{color:isfollow?'black':'#a899e6'}">{{isfollow?'已关注':'关注'}}</text>
+							<text :style="{color:isfollow?'black':'#85a3ff'}">{{isfollow?'已关注':'关注'}}</text>
 						</u-button>
 					</view>
 				</u-row>
@@ -219,6 +219,6 @@
 	}
 
 	.u-button::before {
-		background: #a899e6;
+		background: #85a3ff;
 	}
 </style>

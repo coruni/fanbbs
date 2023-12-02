@@ -10,7 +10,7 @@
 			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 				<u-row align="center">
 					<text
-						:style="{color:data.isvip?'#a899e6':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
+						:style="{color:data.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
 					<text
 						style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
 						v-if="data.authorId == article.authorId">作者</text>
@@ -24,7 +24,7 @@
 					@click="goSubComment(data)">
 					<block v-for="(item,index) in data.sonComments.data" :key="index" v-if="index<2">
 						<u-row
-							customStyle="border-left:6rpx solid #85a3ff14;padding-left:15rpx;flex-direction:column;padding-bottom:5rpx"
+							customStyle="border-left:6rpx solid #85a3ff1e;padding-left:15rpx;flex-direction:column;padding-bottom:5rpx"
 							align="top">
 							<u-row>
 								<u-row>
@@ -44,7 +44,7 @@
 					</block>
 					<view style="margin-top: 30rpx;">
 						<view
-							style="padding:8rpx 20rpx;font-size: 26rpx;background:#85a3ff14;font;display: flex;align-items: center;width: 180rpx;border-radius: 500rpx;justify-content: space-around;">
+							style="padding:8rpx 20rpx;font-size: 26rpx;background:#85a3ff1e;font;display: flex;align-items: center;width: 180rpx;border-radius: 500rpx;justify-content: space-around;">
 							<text>{{data.sonComments.count}}条评论</text>
 							<u-icon name="arrow-right" size="13"></u-icon>
 						</view>

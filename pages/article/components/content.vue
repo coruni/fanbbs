@@ -49,6 +49,8 @@
 		},
 		created() {
 			console.log(this.data)
+		},
+		onReady() {
 			// 如果没有加载出来就强制发送事件取消加载
 			// APP端报Not Found
 			setTimeout(() => {

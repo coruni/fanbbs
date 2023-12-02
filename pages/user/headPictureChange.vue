@@ -11,7 +11,7 @@
 
 			</view>
 			<view style="margin-top: 30rpx;">
-				<text style="background: #a899e61a;color: #a899e6;padding:8rpx 16rpx;border-radius: 10rpx;">自定义</text>
+				<text style="background: #85a3ff1a;color: #85a3ff;padding:8rpx 16rpx;border-radius: 10rpx;">自定义</text>
 			</view>
 
 		</view>

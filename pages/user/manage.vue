@@ -15,7 +15,7 @@
 				<u-row justify="space-between">
 					<u-tabs :list="metasList" :current="metaIndex" @change="metaIndex = $event.index"></u-tabs>
 					<view>
-						<u-button size="mini" color="#a899e6" plain shape="circle"
+						<u-button size="mini" color="#85a3ff" plain shape="circle"
 							@click="$refs.editCategory.open()">{{metaIndex?'创建话题':'创建板块'}}</u-button>
 					</view>
 				</u-row>
@@ -72,19 +72,19 @@
 					<u-gap height="10"></u-gap>
 					<view style="background: #85a3ff0a;padding: 30rpx;border-radius: 20rpx;">
 						<text style="color: #999;">主题色</text>
-						<u-input v-model="editCategory.opt && editCategory.opt.primary" placeholder="#a899e6"
+						<u-input v-model="editCategory.opt && editCategory.opt.primary" placeholder="#85a3ff"
 							border="bottom" customStyle="padding: 10rpx 0;" />
 						<u-gap height="10"></u-gap>
 						<text style="color: #999;">下划线颜色</text>
-						<u-input v-model="editCategory.opt && editCategory.opt.underline" placeholder="#a899e6"
+						<u-input v-model="editCategory.opt && editCategory.opt.underline" placeholder="#85a3ff"
 							border="bottom" customStyle="padding: 10rpx 0;" />
 						<u-gap height="10"></u-gap>
 						<text style="color: #999;">字体颜色</text>
-						<u-input v-model="editCategory.opt && editCategory.opt.color" placeholder="#a899e6"
+						<u-input v-model="editCategory.opt && editCategory.opt.color" placeholder="#85a3ff"
 							border="bottom" customStyle="padding: 10rpx 0;" />
 					</view>
 				</view>
-				<u-button color="#a899e6" shape="circle" customStyle="margin-top: 30rpx;"
+				<u-button color="#85a3ff" shape="circle" customStyle="margin-top: 30rpx;"
 					@click="editCategory.mid?saveCategory(false):addCategory()">保存</u-button>
 			</view>
 			<view slot="confirmButton"></view>
@@ -94,7 +94,7 @@
 			<view style="width: 100%;" v-if="editArticle">
 				<text style="font-weight: 600;font-size: 36rpx;">{{editArticle.title}}</text>
 				<view style="margin: 10rpx 0;">
-					<u-button color="#a899e6" shape="circle" @click="getContentInfo(editArticle.cid)">查看内容</u-button>
+					<u-button color="#85a3ff" shape="circle" @click="getContentInfo(editArticle.cid)">查看内容</u-button>
 				</view>
 
 				<view style="margin-top: 20rpx;">
@@ -128,7 +128,7 @@
 					</u-row>
 				</view>
 				<view style="margin-top: 50rpx;">
-					<u-button color="#a899e6" shape="circle" @click="saveArticle()">保存</u-button>
+					<u-button color="#85a3ff" shape="circle" @click="saveArticle()">保存</u-button>
 				</view>
 			</view>
 			<view slot="confirmButton"></view>

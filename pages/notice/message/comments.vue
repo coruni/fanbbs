@@ -2,7 +2,7 @@
 	<view>
 		<u-loading-page :loading="loading"></u-loading-page>
 		<z-paging ref="paging" v-model="comments" @query="getData" :refresher-enabled="false" v-show="!loading">
-			
+
 			<template #top>
 				<u-navbar bgColor="transparent" title="评论" placeholder autoBack></u-navbar>
 			</template>
@@ -21,9 +21,9 @@
 					<u-parse class="u-line-2" :content="formatEmoji(item.text)"></u-parse>
 					<u-row justify="space-between" customStyle="color:#999;font-size:26rpx">
 						<text>{{$u.timeFormat(item.created,'mm-dd')}}</text>
-						<u-row customStyle="color:#a899e6">
+						<u-row customStyle="color:#85a3ff">
 							<text>查看</text>
-							<u-icon name="arrow-right" size="14" color="#a899e6"></u-icon>
+							<u-icon name="arrow-right" size="14" color="#85a3ff"></u-icon>
 						</u-row>
 					</u-row>
 				</view>
@@ -40,6 +40,9 @@
 				loading: true,
 			}
 		},
+		onShow() {
+			this.clearNotice()
+		},
 		methods: {
 			getData(page, limit) {
 				this.$http.post('/typechoUsers/inbox', {
@@ -49,9 +52,9 @@
 				}).then(res => {
 					console.log(res)
 					this.$refs.paging.complete(res.data.data)
-					setTimeout(()=>{
+					setTimeout(() => {
 						this.loading = false
-					},500)
+					}, 500)
 				})
 			},
 			formatEmoji(html) {
@@ -72,6 +75,13 @@
 					query: {
 						id: data.contentsInfo.cid
 					}
+				})
+			},
+			clearNotice() {
+				this.$http.post('/typechoUsers/setRead', {
+					type: 'comment'
+				}).then(res => {
+					console.log(res.data.msg)
 				})
 			}
 		}

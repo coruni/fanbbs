@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<z-paging @query="getData" v-model="messages" ref="paging" @onRefresh="onRefresh">
+		<z-paging @query="getData" v-model="messages" ref="paging" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" :auto-scroll-to-top-when-reload="false">
 			<template #top>
 				<u-navbar placeholder title="消息通知">
 					<view slot="left"></view>
@@ -10,13 +10,12 @@
 						<block v-for="(item,index) in rooms" :key="index">
 							<u-avatar :src="item.pic"></u-avatar>
 						</block>
-
 					</uv-scroll-list>
 				</view>
 			</template>
 
 			<view style="margin: 30rpx;">
-				<u-row customStyle="margin-bottom:30rpx" justify="space-between" @click="goPath('finance')">
+				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('finance')">
 					<u-row>
 						<view
 							style="background: #8c68f8;border-radius: 500rpx;padding: 20rpx;box-shadow: 0 0 8px 0 #8c68f8;">
@@ -26,7 +25,7 @@
 					</u-row>
 					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="noticeNum.finances"></i>
 				</u-row>
-				<u-row customStyle="margin-bottom:30rpx" justify="space-between" @click="goPath('systems')">
+				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('systems')">
 					<u-row>
 						<view
 							style="background: #f8d568;border-radius: 500rpx;padding: 20rpx;box-shadow: 0 0 8px 0 #f8d568;">
@@ -36,7 +35,7 @@
 					</u-row>
 					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="noticeNum.systems"></i>
 				</u-row>
-				<u-row customStyle="margin-bottom:30rpx" justify="space-between" @click="goPath('comments')">
+				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('comments')">
 					<u-row>
 						<view
 							style="background: #68d4f8;border-radius: 500rpx;padding: 20rpx;box-shadow: 0 0 8px 0 #68d4f8;">
@@ -67,6 +66,24 @@
 
 <script>
 	export default {
+		props: {
+			index: {
+				type: [String, Number],
+				default: 0
+			}
+		},
+		watch: {
+			index: {
+				handler(e) {
+					if (e == this.index) {
+						this.getNoticeNum()
+						this.$refs.paging.reload()
+					}
+				},
+				immediate: true,
+				deep: true
+			}
+		},
 		data() {
 			return {
 				messages: [],
@@ -79,6 +96,9 @@
 				this.getRoom()
 				this.getNoticeNum()
 			}
+			uni.$on('login', data => {
+				this.$refs.paging.reload()
+			})
 		},
 		methods: {
 			getData(page, limit) {

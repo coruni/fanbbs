@@ -99,6 +99,8 @@
 						this.$refs.paging.complete(res.data.data);
 						this.is_loaded = true
 					}
+				}).catch(err => {
+					this.$refs.paging.complete(false)
 				})
 			},
 			getSwiper() {

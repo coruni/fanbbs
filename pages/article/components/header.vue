@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<text style="font-size: 50rpx;font-weight: 600;">{{data.title}}</text>
+		<text style="font-size: 50rpx;font-weight: 600;">{{data &&data.title}}</text>
 		<u-row customStyle="color:#c0c4cc">
 			<u-icon name="clock" size="13" color="#c0c4cc" labelSize="13"
 				:label="$u.timeFormat(data.created,'mm-dd')"></u-icon>
@@ -12,22 +12,26 @@
 			style="background: #85a3ff0a;padding: 40rpx 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
 			<u-row @click="goProfile(data.authorId)">
 				<view style="position: relative;display: inline-block;">
-					<u-avatar :src="data.authorInfo.avatar" size="40"
+					<u-avatar :src="data && data.authorInfo&& data.authorInfo.avatar" size="40"
 						customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
-						:src="data.authorInfo.opt  && data.authorInfo.opt.head_picture">
+						:src="data && data.authorInfo && data.authorInfo.opt  && data.authorInfo.opt.head_picture">
 					</image>
 				</view>
 				<view style="display: flex;flex-direction: column;margin-left:20rpx;font-size: 30rpx;">
-					<text style="font-weight: 600;">{{data.authorInfo.name}}</text>
-					<text class="u-info u-line-1" style="font-size: 28rpx;">{{data.authorInfo.introduce}}</text>
+					<text style="font-weight: 600;">{{data && data.authorInfo && data.authorInfo.name}}</text>
+					<text class="u-info u-line-1"
+						style="font-size: 28rpx;">{{data && data.authorInfo && data.authorInfo.introduce}}</text>
 				</view>
 			</u-row>
 			<view>
-				<u-button :plain="!data.authorInfo.isfollow" shape="circle" hover-class="button_hover"
-					:color="data.authorInfo.isfollow?'#85a3ff0f':'#a899e6'" customStyle="width:160rpx;height:60rpx"
-					:style="{color:data.authorInfo.isfollow?'black':'#a899e6'}"
-					:text="data.authorInfo.isfollow?'已关注':'关注'" @click="$emit('follow',data.authorId)"></u-button>
+				<u-button :plain="data && data.authorInfo&& !data.authorInfo.isfollow" shape="circle"
+					hover-class="button_hover"
+					:color="data && data.authorInfo&& data.authorInfo.isfollow?'#85a3ff0f':'#85a3ff'"
+					customStyle="width:160rpx;height:60rpx"
+					:style="{color:data && data.authorInfo&& data.authorInfo.isfollow?'black':'#85a3ff'}"
+					:text="data && data.authorInfo&& data.authorInfo.isfollow?'已关注':'关注'"
+					@click="$emit('follow',data.authorId)"></u-button>
 			</view>
 		</u-row>
 	</view>
