@@ -8,7 +8,7 @@
 					fixed></u-navbar>
 			</template>
 			<view class="info" id="infoPanel">
-				<image :src="info.opt && info.opt.background" mode="aspectFill" style="width: 100%;height: 600rpx;">
+				<image :src="info.opt && info.opt.background?info.opt.background:info.imgurl" mode="aspectFill" style="width: 100%;height: 600rpx;">
 				</image>
 				<view
 					:style="`position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: ${info.opt && $u.colorToRgba(info.opt.primary,0.5)};`">

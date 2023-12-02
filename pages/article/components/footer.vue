@@ -2,7 +2,7 @@
 	<view style="margin-top: 10rpx;">
 		<u-row justify="space-between">
 			<u-row>
-				<view>
+				<view @tap.stop="goCategory(data.category[0].mid)">
 					<text
 						style="border-radius: 10rpx;padding: 8rpx 20rpx ;text-align: center;font-size: 14px;background-color: rgba(168,153,230,0.1);color: #85a3ff; "
 						v-if="data &&data.category && data.category.length>0">{{data.category[0].name}}</text>
@@ -67,6 +67,14 @@
 					showToast: false,
 					success: (res) => {
 						uni.$u.toast(name + '已复制')
+					}
+				})
+			},
+			goCategory(id){
+				this.$Router.push({
+					path:'/pages/common/category/categoryInfo',
+					query:{
+						id
 					}
 				})
 			}

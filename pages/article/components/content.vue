@@ -8,7 +8,7 @@
 		<uv-parse
 			:tag-style="{img:'border-radius:20rpx',video:'border-radius:20rpx !improtant',uniVideo:'border-radius:20rpx !improtant'}"
 			style="overflow: unset;white-space: normal;word-break: break-all" :show-img-menu="!isScroll"
-			:content="data.text" lazyLoad selectable @ready="$emit('ready',true)" v-if="data"></uv-parse>
+			:content="data.text" lazyLoad selectable @ready="htmlReady()" v-if="data"></uv-parse>
 	</view>
 </template>
 
@@ -49,13 +49,13 @@
 		},
 		created() {
 			console.log(this.data)
-		},
-		onReady() {
 			// 如果没有加载出来就强制发送事件取消加载
 			// APP端报Not Found
 			setTimeout(() => {
 				this.$emit('ready', true)
-			}, 1200)
+			}, 2000)
+		},
+		onReady() {
 		},
 		methods: {
 			formatTime,
@@ -67,6 +67,11 @@
 					urls: urls,
 					current: index
 				})
+			},
+			htmlReady(){
+				setTimeout(()=>{
+					this.$emit('ready',true)
+				},800)
 			}
 		}
 	}

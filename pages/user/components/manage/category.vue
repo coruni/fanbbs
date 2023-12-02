@@ -46,7 +46,20 @@
 					}
 				}).then(res => {
 					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+						let list =[]
+						for (let item of res.data.data) {
+							if (!item.opt) {
+								item.opt = {
+									background: '',
+									primary: '',
+									underline: '',
+									color: ''
+								};
+								console.log(item);
+							}
+							list.push(item);
+						}
+						this.$refs.paging.complete(list)
 					}
 				})
 			}

@@ -131,7 +131,6 @@
 					if (res.data.code) {
 						let data = res.data.data;
 						for (let i in res.data.data) {
-							if (typeof(res.data.data[i].opt) == 'string') data[i].opt = JSON.parse(data[i].opt)
 							if (res.data.data[i].mid == 1) this.article.category = res.data.data[i];
 						}
 						this.category = data

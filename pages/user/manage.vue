@@ -56,8 +56,7 @@
 			<view style="width: 100%;">
 				<u-row justify="space-between">
 					<u-avatar :src="editCategory.imgurl" shape="square" size="50" @click="choose(true)"></u-avatar>
-					<image mode="aspectFill" :src="editCategory.opt && editCategory.opt.background"
-						@click="choose(false)"
+					<image mode="aspectFill" :src="editCategory.opt.background" @click="choose(false)"
 						style="border-radius: 10rpx;width: 100%;height: 100rpx;margin-left: 50rpx;background: #f7f7f7;">
 					</image>
 				</u-row>
@@ -72,16 +71,16 @@
 					<u-gap height="10"></u-gap>
 					<view style="background: #85a3ff0a;padding: 30rpx;border-radius: 20rpx;">
 						<text style="color: #999;">主题色</text>
-						<u-input v-model="editCategory.opt && editCategory.opt.primary" placeholder="#85a3ff"
-							border="bottom" customStyle="padding: 10rpx 0;" />
+						<u-input v-model="editCategory.opt && editCategory.opt.primary" placeholder="#85a3ff" border="bottom"
+							customStyle="padding: 10rpx 0;" />
 						<u-gap height="10"></u-gap>
 						<text style="color: #999;">下划线颜色</text>
-						<u-input v-model="editCategory.opt && editCategory.opt.underline" placeholder="#85a3ff"
-							border="bottom" customStyle="padding: 10rpx 0;" />
+						<u-input v-model="editCategory.opt && editCategory.opt.underline" placeholder="#85a3ff" border="bottom"
+							customStyle="padding: 10rpx 0;" />
 						<u-gap height="10"></u-gap>
 						<text style="color: #999;">字体颜色</text>
-						<u-input v-model="editCategory.opt && editCategory.opt.color" placeholder="#85a3ff"
-							border="bottom" customStyle="padding: 10rpx 0;" />
+						<u-input v-model="editCategory.opt && editCategory.opt.color" placeholder="#85a3ff" border="bottom"
+							customStyle="padding: 10rpx 0;" />
 					</view>
 				</view>
 				<u-button color="#85a3ff" shape="circle" customStyle="margin-top: 30rpx;"
@@ -167,10 +166,10 @@
 					imgurl: null,
 					description: null,
 					opt: {
-						background: null,
-						primary: null,
-						underline: null,
-						color: null
+						background: '',
+						primary: '',
+						underline: '',
+						color: ''
 					}
 				},
 				metasList: [{
@@ -249,18 +248,26 @@
 						})
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code) {
 						let list = [];
 						for (let item of res.data.data) {
-							item.opt = JSON.parse(item.opt);
+							if (!item.opt) {
+								item.opt = {
+									background: '',
+									primary: '',
+									underline: '',
+									color: ''
+								};
+								console.log(item);
+							}
 							list.push(item);
 						}
 						this.category = list;
 					}
-				})
+				});
 			},
 			saveCategory(upload) {
+
 				this.$http.post('/typechoMetas/editMeta', {
 					params: JSON.stringify({
 						mid: this.editCategory.mid ? this.editCategory.mid : '',
@@ -280,7 +287,12 @@
 									name: null,
 									imgurl: null,
 									description: null,
-									opt: {}
+									opt: {
+										background: null,
+										primary: null,
+										underline: null,
+										color: null
+									}
 								}
 							}, 500)
 						}
@@ -307,7 +319,12 @@
 								name: null,
 								imgurl: null,
 								description: null,
-								opt: {}
+								opt: {
+									background: '',
+									primary: '',
+									underline: '',
+									color: ''
+								}
 							}
 						}, 500)
 					}
@@ -347,7 +364,12 @@
 						name: null,
 						imgurl: null,
 						description: null,
-						opt: {}
+						opt: {
+							background: null,
+							primary: null,
+							underline: null,
+							color: null
+						}
 					}
 				}, 500)
 
