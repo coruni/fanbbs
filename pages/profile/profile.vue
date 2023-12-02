@@ -86,7 +86,7 @@
 							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
-					<swiper style="height: 100vh;" :current="tabsIndex"
+					<swiper style="height: 88vh;" :current="tabsIndex"
 						@animationfinish="tabsIndex = $event.detail.current">
 						<swiper-item style="overflow: auto;">
 							<publish :isScroll="isScroll" :uid="id" ref="publish" v-if=""></publish>

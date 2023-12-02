@@ -95,7 +95,7 @@
 							v-if="isMounted"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
-					<swiper style="height: 100vh;" :current="tabsIndex"
+					<swiper style="height: 88vh;" :current="tabsIndex"
 						@animationfinish="tabsIndex = $event.detail.current" v-if="$store.state.hasLogin">
 						<swiper-item style="overflow: auto;">
 							<publish :isScroll="isScroll" :data="userInfo" ref="publish"></publish>
