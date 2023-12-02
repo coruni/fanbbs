@@ -53,7 +53,7 @@
 				</u-sticky>
 				<!-- #endif -->
 
-				<swiper style="height: 100vh;" :current="tabsIndex"
+				<swiper style="height: 95vh;" :current="tabsIndex"
 					@animationfinish="tabsIndex = $event.detail.current">
 					<swiper-item v-if="id">
 						<hot-article :mid="id" :isScroll="isScroll" ref="hot"

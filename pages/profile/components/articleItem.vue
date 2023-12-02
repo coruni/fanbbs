@@ -61,15 +61,16 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.post('/typechoContents/contentsList', {
-					page,
-					limit,
-					searchParams: JSON.stringify({
-						type: 'post',
-						authorId: this.uid
-					}),
-					order: 'created desc'
-
+				this.$http.get('/typechoContents/contentsList', {
+					params: {
+						page,
+						limit,
+						searchParams: JSON.stringify({
+							type: 'post',
+							authorId: this.uid
+						}),
+						order: 'created desc'
+					}
 				}).then(res => {
 					this.$refs.paging.complete(res.data.data)
 				})

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<z-paging ref="paging" refresher-only @onRefresh="onRefresh" @scroll="scroll"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" v-if="$store.state.hasLogin">
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" v-if="$store.state.hasLogin"  style="margin-bottom: 60rpx;">
 			<template #top>
 				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`">
 					<view slot="left">
@@ -79,8 +79,8 @@
 					</view>
 				</view>
 			</view>
-			<view style="position: relative;top: -60rpx;">
-				<view v-if="$store.state.hasLogin">
+			<view style="position: relative;top: 0rpx;">
+				<view v-if="$store.state.hasLogin"> 
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff">
 						<u-tabs :list="list" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold;"
@@ -95,7 +95,7 @@
 							v-if="isMounted"></u-tabs>
 					</u-sticky>
 					<!-- #endif -->
-					<swiper style="height: 88vh;" :current="tabsIndex"
+					<swiper style="height: 100vh;" :current="tabsIndex"
 						@animationfinish="tabsIndex = $event.detail.current" v-if="$store.state.hasLogin">
 						<swiper-item style="overflow: auto;">
 							<publish :isScroll="isScroll" :data="userInfo" ref="publish"></publish>
