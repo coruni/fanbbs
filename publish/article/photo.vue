@@ -2,9 +2,9 @@
 	<view>
 		<uv-navbar autoBack placeholder rightText="">
 			<view slot="right">
-				<u-button :color="article.category.mid&&article.title?'#85a3ff':'#aaa'" shape="circle"
+				<u-button :color="article.category.mid&&article.title?'#85a3ff':'#e6e6e6'" shape="circle"
 					customStyle="width:150rpx;height:50rpx"
-					@click="article.category.mid&&article.title?save():$u.toast('要选择正确的板块哦~')">下一步</u-button>
+					@click="article.category.mid&&article.title?save():$u.toast('要选择正确的板块哦~')">发布</u-button>
 			</view>
 		</uv-navbar>
 		<view style="padding: 30rpx;" id="image">
@@ -37,28 +37,25 @@
 			<uv-loading-icon text="发布中..." mode="circle" color="#85a3ff"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
-		<u-popup customStyle="border-radius:40rpx 40rpx 0 0" :show="showCategory" @close="showCategory = false">
-			<view style="position: absolute;top:0; width: 100%;">
-				<view style="padding: 30rpx;">
-					<u-icon name="close" size="20" @click="showCategory = false"></u-icon>
-				</view>
-			</view>
+		<u-popup customStyle="border-radius:40rpx 40rpx 0 0" :show="showCategory" @close="showCategory = false"
+			:closeable="true">
+
 			<view style="height: 70vh;padding:30rpx">
 				<view style="text-align: center;">选择板块</view>
 				<view style="margin-top: 30rpx;">
 					<u-grid :border="false" col="3">
-						<u-grid-item v-for="(item,index) in category" :key="index" @click="article.category = item"
-							:style="`background:${item.opt.primary};border-radius:20rpx;height:200rpx;width:200rpx`">
+						<u-grid-item v-for="(item,index) in category" :key="index"
+							@click="article.category = item;showCategory=false"
+							:style="`background:${item.opt && item.opt.primary};border-radius:20rpx;height:200rpx;width:200rpx`">
 							<view
 								style="display: flex; flex-direction: column; justify-content: center;align-items: center;">
-								<image :src="item.imgurl" style="width: 100rpx;height: 100rpx;border-radius: 20rpx;"
+								<image :src="item.imgurl"
+									style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;"
 									mode="aspectFill"></image>
 								<view style="margin-top: 20rpx;font-size: 30rpx;">
 									<text>{{item.name}}</text>
 								</view>
 							</view>
-
-
 						</u-grid-item>
 					</u-grid>
 				</view>
