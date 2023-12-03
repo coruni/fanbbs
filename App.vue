@@ -94,7 +94,6 @@
 						key: config.app
 					}
 				}).then(res => {
-					console.log(res)
 					this.$store.commit('setAppInfo', res.data.data)
 				})
 			},
@@ -145,7 +144,7 @@
 												obj: JSON.stringify(data)
 											}
 										})
-									}, 3000)
+									}, 2000)
 
 								}
 							}

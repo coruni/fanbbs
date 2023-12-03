@@ -155,7 +155,6 @@
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code) {
 						this.noticeNum = res.data.data
 					}

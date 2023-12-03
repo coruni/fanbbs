@@ -288,7 +288,9 @@
 							name: this.account,
 							password: this.password
 						}
+						
 						uni.setStorageSync('account', account)
+						console.log(uni.getStorageSync('account'))
 						//
 						setTimeout(() => {
 							this.$Router.back(1)

@@ -94,7 +94,6 @@
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.statusCode == 200) {
 						this.$refs.paging.complete(res.data.data);
 						this.is_loaded = true

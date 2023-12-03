@@ -56,22 +56,24 @@ againHttp.interceptors.request.use(config => {
 }, error => {
 	return Promise.reject(error)
 })
-let account = uni.getStorageSync('account')
+let isLogin = false
 // 响应拦截
 //   所有的网络请求返回数据之后都会先执行这个方法
 http.interceptors.response.use(async (response) => {
-
-	if (store.state.hasLogin && !response.data.code && response.data.msg == '用户未登录或Token验证失败') {
+	if (store.state.hasLogin && !response.data.code && response.data.msg == '用户未登录或Token验证失败' &&!isLogin) {
+		let account = uni.getStorageSync('account')
 		try {
-			const res = await refresh.post('/typechoUsers/userLogin', {
-				params: {
-					...account
+			const res = await refresh.get('/typechoUsers/userLogin', {
+				params:{
+					params:{
+						name: account.name,
+						password:account.password
+					}
 				}
-
 			})
-			console.log(res)
 			if (res.data.code) {
-				store.commit('setToken', res.data.data)
+				store.commit('setToken', res.data.data.token)
+				isLogin = true
 				try {
 					const againhttp = await againHttp.middleware(response.config)
 					return againhttp
