@@ -67,7 +67,7 @@
 			},
 			clearNotice() {
 				this.$http.post('/typechoUsers/setRead', {
-					type: 'system'
+					type: 'finance'
 				}).then(res => {
 					console.log(res)
 				})
