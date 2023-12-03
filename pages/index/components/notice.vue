@@ -23,7 +23,7 @@
 						</view>
 						<text style="margin-left:20rpx">财务通知</text>
 					</u-row>
-					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="noticeNum.finances"></i>
+					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="$store.state.noticeNum.finances"></i>
 				</u-row>
 				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('systems')">
 					<u-row>
@@ -33,7 +33,7 @@
 						</view>
 						<text style="margin-left:20rpx">系统通知</text>
 					</u-row>
-					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="noticeNum.systems"></i>
+					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="$store.state.noticeNum.systems"></i>
 				</u-row>
 				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('comments')">
 					<u-row>
@@ -43,7 +43,7 @@
 						</view>
 						<text style="margin-left:20rpx">评论通知</text>
 					</u-row>
-					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="noticeNum.comments"></i>
+					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="$store.state.noticeNum.comments"></i>
 				</u-row>
 
 				<block v-for="(item, index) in messages" :key="index">
@@ -155,8 +155,9 @@
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
+					console.log(res.data.data)
 					if (res.data.code) {
-						this.noticeNum = res.data.data
+						this.$store.commit('setNoticeNum',res.data.data)
 					}
 				})
 			},

@@ -1,6 +1,22 @@
 <template>
 	<view style="margin-top: 10rpx;">
-		<u-row justify="space-between">
+		<view v-if="data.opt&&data.opt.files[0].link" style="margin-top: 20rpx;">
+			<block v-for="(item,index) in data.opt.files" :key="index">
+				<u-row justify="space-between" customStyle="margin-bottom:10rpx">
+					<u-row customStyle="background: #f7f7f7;border-radius: 10rpx;height:60rpx;flex:1"
+						@click="openUrl(item.link,'提取码',item.password)">
+						<u-icon name="download" size="18"></u-icon>
+						<text class="u-line-1">{{item.link}}</text>
+					</u-row>
+					<view v-if="item.unzipPass">
+						<u-button plain
+							customStyle="height:60rpx;width:auto;font-size:30rpx;border-radius:10rpx;margin-left:20rpx"
+							color="#85a3ff" @click="copy(item.unzipPass,'解压码')">解压码</u-button>
+					</view>
+				</u-row>
+			</block>
+		</view>
+		<u-row justify="space-between" style="margin-top: 20rpx;">
 			<u-row>
 				<view @tap.stop="goCategory(data.category[0].mid)">
 					<text
@@ -15,22 +31,7 @@
 				</block>
 			</u-row>
 		</u-row>
-		<view v-if="data.opt&&data.opt.files[0].link">
-			<block v-for="(item,index) in data.opt.files" :key="index">
-				<u-row justify="space-between" customStyle="margin-bottom:10rpx">
-					<u-row customStyle="background: #f7f7f7;border-radius: 10rpx;height:60rpx;flex:1"
-						@click="openUrl(item.link,'提取码',item.password)">
-						<u-icon name="download" size="18"></u-icon>
-						<text class="u-line-1">{{item.link}}</text>
-					</u-row>
-					<view>
-						<u-button plain
-							customStyle="height:60rpx;width:auto;font-size:30rpx;border-radius:10rpx;margin-left:20rpx"
-							color="#85a3ff" @click="copy(item.unzipPass,'解压码')">解压码</u-button>
-					</view>
-				</u-row>
-			</block>
-		</view>
+		
 	</view>
 </template>
 

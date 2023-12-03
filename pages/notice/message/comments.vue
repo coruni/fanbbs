@@ -7,7 +7,6 @@
 				<u-navbar bgColor="transparent" title="评论" placeholder autoBack></u-navbar>
 			</template>
 			<block v-for="(item,index) in comments">
-
 				<view style="margin:30rpx;background: #fff;border-radius: 20rpx;padding: 30rpx;"
 					@click="goArticle(item)">
 					<u-row customStyle="margin-bottom:20rpx">
@@ -15,7 +14,7 @@
 						<text style="margin-left:20rpx;font-weight: 600;">{{item.userJson.name}}</text>
 					</u-row>
 					<u-parse class="u-line-2" :content="formatEmoji(item.text)"></u-parse>
-					<view style="border-left: #f7f7f7 4rpx solid;padding-left: 10rpx;margin: 10rpx 0;">
+					<view style="border-left: #f7f7f7 6rpx solid;padding-left: 10rpx;margin: 10rpx 0;">
 						<text style="color: #999;font-size: 28rpx;">{{item.contenTitle}}</text>
 					</view>
 					<u-row justify="space-between" customStyle="color:#999;font-size:26rpx">

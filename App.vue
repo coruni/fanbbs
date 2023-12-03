@@ -4,6 +4,7 @@
 	} from 'vuex';
 	import config from '@/config/config.js'
 	import silenceUpdate from '@/uni_modules/rt-uni-update/js_sdk/silence-update.js' //引入静默更新
+	import {http} from  '@/utils/luch-request/http.js'
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -13,6 +14,7 @@
 				this.$store.commit('setUser', uni.getStorageSync('user'));
 				this.$store.commit('setUserMeta', uni.getStorageSync('userMeta'));
 				this.$store.commit('loginStatus');
+				this.getNoticeNum()
 				//检测登录状态
 				setTimeout(() => {
 					this.checkStstus()
@@ -35,20 +37,39 @@
 		methods: {
 			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
 			checkStstus() {
-				this.$http.post('/typechoUsers/userStatus').then(res => {
+				http.get('/typechoUsers/userStatus',{
+					params:{
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+					}
+				}).then(res => {
 					if (!res.data.code) {
 						//状态不通过重新登录
 						this.login()
 					}
 				})
 			},
+			getNoticeNum() {
+				http.get('/typechoUsers/unreadNum', {
+					params: {
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+					}
+				}).then(res => {
+					console.log(res.data.data)
+					if (res.data.code) {
+						this.$store.commit('setNoticeNum',res.data.data)
+					}
+				})
+			},
 			login() {
 				let account = uni.getStorageSync('account')
 				if (!account) return;
-				this.$http.post('/typechoUsers/userLogin', {
-					params: JSON.stringify({
-						...account
-					})
+				http.get('/typechoUsers/userLogin', {
+					params: {
+						params: {
+							name: account.name,
+							passowrd: account.password
+						}
+					}
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
@@ -70,7 +91,7 @@
 				})
 			},
 			getUserInfo(uid) {
-				this.$http.get('/typechoUsers/userInfo', {
+				http.get('/typechoUsers/userInfo', {
 					params: {
 						key: uid
 					}
@@ -82,14 +103,14 @@
 				})
 			},
 			getUserMeta() {
-				this.$http.post('/typechoUsers/userData').then(res => {
+				http.post('/typechoUsers/userData').then(res => {
 					if (res.data.code) {
 						this.setUserMeta(res.data.data)
 					}
 				})
 			},
 			getAppData() {
-				this.$http.get('/system/app', {
+				http.get('/system/app', {
 					params: {
 						key: config.app
 					}

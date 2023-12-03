@@ -1,5 +1,5 @@
 <template>
-	<z-paging-swiper>
+	<z-paging-swiper >
 		<!-- 头部搜索框 -->
 		<template #top>
 			<u-navbar placeholder>

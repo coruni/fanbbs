@@ -12,6 +12,7 @@ const store = new Vuex.Store({
 		config: {},
 		hasLogin: false,
 		appInfo: {},
+		noticeNum: 0,
 	},
 	mutations: {
 		setToken(state, payload) {
@@ -46,9 +47,13 @@ const store = new Vuex.Store({
 		loginStatus(state, payload) {
 			state.hasLogin = true
 		},
+		setNoticeNum(state, payload) {
+			state.noticeNum = payload
+		},
 		logout(state, payload) {
 			uni.clearStorage('user');
 			uni.clearStorage('token');
+			uni.clearStorage('account');
 			state.userInfo = {};
 			state.token = null;
 			state.hasLogin = false
