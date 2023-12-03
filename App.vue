@@ -4,7 +4,9 @@
 	} from 'vuex';
 	import config from '@/config/config.js'
 	import silenceUpdate from '@/uni_modules/rt-uni-update/js_sdk/silence-update.js' //引入静默更新
-	import {http} from  '@/utils/luch-request/http.js'
+	import {
+		http
+	} from '@/utils/luch-request/http.js'
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -37,8 +39,8 @@
 		methods: {
 			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
 			checkStstus() {
-				http.get('/typechoUsers/userStatus',{
-					params:{
+				http.get('/typechoUsers/userStatus', {
+					params: {
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
@@ -54,20 +56,20 @@
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
-					console.log(res.data.data)
 					if (res.data.code) {
-						this.$store.commit('setNoticeNum',res.data.data)
+						this.$store.commit('setNoticeNum', res.data.data)
 					}
 				})
 			},
 			login() {
 				let account = uni.getStorageSync('account')
+				console.log(account,'账号信息')
 				if (!account) return;
 				http.get('/typechoUsers/userLogin', {
 					params: {
 						params: {
 							name: account.name,
-							passowrd: account.password
+							password: account.password
 						}
 					}
 				}).then(res => {
@@ -77,9 +79,6 @@
 						this.getUserInfo(res.data.data.uid);
 						this.getUserMeta()
 						uni.$emit('login', true)
-						setTimeout(() => {
-							this.$Router.back(1)
-						}, 2000)
 					} else {
 						this.$Router.push({
 							path: '/pages/user/login'

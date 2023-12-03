@@ -603,7 +603,7 @@
 					}).catch(err => {
 						console.log(err)
 						this.uploadErr.status = true
-						this.uploadErr.msg = res.data.msg
+						this.uploadErr.msg = '网络错误'
 					})
 				})
 			},

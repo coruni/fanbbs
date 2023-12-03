@@ -155,7 +155,7 @@
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
-					console.log(res.data.data)
+					console.log(res)
 					if (res.data.code) {
 						this.$store.commit('setNoticeNum',res.data.data)
 					}
