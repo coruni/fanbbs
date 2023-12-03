@@ -7,7 +7,9 @@
 		<!-- 间隔 -->
 
 		<u-tabbar :value="tabbarIndex" @change="tabbarTap" placeholder safeAreaInsetBottom activeColor="#85a3ff">
-			<u-tabbar-item :text="item.name" :icon="item.icon" :dot="index==3&&$store.state.noticeNum.total!=0" v-for="(item,index) in tabbar" :key="index"></u-tabbar-item>
+			<u-tabbar-item :text="item.name" :icon="item.icon"
+				:dot="index==3&&$store.state.noticeNum.total!=0&&$store.state.hasLogin" v-for="(item,index) in tabbar"
+				:key="index"></u-tabbar-item>
 		</u-tabbar>
 
 		<!-- 组件开始 -->

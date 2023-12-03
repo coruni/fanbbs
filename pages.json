@@ -179,6 +179,15 @@
 				"enablePullDownRefresh" : false
 			},
 			"name":"comments"
+		},
+		{
+			"path" : "pages/index/components/user/wallet",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"wallet"
 		}
 	],
 	"globalStyle": {

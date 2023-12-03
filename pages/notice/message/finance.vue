@@ -2,9 +2,8 @@
 	<view>
 		<u-loading-page :loading="loading"></u-loading-page>
 		<z-paging ref="paging" v-model="finances" @query="getData" :refresher-enabled="false" v-show="!loading">
-
 			<template #top>
-				<u-navbar bgColor="transparent" title="系统" placeholder autoBack></u-navbar>
+				<u-navbar bgColor="transparent" title="财务" placeholder autoBack></u-navbar>
 			</template>
 			<block v-for="(item,index) in finances">
 				<view style="margin: 30rpx;padding: 30rpx;border-radius: 20rpx; background: #fff;">
@@ -12,7 +11,7 @@
 						<text style="font-size: 32rpx;font-weight: 600;">财务通知</text>
 					</view>
 					<view style="margin-top: 20rpx;">
-						<text>{{item.text}}</text>
+						<text>{{item.userJson.name}}{{item.text}}</text>
 					</view>
 				</view>
 			</block>

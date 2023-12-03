@@ -213,7 +213,8 @@
 					],
 					blance: [{
 							name: '我的钱包',
-							icon: 'heart'
+							icon: 'heart',
+							path:'wallet'
 						},
 						{
 							name: '兑换中心',

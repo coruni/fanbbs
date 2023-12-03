@@ -30,7 +30,7 @@
 		</view>
 		<view style="padding: 20rpx 30rpx 30rpx 30rpx;">
 			<editor id="editor" :adjust-position="false" placeholder="请输入内容" @ready="onEditorReady"
-				:style="`height:${windowHeight - keyboardHeight}px`"></editor>
+				:style="`height:${windowHeight}px`"></editor>
 		</view>
 		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false"
 			width="300rpx">
@@ -92,13 +92,10 @@
 				},
 				editorCtx: null,
 				windowHeight: 0,
-				keyboardHeight: 0,
+
 			}
 		},
 		created() {
-			uni.onKeyboardHeightChange(data => {
-				this.keyboardHeight = data.height
-			})
 			this.initData()
 		},
 		onReady() {
@@ -172,46 +169,45 @@
 					uni.$u.toast('标题太短')
 					return
 				}
-
 				this.editorCtx.getContents({
 					success: res => {
 						this.article.text = res.text
+						if (res.text.length < 4) {
+							uni.$u.toast('再多说点什么吧~')
+							return
+						}
+						this.$refs.publish.open()
+						let tags = this.article.tags.map(tag => tag.mid).join(',')
+						let images = this.images.map(file => file.url);
+						this.$http.post('/typechoContents/contentsAdd', {
+							params: JSON.stringify({
+								title: this.article.title,
+								text: this.article.text,
+								category: this.article.category.mid,
+								mid: this.article.category.mid,
+								tag: tags,
+								type: 'photo',
+								opt: JSON.stringify(this.article.opt),
+								images: images
+							}),
+							text: this.article.text,
+						}).then(res => {
+							if (res.data.code) {
+								setTimeout(() => {
+									this.$refs.publish.close()
+									uni.$u.toast(res.data.msg)
+									setTimeout(() => {
+										this.$Router.back(1)
+									}, 800)
+								}, 1500)
+							} else {
+								uni.$u.toast(res.data.msg)
+								this.$refs.publish.close()
+							}
+						})
 					}
 				})
-				if (this.article.text.length < 10) {
-					uni.$u.toast('再多写点吧~')
-					return;
-				}
 
-				this.$refs.publish.open()
-				let tags = this.article.tags.map(tag => tag.mid).join(',')
-				let images = this.images.map(file => file.url);
-				this.$http.post('/typechoContents/contentsAdd', {
-					params: JSON.stringify({
-						title: this.article.title,
-						text: this.article.text,
-						category: this.article.category.mid,
-						mid: this.article.category.mid,
-						tag: tags,
-						type: 'photo',
-						opt: JSON.stringify(this.article.opt),
-						images: images
-					}),
-					text: this.article.text,
-				}).then(res => {
-					if (res.data.code) {
-						setTimeout(() => {
-							this.$refs.publish.close()
-							uni.$u.toast(res.data.msg)
-							setTimeout(() => {
-								this.$Router.back(1)
-							}, 800)
-						}, 1500)
-					} else {
-						uni.$u.toast(res.data.msg)
-						this.$refs.publish.close()
-					}
-				})
 			},
 			// 新增图片
 			async afterRead(event) {

@@ -3,24 +3,26 @@
 		<u-row align="top">
 
 			<view style="position: relative;top: 0;" @tap.stop="goProfile(data)">
-				<u-avatar :src="data.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"></u-avatar>
-				<image class="avatar_head" mode="aspectFill" :src="data.opt && data.opt.head_picture">
+				<u-avatar :src="data && data.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"></u-avatar>
+				<image class="avatar_head" mode="aspectFill" :src="data && data.opt && data.opt.head_picture">
 				</image>
 			</view>
 			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 				<u-row align="center">
 					<text
-						:style="{color:data.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
+						:style="{color:data && data.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
 					<text
 						style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
-						v-if="data.authorId == article.authorId">作者</text>
+						v-if="data && data.authorId == article.authorId">作者</text>
 				</u-row>
 				<view style="margin-top:10rpx;word-break: break-word;" @click="reply(data)">
-					<uv-parse :preview-img="false" :showImgMenu="false" :content="formatEmoji(data.text)"></uv-parse>
+					<uv-parse :preview-img="false" :showImgMenu="false"
+						:content="formatEmoji(data && data.text)"></uv-parse>
 				</view>
-				<u-swiper :list="data.images" v-if="data.images && data.images.length" :autoplay="false" indicator
-					height="150" indicator-style="left" radius="10" @click="previewImg(data.images,$event)"></u-swiper>
-				<view style="margin-top: 10rpx;" v-if="data.sonComments.data&&data.sonComments.data.length"
+				<u-swiper :list="data && data.images" v-if="data && data.images && data.images.length" :autoplay="false"
+					indicator height="150" indicator-style="left" radius="10"
+					@click="previewImg(data.images,$event)"></u-swiper>
+				<view style="margin-top: 10rpx;" v-if="data && data.sonComments.data&&data.sonComments.data.length"
 					@click="goSubComment(data)">
 					<block v-for="(item,index) in data.sonComments.data" :key="index" v-if="index<2">
 						<u-row
@@ -58,7 +60,7 @@
 						<u-row customStyle="flex-basis:30%" justify="space-between">
 							<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa" label-size="12"
 								@click="reply(data)"></u-icon>
-							<u-icon name="thumb-up" color="#aaa" :label="data.likes?data.likes:''" size="20"
+							<u-icon name="thumb-up" color="#aaa" :label="data && data.likes?data.likes:''" size="20"
 								labelColor="#aaa" label-size="12"></u-icon>
 						</u-row>
 					</u-row>
