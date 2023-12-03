@@ -118,7 +118,7 @@
 			<block v-for="(panel,index) in rightMenuItem" :key="index">
 				<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;">
 					<block v-for="(item,subindex) in panel">
-						<u-row customStyle="padding:30rpx" @click="goPage(item.path)">
+						<u-row customStyle="padding:30rpx" @click="goPage(item.path);showRightMenu = false">
 							<u-icon :name="item.icon" size="24"></u-icon>
 							<text style="margin-left:20rpx;font-weight: 600;">{{item.name}}</text>
 						</u-row>
