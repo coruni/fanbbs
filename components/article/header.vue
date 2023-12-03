@@ -12,7 +12,7 @@
 				<view style="display: flex;flex-direction: column;margin-left:20rpx">
 					<text style="font-size: 30rpx;font-weight: 600;"
 						:class="{'vipname':data&& data.authorInfo && data.authorInfo.isvip}">{{data&& data.authorInfo && data.authorInfo.name}}</text>
-					<text style="font-size: 26rpx;color: #999;">{{$u.timeFormat(data.created,'mm-dd')}}</text>
+					<text style="font-size: 26rpx;color: #999;">{{$u.timeFrom(data.created,'mm-dd')}}</text>
 				</view>
 			</u-row>
 

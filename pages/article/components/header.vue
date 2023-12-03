@@ -3,7 +3,7 @@
 		<text style="font-size: 50rpx;font-weight: 600;">{{data &&data.title}}</text>
 		<u-row customStyle="color:#c0c4cc">
 			<u-icon name="clock" size="13" color="#c0c4cc" labelSize="13"
-				:label="$u.timeFormat(data.created,'mm-dd')"></u-icon>
+				:label="$u.timeFrom(data.created,'mm-dd')"></u-icon>
 			<text style="margin:0 20rpx">·</text>
 			<u-icon name="eye-fill" size="13" color="#c0c4cc" labelSize="13" :label="data.views"></u-icon>
 		</u-row>

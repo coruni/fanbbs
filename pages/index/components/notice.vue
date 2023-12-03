@@ -54,7 +54,7 @@
 							<u-row justify="space-between" style="flex:1;width: 100%;font-size: 26rpx;">
 								<text class="u-line-1">{{item.lastMsg.text}}</text>
 								<text style="font-size: 26rpx;flex-shrink: 0;"
-									v-if="item.lastMsg">{{$u.timeFormat(item.lastTime,'hh:MM')}}</text>
+									v-if="item.lastMsg">{{$u.timeFrom(item.lastTime,'hh:MM')}}</text>
 							</u-row>
 						</u-row>
 					</u-row>

@@ -56,7 +56,7 @@
 				<u-gap height="6"></u-gap>
 				<view style="padding-bottom: 50rpx;">
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
-						<text>{{$u.timeFormat(data.created,'mm-dd')}}</text>
+						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:30%" justify="space-between">
 							<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa" label-size="12"
 								@click="reply(data)"></u-icon>

@@ -304,6 +304,7 @@
 		mixins: [ZPMixin],
 		data() {
 			return {
+				isReply: false,
 				editorCtx: null,
 				percentage: 30,
 				showLoading: false,
@@ -408,7 +409,7 @@
 				this.showMore = false;
 				this.$Router.$lockStatus = false
 				return
-			} 
+			}
 			next();
 
 		},
@@ -535,6 +536,7 @@
 				})
 			},
 			reply() {
+				if (this.isReply) return;
 				this.editorCtx.getContents({
 					success: (res) => {
 						this.commentText = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
@@ -555,7 +557,7 @@
 							text: this.commentText,
 							images: this.images
 						})
-
+						this.isReply = true
 						this.$http.post('/typechoComments/commentsAdd', {
 							params
 						}).then(res => {
@@ -565,12 +567,15 @@
 								this.showComment = false
 								this.images = []
 								this.$refs.comments.reload()
+								
 							} else {
 								uni.$u.toast(res.data.msg)
 							}
+							this.isReply = false
+						}).catch(err=>{
+							this.isReply = false
 						})
 					}
-
 				})
 
 
