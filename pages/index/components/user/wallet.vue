@@ -15,19 +15,19 @@
 			</u-row>
 			<view style="margin-top: 20rpx;">
 				<text style="font-weight: 600;">我的会员</text>
-				<view style="margin-top: 20rpx;padding: 30rpx;border-radius: 20rpx;background: linear-gradient(89deg, rgba(255, 133, 163, 0.48) 21%,rgba(255, 163, 133, 0.55) 62%);">
-					<u-row>
+				<view
+					style="margin-top: 20rpx;padding: 30rpx;border-radius: 20rpx;background: linear-gradient(89deg, rgba(255, 133, 163, 0.48) 21%,rgba(255, 163, 133, 0.55) 62%);">
+					<u-row justify="space-between">
 						<u-icon name="level" color="#fff" size="24" customStyle="opacity: 0.5;"></u-icon>
 						<view style="margin-left: 20rpx;">
-							
+							<text style="color: #fff;">{{!userInfo.vip?'未开通':$u.timeFrom(userInfo.vip)}}</text>
 						</view>
 					</u-row>
 				</view>
-				
+
 			</view>
 		</view>
-		<u-tabs :list="tabs" :scrollable="false" :current="tabsIndex"
-			@change="tabsIndex = $event.index"></u-tabs>
+		<u-tabs :list="tabs" :scrollable="false" :current="tabsIndex" @change="tabsIndex = $event.index"></u-tabs>
 		<swiper style="flex:1;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current">
 			<swiper-item>
 				<view style="margin: 30rpx;">
@@ -52,7 +52,7 @@
 										<text style="color: #85a3ff;">{{item.check}}</text>
 										<text>/{{item.times}}</text>
 									</u-row>
-				
+
 								</view>
 							</view>
 						</block>
@@ -60,19 +60,40 @@
 				</view>
 			</swiper-item>
 			<swiper-item>
-				12312
+				<z-paging @query="getLog" v-model="logs" ref="paging">
+					<block v-for="(item,index) in logs" :key="index">
+						<view style="background: #fff;border-radius: 20rpx;padding: 30rpx;margin: 30rpx;">
+							<view style="display: flex;flex-direction: column;">
+								<u-row justify="space-between"
+									customStyle="padding-left: 20rpx; border-left: 6rpx #85a3ff1e solid;">
+									<view>
+										<text>{{item.subject}}</text>
+										<text style="margin-left: 20rpx;"
+											:style="{color:item.totalAmount>0?'red':'green'}">{{item.totalAmount>0?'+'+item.totalAmount:item.totalAmount}}</text>
+									</view>
+
+									<text
+										style="color: #999;font-size: 28rpx;">{{$u.timeFormat(item.created,'mm-dd')}}</text>
+								</u-row>
+							</view>
+						</view>
+					</block>
+				</z-paging>
 			</swiper-item>
 		</swiper>
-		
+
 	</view>
 
 </template>
 
 <script>
-	import {mapState} from 'vuex';
+	import {
+		mapState
+	} from 'vuex';
 	export default {
 		data() {
 			return {
+				logs: [],
 				pageHeight: 0,
 				userData: {},
 				tabs: [{
@@ -113,7 +134,7 @@
 				]
 			}
 		},
-		computed:{
+		computed: {
 			...mapState(['userInfo'])
 		},
 		created() {
@@ -129,6 +150,17 @@
 						this.task[0].check = res.data.data.isClock
 					}
 				})
+			},
+			getLog(page, limit) {
+				this.$http.post('/pay/payLogList', {
+					page,
+					limit
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						this.$refs.paging.complete(res.data.data)
+					}
+				})
 			}
 		}
 	}
@@ -138,4 +170,4 @@
 	page {
 		background: #85a3ff0a;
 	}
-</style>				<view style="padding: 30rpx;" :style="{background:$u.colorGradient('rgb(255, 85, 255)', 'rgb(170, 255, 255)', 10)}">
+</style>
