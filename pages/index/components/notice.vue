@@ -80,7 +80,7 @@
 						this.$refs.paging.reload()
 					}
 				},
-				immediate: true,
+				immediate: false,
 				deep: true
 			}
 		},

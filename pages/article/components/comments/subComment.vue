@@ -23,8 +23,15 @@
 				margin-left: 20rpx;
 				padding-bottom: 30rpx;">
 					<u-row>
-						<text
-							:style="{color:data.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
+						<u-row>
+							<text
+								:style="{color:data.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
+							<i v-if="data.level" :class="`level icon-lv-${data.level}`"
+								style="font-size: 50rpx; margin-left: 10rpx;"
+								:style="{ color: data.level > 8 ? $level[Math.floor(data.level/2)-1] : $level[data.level-1] }">
+							</i>
+						</u-row>
+
 						<text style="
 							font-size: 18rpx;
 							border:#98e6a8 solid 2rpx;
@@ -66,8 +73,15 @@
 								flex-direction: column;
 								margin-left: 20rpx;">
 									<u-row>
-										<text
-											:style="{color:item.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{item.author}}</text>
+										<u-row>
+											<text
+												:style="{color:item.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{item.author}}</text>
+											<i v-if="item.level" :class="`level icon-lv-${item.level}`"
+												style="font-size: 50rpx; margin-left: 10rpx;"
+												:style="{ color: item.level > 8 ? $level[Math.floor(item.level/2)-1] : $level[item.level-1] }">
+											</i>
+										</u-row>
+
 										<text
 											style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
 											v-if="item.authorId == data.ownerId">作者</text>
@@ -86,7 +100,8 @@
 										font-size: 28rpx;
 										color: #999;
 										display: flex !important;">
-										<text style="color:#a899e6;flex-shrink: 0;padding-right: 10rpx;">@{{item.parentComments.author}}</text>
+										<text
+											style="color:#a899e6;flex-shrink: 0;padding-right: 10rpx;">@{{item.parentComments.author}}</text>
 										<uv-parse :previewImg="false" selectable :showImgMenu="false"
 											:content="item.parentComments.text" class="u-line-1"></uv-parse>
 									</view>

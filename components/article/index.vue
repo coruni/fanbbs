@@ -1,9 +1,15 @@
 <template>
 	<view>
-		<z-paging ref="paging" v-model="content" @query="getData" :auto="false" :auto-clean-list-when-reload="false" :auto-scroll-to-top-when-reload="false" style="margin-bottom: 160rpx;">
-			<view style="margin: 20rpx;" v-if="isSwiper" @onRefresh="onRefresh">
-				<u-swiper height="160" :list="swiperList" keyName="image" :autoplay="false" circular
-					@click="swiperTap"></u-swiper>
+		<z-paging ref="paging" v-model="content" @query="getData" :auto="false" :auto-clean-list-when-reload="false"
+			:auto-scroll-to-top-when-reload="false" style="margin-bottom: 160rpx;" @onRefresh="onRefresh">
+			<view style="margin: 20rpx;position: relative;top: 0;" v-if="isSwiper">
+				<u-swiper height="160" :list="swiperList" keyName="image" circular @click="swiperTap"
+					@change="swiperIndex = $event.index"></u-swiper>
+				<view
+					style="font-size: 24rpx;background: #85a3ffa0;border-radius:20rpx 0rpx 8rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
+					v-if="swiperList.length">
+					<text style="color: #fff;">{{swiperIndex+1}}/{{swiperList.length}}</text>
+				</view>
 			</view>
 			<block v-for="(item,index) in content" :key="index">
 				<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
@@ -16,7 +22,6 @@
 			</block>
 		</z-paging>
 	</view>
-
 </template>
 
 <script>
@@ -70,6 +75,7 @@
 		},
 		data() {
 			return {
+				swiperIndex: 0,
 				content: [],
 				is_loaded: false,
 				swiperList: [],
@@ -111,12 +117,14 @@
 					}
 				}).then(res => {
 					const data = res.data.data
+					let list = [];
 					data.forEach(item => {
 						item.image = item.images[0]
-						this.swiperList.push({
+						list.push({
 							...item
 						});
 					});
+					this.swiperList = list;
 				})
 			},
 			swiperTap(index) {
@@ -137,7 +145,7 @@
 					}
 				})
 			},
-			onRefresh(){
+			onRefresh() {
 				this.getSwiper()
 			}
 		}

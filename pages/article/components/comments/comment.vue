@@ -9,11 +9,18 @@
 			</view>
 			<view style="display: flex;flex:1; flex-direction: column;margin-left: 20rpx;">
 				<u-row align="center">
-					<text
-						:style="{color:data && data.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
+					<u-row>
+						<text
+							:style="{color:data && data.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
+						<i v-if="data.level" :class="`level icon-lv-${data.level}`"
+							style="font-size: 50rpx; margin-left: 10rpx;"
+							:style="{ color: data.level > 8 ? $level[Math.floor(data.level/2)-1] : $level[data.level-1] }">
+						</i>
+					</u-row>
+					
 					<text
 						style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
-						v-if="data && data.authorId == article.authorId">作者</text>
+						v-show="data && data.authorId == article!=null&&article.authorId">作者</text>
 				</u-row>
 				<view style="margin-top:10rpx;word-break: break-word;" @click="reply(data)">
 					<uv-parse :preview-img="false" :showImgMenu="false"
@@ -36,7 +43,7 @@
 								</u-row>
 								<text
 									style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
-									v-if="item.authorId == article.authorId">作者</text>
+									v-if="item.authorId == article!=null&&article.authorId">作者</text>
 							</u-row>
 							<view>
 								<uv-parse selectable :showImgMenu="false" :preview-img="false"

@@ -184,6 +184,13 @@
 		src: url('/static/font/moe.ttf');
 
 	}
+	@import 'animate.css';
+	@import "@/uni_modules/uview-ui/index.scss";
+	/*每个页面公共css */
+	/*引入等级图标*/
+	@import './static/font/level/level.css';
+	/*引入基础图标*/
+	@import './static/font/ess/ess.css';
 
 	body {
 		font-family: 'moe';
@@ -222,7 +229,5 @@
 		color: white;
 	}
 
-	@import 'animate.css';
-	@import "@/uni_modules/uview-ui/index.scss";
-	/*每个页面公共css */
+	
 </style>

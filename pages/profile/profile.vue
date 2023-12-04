@@ -6,15 +6,14 @@
 					<u-row>
 						<u-icon name="arrow-left" size="20" :color="opacity>0.4? 'black':'white'"
 							@click="$Router.back(1)"></u-icon>
-						<u-row customStyle="margin-left:20rpx" v-show="opacity>=1"
-							@click="$refs.paging.scrollToTop()">
+						<u-row customStyle="margin-left:20rpx" v-show="opacity>=1" @click="$refs.paging.scrollToTop()">
 							<u-avatar :src="info.avatar" size="26"></u-avatar>
 							<text style="margin-left:20rpx">{{info.screenName}}</text>
 						</u-row>
 					</u-row>
 				</view>
 				<u-button color="#85a3ff" size="mini" slot="right" v-show="opacity>=1">关注</u-button>
-	
+
 			</u-navbar>
 		</template>
 		<image :src="info && info.userBg?info.userBg:info.avatar" mode="aspectFill"
@@ -26,7 +25,7 @@
 				<image class="avatar_head" mode="aspectFill" :src="info && info.opt&&info.opt.head_picture">
 				</image>
 			</view>
-	
+
 			<u-row justify="space-between" align="top" customStyle="padding-top:20rpx">
 				<view>
 					<!-- 占位脱离文档流头像 -->
@@ -34,18 +33,17 @@
 					<!-- 占位结束 -->
 					<text style="font-weight: 600;font-size: 34rpx;">{{info.screenName}}</text>
 					<u-row customStyle="font-size:28rpx">
-						<u-icon name="heart" color="#85a3ff" customStyle="margin-right:10rpx"></u-icon>
+						<i class="ess icon-renwu" style="margin-right: 10rpx;"></i>
 						<text>通行证ID：{{info.uid}}</text>
 					</u-row>
-	
-					<u-row customStyle="font-size:28rpx">
-						<u-icon name="pushpin" customStyle="margin-right:10rpx"></u-icon>
-						<text style="color: #999;">{{info.introduce?info.introduce:'系统默认签名~'}}</text>
+					<u-row customStyle="font-size:28rpx;color: #999;">
+						<i class="ess icon-ziliao" style="margin-right: 10rpx;"></i>
+						<text>{{info.introduce?info.introduce:'系统默认签名~'}}</text>
 					</u-row>
 				</view>
 				<view style="display: flex;justify-content: center;" v-if="info.uid != $store.state.userInfo.uid">
-					<u-button customStyle="height:60rpx;width:120rpx;margin-right:20rpx" color="#85a3ff"
-						shape="circle" @click="goPrivate(info)">私信</u-button>
+					<u-button customStyle="height:60rpx;width:120rpx;margin-right:20rpx" color="#85a3ff" shape="circle"
+						@click="goPrivate(info)">私信</u-button>
 					<u-button :plain="!isfollow" :color="!isfollow?'#85a3ff':'#85a3ff0f'" shape="circle"
 						customStyle="height:60rpx;width:160rpx">
 						<text :style="{color:isfollow?'black':'#85a3ff'}">{{isfollow?'已关注':'关注'}}</text>

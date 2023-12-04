@@ -1,7 +1,8 @@
 <template>
 	<view>
 		<z-paging ref="paging" refresher-only @onRefresh="onRefresh" @scroll="scroll"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" v-if="$store.state.hasLogin"  style="margin-bottom: 30rpx;">
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" v-if="$store.state.hasLogin"
+			style="margin-bottom: 30rpx;">
 			<template #top>
 				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`">
 					<view slot="left">
@@ -34,15 +35,20 @@
 						<!-- 占位脱离文档流头像 -->
 						<u-gap height="40"></u-gap>
 						<!-- 占位结束 -->
-						<text style="font-weight: 600;font-size: 34rpx;">{{userInfo.screenName}}</text>
+						<u-row>
+							<text style="font-weight: 600;font-size: 34rpx;">{{userInfo.screenName}}</text>
+							<i v-if="userInfo.level" :class="`level icon-lv-${userInfo.level}`"
+								style="font-size: 50rpx; margin-left: 20rpx;"
+								:style="{ color: userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }">
+							</i>
+						</u-row>
 						<u-row customStyle="font-size:28rpx">
-							<u-icon name="heart" color="#85a3ff" customStyle="margin-right:10rpx"></u-icon>
+							<i class="ess icon-renwu" style="margin-right: 10rpx;"></i>
 							<text>通行证ID：{{userInfo.uid}}</text>
 						</u-row>
-
-						<u-row customStyle="font-size:28rpx">
-							<u-icon name="pushpin" customStyle="margin-right:10rpx"></u-icon>
-							<text style="color: #999;">{{userInfo.introduce?userInfo.introduce:'系统默认签名~'}}</text>
+						<u-row customStyle="font-size:28rpx;color: #999;">
+							<i class="ess icon-ziliao" style="margin-right: 10rpx;"></i>
+							<text>{{userInfo.introduce?userInfo.introduce:'系统默认签名~'}}</text>
 						</u-row>
 					</view>
 					<view>
@@ -80,7 +86,7 @@
 				</view>
 			</view>
 			<view style="position: relative;top: 0rpx;">
-				<view v-if="$store.state.hasLogin"> 
+				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff">
 						<u-tabs :list="list" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold;"
@@ -126,7 +132,8 @@
 				</view>
 			</block>
 			<!-- 管理面板 -->
-			<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;" v-if="userInfo && userInfo.groupKey =='administrator'">
+			<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;"
+				v-if="userInfo && userInfo.groupKey =='administrator'">
 				<u-row customStyle="padding:30rpx" @click="goPage('manage')">
 					<u-icon name="setting" size="24"></u-icon>
 					<text style="margin-left:20rpx;font-weight: 600;">管理面板</text>
@@ -214,7 +221,7 @@
 					blance: [{
 							name: '我的钱包',
 							icon: 'heart',
-							path:'wallet'
+							path: 'wallet'
 						},
 						{
 							name: '兑换中心',

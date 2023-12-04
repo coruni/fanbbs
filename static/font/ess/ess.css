@@ -1,0 +1,183 @@
+@font-face {
+  font-family: "ess"; /* Project id 4358362 */
+  src: url('./static/font/ess/iconfont.woff2?t=1701687752738') format('woff2'),
+       url('./static/font/ess/iconfont.woff?t=1701687752738') format('woff'),
+       url('./static/font/ess/iconfont.ttf?t=1701687752738') format('truetype');
+}
+
+.ess {
+  font-family: "ess" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shoucang:before {
+  content: "\10186";
+}
+
+.icon-gengduo:before {
+  content: "\10187";
+}
+
+.icon-gouwuche:before {
+  content: "\10188";
+}
+
+.icon-shouye:before {
+  content: "\10189";
+}
+
+.icon-xiaoxi:before {
+  content: "\1018a";
+}
+
+.icon-yinhangka:before {
+  content: "\1018b";
+}
+
+.icon-dingdan:before {
+  content: "\1018c";
+}
+
+.icon-yaoqing:before {
+  content: "\1018d";
+}
+
+.icon-duihuanma:before {
+  content: "\1018e";
+}
+
+.icon-chucha:before {
+  content: "\1018f";
+}
+
+.icon-shujujiankong:before {
+  content: "\10190";
+}
+
+.icon-bangzhu:before {
+  content: "\10191";
+}
+
+.icon-shouyi:before {
+  content: "\10192";
+}
+
+.icon-fapiao:before {
+  content: "\10193";
+}
+
+.icon-ziliao:before {
+  content: "\10194";
+}
+
+.icon-chaxun:before {
+  content: "\10195";
+}
+
+.icon-kefu:before {
+  content: "\10196";
+}
+
+.icon-tixian:before {
+  content: "\10197";
+}
+
+.icon-chongzhi:before {
+  content: "\10198";
+}
+
+.icon-shangchuan:before {
+  content: "\10199";
+}
+
+.icon-pinglun:before {
+  content: "\1019a";
+}
+
+.icon-jinjipin:before {
+  content: "\1019b";
+}
+
+.icon-renwu:before {
+  content: "\1019c";
+}
+
+.icon-shengming:before {
+  content: "\1019d";
+}
+
+.icon-yue:before {
+  content: "\1019e";
+}
+
+.icon-tishi:before {
+  content: "\1019f";
+}
+
+.icon-guanbi:before {
+  content: "\101a0";
+}
+
+.icon-dizhibu:before {
+  content: "\101a1";
+}
+
+.icon-lipin:before {
+  content: "\101a2";
+}
+
+.icon-zhibo:before {
+  content: "\101a3";
+}
+
+.icon-huiyuan:before {
+  content: "\101a4";
+}
+
+.icon-zan:before {
+  content: "\101a5";
+}
+
+.icon-cai:before {
+  content: "\101a6";
+}
+
+.icon-wode:before {
+  content: "\101a7";
+}
+
+.icon-shaixuan:before {
+  content: "\101a8";
+}
+
+.icon-miaosha:before {
+  content: "\101a9";
+}
+
+.icon-shangpin:before {
+  content: "\101aa";
+}
+
+.icon-touzi:before {
+  content: "\101ab";
+}
+
+.icon-shezhi:before {
+  content: "\101ac";
+}
+
+.icon-youhuiquan:before {
+  content: "\101ad";
+}
+
+.icon-youhui:before {
+  content: "\101ae";
+}
+
+.icon-erweima:before {
+  content: "\101af";
+}
+

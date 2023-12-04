@@ -10,8 +10,15 @@
 					</image>
 				</view>
 				<view style="display: flex;flex-direction: column;margin-left:20rpx">
-					<text style="font-size: 30rpx;font-weight: 600;"
-						:class="{'vipname':data&& data.authorInfo && data.authorInfo.isvip}">{{data&& data.authorInfo && data.authorInfo.name}}</text>
+					<u-row>
+						<text style="font-size: 30rpx;font-weight: 600;"
+							:class="{'vipname':data&& data.authorInfo && data.authorInfo.isvip}">{{data&& data.authorInfo && data.authorInfo.name}}</text>
+						<i v-if="data.authorInfo.level" :class="`level icon-lv-${data.authorInfo.level}`"
+							style="font-size: 50rpx; margin-left: 10rpx;"
+							:style="{ color: data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }">
+						</i>
+					</u-row>
+					
 					<text style="font-size: 26rpx;color: #999;">{{$u.timeFrom(data.created,'mm-dd')}}</text>
 				</view>
 			</u-row>

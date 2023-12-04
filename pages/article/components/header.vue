@@ -19,7 +19,13 @@
 					</image>
 				</view>
 				<view style="display: flex;flex-direction: column;margin-left:20rpx;font-size: 30rpx;">
-					<text style="font-weight: 600;">{{data && data.authorInfo && data.authorInfo.name}}</text>
+					<u-row>
+						<text style="font-weight: 600;">{{data && data.authorInfo && data.authorInfo.name}}</text>
+						<i v-if="data.authorInfo.level" :class="`level icon-lv-${data.authorInfo.level}`"
+							style="font-size: 50rpx; margin-left: 10rpx;"
+							:style="{ color: data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }">
+						</i>
+					</u-row>
 					<text class="u-info u-line-1"
 						style="font-size: 28rpx;">{{data && data.authorInfo && data.authorInfo.introduce}}</text>
 				</view>

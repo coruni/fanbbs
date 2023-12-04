@@ -48,3 +48,6 @@ Vue.prototype.$http = http
 //全局挂载表情数据
 import emoji from '@/static/emoji/emoji.json'
 Vue.prototype.$emoji = emoji
+
+import level from '@/config/level.js'
+Vue.prototype.$level = level
