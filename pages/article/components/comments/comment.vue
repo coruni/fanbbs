@@ -20,7 +20,7 @@
 					
 					<text
 						style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
-						v-show="data && data.authorId == article!=null&&article.authorId">作者</text>
+						v-show="data && data.authorId == article.authorId">作者</text>
 				</u-row>
 				<view style="margin-top:10rpx;word-break: break-word;" @click="reply(data)">
 					<uv-parse :preview-img="false" :showImgMenu="false"
@@ -43,7 +43,7 @@
 								</u-row>
 								<text
 									style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
-									v-if="item.authorId == article!=null&&article.authorId">作者</text>
+									v-if="item.authorId == article.authorId">作者</text>
 							</u-row>
 							<view>
 								<uv-parse selectable :showImgMenu="false" :preview-img="false"

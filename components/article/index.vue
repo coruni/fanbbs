@@ -10,6 +10,12 @@
 					v-if="swiperList.length">
 					<text style="color: #fff;">{{swiperIndex+1}}/{{swiperList.length}}</text>
 				</view>
+
+			</view>
+
+			<view style="margin:30rpx" v-if="$store.state.appInfo.announcement">
+				<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#85a3ff3c" color="#85a3ff"
+					mode="closable" customStyle="border-radius: 20rpx;"></u-notice-bar>
 			</view>
 			<block v-for="(item,index) in content" :key="index">
 				<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
