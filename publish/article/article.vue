@@ -775,7 +775,7 @@
 
 				})
 			},
-			onEditorReady() {
+			 onEditorReady() {
 				// #ifdef MP-BAIDU
 				this.editorCtx = requireDynamicLib('editorLib').createEditorContext('editor');
 				// #endif
@@ -785,7 +785,7 @@
 					this.editorCtx = res.context
 				}).exec()
 				// #endif
-
+				
 				setTimeout(() => {
 					this.setContents()
 				}, 500)
@@ -803,7 +803,6 @@
 				}
 			},
 			getContentInfo(id) {
-				console.log(id)
 				this.$http.get('/typechoContents/contentsInfo', {
 					params: {
 						key: id,
@@ -818,7 +817,16 @@
 						this.article.tags = res.data.tag
 						this.article.mid = res.data.mid
 						this.article.opt = res.data.opt
+						
+						this.editorCtx.getContents({
+							success:(res)=>{
+								if(res.text.length<2){
+									this.setContents()
+								}
+							}
+						})
 					}
+					
 				})
 			},
 			setContents() {
@@ -989,7 +997,6 @@
 	}
 	.ql-container ::v-deep img{
 		margin: 20rpx auto;
-		display: block;
 		border-radius: 20rpx;
 		max-width: 80%;
 	}

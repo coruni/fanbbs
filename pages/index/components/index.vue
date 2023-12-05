@@ -7,16 +7,14 @@
 				<view slot="left"></view>
 				<view slot="center" style="flex: 1;margin: 0 20rpx;">
 					<u-row>
-						<u-icon :name="$store.state.userMeta.isClock?'checkmark':'gift'" size="24"
-							customStyle="background:#f7f7f7;border-radius:50rpx;padding:10rpx"
-							@click="checkUp()"></u-icon>
+						<u-avatar :src="userInfo.avatar" size="30" customStyle="margin-right:20rpx"
+							@click="avatarTap()"></u-avatar>
 						<view @click="goSearch()"
 							style="display: flex;justify-content: space-between;flex:1;background: #f7f7f7;padding:6rpx 20rpx;border-radius: 50rpx;margin-left: 20rpx;">
 							<text style="color: #999;">搜索</text>
 							<u-icon name="search" size="20"></u-icon>
 						</view>
-						<u-avatar :src="userInfo.avatar" size="30" customStyle="margin-left:20rpx"
-							@click="avatarTap()"></u-avatar>
+						
 					</u-row>
 				</view>
 			</u-navbar>

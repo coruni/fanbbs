@@ -36,9 +36,16 @@
 						<u-gap height="40"></u-gap>
 						<!-- 占位结束 -->
 						<u-row>
-							<text style="font-weight: 600;font-size: 34rpx;">{{userInfo.screenName}}</text>
-							<i v-if="userInfo.level" :class="`level icon-lv-${userInfo.level}`"
-								style="font-size: 50rpx; margin-left: 20rpx;"
+							<view style="position: relative;top: 0;">
+								<text style="font-weight: 600;font-size: 34rpx;">{{userInfo.screenName}}</text>
+								<u-line-progress :height="4"
+									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
+									:percentage="(userInfo.nextExp - userInfo.experience) / userInfo.nextExp*100"
+									:showText="false" style="position: absolute;bottom: 0;width: 100%;" v-if="userInfo.experience && userInfo.nextExp && userInfo.level">
+								</u-line-progress>
+							</view>
+							<i @click="showLevel = true" v-if="userInfo.level"
+								:class="`level icon-lv-${userInfo.level}`" style="font-size: 50rpx; margin-left: 20rpx;"
 								:style="{ color: userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }">
 							</i>
 						</u-row>
@@ -155,6 +162,36 @@
 			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false" is-limit-move
 			is-lock-ratio :width="1280" :height="720" :min-width="1280" :min-height="720" :max-width="1920"
 			:max-height="720" style="z-index: 99999;" />
+
+		<!-- 等级弹窗 -->
+		<u-popup mode="center" :show="showLevel" @close="showLevel = false" round="10">
+			<view style="width: 500rpx;padding: 30rpx;">
+				<view style="text-align: center;">
+					<text>等级详情</text>
+				</view>
+				<view style="display: flex;flex-direction: column;font-size: 28rpx;">
+					<u-row>
+						<text>当前等级：</text>
+						<i @click="showLevel = true" v-if="userInfo.level" :class="`level icon-lv-${userInfo.level}`"
+							style="font-size: 50rpx; margin-left: 20rpx;"
+							:style="{ color: userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }">
+						</i>
+					</u-row>
+					<view style="display: flex;flex-direction: column;margin-top: 30rpx;">
+						<text
+							style="color: #999;">下一级所需经验{{userInfo.nextExp - userInfo.experience}}/{{userInfo.nextExp}}</text>
+						<u-line-progress :height="4"
+							:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
+							:percentage="(userInfo.nextExp - userInfo.experience)/userInfo.nextExp*100"
+							:showText="false" v-if="userInfo"></u-line-progress>
+					</view>
+				</view>
+				<view style="margin-top: 60rpx;">
+					<u-button color="#85a3ff" shape="circle" @click="showLevel = false">确定</u-button>
+				</view>
+			</view>
+
+		</u-popup>
 	</view>
 </template>
 
@@ -185,6 +222,7 @@
 		},
 		data() {
 			return {
+				showLevel: false,
 				showRightMenu: false,
 				isMounted: false,
 				backgroundShow: false,
