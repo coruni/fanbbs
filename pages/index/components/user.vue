@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<z-paging ref="paging" refresher-only @onRefresh="onRefresh" @scroll="scroll"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" v-if="$store.state.hasLogin"
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" v-if="$store.state.hasLogin&&isMounted"
 			style="margin-bottom: 50rpx;">
 			<template #top>
 				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`">
