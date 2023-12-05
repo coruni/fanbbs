@@ -823,7 +823,8 @@
 			},
 			setContents() {
 				this.editorCtx.setContents({
-					html: this.article.text
+					html: this.article.text,
+
 				})
 			},
 			updateArticle() {
@@ -974,9 +975,7 @@
 </script>
 
 
-<style>
-
-
+<style lang="scss">
 	.panel {
 		transform: translateY(10vh);
 		transition: transform 0.3s ease;
@@ -987,5 +986,11 @@
 	.ql-container ::v-deep .ql-blank::before {
 		font-style: normal;
 		color: #999;
+	}
+	.ql-container ::v-deep img{
+		margin: 20rpx auto;
+		display: block;
+		border-radius: 20rpx;
+		max-width: 80%;
 	}
 </style>

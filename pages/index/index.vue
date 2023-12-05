@@ -9,7 +9,8 @@
 		<!-- 底部导航栏 -->
 		<u-gap height="60"></u-gap>
 		<template #bottom>
-			<u-row justify="space-between" customStyle="padding:20rpx;background:white;z-index:999;border-top:#85a3ff1e solid 1rpx">
+			<u-row justify="space-between"
+				customStyle="padding:20rpx;background:white;z-index:999;border-top:#85a3ff1e solid 1rpx">
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)" v-if="index!=4">
 						<view style="position: relative;padding: 10rpx;">
@@ -66,10 +67,10 @@
 					<text>分享至</text>
 				</view>
 				<view style="margin-top: 50rpx;">
-					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx"
-						justify="space-between">
+					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
-							<u-row align="center" customStyle="flex-direction:column">
+							<u-row align="center" customStyle="flex-direction:column"
+								@click="shareTap(item.provider,item.type,item.scene,data.title,filterHtml(data.text),'https://baidu.com',data.images[0])">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
 									<u-icon :name="item.icon" color="white" size="24"></u-icon>
 								</view>
@@ -100,6 +101,12 @@
 </template>
 
 <script>
+	import {
+		shareTap
+	} from '@/common/common.js';
+	import {
+		filterHtml
+	} from '@/common/common.js';
 	import index from './components/index.vue';
 	import find from './components/find.vue';
 	import user from './components/user.vue';
@@ -113,6 +120,7 @@
 		},
 		data() {
 			return {
+				data: null,
 				content: [],
 				topTabbar: [{
 					name: '首页',
@@ -145,17 +153,26 @@
 				share: [{
 						name: '微信',
 						icon: 'weixin-fill',
-						color: 'green'
+						provider: 'weixin',
+						type: 0,
+						scene: 'WXSceneSession',
+						color: '#46d262'
 					},
 					{
 						name: '朋友圈',
 						icon: 'moments',
-						color: 'green'
+						provider: 'weixin',
+						type: 0,
+						scene: 'WXSceneTimeline',
+						color: '#46d262'
 					},
 					{
 						name: 'QQ',
 						icon: 'qq-fill',
-						color: 'blue'
+						provider: 'qq',
+						type: 2,
+						scene: '',
+						color: '#0070ff'
 					},
 
 				],
@@ -200,6 +217,8 @@
 		},
 		onReady() {},
 		methods: {
+			shareTap,
+			filterHtml,
 			initData() {
 				this.getCategory()
 			},

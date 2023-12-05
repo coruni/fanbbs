@@ -8,14 +8,11 @@
 		<uv-parse
 			:tag-style="{img:'border-radius:20rpx',video:'border-radius:20rpx !improtant',uniVideo:'border-radius:20rpx !improtant'}"
 			style="overflow: unset;white-space: normal;word-break: break-all" :show-img-menu="!isScroll"
-			:content="data.text" lazyLoad selectable @ready="htmlReady()" v-if="data"></uv-parse>
+			:content="data.text" img-cache lazyLoad selectable @ready="htmlReady()" v-if="data"></uv-parse>
 	</view>
 </template>
 
 <script>
-	import {
-		formatTime
-	} from '@/common/common.js';
 	export default {
 		name: 'articleContent',
 		props: {
@@ -58,7 +55,7 @@
 		onReady() {
 		},
 		methods: {
-			formatTime,
+			
 			is_last(index) {
 				if (index != 2 || index != 5 || index != 8) return '10rpx'
 			},

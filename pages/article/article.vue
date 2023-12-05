@@ -232,9 +232,10 @@
 				</view>
 				<view style="margin-top: 50rpx;">
 					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx"
-						justify="space-between">
+						justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
-							<u-row align="center" customStyle="flex-direction:column">
+							<u-row align="center" customStyle="flex-direction:column"
+								@click="shareTap(item.provider,item.type,item.scene,article.title,filterHtml(article.text),'https://baidu.com',article.images[0])">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
 									<u-icon :name="item.icon" color="white" size="24"></u-icon>
 								</view>
@@ -287,6 +288,12 @@
 </template>
 
 <script>
+	import {
+		shareTap
+	} from '@/common/common.js';
+	import {
+		filterHtml
+	} from '@/common/common.js';
 	import articleHeader from '@/pages/article/components/header.vue';
 	import articleContent from '@/pages/article/components/content.vue';
 	import articleFooter from '@/pages/article/components/footer.vue';
@@ -365,19 +372,27 @@
 				share: [{
 						name: '微信',
 						icon: 'weixin-fill',
-						color: 'green'
+						provider: 'weixin',
+						type: 0,
+						scene: 'WXSceneSession',
+						color: '#46d262'
 					},
 					{
 						name: '朋友圈',
 						icon: 'moments',
-						color: 'green'
+						provider: 'weixin',
+						type: 0,
+						scene: 'WXSceneTimeline',
+						color: '#46d262'
 					},
 					{
 						name: 'QQ',
 						icon: 'qq-fill',
-						color: 'blue'
+						provider: 'qq',
+						type: 2,
+						scene: '',
+						color: '#0070ff'
 					},
-
 				],
 				manage: [{
 						name: '举报',
@@ -429,9 +444,8 @@
 			})
 		},
 		methods: {
-			shareTap(index) {
-				console.log(index)
-			},
+			shareTap,
+			filterHtml,
 			getData(id) {
 				this.$http.get('/typechoContents/contentsInfo', {
 					params: {
@@ -585,7 +599,7 @@
 				if (html) {
 					return html.replace(
 						/<img[^>]*?alt="src=([^"]+)\|poster=([^"]+)\|type=video"[^>]*?>/g, (match, src, poster) => {
-							return `<div style="border-radius:10px"><video src="${src}" poster="${poster}" muted width="100%" style="border-radius:10px" /></div>`
+							return `<div style="border-radius:10px"><video src="${src}" poster="${poster}" object-fit muted width="100%" style="border-radius:10px" /></div>`
 						}).replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
 						const emoji = this.$emoji.data.find(e => e.name === name)
 						if (emoji) {
