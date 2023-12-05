@@ -38,11 +38,11 @@
 						<u-row>
 							<view style="position: relative;top: 0;">
 								<text style="font-weight: 600;font-size: 34rpx;">{{userInfo.screenName}}</text>
-								<u-line-progress :height="4"
+								<uv-line-progress :height="4"
 									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
 									:percentage="(userInfo.nextExp - userInfo.experience) / userInfo.nextExp*100"
 									:showText="false" style="position: absolute;bottom: 0;width: 100%;" v-if="userInfo.experience && userInfo.nextExp && userInfo.level">
-								</u-line-progress>
+								</uv-line-progress>
 							</view>
 							<i @click="showLevel = true" v-if="userInfo.level"
 								:class="`level icon-lv-${userInfo.level}`" style="font-size: 50rpx; margin-left: 20rpx;"
