@@ -47,6 +47,7 @@
 					<u-swiper :list="data.images" v-if="data.images && data.images.length" :autoplay="false" indicator
 						height="150" indicator-style="left" radius="10"
 						@click="previewImg(data.images,$event)"></u-swiper>
+						<u-gap height="6"></u-gap>
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:25%" justify="space-between">
