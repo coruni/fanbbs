@@ -4,7 +4,7 @@
 		<!-- <u-parse>组件错误更换为uv-parse -->
 		<u-swiper height="200" :list="data.images" v-if="data&&data.images&&data.type=='photo'" :autoplay="false"
 			indicator-mode="dot" @click="preview(data.images,$event)" style="margin-bottom: 20rpx;"
-			indicator></u-swiper>
+			indicator radius="10"></u-swiper>
 		<uv-parse
 			:tag-style="{img:'border-radius:20rpx',video:'border-radius:20rpx !improtant',uniVideo:'border-radius:20rpx !improtant'}"
 			style="overflow: unset;white-space: normal;word-break: break-all" :show-img-menu="!isScroll"

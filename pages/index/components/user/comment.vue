@@ -35,7 +35,8 @@
 						</u-row>
 					</view>
 
-					<view style="margin-top: 20rpx;color: #999;">
+					<view style="margin-top: 20rpx;color: #999;"
+						v-if="item.contentsInfo.category&&item.contentsInfo.category.length">
 						<text>{{item.contentsInfo.category[0].name}}</text>
 					</view>
 				</view>
@@ -87,7 +88,7 @@
 					}
 
 				}).then(res => {
-					
+
 					if (res.data.code) {
 						this.$refs.paging.complete(res.data.data)
 					}

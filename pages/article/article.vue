@@ -105,7 +105,7 @@
 				</block>
 			</view>
 			<template #bottom>
-				<u-row customStyle="padding-top:10rpx;padding:20rpx" justify="space-between">
+				<u-row customStyle="padding:10rpx 20rpx;border-top:#85a3ff1e solid 1rpx" justify="space-between">
 					<u-col span="6">
 						<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background:#85a3ff1e"
 							class="u-info" @click="showComment = true">
@@ -527,7 +527,6 @@
 				this.$http.get('/typechoComments/commentsList', {
 					params
 				}).then(res => {
-					console.log(res)
 					if (res.statusCode == 200) {
 						this.$refs.comments.complete(res.data.data)
 					}
@@ -567,12 +566,12 @@
 								this.showComment = false
 								this.images = []
 								this.$refs.comments.reload()
-								
+
 							} else {
 								uni.$u.toast(res.data.msg)
 							}
 							this.isReply = false
-						}).catch(err=>{
+						}).catch(err => {
 							this.isReply = false
 						})
 					}

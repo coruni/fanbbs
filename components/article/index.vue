@@ -1,19 +1,19 @@
 <template>
 	<view>
 		<z-paging ref="paging" v-model="content" @query="getData" :auto="false" :auto-clean-list-when-reload="false"
-			:auto-scroll-to-top-when-reload="false" style="margin-bottom: 160rpx;" @onRefresh="onRefresh">
+			:auto-scroll-to-top-when-reload="false" style="margin-bottom: 170rpx;" @onRefresh="onRefresh">
 			<view style="margin: 20rpx;position: relative;top: 0;" v-if="isSwiper">
 				<u-swiper height="160" :list="swiperList" keyName="image" circular @click="swiperTap"
-					@change="swiperIndex = $event.index"></u-swiper>
+					@change="swiperIndex = $event.current" radius="10"></u-swiper>
 				<view
-					style="font-size: 24rpx;background: #85a3ffa0;border-radius:20rpx 0rpx 8rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
+					style="font-size: 24rpx;background: #85a3ffa0;border-radius:20rpx 0rpx 20rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
 					v-if="swiperList.length">
 					<text style="color: #fff;">{{swiperIndex+1}}/{{swiperList.length}}</text>
 				</view>
 
 			</view>
 
-			<view style="margin:30rpx" v-if="$store.state.appInfo.announcement">
+			<view style="margin:30rpx" v-if="$store.state.appInfo.announcement&&isSwiper">
 				<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#85a3ff3c" color="#85a3ff"
 					mode="closable" customStyle="border-radius: 20rpx;"></u-notice-bar>
 			</view>
@@ -153,6 +153,9 @@
 			},
 			onRefresh() {
 				this.getSwiper()
+			},
+			con(e){
+				console.log(e)
 			}
 		}
 	}

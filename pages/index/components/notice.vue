@@ -111,7 +111,7 @@
 					}
 
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code) {
 						this.$refs.paging.complete(res.data.data)
 					}
@@ -126,7 +126,7 @@
 					}
 
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code) {
 						this.rooms = res.data.data
 					}
@@ -155,7 +155,6 @@
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code) {
 						this.$store.commit('setNoticeNum',res.data.data)
 					}

@@ -1,7 +1,6 @@
 <template>
 	<view>
 		<u-row align="top">
-
 			<view style="position: relative;top: 0;" @tap.stop="goProfile(data)">
 				<u-avatar :src="data && data.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 				<image class="avatar_head" mode="aspectFill" :src="data && data.opt && data.opt.head_picture">
