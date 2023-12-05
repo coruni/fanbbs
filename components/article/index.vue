@@ -13,7 +13,7 @@
 
 			</view>
 
-			<view style="margin:30rpx" v-if="$store.state.appInfo.announcement&&isSwiper">
+			<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement&&isSwiper">
 				<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#85a3ff3c" color="#85a3ff"
 					mode="closable" customStyle="border-radius: 20rpx;"></u-notice-bar>
 			</view>
