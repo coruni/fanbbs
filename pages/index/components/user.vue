@@ -215,7 +215,7 @@
 		watch: {
 			index: {
 				handler(e) {
-					if (e == 4) this.isMounted = true;
+					if (e == 4 && this.$store.state.hasLogin) this.isMounted = true;
 					if (this.$store.state.hasLogin) this.onRefresh();
 				}
 			}

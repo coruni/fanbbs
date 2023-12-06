@@ -3,7 +3,7 @@
 		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false"
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
 			<template #top>
-				<u-navbar autoBack placeholder></u-navbar>
+				<u-navbar autoBack placeholder style="z-index: 10;"></u-navbar>
 			</template>
 
 			<u-row align="top" customStyle="
@@ -58,7 +58,66 @@
 					</u-row>
 				</view>
 			</u-row>
-
+			
+			<!-- #ifdef APP -->
+			<u-sticky bgColor="#fff">
+				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
+					<u-row>
+						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
+							<text style="margin-right: 10rpx;">{{orderName}}</text>
+							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
+								color="#999"></u-icon>
+						</view>
+					</u-row>
+					<u-transition :show="showOrderList"
+						style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
+						<view>
+							<!-- 半透明遮罩 -->
+							<view @click.stop="showOrderList = false"
+								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
+							</view>
+							<view
+								style="font-size: 30rpx;color:#85a3ff;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								<block v-for="(item,index) in orderList" :key="index">
+									<text @click.stop="orderTap(item.name);$refs.paging.reload()"
+										style="padding: 15rpx;">{{item.name}}</text>
+								</block>
+							</view>
+						</view>
+					</u-transition>
+				</view>
+			</u-sticky>
+			<!-- #endif -->
+			<!-- #ifndef APP -->
+			<u-sticky bgColor="#fff" offsetTop="-44">
+				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
+					<u-row>
+						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
+							<text style="margin-right: 10rpx;">{{orderName}}</text>
+							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
+								color="#999"></u-icon>
+						</view>
+					</u-row>
+					<u-transition :show="showOrderList"
+						style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
+						<view>
+							<!-- 半透明遮罩 -->
+							<view @click.stop="showOrderList = false"
+								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
+							</view>
+							<view
+								style="font-size: 30rpx;color:#85a3ff;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								<block v-for="(item,index) in orderList" :key="index">
+									<text @click.stop="orderTap(item.name);$refs.paging.reload()"
+										style="padding: 15rpx;">{{item.name}}</text>
+								</block>
+							</view>
+						</view>
+					</u-transition>
+				</view>
+			
+			</u-sticky>
+			<!-- #endif -->
 			<!-- 子评论开始 -->
 			<view>
 				<block v-for="(item,index) in comments" :key="index">
@@ -233,6 +292,28 @@
 					name: '图片',
 					icon: 'photo',
 				}],
+				orderList: [{
+						name: '全部评论',
+						order: ''
+					}, {
+						name: '点赞最多',
+						order: 'likes'
+					},
+					{
+						name: '最新',
+						order: 'created desc'
+					},
+					{
+						name: '最早',
+						order: 'created asc'
+					},
+					{
+						name: '只看楼主',
+						order: 'author'
+					}
+				],
+				orderName: '最新',
+				showOrderList: false,
 				replyWho: '',
 				loading: true,
 			}
@@ -268,17 +349,24 @@
 		},
 		methods: {
 			getComments(page, limit) {
+				let order = this.orderList.find(order => order.name == this.orderName)
+				let params = {
+					page,
+					limit,
+					searchParams: JSON.stringify({
+						cid: this.data.cid,
+						type: 'comment',
+						allparent: this.data.coid,
+						authorId: order.name == '只看楼主' ? this.data.ownerId : null
+					}),
+					order: order.order
+				}
+				
+				if (order.name == '只看楼主') {
+					params.order = null
+				}
 				this.$http.get('/typechoComments/commentsList', {
-					params: {
-						page,
-						limit,
-						searchParams: JSON.stringify({
-							cid: this.data.cid,
-							type: 'comment',
-							allparent: this.data.coid,
-						}),
-						order: 'created asc'
-					}
+					params
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
@@ -288,6 +376,10 @@
 						this.loading = false
 					}, 1000)
 				})
+			},
+			orderTap(item) {
+				this.orderName = item
+				this.showOrderList = false
 			},
 			commentCheck(status, pid, reply) {
 				this.pid = pid
