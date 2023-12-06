@@ -26,7 +26,7 @@
 			<view style="display: flex;align-items: center;">
 				<view @click.stop="follow(data.authorId)">
 					<u-button v-if="!isfollow && data && data.authorId !== userInfo.uid" plain color="#85a3ff" size="mini"
-						shape="circle" customStyle="font-size:28rpx;height:50rpx" @click="$emit('follow',true)">关注</u-button>
+						shape="circle" customStyle="font-size:28rpx;height:55rpx" @click="$emit('follow',true)">关注</u-button>
 				</view>
 				<view @click.stop="">
 					<u-icon name="more-dot-fill" size="20" customStyle="margin-left:30rpx" @click="$emit('menuTap',data)"></u-icon>

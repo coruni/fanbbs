@@ -159,7 +159,7 @@
 
 				payMent: [{
 						name: '微信',
-						type: 'wechatpay',
+						type: 'wxpay',
 						icon: 'weixin-fill',
 						color: '#46d262'
 					},
@@ -271,6 +271,29 @@
 						this.$refs.paging.complete(res.data.data)
 					}
 				})
+			},
+			goPay() {
+				switch (this.radio) {
+					case '微信':
+						this.pay('wxpay')
+						break;
+					case '支付宝':
+						this.pay('alipay')
+						break;
+					case '三方支付':
+						this.orderPay()
+						break;
+
+					default:
+						break;
+				}
+			},
+			pay(provider){
+				if(provider=='')
+				uni.requestPayment({
+					provider:provider,
+					
+				})
 			}
 		}
 	}
@@ -282,6 +305,6 @@
 	}
 
 	::v-deep .u-grid-item--hover-class {
-	    opacity: unset;
+		opacity: unset;
 	}
 </style>
