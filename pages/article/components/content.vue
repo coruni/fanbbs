@@ -68,7 +68,7 @@
 			htmlReady(){
 				setTimeout(()=>{
 					this.$emit('ready',true)
-				},800)
+				})
 			}
 		}
 	}
