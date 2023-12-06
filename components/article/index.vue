@@ -102,7 +102,7 @@
 						searchParams: JSON.stringify({
 							mid: this.mid ? this.mid : '',
 						}),
-						order: 'istop desc,created desc',
+						order: 'istop desc, created desc',
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {

@@ -2,7 +2,8 @@
 	<view style="margin-top: 10rpx;">
 		<!-- 标题 -->
 		<u-row justify="space-between">
-			<text style="font-weight: 600;word-break: break-all;word-wrap: break-word;" class="u-line-2">{{data.title}}</text>
+			<text style="font-weight: 600;word-break: break-all;word-wrap: break-word;"
+				class="u-line-2">{{data.title}}</text>
 			<view v-if="data.istop">
 				<u-icon name="arrow-up-fill" color="#a899e6" labelColor="#a899e6" size="14" label="置顶" label-size="14"
 					customStyle="background: #85a3ff1e;padding:4rpx;border-radius:10rpx"></u-icon>
@@ -11,7 +12,9 @@
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
-		<u-album :urls="data.images" maxCount="6" borderRadius="20" multipleSize="100" singleSize="200"></u-album>
+		<view id="album" style="width: 100%;">
+			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8" singleMode="scaleToFill" :multipleSize="(elWidth-12)/3"></uv-album>
+		</view>
 	</view>
 </template>
 <script>
@@ -21,6 +24,7 @@
 			data: {
 				type: Object,
 				default: null,
+
 			}
 		},
 		computed: {
@@ -28,8 +32,19 @@
 		},
 		data() {
 			return {
-
+				elWidth: 300,
 			}
+		},
+		onReady() {
+
+		},
+		created() {
+			this.$nextTick(() => {
+				uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
+					console.log(data.width)
+					this.elWidth = data.width
+				}).exec()
+			})
 		},
 		methods: {
 			replaceEmoji(html) {
