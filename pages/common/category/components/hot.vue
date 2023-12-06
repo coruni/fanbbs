@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<z-paging @query="getData" ref="paging" v-model="article" :auto-scroll-to-top-when-reload="false"
-			:auto-clean-list-when-reload="false" :scrollable="scroll" :refresher-enabled="false">
+			:auto-clean-list-when-reload="false" :scrollable="scroll" :refresher-enabled="false" use-cache	:cache-key="`category_hot-${mid}`">
 			<block v-for="(item,index) in article" :key="index">
 				<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 					<article-header :data="item"></article-header>

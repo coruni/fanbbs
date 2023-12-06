@@ -2,7 +2,7 @@
 	<view>
 		<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
 			style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" use-cache	:cache-key="`user_publish`">
 			<block v-for="(item,index) in article">
 				<view style="margin: 30rpx;" @click="goArticle(item)">
 					<u-row align="bottom" customStyle="margin-bottom:20rpx">

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<z-paging ref="paging" v-model="content" @query="getData" :auto="false" :auto-clean-list-when-reload="false"
-			:auto-scroll-to-top-when-reload="false" style="margin-bottom: 170rpx;" @onRefresh="onRefresh">
+			:auto-scroll-to-top-when-reload="false" style="margin-bottom: 170rpx;" @onRefresh="onRefresh" use-cache	:cache-key="`home_index-${mid}`">
 			<view style="margin: 20rpx;position: relative;top: 0;" v-if="isSwiper">
 				<u-swiper height="160" :list="swiperList" keyName="image" circular @click="swiperTap"
 					@change="swiperIndex = $event.current" radius="10"></u-swiper>
@@ -10,7 +10,6 @@
 					v-if="swiperList.length">
 					<text style="color: #fff;">{{swiperIndex+1}}/{{swiperList.length}}</text>
 				</view>
-
 			</view>
 
 			<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement&&isSwiper">

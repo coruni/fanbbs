@@ -1,7 +1,7 @@
 <template>
 	<z-paging-swiper>
 		<z-paging ref="comments" v-model="comments" @query="getComments" :auto-scroll-to-top-when-reload="false"
-			:auto-clean-list-when-reload="false" v-show="!loading" @scroll="onScroll" @onRefresh="onRefresh">
+			:auto-clean-list-when-reload="false" v-show="!loading" @scroll="onScroll" @onRefresh="onRefresh" use-cache	:cache-key="`article_mid-${cid}`">
 			<template #top>
 				<u-navbar placeholder fixed style="z-index: 10;">
 					<view slot="left" style="display:flex;align-items: center;">

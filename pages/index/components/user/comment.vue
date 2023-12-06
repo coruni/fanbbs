@@ -2,7 +2,7 @@
 	<view>
 		<z-paging @query="getData" v-model="comments" ref="paging" :refresher-enabled="false" :scrollable="scroll"
 			style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" use-cache	:cache-key="`user_comment}`">
 			<block v-for="(item,index) in comments">
 				<view style="margin: 30rpx;">
 					<u-row align="bottom">
