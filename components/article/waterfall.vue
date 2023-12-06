@@ -56,6 +56,10 @@
 				type: [Number, String],
 				default: 0,
 			},
+			mid: {
+				type: [String, Number],
+				default: 0,
+			}
 		},
 		components: {
 			articleFooter
@@ -109,16 +113,18 @@
 						page,
 						limit,
 						searchParams: JSON.stringify({
-							type: 'post'
+							mid: this.mid ? this.mid : '',
 						}),
-						order:'created desc'
+						order: 'istop desc, created desc',
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {
 						this.$refs.paging.complete(res.data.data);
 						this.is_loaded = true
-						console.log(res)
 					}
+				}).catch(err => {
+					this.$refs.paging.complete(false)
 				})
 			},
 			goArticle(data) {
