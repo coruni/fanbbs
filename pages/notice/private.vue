@@ -56,35 +56,39 @@
 			}
 		},
 		onPageScroll(e) {
-			if(e.scrollTop<=0){
+			if (e.scrollTop <= 0) {
 				this.$refs.paging.doChatRecordLoadMore()
 			}
 		},
 		onLoad(params) {
+			console.log(params)
 			this.nickname = params.nickname
 			this.id = params.id
 			this.getData(params.id)
-			console.log(params)
 		},
 		computed: {
 			...mapState(['userInfo'])
 		},
 		methods: {
 			getData(id) {
+				
 				this.$http.post('/typechoChat/getPrivateChat', {
 					touid: this.id
 				}).then(res => {
-					console.log(res)
 					if (res.data.code) {
 						this.roomId = res.data.data
 					}
 				})
 			},
 			getMessages(page) {
-				this.$http.post('/typechoChat/msgList', {
-					page,
-					limit: 30,
-					chatid: this.roomId
+				this.$http.get('/typechoChat/msgList', {
+					params: {
+						page,
+						limit: 30,
+						chatid: this.roomId,
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+					}
+
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {

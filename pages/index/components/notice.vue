@@ -52,7 +52,7 @@
 						<u-row style="flex-direction: column;margin-left: 20rpx;flex: 1;" align="top">
 							<text>{{item.userJson.name}}</text>
 							<u-row justify="space-between" style="flex:1;width: 100%;font-size: 26rpx;">
-								<text class="u-line-1">{{item.lastMsg.text}}</text>
+								<text class="u-line-1">{{item.lastMsg && item.lastMsg.text}}</text>
 								<text style="font-size: 26rpx;flex-shrink: 0;"
 									v-if="item.lastMsg">{{$u.timeFrom(item.lastTime,'hh:MM')}}</text>
 							</u-row>
@@ -111,7 +111,6 @@
 					}
 
 				}).then(res => {
-					
 					if (res.data.code) {
 						this.$refs.paging.complete(res.data.data)
 					}
@@ -133,10 +132,11 @@
 				})
 			},
 			goPrivate(data) {
+				console.log(data)
 				this.$Router.push({
 					path: '/pages/notice/private',
 					query: {
-						id: data.toid,
+						id: data.userJson.uid,
 						nickname: data.userJson.name
 					}
 				})
