@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<z-paging ref="paging" refresher-only @onRefresh="onRefresh" @scroll="scroll"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" v-if="$store.state.hasLogin&&isMounted"
-			style="margin-bottom: 50rpx;">
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false"
+			v-if="$store.state.hasLogin&&isMounted" style="margin-bottom: 50rpx;">
 			<template #top>
 				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`">
 					<view slot="left">
@@ -41,7 +41,8 @@
 								<uv-line-progress :height="4"
 									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
 									:percentage="(userInfo.nextExp - userInfo.experience) / userInfo.nextExp*100"
-									:showText="false" style="position: absolute;bottom: 0;width: 100%;" v-if="userInfo.experience && userInfo.nextExp && userInfo.level">
+									:showText="false" style="position: absolute;bottom: 0;width: 100%;"
+									v-if="userInfo.experience && userInfo.nextExp && userInfo.level">
 								</uv-line-progress>
 							</view>
 							<i @click="showLevel = true" v-if="userInfo.level"
@@ -190,7 +191,6 @@
 					<u-button color="#85a3ff" shape="circle" @click="showLevel = false">确定</u-button>
 				</view>
 			</view>
-
 		</u-popup>
 	</view>
 </template>
@@ -216,7 +216,11 @@
 			index: {
 				handler(e) {
 					if (e == 4 && this.$store.state.hasLogin) this.isMounted = true;
-					if (this.$store.state.hasLogin) this.onRefresh();
+					if (this.$store.state.hasLogin) {
+						this.$nextTick(() => {
+							this.onRefresh();
+						})
+					}
 				}
 			}
 		},

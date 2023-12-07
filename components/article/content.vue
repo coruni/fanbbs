@@ -12,7 +12,7 @@
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
-		<view id="album" style="width: 100%;" v-if="data.images.length">
+		<view id="album" style="width: 100%;">
 			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
 				singleMode="scaleToFill" :multipleSize="(elWidth-12)/3"></uv-album>
 		</view>
@@ -36,22 +36,46 @@
 				elWidth: 333,
 			}
 		},
-		onReady() {
-			console.log('onready')
-
-		},
+		onReady() {},
 		created() {
 			this.$nextTick(() => {
-				uni.createSelectorQuery().select('#album').boundingClientRect(data => {
-					console.log(data.width)
-					this.elWidth = data.width
-				}).exec()
-			},1000)
+				this.getAlbumWidth();
+			})
 		},
 		mounted() {
-			
+
 		},
 		methods: {
+			getAlbumWidth() {
+				// #ifndef H5
+				uni.createSelectorQuery().select('#album').boundingClientRect(data => {
+					console.log(data.width);
+					if (data.width === 0) {
+						// 如果宽度为0，则重新获取
+						setTimeout(() => {
+							this.getAlbumWidth();
+						}, 200)
+					} else {
+						// 如果宽度不为0，保存宽度到 elWidth
+						this.elWidth = data.width;
+					}
+				}).exec();
+				// #endif
+				// #ifdef H5
+				uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
+					console.log(data.width);
+					if (data.width === 0) {
+						// 如果宽度为0，则重新获取
+						setTimeout(() => {
+							this.getAlbumWidth();
+						}, 200)
+					} else {
+						// 如果宽度不为0，保存宽度到 elWidth
+						this.elWidth = data.width;
+					}
+				}).exec();
+				// #endif
+			},
 			replaceEmoji(html) {
 				return html.replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
 					const emoji = this.$emoji.data.find(e => e.name === name)
