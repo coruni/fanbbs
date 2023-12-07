@@ -6,7 +6,7 @@
 			<template #top>
 				<u-navbar placeholder fixed style="z-index: 10;">
 					<view slot="left" style="display:flex;align-items: center;">
-						<i class="ess icon-left_line" style="font-size: 50rpx;" @click="$Router.back(1)"></i>
+						<i class="ess icon-left_line" style="font-size: 60rpx;" @click="$Router.back(1)"></i>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
 							@click="goProfile(article.authorId)" v-show="showNavAvatar">
 							<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="28"
@@ -17,25 +17,25 @@
 					</view>
 					<view slot="right">
 						<view v-show="showNavAvatar"
-							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #85a3ff32;padding: 4rpx 16rpx;">
+							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #85a3ff32;padding: 0rpx 16rpx;line-height: 1;">
 							<u-row customStyle="margin-right:20rpx;" @click="follow(article.authorId)">
-								<i class="ess icon-add_line" style="font-size: 30rpx;"
+								<i class="ess icon-add_line" style="font-size: 30rpx;font-weight: 600;"
 									:style="{color:article && article.authorInfo &&article.authorInfo.isfollow?'':'#85a3ff'}"
 									v-if="article && article.authorInfo &&!article.authorInfo.isfollow"></i>
 
-								<text style="font-size: 26rpx;margin-left: 10rpx;padding-right:20rpx;"
+								<text style="font-size: 26rpx;margin-left: 10rpx;padding-right:20rpx;font-weight: 600;"
 									:style="{color:article && article.authorInfo && article.authorInfo.isfollow?'':'#85a3ff'}">{{article && article.authorInfo && article.authorInfo.isfollow?'已关注':'关注'}}</text>
 							</u-row>
 							<view>
-								<i class="ess icon-more_1_line" style="font-size: 44rpx;" @click="showMore = true"></i>
+								<i class="ess icon-more_1_line" style="font-size: 60rpx;" @click="showMore = true"></i>
 							</view>
 						</view>
-						<i class="ess icon-more_1_line" style="font-size: 44rpx;" @click="showMore = true"
+						<i class="ess icon-more_1_line" style="font-size: 60rpx;" @click="showMore = true"
 							v-show="!showNavAvatar"></i>
 					</view>
 				</u-navbar>
 			</template>
-			<view style="margin: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
+			<view style="padding: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
 				<articleHeader :data="article" @follow="follow($event)"></articleHeader>
 				<articleContent :data="article" :autoPreview="isScroll" @ready="loading = false"></articleContent>
 				<articleFooter :data="article"></articleFooter>
@@ -47,7 +47,7 @@
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text style="margin-right: 6rpx;">{{orderName}}</text>
+							<text style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
 
@@ -77,7 +77,7 @@
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text style="margin-right: 6rpx;">{{orderName}}</text>
+							<text style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
 						</view>

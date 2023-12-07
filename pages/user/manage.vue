@@ -1,6 +1,10 @@
 <template>
 	<view>
-		<u-navbar placeholder title="管理面板" autoBack></u-navbar>
+		<u-navbar placeholder title="管理面板" autoBack>
+			<view slot="left">
+				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+			</view>
+		</u-navbar>
 		<view style="margin: 30rpx;">
 			<u-grid customStyle="background:#85a3ff0a;padding:30rpx;border-radius:20rpx">
 				<u-grid-item v-for="(item,index) in data" :key="index">

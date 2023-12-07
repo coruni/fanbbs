@@ -1,6 +1,9 @@
 <template>
 	<view>
 		<uv-navbar autoBack placeholder rightText="">
+			<view slot="left">
+				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+			</view>
 			<view slot="right">
 				<u-button :color="article.category.mid&&article.title?'#85a3ff':'#e6e6e6'" shape="circle"
 					customStyle="width:150rpx;height:50rpx"

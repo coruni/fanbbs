@@ -3,7 +3,11 @@
 		<u-loading-page :loading="loading"></u-loading-page>
 		<z-paging ref="paging" v-model="finances" @query="getData" :refresher-enabled="false" v-show="!loading">
 			<template #top>
-				<u-navbar bgColor="transparent" title="财务" placeholder autoBack></u-navbar>
+				<u-navbar bgColor="transparent" title="财务" placeholder autoBack>
+					<view slot="left">
+						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+					</view>
+				</u-navbar>
 			</template>
 			<block v-for="(item,index) in finances">
 				<view style="margin: 30rpx;padding: 30rpx;border-radius: 20rpx; background: #fff;">

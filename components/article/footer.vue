@@ -1,22 +1,6 @@
 <template>
 	<view style="margin-top: 20rpx">
 		<view v-if="!waterFall" style="padding-bottom: 20rpx;">
-			<view v-if="data.tag.length>0" style="display: flex;flex-wrap: wrap;">
-				<block v-for="(item,index) in data.tag" :key="index">
-					<view style="
-						font-size: 26rpx;
-						background:#85a3ff1e;
-						color: #85a3ff;
-						padding:8rpx 14rpx;
-						border-radius: 500rpx;
-						margin-right: 20rpx;
-						margin-bottom: 10rpx;
-						">
-						<text style="font-size: 28rpx;font-weight: 600;margin-right: 10rpx;">#</text>
-						<text>{{item.name}}</text>
-					</view>
-				</block>
-			</view>
 			<view style="margin-top: 20rpx;display: flex;justify-content: space-between;color: #999;">
 				<u-row>
 					<i class="ess icon-eye_2_line" style="font-size: 40rpx;"></i>

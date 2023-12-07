@@ -1,6 +1,9 @@
 <template>
 	<view>
 		<u-navbar placeholder autoBack id="navbar">
+			<view slot="left">
+				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+			</view>
 			<view slot="center">
 				<text>{{update?'更新帖子':'发布帖子'}}</text>
 			</view>

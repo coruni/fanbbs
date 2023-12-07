@@ -3,7 +3,11 @@
 		<z-paging ref="paging" @query="getMessages" v-model="messages" use-chat-record-mode auto-hide-keyboard-when-chat
 			use-page-scroll v-if="roomId">
 			<template #top>
-				<u-navbar placeholder autoBack :title="nickname"></u-navbar>
+				<u-navbar placeholder autoBack :title="nickname">
+					<view slot="left">
+						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+					</view>
+				</u-navbar>
 			</template>
 			<view style="margin: 30rpx;">
 				<block v-for="(item,index) in messages" :key="index">
@@ -71,7 +75,7 @@
 		},
 		methods: {
 			getData(id) {
-				
+
 				this.$http.post('/typechoChat/getPrivateChat', {
 					touid: this.id
 				}).then(res => {

@@ -10,23 +10,26 @@
 						<u-avatar :src="userInfo.avatar" size="30" customStyle="margin-right:20rpx"
 							@click="avatarTap()"></u-avatar>
 						<view @click="goSearch()"
-							style="display: flex;justify-content: space-between;flex:1;background: #f7f7f7;padding:6rpx 20rpx;border-radius: 50rpx;margin-left: 20rpx;">
-							<text style="color: #999;">搜索</text>
-							<u-icon name="search" size="20"></u-icon>
+							style="display: flex;
+							justify-content: space-between;
+							flex:1;
+							border: #85a3ffc3 solid 1rpx;
+							padding:14rpx 20rpx;border-radius: 50rpx;margin-left: 20rpx;">
+							<text style="color: #aaa;font-size: 28rpx;">搜索</text>
+							<i class="ess icon-search_3_line" style="font-size: 40rpx;color: #aaa;"></i>
 						</view>
-						
+
 					</u-row>
 				</view>
 			</u-navbar>
 		</template>
 		<!-- 模拟首屏开始 -->
 		<u-tabs :list="topTabbar" lineWidth="20" lineHeight="3" @change="changeTab" :current="topTabIndex"
-			lineColor="#85a3ff"
-			:activeStyle="{color: '#85a3ff',fontWeight: 'bold',transform: 'scale(1.05)'}"
-			:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
+			lineColor="#85a3ff" :activeStyle="{color: '#85a3ff',fontWeight: 'bold',transform: 'scale(1.05)'}"
+			:inactiveStyle="{color: '#000',transform: 'scale(1)'}"
 			itemStyle="padding-left: 30rpx; padding-right: 30rpx; height: 68rpx;">
 			<view slot="right" style="padding-left: 8rpx;margin-right: 20rpx;" @click="goCategoryList()">
-				<u-icon name="list" size="20" bold></u-icon>
+				<i class="ess icon-menu_line" style="font-size: 40rpx;"></i>
 			</view>
 		</u-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @animationfinish="animationfinish">

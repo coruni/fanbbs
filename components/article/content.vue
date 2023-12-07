@@ -16,6 +16,24 @@
 			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
 				singleMode="scaleToFill" :multipleSize="(elWidth-12)/3"></uv-album>
 		</view>
+		
+		<view v-if="data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 20rpx;">
+			<block v-for="(item,index) in data.tag" :key="index">
+				<view style="
+					font-size: 26rpx;
+					background:#85a3ff1e;
+					color: #85a3ff;
+					padding:8rpx 14rpx;
+					border-radius: 500rpx;
+					margin-right: 20rpx;
+					margin-bottom: 10rpx;
+					font-size: 24rpx;
+					">
+					<i class="ess icon-hashtag_line" style="font-size: 26rpx;"></i>
+					<text>{{item.name}}</text>
+				</view>
+			</block>
+		</view>
 	</view>
 </template>
 <script>
@@ -49,7 +67,6 @@
 			getAlbumWidth() {
 				// #ifndef H5
 				uni.createSelectorQuery().select('#album').boundingClientRect(data => {
-					console.log(data.width);
 					if (data.width === 0) {
 						// 如果宽度为0，则重新获取
 						setTimeout(() => {
@@ -63,7 +80,6 @@
 				// #endif
 				// #ifdef H5
 				uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
-					console.log(data.width);
 					if (data.width === 0) {
 						// 如果宽度为0，则重新获取
 						setTimeout(() => {

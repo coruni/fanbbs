@@ -4,7 +4,11 @@
 		<z-paging ref="paging" v-model="comments" @query="getData" :refresher-enabled="false" v-show="!loading">
 
 			<template #top>
-				<u-navbar bgColor="transparent" title="评论" placeholder autoBack></u-navbar>
+				<u-navbar bgColor="transparent" title="评论" placeholder autoBack>
+					<view slot="left">
+						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+					</view>
+				</u-navbar>
 			</template>
 			<block v-for="(item,index) in comments">
 				<view style="margin:30rpx;background: #fff;border-radius: 20rpx;padding: 30rpx;"

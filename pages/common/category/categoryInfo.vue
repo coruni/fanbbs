@@ -5,7 +5,11 @@
 			<template #top>
 				<u-navbar autoBack
 					:bgColor="info.opt&& info.opt.primary?$u.colorToRgba(info.opt && info.opt.primary,opacity):$u.colorToRgba('#fff',opacity)"
-					fixed></u-navbar>
+					fixed>
+					<view slot="left">
+						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+					</view>
+					</u-navbar>
 			</template>
 			<view class="info" id="infoPanel">
 				<image :src="info.opt && info.opt.background?info.opt.background:info.imgurl" mode="aspectFill" style="width: 100%;height: 600rpx;">

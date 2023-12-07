@@ -1,9 +1,14 @@
 <template>
 	<view>
 		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" cache-mode="always" use-cache	:cache-key="`article_mid_sub-${data.coid}`">
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" cache-mode="always" use-cache
+			:cache-key="`article_mid_sub-${data.coid}`">
 			<template #top>
-				<u-navbar autoBack placeholder style="z-index: 10;"></u-navbar>
+				<u-navbar autoBack placeholder style="z-index: 10;">
+					<view slot="left">
+						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+					</view>
+				</u-navbar>
 			</template>
 
 			<u-row align="top" customStyle="
@@ -47,24 +52,30 @@
 					<u-swiper :list="data.images" v-if="data.images && data.images.length" :autoplay="false" indicator
 						height="150" indicator-style="left" radius="10"
 						@click="previewImg(data.images,$event)"></u-swiper>
-						<u-gap height="6"></u-gap>
+					<u-gap height="6"></u-gap>
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
-						<u-row customStyle="flex-basis:25%" justify="space-between">
-							<u-icon name="chat" color="#aaa" size="20" labelColor="#aaa" label-size="12"></u-icon>
-							<u-icon name="thumb-up" color="#aaa" size="20" labelColor="#aaa" :label="1"
-								label-size="12"></u-icon>
+						<u-row customStyle="flex-basis:30%" justify="space-between">
+							<u-row @click="commentCheck(false,data.coid,data.author)">
+								<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
+								<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
+							</u-row>
+							<u-row>
+								<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
+								<text style="font-size: 28rpx;margin-left: 10rpx;"></text>
+							</u-row>
 						</u-row>
 					</u-row>
 				</view>
 			</u-row>
-			
+
 			<!-- #ifdef APP -->
 			<u-sticky bgColor="#fff">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text style="margin-right: 10rpx;">{{orderName}}</text>
+							<text
+								style="margin-right: 10rpx;font-size:30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
 								color="#999"></u-icon>
 						</view>
@@ -93,7 +104,8 @@
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text style="margin-right: 10rpx;">{{orderName}}</text>
+							<text
+								style="margin-right: 10rpx;font-size:30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
 								color="#999"></u-icon>
 						</view>
@@ -115,7 +127,7 @@
 						</view>
 					</u-transition>
 				</view>
-			
+
 			</u-sticky>
 			<!-- #endif -->
 			<!-- 子评论开始 -->
@@ -173,10 +185,14 @@
 										<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 											<text>{{$u.timeFrom(item.created,'mm-dd')}}</text>
 											<u-row customStyle="flex-basis:30%" justify="space-between">
-												<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa"
-													label-size="12"></u-icon>
-												<u-icon name="thumb-up" color="#aaa" :label="1" size="20"
-													labelColor="#aaa" label-size="12"></u-icon>
+												<u-row @click="commentCheck(true,item.coid,item.author)">
+													<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
+													<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
+												</u-row>
+												<u-row>
+													<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
+													<text style="font-size: 28rpx;margin-left: 10rpx;"></text>
+												</u-row>
 
 											</u-row>
 										</u-row>
@@ -361,7 +377,7 @@
 					}),
 					order: order.order
 				}
-				
+
 				if (order.name == '只看楼主') {
 					params.order = null
 				}

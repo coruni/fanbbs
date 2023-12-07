@@ -4,8 +4,7 @@
 			<u-navbar :bgColor="`rgba(255,255,255,${opacity})`" id="navbar">
 				<view slot="left">
 					<u-row>
-						<u-icon name="arrow-left" size="20" :color="opacity>0.4? 'black':'white'"
-							@click="$Router.back(1)"></u-icon>
+						<i class="ess icon-left_line" style="font-size: 60rpx;" :style="{color:opacity>0.4? 'black':'white'}" @click="$Router.back(1)"></i>
 						<u-row customStyle="margin-left:20rpx" v-show="opacity>=1" @click="$refs.paging.scrollToTop()">
 							<u-avatar :src="info.avatar" size="26"></u-avatar>
 							<text style="margin-left:20rpx">{{info.screenName}}</text>

@@ -26,10 +26,10 @@
 			<view style="display: flex;align-items: center;">
 				<view @click.stop="follow(data.authorId)">
 					<u-button v-if="!isfollow && data && data.authorId !== userInfo.uid" plain color="#85a3ff" size="mini"
-						shape="circle" customStyle="font-size:28rpx;height:55rpx" @click="$emit('follow',true)">关注</u-button>
+						shape="circle" plain customStyle="font-size:28rpx;height:55rpx;background:tran" @click="$emit('follow',true)">关注</u-button>
 				</view>
-				<view @click.stop="">
-					<u-icon name="more-dot-fill" size="20" customStyle="margin-left:30rpx" @click="$emit('menuTap',data)"></u-icon>
+				<view>
+					<i class="ess icon-more_1_line" style="font-size: 60rpx;margin-left: 10rpx;" @click.stop="$emit('menuTap',data)"></i>
 				</view>
 			</view>
 		</u-row>
@@ -95,5 +95,8 @@
 <style lang="scss">
 	.u-button::before {
 		background: $c-primary;
+	}
+	.u-button--plain{
+		background: transparent;
 	}
 </style>

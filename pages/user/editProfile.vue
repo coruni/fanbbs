@@ -1,6 +1,9 @@
 <template>
 	<view>
 		<u-navbar title="个人资料" autoBack placeholder>
+			<view slot="left">
+				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+			</view>
 		</u-navbar>
 		<view style="display: flex;justify-content: center;flex-direction: column;margin: 30rpx;">
 			<view style="margin-top: 100rpx;display: flex;justify-content: center;">

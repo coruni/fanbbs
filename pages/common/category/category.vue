@@ -1,6 +1,10 @@
 <template>
 	<view>
-		<u-navbar autoBack placeholder title="板块列表"></u-navbar>
+		<u-navbar autoBack placeholder title="板块列表">
+			<view slot="left">
+				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+			</view>
+		</u-navbar>
 		<u-grid col="4" customStyle="margin:20rpx">
 			<u-grid-item v-for="(item,index) in categories" :key="index">
 				<u-row justify="center" @click="goCategory(item.mid)"

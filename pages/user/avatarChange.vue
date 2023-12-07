@@ -1,6 +1,10 @@
 <template>
 	<view>
-		<u-navbar autoBack bgColor="transparent" leftIconColor="white" leftIcon="close" placeholder></u-navbar>
+		<u-navbar autoBack bgColor="transparent" leftIconColor="white" leftIcon="close" placeholder>
+			<view slot="left">
+				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+			</view>
+		</u-navbar>
 		<view style="text-align: center;">
 			<view style="margin-top:40%;position: relative;display:inline-block;">
 				<u-avatar :src="userInfo.avatar" size="220" customStyle="flex:1"></u-avatar>

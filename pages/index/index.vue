@@ -7,16 +7,14 @@
 		<!-- 间隔 -->
 
 		<!-- 底部导航栏 -->
-		<u-gap height="60"></u-gap>
+		
 		<template #bottom>
 			<u-row justify="space-between"
 				customStyle="padding:20rpx;background:white;z-index:999;border-top:#85a3ff1e solid 1rpx">
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)" v-if="index!=4">
 						<view style="position: relative;padding: 10rpx;">
-							<u-icon :name="item.icon" size="22" :color="item.active?'#85a3ff':''"
-								customStyle="z-index:2"
-								:class="{'animate__animated animate__zoomIn':item.active}"></u-icon>
+							<i class="ess" :class="[item.icon]" style="font-size: 45rpx;" :style="{color: item.active ? '#85a3ff' : ''}"></i>
 							<u-badge :isDot="true" bgColor="#85a3ffc4" :offset="[12,7]" absolute
 								customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
 								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
@@ -181,25 +179,25 @@
 						active: true,
 						type: 'home',
 						count: 0,
-						icon: 'home'
+						icon: 'icon-home_3_line'
 					},
 					{
 						name: '动态',
 						active: false,
 						type: 'find',
 						count: 0,
-						icon: 'arrow-up'
+						icon: 'icon-celebrate_line'
 					},
 					{
 						type: 'midbutton',
-						icon: 'plus'
+						icon: 'icon-quill_pen_line'
 					},
 					{
 						name: '消息',
 						active: false,
 						type: 'notice',
 						count: 0,
-						icon: 'bell'
+						icon: 'icon-comment_line'
 					},
 					{
 						name: '我的',

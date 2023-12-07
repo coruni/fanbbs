@@ -2,7 +2,11 @@
 	<view>
 		<z-paging ref="paging" @query="getData" v-model="article">
 			<template #top>
-				<u-navbar title="我的收藏" placeholder autoBack></u-navbar>
+				<u-navbar title="我的收藏" placeholder autoBack>
+					<view slot="left">
+						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+					</view>
+				</u-navbar>
 			</template>
 			<block v-for="(item,index) in article" :key="index">
 				<view style="margin: 30rpx;" @click="goArticle(item)">

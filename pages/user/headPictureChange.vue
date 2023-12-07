@@ -1,6 +1,10 @@
 <template>
 	<view>
-		<u-navbar title="更改挂件" placeholder autoBack></u-navbar>
+		<u-navbar title="更改挂件" placeholder autoBack>
+			<view slot="left">
+				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+			</view>
+		</u-navbar>
 		<view style="margin: 30rpx; height: 100%;">
 			<view style="display: flex;justify-content: center;height: 400rpx;align-items: center;">
 				<view style="position: relative;">
