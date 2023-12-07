@@ -76,8 +76,8 @@
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text
 								style="margin-right: 10rpx;font-size:30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
-							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
-								color="#999"></u-icon>
+							<i class="ess" style="font-size: 50rpx;"
+								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
 						</view>
 					</u-row>
 					<u-transition :show="showOrderList"
@@ -106,8 +106,8 @@
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text
 								style="margin-right: 10rpx;font-size:30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
-							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
-								color="#999"></u-icon>
+							<i class="ess" style="font-size: 50rpx;"
+								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
 						</view>
 					</u-row>
 					<u-transition :show="showOrderList"

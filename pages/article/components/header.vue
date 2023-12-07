@@ -34,7 +34,7 @@
 				<u-button :plain="data && data.authorInfo&& !data.authorInfo.isfollow" shape="circle"
 					hover-class="button_hover"
 					:color="data && data.authorInfo&& data.authorInfo.isfollow?'#85a3ff0f':'#85a3ff'"
-					customStyle="width:160rpx;height:60rpx"
+					customStyle="width:160rpx;height:65rpx" 
 					:style="{color:data && data.authorInfo&& data.authorInfo.isfollow?'black':'#85a3ff'}"
 					:text="data && data.authorInfo&& data.authorInfo.isfollow?'已关注':'关注'"
 					@click="$emit('follow',data.authorId)"></u-button>
