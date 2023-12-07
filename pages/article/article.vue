@@ -1,11 +1,12 @@
 <template>
 	<z-paging-swiper>
 		<z-paging ref="comments" v-model="comments" @query="getComments" :auto-scroll-to-top-when-reload="false"
-			:auto-clean-list-when-reload="false" v-show="!loading" @scroll="onScroll" @onRefresh="onRefresh" use-cache	:cache-key="`article_mid-${cid}`">
+			:auto-clean-list-when-reload="false" v-show="!loading" @scroll="onScroll" @onRefresh="onRefresh"
+			cache-mode="always" use-cache :cache-key="`article_mid-${cid}`">
 			<template #top>
 				<u-navbar placeholder fixed style="z-index: 10;">
 					<view slot="left" style="display:flex;align-items: center;">
-						<u-icon name="arrow-left" size="20" @click="$Router.back()"></u-icon>
+						<i class="ess icon-left_line" style="font-size: 50rpx;" @click="$Router.back(1)"></i>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
 							@click="goProfile(article.authorId)" v-show="showNavAvatar">
 							<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="28"
@@ -15,17 +16,22 @@
 						</view>
 					</view>
 					<view slot="right">
-						<view v-if="showNavAvatar"
-							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #85a3ff32;padding: 8rpx 16rpx;">
+						<view v-show="showNavAvatar"
+							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #85a3ff32;padding: 4rpx 16rpx;">
 							<u-row customStyle="margin-right:20rpx;" @click="follow(article.authorId)">
-								<u-icon name="plus" size="12" :color="article.authorInfo.isfollow?'':'#85a3ff'"
-									v-if="!article.authorInfo.isfollow"></u-icon>
+								<i class="ess icon-add_line" style="font-size: 30rpx;"
+									:style="{color:article && article.authorInfo &&article.authorInfo.isfollow?'':'#85a3ff'}"
+									v-if="article && article.authorInfo &&!article.authorInfo.isfollow"></i>
+
 								<text style="font-size: 26rpx;margin-left: 10rpx;padding-right:20rpx;"
-									:style="{color:article.authorInfo.isfollow?'':'#85a3ff'}">{{article.authorInfo.isfollow?'已关注':'关注'}}</text>
+									:style="{color:article && article.authorInfo && article.authorInfo.isfollow?'':'#85a3ff'}">{{article && article.authorInfo && article.authorInfo.isfollow?'已关注':'关注'}}</text>
 							</u-row>
-							<u-icon name="more-dot-fill" @click="showMore = true"></u-icon>
+							<view>
+								<i class="ess icon-more_1_line" style="font-size: 44rpx;" @click="showMore = true"></i>
+							</view>
 						</view>
-						<u-icon name="more-dot-fill" @click="showMore = true" v-else></u-icon>
+						<i class="ess icon-more_1_line" style="font-size: 44rpx;" @click="showMore = true"
+							v-show="!showNavAvatar"></i>
 					</view>
 				</u-navbar>
 			</template>
@@ -41,9 +47,10 @@
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text style="margin-right: 10rpx;">{{orderName}}</text>
-							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
-								color="#999"></u-icon>
+							<text style="margin-right: 6rpx;">{{orderName}}</text>
+							<i class="ess" style="font-size: 50rpx;"
+								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
+
 						</view>
 					</u-row>
 					<u-transition :show="showOrderList"
@@ -70,9 +77,9 @@
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text style="margin-right: 10rpx;">{{orderName}}</text>
-							<u-icon :name="showOrderList?'arrow-up-fill':'arrow-down-fill'" size="10"
-								color="#999"></u-icon>
+							<text style="margin-right: 6rpx;">{{orderName}}</text>
+							<i class="ess" style="font-size: 50rpx;"
+								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
 						</view>
 					</u-row>
 					<u-transition :show="showOrderList"
@@ -117,20 +124,23 @@
 						<u-row customStyle="margin-left:20rpx;flex:1" justify="space-around">
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$refs.reward.open()">
-								<u-icon name="rmb-circle" size="20"></u-icon>
+								<i class="ess icon-copper_coin_line" style="font-size: 44rpx;"></i>
 								<u-text text="发电" size="12"></u-text>
 							</view>
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$u.throttle(btnTap('mark'),1000,true)">
-								<u-icon :color="article && article.isMark?'#85a3ff':''" name="star" size="22"
-									:class="{'animate__animated animate__pulse':article && article.isMark}"></u-icon>
+								<i class="ess icon-star_line" style="font-size: 44rpx;"
+									:style="{color:article && article.isMark?'#85a3ff':''}"
+									:class="{'animate__animated animate__pulse':article && article.isMark}"></i>
+
 								<u-text text="收藏" size="12"></u-text>
 							</view>
 
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$u.throttle(btnTap('likes'),1000,true)">
-								<u-icon :color="article && article.isLike?'#85a3ff':''" name="thumb-up" size="22"
-									:class="{'animate__animated animate__bounceIn':article && article.isLike}"></u-icon>
+								<i class="ess icon-thumb_up_2_line" style="font-size: 44rpx;"
+									:style="{color:article && article.isLike?'#85a3ff':''}"
+									:class="{'animate__animated animate__pulse':article && article.isLike}"></i>
 								<u-text text="点赞" size="12"></u-text>
 							</view>
 						</u-row>
@@ -231,8 +241,7 @@
 					<text>分享至</text>
 				</view>
 				<view style="margin-top: 50rpx;">
-					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx"
-						justify="space-around">
+					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
 							<u-row align="center" customStyle="flex-direction:column"
 								@click="shareTap(item.provider,item.type,item.scene,article.title,filterHtml(article.text),'https://baidu.com',article.images[0])">

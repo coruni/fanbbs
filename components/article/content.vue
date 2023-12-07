@@ -12,8 +12,9 @@
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
-		<view id="album" style="width: 100%;">
-			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8" singleMode="scaleToFill" :multipleSize="(elWidth-12)/3"></uv-album>
+		<view id="album" style="width: 100%;" v-if="data.images.length">
+			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
+				singleMode="scaleToFill" :multipleSize="(elWidth-12)/3"></uv-album>
 		</view>
 	</view>
 </template>
@@ -32,19 +33,23 @@
 		},
 		data() {
 			return {
-				elWidth: 300,
+				elWidth: 333,
 			}
 		},
 		onReady() {
+			console.log('onready')
 
 		},
 		created() {
 			this.$nextTick(() => {
-				uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
+				uni.createSelectorQuery().select('#album').boundingClientRect(data => {
 					console.log(data.width)
 					this.elWidth = data.width
 				}).exec()
-			})
+			},1000)
+		},
+		mounted() {
+			
 		},
 		methods: {
 			replaceEmoji(html) {

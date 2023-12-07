@@ -54,7 +54,7 @@
 						<view
 							style="padding:8rpx 20rpx;font-size: 26rpx;background:#85a3ff1e;font;display: flex;align-items: center;width: 180rpx;border-radius: 500rpx;justify-content: space-around;">
 							<text>{{data.sonComments.count}}条评论</text>
-							<u-icon name="arrow-right" size="13"></u-icon>
+							<i class="ess icon-right_line"></i>
 						</view>
 
 					</view>
@@ -64,10 +64,14 @@
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:30%" justify="space-between">
-							<u-icon name="chat" color="#aaa" label="回复" size="20" labelColor="#aaa" label-size="12"
-								@click="reply(data)"></u-icon>
-							<u-icon name="thumb-up" color="#aaa" :label="data && data.likes?data.likes:''" size="20"
-								labelColor="#aaa" label-size="12"></u-icon>
+							<u-row @click="reply(data)">
+								<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
+								<text style="font-size: 28rpx;margin-left: 10rpx;" >回复</text>
+							</u-row>
+							<u-row>
+								<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
+								<text style="font-size: 28rpx;margin-left: 10rpx;">{{data && data.likes?data.likes:''}}</text>
+							</u-row>
 						</u-row>
 					</u-row>
 				</view>
