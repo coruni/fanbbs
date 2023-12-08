@@ -9,14 +9,13 @@
 		<!-- 底部导航栏 -->
 
 		<template #bottom>
-			<u-row justify="space-between"
-				customStyle="padding:20rpx;
+			<u-row justify="space-between" customStyle="padding:20rpx;
 				background:white;
 				z-index:999;
 				border-top:#85a3ff1e solid 1rpx">
 				<block v-for="(item,index) in tabbar" :key="index">
-					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)" v-if="index!=4">
-						<view style="position: relative;padding: 10rpx;">
+					<u-row customStyle="flex-direction:column" v-if="index!=4">
+						<view style="position: relative;padding: 10rpx;" @tap.stop="tabbarTap(index)">
 							<i class="ess" :class="[item.icon]" style="font-size: 45rpx;"
 								:style="{color: item.active ? '#85a3ff' : ''}"></i>
 							<u-badge :isDot="true" bgColor="#85a3ffc4" :offset="[12,7]" absolute
@@ -24,9 +23,11 @@
 								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
 						</view>
 					</u-row>
-					<u-avatar :src="$store.state.userInfo.avatar" v-else size="28"
-						customStyle="border:6rpx solid #85a3ff" @click="tabbarTap(index)"
-						:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
+					<view v-else @tap.stop="tabbarTap(index)">
+						<u-avatar :src="$store.state.userInfo.avatar" size="28" customStyle="border:6rpx solid #85a3ff"
+							:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
+					</view>
+
 				</block>
 			</u-row>
 		</template>
@@ -74,7 +75,7 @@
 						border-radius: 10rpx;" @click="goPublish('space')">
 						<text style="font-size: 26rpx;color: #999;">请输入内容</text>
 					</view>
-					
+
 				</view>
 			</view>
 		</u-popup>

@@ -224,6 +224,7 @@
 				}
 			}
 		},
+		
 		data() {
 			return {
 				showLevel: false,
@@ -335,7 +336,12 @@
 		computed: {
 			...mapState(['userInfo', 'userMeta'])
 		},
-		created() {},
+		created() {
+			uni.$on('login',data=>{
+				this.$store.commit('loginStatus')
+				this.isMounted = true
+			})
+		},
 		onReady() {},
 		methods: {
 			onRefresh() {
