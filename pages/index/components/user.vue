@@ -40,7 +40,7 @@
 								<text style="font-weight: 600;font-size: 34rpx;">{{userInfo.screenName}}</text>
 								<uv-line-progress :height="4"
 									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
-									:percentage="(userInfo.nextExp - userInfo.experience) / userInfo.nextExp*100"
+									:percentage="100-((userInfo.nextExp - userInfo.experience) / userInfo.nextExp) * 100"
 									:showText="false" style="position: absolute;bottom: 0;width: 100%;"
 									v-if="userInfo.experience && userInfo.nextExp && userInfo.level">
 								</uv-line-progress>
@@ -180,10 +180,10 @@
 					</u-row>
 					<view style="display: flex;flex-direction: column;margin-top: 30rpx;">
 						<text
-							style="color: #999;">下一级所需经验{{userInfo.nextExp - userInfo.experience}}/{{userInfo.nextExp}}</text>
+							style="color: #999;">下一级所需经验{{userInfo.experience}}/{{userInfo.nextExp}}</text>
 						<u-line-progress :height="4"
 							:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
-							:percentage="(userInfo.nextExp - userInfo.experience)/userInfo.nextExp*100"
+							:percentage="100-((userInfo.nextExp - userInfo.experience) / userInfo.nextExp) * 100"
 							:showText="false" v-if="userInfo"></u-line-progress>
 					</view>
 				</view>
