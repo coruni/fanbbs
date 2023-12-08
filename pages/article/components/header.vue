@@ -1,11 +1,16 @@
 <template>
 	<view>
 		<text style="font-size: 50rpx;font-weight: 600;">{{data &&data.title}}</text>
-		<u-row customStyle="color:#c0c4cc">
-			<u-icon name="clock" size="13" color="#c0c4cc" labelSize="13"
-				:label="$u.timeFrom(data.created,'mm-dd')"></u-icon>
+		<u-row customStyle="color:#c0c4cc;font-size: 26rpx;" align="center">
+			<u-row>
+				<i class="ess icon-time_line"></i>
+				<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
+			</u-row>
 			<text style="margin:0 20rpx">·</text>
-			<u-icon name="eye-fill" size="13" color="#c0c4cc" labelSize="13" :label="data.views"></u-icon>
+			<u-row align="center">
+				<i class="ess icon-eye_2_line"></i>
+				<text>{{data.views}}</text>
+			</u-row>
 		</u-row>
 
 		<u-row justify="space-between"
@@ -34,7 +39,7 @@
 				<u-button :plain="data && data.authorInfo&& !data.authorInfo.isfollow" shape="circle"
 					hover-class="button_hover"
 					:color="data && data.authorInfo&& data.authorInfo.isfollow?'#85a3ff0f':'#85a3ff'"
-					customStyle="width:160rpx;height:65rpx" 
+					customStyle="width:160rpx;height:65rpx"
 					:style="{color:data && data.authorInfo&& data.authorInfo.isfollow?'black':'#85a3ff'}"
 					:text="data && data.authorInfo&& data.authorInfo.isfollow?'已关注':'关注'"
 					@click="$emit('follow',data.authorId)"></u-button>

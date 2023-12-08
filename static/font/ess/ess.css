@@ -13,6 +13,58 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-sun_2_fill:before {
+  content: "\e6c8";
+}
+
+.icon-store_2_line:before {
+  content: "\e6c9";
+}
+
+.icon-edit_line1:before {
+  content: "\e6ca";
+}
+
+.icon-store_line:before {
+  content: "\e6cb";
+}
+
+.icon-wallet_line:before {
+  content: "\e6cc";
+}
+
+.icon-avalanche_AVAX_line:before {
+  content: "\e6cd";
+}
+
+.icon-sun_line:before {
+  content: "\e6ce";
+}
+
+.icon-sun_2_line:before {
+  content: "\e6cf";
+}
+
+.icon-refund_cny_line:before {
+  content: "\e6d0";
+}
+
+.icon-sun_fill:before {
+  content: "\e6d1";
+}
+
+.icon-yuanbao_line:before {
+  content: "\e6d2";
+}
+
+.icon-send_line:before {
+  content: "\e6d3";
+}
+
+.icon-time_line:before {
+  content: "\e6d4";
+}
+
 .icon-mail_line:before {
   content: "\e69d";
 }

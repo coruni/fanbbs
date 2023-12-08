@@ -7,14 +7,18 @@
 		<!-- 间隔 -->
 
 		<!-- 底部导航栏 -->
-		
+
 		<template #bottom>
 			<u-row justify="space-between"
-				customStyle="padding:20rpx;background:white;z-index:999;border-top:#85a3ff1e solid 1rpx">
+				customStyle="padding:20rpx;
+				background:white;
+				z-index:999;
+				border-top:#85a3ff1e solid 1rpx">
 				<block v-for="(item,index) in tabbar" :key="index">
 					<u-row customStyle="flex-direction:column" @click="tabbarTap(index)" v-if="index!=4">
 						<view style="position: relative;padding: 10rpx;">
-							<i class="ess" :class="[item.icon]" style="font-size: 45rpx;" :style="{color: item.active ? '#85a3ff' : ''}"></i>
+							<i class="ess" :class="[item.icon]" style="font-size: 45rpx;"
+								:style="{color: item.active ? '#85a3ff' : ''}"></i>
 							<u-badge :isDot="true" bgColor="#85a3ffc4" :offset="[12,7]" absolute
 								customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
 								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
@@ -37,31 +41,48 @@
 			<view style="margin: 20rpx;">
 				<view style="position: relative;text-align: center;">
 					<u--text text="发布文章" size="16" bold customStyle="z-index:1"></u--text>
-					<view
-						style="z-index: 0;position: absolute;background-color: #85a3ff;top: 30rpx;padding: 6rpx 68rpx;box-shadow: 0 0 9px 0 #85a3ff;border-radius: 500rpx;">
+					<view style="z-index: 0;
+						position: absolute;
+						background-color: #85a3ff;
+						top: 30rpx;
+						padding: 6rpx 68rpx;
+						box-shadow: 0 0 9px 0 #85a3ff;
+						border-radius: 500rpx;">
 					</view>
 				</view>
-				<u-row justify="space-around"
-					customStyle="margin-top:30rpx;border-bottom:1rpx solid #cccccc36;padding-bottom:40rpx">
+				<u-row justify="space-around" customStyle="margin-top:30rpx">
 					<block v-for="(item,index) in publish" :key="index">
-						<u-row customStyle="flex-direction:column;" @click="goPublish(item);showPublish = false">
-							<view style="background: #85a3ff4c;border-radius: 500rpx;padding: 15rpx;">
-								<u-icon :name="item.icon" size="30" color="#85a3ff"></u-icon>
-							</view>
-							<text style="margin-top: 10rpx;">{{item.name}}</text>
-						</u-row>
+						<view style="
+						display: flex;
+						flex-direction: column;
+						align-items: center;" @click="goPublish(item.path);showPublish=false">
+							<i class="ess" :class="item.icon" style="font-size: 40rpx;
+							background: #85a3ff4c;
+							border-radius: 50rpx;
+							display: inline-flex;
+							padding: 20rpx;"></i>
+							<text style="margin-top: 20rpx;">{{item.name}}</text>
+						</view>
 					</block>
 				</u-row>
 				<view style="margin-top: 10rpx;">
 					<u--text text="发动态" size="14"></u--text>
-					<u--textarea placeholder="请输入内容" border="none" height="40"
-						customStyle="background:#f7f7f7;margin-top:10rpx;margin-bottom:40rpx" disabled></u--textarea>
+					<view style="background:#f7f7f7;
+						margin-top:10rpx;
+						margin-bottom:40rpx;
+						padding: 30rpx 20rpx;
+						border-radius: 10rpx;" @click="goPublish('space')">
+						<text style="font-size: 26rpx;color: #999;">请输入内容</text>
+					</view>
+					
 				</view>
 			</view>
 		</u-popup>
 		<u-popup :show="showMoreMenu" @close="showMoreMenu = false" :closeable="true" round="10">
 			<view style="padding: 30rpx;">
-				<view style="text-align: center;color: #999;">
+				<view style="
+				text-align: center;
+				color: #999;">
 					<text>分享至</text>
 				</view>
 				<view style="margin-top: 50rpx;">
@@ -76,7 +97,10 @@
 							</u-row>
 						</block>
 					</u-row>
-					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
+					<view style="
+					display: flex;
+					flex-direction: column;
+					margin-top: 50rpx;">
 						<u-row customStyle="margin:20rpx 0">
 							<u-icon name="thumb-down" size="24"></u-icon>
 							<text style="margin-left:10rpx">我不喜欢这类内容</text>
@@ -132,19 +156,19 @@
 				publish: [{
 						name: '帖子',
 						type: 'article',
-						icon: 'edit-pen',
+						icon: 'icon-quill_pen_line',
 						path: 'articlePublish'
 					},
 					{
 						name: '图片',
 						type: 'picture',
-						icon: 'photo',
+						icon: 'icon-pic_line',
 						path: 'photo'
 					},
 					{
 						name: '视频',
 						type: 'video',
-						icon: 'play-circle',
+						icon: 'icon-play_circle_line',
 						path: 'video'
 					},
 				],
@@ -186,11 +210,11 @@
 						active: false,
 						type: 'find',
 						count: 0,
-						icon: 'icon-celebrate_line'
+						icon: 'icon-sun_2_line'
 					},
 					{
 						type: 'midbutton',
-						icon: 'icon-quill_pen_line'
+						icon: 'icon-add_line'
 					},
 					{
 						name: '消息',
@@ -260,10 +284,10 @@
 				});
 				this.tabbarIndex = 4
 			},
-			goPublish(data) {
-				if (!data) return;
+			goPublish(path) {
+				if (!path) return;
 				this.$Router.push({
-					name: data.path
+					name: path
 				})
 				this.$Router.$lockStatus = false
 			}

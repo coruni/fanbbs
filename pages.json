@@ -188,6 +188,24 @@
 				"enablePullDownRefresh" : false
 			},
 			"name":"wallet"
+		},
+		{
+			"path" : "publish/space/video",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"video"
+		},
+		{
+			"path" : "publish/space/space",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"space"
 		}
 	],
 	"globalStyle": {
