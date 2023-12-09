@@ -4,6 +4,10 @@
 			<view slot="left">
 				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 			</view>
+			<view slot="right">
+				<u-button shape="circle" style="height: 50rpx;" color="#85a3ff" :throttleTime="1000"
+					@click="save()">发布</u-button>
+			</view>
 		</u-navbar>
 		<view style="margin: 30rpx;">
 			<editor @ready="onEditorReady" id="editor" :adjust-position="false" placeholder="说点什么"></editor>
@@ -43,8 +47,6 @@
 					</view>
 				</view>
 			</view>
-
-
 		</view>
 	</view>
 </template>
@@ -60,7 +62,7 @@
 				emojiIndex: 0,
 				emojiData: [],
 				elWidth: 0,
-				albumWidth:0,
+				albumWidth: 0,
 			};
 		},
 		created() {
@@ -195,6 +197,30 @@
 					})
 				})
 			},
+			save() {
+				this.editorCtx.getContents({
+					success: (res) => {
+						if (res.html.length < 20) {
+							uni.$u.toast('再多说点吧~')
+							return;
+						}
+						let html = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
+							function(match, alt) {
+								return `[${alt}]`;
+							});
+						let images = [];
+						images = this.images.map(img => img.url)
+						this.$http.post('/typechoSpace/addSpace', {
+							text: html,
+							type: 0,
+							toid: 0,
+							pic: images,
+						}).then(res => {
+							console.log(res)
+						})
+					}
+				})
+			}
 		}
 	}
 </script>

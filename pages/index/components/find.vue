@@ -3,7 +3,7 @@
 		<template #top>
 			<u-navbar placeholder>
 				<view slot="left"></view>
-				<view slot="center" v-if="swiperIndex==1">
+				<view slot="center" v-if="isMounted">
 					<u-tabs :list="tabs" :current="tabsIndex" lineColor="#85a3ff"
 						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
@@ -12,7 +12,7 @@
 				</view>
 			</u-navbar>
 		</template>
-		<swiper style="height: 100%;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current">
+		<swiper style="height: 100%;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current" v-if="isMounted" >
 			<swiper-item v-for="(item,index) in tabs" :key="index">
 				<articleItem :type="item.type" @comments="showComments = true;commentData = $event"></articleItem>
 			</swiper-item>
@@ -44,7 +44,7 @@
 		watch: {
 			index: {
 				handler(e) {
-					this.swiperIndex = e
+					if (e == this.index) this.isMounted = true
 				}
 			}
 		},
@@ -64,6 +64,7 @@
 				],
 				swiperIndex: 0,
 				tabsIndex: 0,
+				isMounted: false,
 			}
 		},
 		methods: {
