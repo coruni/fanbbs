@@ -2,15 +2,22 @@
 	<z-paging @query="getData" ref="paging" v-model="article" style="margin-bottom: 100rpx;">
 		<block v-for="(item,index) in article" :key="index" v-if="article">
 			<view style="margin: 30rpx;">
-				<u-row align="top" style="margin-bottom: 60rpx;">
+				<u-row align="top" style="">
 					<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
-					<u-row customStyle="margin-left:20rpx;flex:1">
+					<view style="display: flex;flex-direction: column;flex: 1;margin-left: 20rpx;">
 						<view style="flex:1">
-							<text>{{item.userJson.name}}</text>
+							<text style="font-weight: 600;">{{item.userJson.name}}</text>
 							<uv-parse :content="formatEmoji(item.text)"></uv-parse>
 							<album :data="item"></album>
 						</view>
-					</u-row>
+						<view style="margin-top: 40rpx;">
+							<u-row justify="space-between" style="color: #999;">
+								<i class="ess icon-share_3_line" style="font-size: 40rpx;"></i>
+								<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
+								<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
+							</u-row>
+						</view>
+					</view>
 				</u-row>
 			</view>
 			<view style="border-top: #f7f7f7 solid 1rpx;"></view>
@@ -21,7 +28,7 @@
 <script>
 	import album from './components/album.vue';
 	export default {
-		components:{
+		components: {
 			album
 		},
 		props: {
@@ -40,9 +47,9 @@
 
 			}
 		},
-		
+
 		methods: {
-			
+
 			getData(page, limit) {
 				let params = {
 					page,
