@@ -16,7 +16,7 @@
 			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
 				singleMode="scaleToFill" :multipleSize="(elWidth-12)/3"></uv-album>
 		</view>
-		
+
 		<view v-if="data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 20rpx;">
 			<block v-for="(item,index) in data.tag" :key="index">
 				<view style="
@@ -58,27 +58,13 @@
 		created() {
 			this.$nextTick(() => {
 				this.getAlbumWidth();
-			})
+			},200)
 		},
 		mounted() {
 
 		},
 		methods: {
 			getAlbumWidth() {
-				// #ifndef H5
-				uni.createSelectorQuery().select('#album').boundingClientRect(data => {
-					if (data.width === 0) {
-						// 如果宽度为0，则重新获取
-						setTimeout(() => {
-							this.getAlbumWidth();
-						}, 200)
-					} else {
-						// 如果宽度不为0，保存宽度到 elWidth
-						this.elWidth = data.width;
-					}
-				}).exec();
-				// #endif
-				// #ifdef H5
 				uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
 					if (data.width === 0) {
 						// 如果宽度为0，则重新获取
@@ -90,7 +76,6 @@
 						this.elWidth = data.width;
 					}
 				}).exec();
-				// #endif
 			},
 			replaceEmoji(html) {
 				return html.replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {

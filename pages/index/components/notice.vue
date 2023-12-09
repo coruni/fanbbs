@@ -70,12 +70,16 @@
 			index: {
 				type: [String, Number],
 				default: 0
+			},
+			current:{
+				type: [String, Number],
+				default: 0
 			}
 		},
 		watch: {
-			index: {
+			current: {
 				handler(e) {
-					if (e == this.index) {
+					if (e == this.current) {
 						this.getNoticeNum()
 						this.$refs.paging.reload()
 					}

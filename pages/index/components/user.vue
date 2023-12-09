@@ -179,8 +179,7 @@
 						</i>
 					</u-row>
 					<view style="display: flex;flex-direction: column;margin-top: 30rpx;">
-						<text
-							style="color: #999;">下一级所需经验{{userInfo.experience}}/{{userInfo.nextExp}}</text>
+						<text style="color: #999;">下一级所需经验{{userInfo.experience}}/{{userInfo.nextExp}}</text>
 						<u-line-progress :height="4"
 							:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
 							:percentage="100-((userInfo.nextExp - userInfo.experience) / userInfo.nextExp) * 100"
@@ -210,21 +209,28 @@
 			index: {
 				type: [String, Number],
 				default: 0,
+			},
+			current:{
+				type: [String, Number],
+				default: 0
 			}
 		},
 		watch: {
-			index: {
+			current: {
 				handler(e) {
-					if (e == 4 && this.$store.state.hasLogin) this.isMounted = true;
-					if (this.$store.state.hasLogin) {
+					console.log(e,this.index)
+					if(e == this.index && this.$store.state.hasLogin){
+						this.isMounted = true;
 						this.$nextTick(() => {
 							this.onRefresh();
 						})
 					}
-				}
+					
+				},
+				immediate: true
 			}
 		},
-		
+
 		data() {
 			return {
 				showLevel: false,
@@ -337,7 +343,7 @@
 			...mapState(['userInfo', 'userMeta'])
 		},
 		created() {
-			uni.$on('login',data=>{
+			uni.$on('login', data => {
 				this.$store.commit('loginStatus')
 				this.isMounted = true
 			})

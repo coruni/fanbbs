@@ -1,9 +1,9 @@
 <template>
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
-		<find v-show="tabbarIndex == 1" :index="tabbarIndex"></find>
-		<notice v-show="tabbarIndex == 3" :index="tabbarIndex"></notice>
-		<user v-show="tabbarIndex == 4" :index="tabbarIndex"></user>
+		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex"></find>
+		<notice v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></notice>
+		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex"></user>
 		<!-- 间隔 -->
 
 		<!-- 底部导航栏 -->

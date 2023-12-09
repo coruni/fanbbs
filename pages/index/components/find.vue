@@ -12,7 +12,8 @@
 				</view>
 			</u-navbar>
 		</template>
-		<swiper style="height: 100%;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current" v-if="isMounted" >
+		<swiper style="height: 100%;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current"
+			v-if="isMounted">
 			<swiper-item v-for="(item,index) in tabs" :key="index">
 				<articleItem :type="item.type" @comments="showComments = true;commentData = $event"></articleItem>
 			</swiper-item>
@@ -39,10 +40,14 @@
 			index: {
 				type: [String, Number],
 				default: 0
+			},
+			current: {
+				type: [String, Number],
+				default: 0
 			}
 		},
 		watch: {
-			index: {
+			current: {
 				handler(e) {
 					if (e == this.index) this.isMounted = true
 				}
