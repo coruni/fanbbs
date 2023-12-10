@@ -37,7 +37,8 @@
 			</template>
 			<view style="padding: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
 				<articleHeader :data="article" @follow="follow($event)"></articleHeader>
-				<articleContent :data="article" :autoPreview="isScroll" @ready="loading = false"></articleContent>
+				<articleContent :data="article" :autoPreview="isScroll" @ready="loading = false" @hideTap="hideTap">
+				</articleContent>
 				<articleFooter :data="article"></articleFooter>
 			</view>
 			<!-- 评论区 -->
@@ -47,7 +48,8 @@
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
+							<text
+								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
 
@@ -77,7 +79,8 @@
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
+							<text
+								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
 						</view>
@@ -293,6 +296,21 @@
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 			<view slot="confirmButton"></view>
 		</uv-modal>
+		<u-popup :show="showPay" :round="10" mode="center" @close="showPay = false" customStyle="width:500rpx">
+			<view
+				style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 50rpx;">
+				<text style="font-size: 34rpx;">提示</text>
+				<view style="margin-top:30rpx">
+					<text>是否确定查看？</text>
+				</view>
+				<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+					<u-button plain color="#85a3ff" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+						@click="showPay = false">取消</u-button>
+					<u-button color="#85a3ff" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+						@click="buyHide()">确定</u-button>
+				</u-row>
+			</view>
+		</u-popup>
 	</z-paging-swiper>
 </template>
 
@@ -329,6 +347,7 @@
 					msg: ''
 				},
 				images: [],
+				showPay: false,
 				showReward: false,
 				showOrderList: false,
 				showNavAvatar: false,
@@ -600,9 +619,6 @@
 					}
 				})
 
-
-
-
 			},
 			replaceEmoji(html) {
 				if (html) {
@@ -618,7 +634,13 @@
 						// 如果没有找到,直接返回空字符串
 						// 即删除整个匹配文本
 						return ''
-					}).replace(/\|</g, '<').replace(/>\|/g, '>')
+					}).replace(/\|</g, '<').replace(/>\|/g, '>').replace(/【(回复|付费)查看：([^】]+)】/g, (match, type,
+						content) => {
+						return `<a style="text-decoration:unset;color:#85a3ff;border:#85a3ff dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
+						${type}内容，${type}后查看
+						</a>`;
+					})
+
 				}
 
 			},
@@ -787,6 +809,24 @@
 				uni.previewImage({
 					urls,
 					current
+				})
+			},
+
+			hideTap(type) {
+				if (type == '付费') this.showPay = true
+				else this.showComment = true;
+			},
+			buyHide() {
+				this.$http.post('/typechoContents/buyHide', {
+					cid: this.article.cid
+				}).then(res => {
+					if (res.data.code) {
+						uni.$u.toast(res.data.msg)
+						this.showPay = false
+						setTimeout(() => {
+							this.getData()
+						}, 800)
+					}
 				})
 			}
 		}

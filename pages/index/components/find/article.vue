@@ -14,7 +14,7 @@
 							<u-row justify="space-between" style="color: #999;">
 								<i class="ess icon-share_3_line" style="font-size: 40rpx;"></i>
 								<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
-								<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
+								<i class="ess icon-thumb_up_2_line" @click="likeTap(item.id,index)" :style="{color:item.isLikes?'#85a3ff':''}" style="font-size: 40rpx;"></i>
 							</u-row>
 						</view>
 					</view>
@@ -84,6 +84,14 @@
 					}
 					// 如果找不到对应的 emoji，可能需要返回原始的字符串或者给出一些提示
 					return match;
+				})
+			},
+			likeTap(id,index){
+				this.$http.post('/typechoSpace/spaceLikes',{
+					id
+				}).then(res=>{
+					this.article[index].isLikes = !this.article[index].isLikes
+					uni.$u.toast(res.data.msg)
 				})
 			}
 		}
