@@ -15,8 +15,12 @@
 							</u-row>
 						</u-row>
 					</view>
-					<u-icon name="setting" slot="right" size="26" :color="opacity>0.4? 'black':'white'"
-						@click="showRightMenu = true"></u-icon>
+					<u-row slot="right">
+						<i class="ess icon-calendar_2_line" :style="{color:opacity>0.4? 'black':'white'}" style="font-size: 44rpx;margin-right: 20rpx;" @click="checkUp()"></i>
+						<u-icon name="setting" size="24" :color="opacity>0.4? 'black':'white'"
+							@click="showRightMenu = true"></u-icon>
+					</u-row>
+
 				</u-navbar>
 			</template>
 			<image :src="userInfo.userBg?userInfo.userBg:'/static/login.png'" mode="aspectFill"
@@ -210,7 +214,7 @@
 				type: [String, Number],
 				default: 0,
 			},
-			current:{
+			current: {
 				type: [String, Number],
 				default: 0
 			}
@@ -218,14 +222,14 @@
 		watch: {
 			current: {
 				handler(e) {
-					console.log(e,this.index)
-					if(e == this.index && this.$store.state.hasLogin){
+					console.log(e, this.index)
+					if (e == this.index && this.$store.state.hasLogin) {
 						this.isMounted = true;
 						this.$nextTick(() => {
 							this.onRefresh();
 						})
 					}
-					
+
 				},
 				immediate: true
 			}
@@ -458,7 +462,7 @@
 				})
 			},
 			goPage(path) {
-				if(!path && path=="") return;
+				if (!path && path == "") return;
 				this.$Router.push({
 					name: path
 				})
@@ -474,6 +478,22 @@
 				if (scrollTop > 407) this.isScroll = true;
 				else this.isScroll = false;
 			},
+			checkUp() {
+				this.$http.post('/typechoUserlog/addLog', {
+					params: JSON.stringify({
+						type: 'clock'
+					})
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						uni.$u.toast('签到' + res.data.msg)
+					} else {
+						if (res.data.msg != '你的操作太频繁了') {
+							uni.$u.toast(res.data.msg)
+						}
+					}
+				})
+			}
 		}
 	}
 </script>
