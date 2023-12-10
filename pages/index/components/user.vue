@@ -279,7 +279,6 @@
 							name: '我的钱包',
 							icon: 'heart',
 							path: 'wallet',
-							path: '',
 						},
 						{
 							name: '兑换中心',
