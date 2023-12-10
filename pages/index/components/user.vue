@@ -251,34 +251,41 @@
 						},
 						{
 							name: '浏览历史',
-							icon: 'heart'
+							icon: 'heart',
+							path: '',
 						}
 					],
 					all: [{
 							name: '我的帖子',
-							icon: 'heart'
+							icon: 'heart',
+							path: '',
 						},
 						{
 							name: '我的订单',
-							icon: 'heart'
+							icon: 'heart',
+							path: '',
 						},
 						{
 							name: '我的小摊',
-							icon: 'heart'
+							icon: 'heart',
+							path: '',
 						}
 					],
 					blance: [{
 							name: '我的钱包',
 							icon: 'heart',
-							path: 'wallet'
+							path: 'wallet',
+							path: '',
 						},
 						{
 							name: '兑换中心',
-							icon: 'heart'
+							icon: 'heart',
+							path: '',
 						},
 						{
 							name: '商城',
-							icon: 'heart'
+							icon: 'heart',
+							path: '',
 						}
 					]
 				},
@@ -301,27 +308,32 @@
 				scrollList: [{
 						name: '创作中心',
 						icon: 'heart',
-						description: '作品收益管理'
+						description: '作品收益管理',
+						path: '',
 					},
 					{
 						name: '我的小摊',
 						icon: 'heart',
-						description: '我所创作的作品'
+						description: '我所创作的作品',
+						path: '',
 					},
 					{
 						name: '商城',
 						icon: 'heart',
-						description: '虚拟商品列表'
+						description: '虚拟商品列表',
+						path: '',
 					},
 					{
 						name: '兑换中心',
 						icon: 'heart',
-						description: '周边积分兑换'
+						description: '周边积分兑换',
+						path: '',
 					},
 					{
 						name: '我的钱包',
 						icon: 'heart',
-						description: '我的钱包'
+						description: '我的钱包',
+						path: '',
 					},
 				],
 				tabsIndex: 0,
@@ -446,6 +458,7 @@
 				})
 			},
 			goPage(path) {
+				if(!path && path=="") return;
 				this.$Router.push({
 					name: path
 				})

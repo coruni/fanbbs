@@ -156,7 +156,11 @@
 					<u-row justify="space-between">
 						<text style="font-size: 32rpx;font-weight: bold;">允许评论</text>
 						<u-switch size="20" v-model="article.allowComment" activeColor="#85a3ff"></u-switch>
-
+					</u-row>
+					<u-gap height="6"></u-gap>
+					<u-row justify="space-between">
+						<text style="font-size: 32rpx;font-weight: bold;">付费可见价格</text>
+						<u-number-box v-model="article.price" integer :min="0" :max="100"></u-number-box>
 					</u-row>
 				</view>
 			</view>
@@ -344,6 +348,8 @@
 				tags: [],
 				article: {
 					title: null,
+					price:0,
+					discount:1,
 					text: null,
 					type: 'post',
 					category: {
@@ -638,6 +644,8 @@
 								mid: this.article.category.mid,
 								tag: tags,
 								opt: JSON.stringify(this.article.opt),
+								price:this.article.price,
+								discount:this.article.discount
 							}),
 							text: this.article.text,
 						}).then(res => {
@@ -820,6 +828,8 @@
 						this.article.tags = res.data.tag
 						this.article.mid = res.data.mid
 						this.article.opt = res.data.opt
+						this.article.price = res.data.price
+						this.article.discount = res.data.discount
 						
 						this.editorCtx.getContents({
 							success:(res)=>{
@@ -866,6 +876,8 @@
 								mid: this.article.category.mid ? this.article.category.mid :
 									this.article.mid,
 								tag: tags,
+								price:this.article.price,
+								discount:this.article.discount,
 								opt: JSON.stringify(this.article.opt)
 							}),
 							isMd: 0,
