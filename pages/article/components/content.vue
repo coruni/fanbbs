@@ -29,7 +29,6 @@
 			autoPreview: {
 				handler(status) {
 					this.isScroll = status
-					console.log(this.isScroll)
 				},
 				deep: true,
 				immediate: true

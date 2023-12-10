@@ -149,7 +149,6 @@
 							data.edition_issue = res.data.data.issue
 
 							// 判断版本号
-							console.log(data)
 							if (Number(data.edition_number) > Number(inf.versionCode) && data
 								.edition_issue == 1) {
 								// 判断是否热更新

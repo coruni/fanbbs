@@ -14,7 +14,7 @@
 			:previewImg="false" :showImgMenu="false"></uv-parse>
 		<view id="album" style="width: 100%;">
 			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
-				singleMode="scaleToFill" :multipleSize="(elWidth-12)/3"></uv-album>
+				singleMode="scaleToFill" :multipleSize="(elWidth-12)/3" v-if="data.images.length"></uv-album>
 		</view>
 
 		<view v-if="data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 20rpx;">

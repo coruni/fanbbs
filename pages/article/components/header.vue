@@ -15,7 +15,7 @@
 
 		<u-row justify="space-between"
 			style="background: #85a3ff0a;padding: 40rpx 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
-			<u-row @click="goProfile(data.authorId)">
+			<u-row @click="goProfile(data.authorId)" style="flex: 1;">
 				<view style="position: relative;display: inline-block;">
 					<u-avatar :src="data && data.authorInfo&& data.authorInfo.avatar" size="40"
 						customStyle="border:4rpx solid #85a3ff32"></u-avatar>
@@ -23,7 +23,7 @@
 						:src="data && data.authorInfo && data.authorInfo.opt  && data.authorInfo.opt.head_picture">
 					</image>
 				</view>
-				<view style="display: flex;flex-direction: column;margin-left:20rpx;font-size: 30rpx;">
+				<view style="display: flex;flex-direction: column;margin-left:20rpx;font-size: 30rpx;width: 0;flex:1">
 					<u-row>
 						<text style="font-weight: 600;">{{data && data.authorInfo && data.authorInfo.name}}</text>
 						<i v-if="data.authorInfo.level" :class="`level icon-lv-${data.authorInfo.level}`"
