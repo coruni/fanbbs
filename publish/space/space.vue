@@ -52,6 +52,9 @@
 </template>
 
 <script>
+	import {
+		router
+	} from '../../router';
 	export default {
 		data() {
 			return {
@@ -210,13 +213,27 @@
 							});
 						let images = [];
 						images = this.images.map(img => img.url)
+						uni.showLoading({
+							mask: true,
+							title: '发布中...'
+						})
 						this.$http.post('/typechoSpace/addSpace', {
 							text: html,
 							type: 0,
 							toid: 0,
 							pic: images,
 						}).then(res => {
+							if (res.data.code) {
+								uni.hideLoading();
+								uni.$u.toast(res.data.msg)
+								setTimeout(() => {
+									this.$Router.back(1)
+								}, 800)
+							}
 							console.log(res)
+						}).catch(err => {
+							uni.hideLoading();
+							uni.$u.toast(res.data.msg)
 						})
 					}
 				})
