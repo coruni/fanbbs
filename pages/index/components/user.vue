@@ -10,8 +10,8 @@
 							<u-icon name="scan" size="26" :color="opacity>0.4? 'black':'white'"></u-icon>
 							<u-row customStyle="margin-left:20rpx" v-show="opacity>=1"
 								@click="$refs.paging.scrollToTop()">
-								<u-avatar :src="userInfo.avatar" size="26"></u-avatar>
-								<text style="margin-left:20rpx">{{userInfo.screenName}}</text>
+								<u-avatar :src="userInfo && userInfo.avatar" size="26"></u-avatar>
+								<text style="margin-left:20rpx">{{userInfo && userInfo.screenName}}</text>
 							</u-row>
 						</u-row>
 					</view>
@@ -23,11 +23,11 @@
 
 				</u-navbar>
 			</template>
-			<image :src="userInfo.userBg?userInfo.userBg:'/static/login.png'" mode="aspectFill"
+			<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.png'" mode="aspectFill"
 				style="width: 100%;height: 400rpx;transform: scale(1);" @click="chooseBackImg()"></image>
 			<view class="userPanel">
 				<view style="position: absolute;top: -80rpx;">
-					<u-avatar :src="userInfo.avatar" size="80">
+					<u-avatar :src="userInfo && userInfo.avatar" size="80">
 					</u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="userInfo && userInfo.opt&&userInfo.opt.head_picture">
@@ -41,26 +41,26 @@
 						<!-- 占位结束 -->
 						<u-row>
 							<view style="position: relative;top: 0;">
-								<text style="font-weight: 600;font-size: 34rpx;">{{userInfo.screenName}}</text>
+								<text style="font-weight: 600;font-size: 34rpx;">{{userInfo && userInfo.screenName}}</text>
 								<uv-line-progress :height="4"
 									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
 									:percentage="100-((userInfo.nextExp - userInfo.experience) / userInfo.nextExp) * 100"
 									:showText="false" style="position: absolute;bottom: 0;width: 100%;"
-									v-if="userInfo.experience && userInfo.nextExp && userInfo.level">
+									v-if="userInfo && userInfo.experience && userInfo.nextExp && userInfo.level">
 								</uv-line-progress>
 							</view>
 							<i @click="showLevel = true" v-if="userInfo.level"
 								:class="`level icon-lv-${userInfo.level}`" style="font-size: 50rpx; margin-left: 20rpx;"
-								:style="{ color: userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }">
+								:style="{ color: userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }">
 							</i>
 						</u-row>
 						<u-row customStyle="font-size:28rpx">
 							<i class="ess icon-renwu" style="margin-right: 10rpx;"></i>
-							<text>通行证ID：{{userInfo.uid}}</text>
+							<text>通行证ID：{{userInfo && userInfo.uid}}</text>
 						</u-row>
 						<u-row customStyle="font-size:28rpx;color: #999;">
 							<i class="ess icon-ziliao" style="margin-right: 10rpx;"></i>
-							<text>{{userInfo.introduce?userInfo.introduce:'系统默认签名~'}}</text>
+							<text>{{userInfo && userInfo.introduce?userInfo.introduce:'系统默认签名~'}}</text>
 						</u-row>
 					</view>
 					<view>
@@ -73,19 +73,19 @@
 				</u-row>
 				<u-row justify="space-around" customStyle="margin-top:40rpx">
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.contentsNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.contentsNum}}</text>
 						<text>帖子</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.followNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.followNum}}</text>
 						<text>关注</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.fanNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.fanNum}}</text>
 						<text>粉丝</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta.commentsNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.commentsNum}}</text>
 						<text>评论</text>
 					</view>
 				</u-row>
@@ -179,14 +179,14 @@
 						<text>当前等级：</text>
 						<i @click="showLevel = true" v-if="userInfo.level" :class="`level icon-lv-${userInfo.level}`"
 							style="font-size: 50rpx; margin-left: 20rpx;"
-							:style="{ color: userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }">
+							:style="{ color: userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }">
 						</i>
 					</u-row>
 					<view style="display: flex;flex-direction: column;margin-top: 30rpx;">
-						<text style="color: #999;">下一级所需经验{{userInfo.experience}}/{{userInfo.nextExp}}</text>
+						<text style="color: #999;">下一级所需经验{{userInfo && userInfo.experience}}/{{userInfo && userInfo.nextExp}}</text>
 						<u-line-progress :height="4"
 							:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
-							:percentage="100-((userInfo.nextExp - userInfo.experience) / userInfo.nextExp) * 100"
+							:percentage="100-((userInfo && userInfo.nextExp - userInfo.experience) / userInfo.nextExp) * 100"
 							:showText="false" v-if="userInfo"></u-line-progress>
 					</view>
 				</view>
