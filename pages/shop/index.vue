@@ -4,7 +4,6 @@
 			<template #top>
 				<u-navbar :title="appInfo && appInfo.currencyName+'商城'" bgColor="transparent" placeholder>
 					<view slot="left">
-
 					</view>
 					<view slot="right">
 						<i class="ess icon-search_3_line" style="font-size: 40rpx;"
@@ -22,7 +21,7 @@
 						<view v-for="(item,index) in list1" :key="item.id" :style="[imageStyle(item)]"
 							style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
 							@click="goProduct(item)">
-							<image :src="item.imgurl && item.imgurl.length&&item.imgurl[0]" mode="widthFix"
+							<image :src="item.imgurl&&item.imgurl[0]" mode="widthFix"
 								:style="{width:item.width+'px',maxHeight:item.height>720?720:item.height+'px'}"
 								style="border-radius: 20rpx 20rpx 0 0 ;">
 							</image>
@@ -51,7 +50,7 @@
 						<view v-for="(item,index) in list2" :key="item.id" :style="[imageStyle(item)]"
 							style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
 							@click="goProduct(item)">
-							<image :src="item.imgurl &&item.imgurl.length && item.imgurl[0]" mode="widthFix"
+							<image :src="item.imgurl && item.imgurl[0]" mode="widthFix"
 								:style="{width:item.width+'px',maxHeight:item.height>720?720:item.height+'px'}"
 								style="border-radius: 20rpx 20rpx 0 0 ;">
 							</image>

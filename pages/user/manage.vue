@@ -75,16 +75,16 @@
 					<u-gap height="10"></u-gap>
 					<view style="background: #85a3ff0a;padding: 30rpx;border-radius: 20rpx;">
 						<text style="color: #999;">主题色</text>
-						<u-input v-model="editCategory.opt && editCategory.opt.primary" placeholder="#85a3ff" border="bottom"
-							customStyle="padding: 10rpx 0;" />
+						<u-input v-model="editCategory.opt && editCategory.opt.primary" placeholder="#85a3ff"
+							border="bottom" customStyle="padding: 10rpx 0;" />
 						<u-gap height="10"></u-gap>
 						<text style="color: #999;">下划线颜色</text>
-						<u-input v-model="editCategory.opt && editCategory.opt.underline" placeholder="#85a3ff" border="bottom"
-							customStyle="padding: 10rpx 0;" />
+						<u-input v-model="editCategory.opt && editCategory.opt.underline" placeholder="#85a3ff"
+							border="bottom" customStyle="padding: 10rpx 0;" />
 						<u-gap height="10"></u-gap>
 						<text style="color: #999;">字体颜色</text>
-						<u-input v-model="editCategory.opt && editCategory.opt.color" placeholder="#85a3ff" border="bottom"
-							customStyle="padding: 10rpx 0;" />
+						<u-input v-model="editCategory.opt && editCategory.opt.color" placeholder="#85a3ff"
+							border="bottom" customStyle="padding: 10rpx 0;" />
 					</view>
 				</view>
 				<u-button color="#85a3ff" shape="circle" customStyle="margin-top: 30rpx;"
@@ -174,7 +174,8 @@
 						primary: '',
 						underline: '',
 						color: ''
-					}
+					},
+					iswaterfall: false,
 				},
 				metasList: [{
 						name: '板块',

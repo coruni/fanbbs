@@ -10,7 +10,7 @@
 				<view style="display: flex;flex-direction: column;">
 					<block v-for="(item,index) in data.opt.files">
 						<u-row>
-							<u-button shape="circle">
+							<u-button shape="circle" @click="openUrl(item.link)">
 								<u-row>
 									<i class="ess icon-download_3_line"></i>
 									<text>{{item.name?item.name:`资源${index+1}`}}</text>
@@ -85,9 +85,7 @@
 		},
 		methods: {
 			openUrl(url, name, data) {
-				setTimeout(() => {
-					plus.runtime.openURL(url)
-				}, 500)
+				plus.runtime.openWeb(url)
 				if (data) {
 					this.copy(data, name)
 				}

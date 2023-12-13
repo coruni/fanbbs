@@ -27,7 +27,34 @@
 			<view style="font-size: 24rpx;color: #999;">
 				<text>已售 {{info.sellNum}}</text>
 			</view>
-
+			<!-- 规格 -->
+			<view style="margin-top: 20rpx;
+			background: #f7f7f7;
+			border-radius: 20rpx;
+			padding: 20rpx 30rpx;">
+				<view>
+					<text style="
+					font-size: 28rpx;
+					color: #999;">选择规格</text>
+				</view>
+				<u-row customStyle="
+				margin-top: 20rpx;
+				flex-wrap: wrap;">
+					<block v-for="(item,index) in info.specs" :key="index">
+						<view style="
+									font-size: 28rpx;
+									border-radius: 50rpx;
+									padding: 8rpx 30rpx;
+									background: #fff;
+									margin-right: 20rpx;
+									margin-bottom: 10rpx;
+									" :style="[selectSpecs.id==item.id ? {background:'#85a3ffc3', color:'#fff'} : {}]"
+							@tap.stop="selectSpecs = item">
+							<text>{{item.name}}</text>
+						</view>
+					</block>
+				</u-row>
+			</view>
 			<view style="margin-top: 20rpx;">
 				<u-row justify="space-between" style="flex-wrap: nowrap;">
 					<u-col span="6">
@@ -54,9 +81,58 @@
 		</view>
 		<view style="position: fixed;bottom: 0;width: 100%;background: #fff;">
 			<view style="padding: 20rpx 30rpx;">
-				<u-button color="#85a3ff" shape="circle" style="box-shadow: 0 0 4px 0 #85a3ff;">购买</u-button>
+				<u-button color="#85a3ff" shape="circle" style="box-shadow: 0 0 4px 0 #85a3ff;"
+					@click="showSpecs = true">购买</u-button>
 			</view>
 		</view>
+		<u-popup :show="showSpecs" @close="showSpecs= false" closeable round="10">
+			<view style="text-align: center;margin-top: 30rpx;">
+				<text>选择商品规格</text>
+			</view>
+			<view style="margin: 30rpx;">
+				<u-row>
+					<image :src="selectSpecs && selectSpecs.image" mode="aspectFill"
+						style="height: 120rpx;width: 120rpx;border-radius: 20rpx;background: #f7f7f7;"></image>
+					<view style="display: flex;flex-direction: column;margin-left: 20rpx;">
+						<text>已选：{{selectSpecs && selectSpecs.name}}</text>
+						<u-row align="baseline" style="color: red;">
+							<i class="ess icon-coin_line"></i>
+							<text style="margin-left: 10rpx;">{{selectSpecs&&selectSpecs.price}}</text>
+						</u-row>
+					</view>
+				</u-row>
+				<view style="margin-top: 20rpx;
+				background: #f7f7f7;
+				border-radius: 20rpx;
+				padding: 20rpx 30rpx;">
+					<view>
+						<text style="
+						font-size: 28rpx;
+						color: #999;">选择规格</text>
+					</view>
+					<u-row customStyle="
+					margin-top: 20rpx;
+					flex-wrap: wrap;">
+						<block v-for="(item,index) in info.specs" :key="index">
+							<view style="
+										font-size: 28rpx;
+										border-radius: 50rpx;
+										padding: 8rpx 30rpx;
+										background: #fff;
+										margin-right: 20rpx;
+										margin-bottom: 10rpx;
+										" :style="[selectSpecs.id==item.id ? {background:'#85a3ffc3', color:'#fff'} : {}]"
+								@tap.stop="selectSpecs = item">
+								<text>{{item.name}}</text>
+							</view>
+						</block>
+					</u-row>
+				</view>
+				<view style="margin-top: 60rpx;">
+					<u-button color="#85a3ff" shape="circle">立即购买</u-button>
+				</view>
+			</view>
+		</u-popup>
 		<!-- fixed占位 -->
 		<u-gap height="50"></u-gap>
 	</view>
@@ -69,6 +145,9 @@
 				id: 0,
 				info: {},
 				swiperIndex: 0,
+				selectSpecs: {},
+				showSpecs: false,
+				showBuy: false,
 			};
 		},
 		onLoad(params) {
