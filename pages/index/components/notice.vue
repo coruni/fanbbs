@@ -2,8 +2,10 @@
 	<view>
 		<z-paging @query="getData" v-model="messages" ref="paging" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" :auto-scroll-to-top-when-reload="false">
 			<template #top>
-				<u-navbar placeholder title="消息通知">
-					<view slot="left"></view>
+				<u-navbar placeholder title="消息通知" autoBack>
+					<view slot="left">
+						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+					</view>
 				</u-navbar>
 				<view style="margin: 30rpx;">
 					<uv-scroll-list :indicator="false">

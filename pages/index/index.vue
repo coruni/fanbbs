@@ -2,7 +2,7 @@
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
 		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex"></find>
-		<notice v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></notice>
+		<shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop>
 		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex"></user>
 		<!-- 间隔 -->
 
@@ -27,7 +27,6 @@
 						<u-avatar :src="$store.state.userInfo.avatar" size="28" customStyle="border:6rpx solid #85a3ff"
 							:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
 					</view>
-
 				</block>
 			</u-row>
 		</template>
@@ -134,12 +133,14 @@
 	import find from './components/find.vue';
 	import user from './components/user.vue';
 	import notice from './components/notice.vue';
+	import shop from '../shop/index.vue';
 	export default {
 		components: {
 			index,
 			user,
 			find,
-			notice
+			notice,
+			shop
 		},
 		data() {
 			return {
@@ -218,11 +219,11 @@
 						icon: 'icon-add_line'
 					},
 					{
-						name: '消息',
+						name: '商城',
 						active: false,
-						type: 'notice',
+						type: 'shop',
 						count: 0,
-						icon: 'icon-comment_line'
+						icon: 'icon-basket_line'
 					},
 					{
 						name: '我的',

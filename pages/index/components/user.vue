@@ -288,7 +288,7 @@
 						{
 							name: '商城',
 							icon: 'heart',
-							path: '',
+							path: 'shop',
 						}
 					]
 				},
@@ -324,7 +324,7 @@
 						name: '商城',
 						icon: 'heart',
 						description: '虚拟商品列表',
-						path: '',
+						path: 'shop',
 					},
 					{
 						name: '兑换中心',

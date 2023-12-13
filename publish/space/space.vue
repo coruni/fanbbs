@@ -16,7 +16,7 @@
 			<u-upload :fileList="images" @afterRead="afterRead" @delete="deletePic" name="photo" multiple :maxCount="9"
 				:width="(albumWidth/3)-8" :height="(albumWidth/3)-8"></u-upload>
 		</view>
-		<view style="position: absolute; bottom: 0; width: 100%;"
+		<view style="position: absolute; bottom: 0; width: 100%;background: #fff;"
 			:style="{ transform: `translateY(${-keyboardHeight}px)`, transition: '0.3s ease' }">
 			<view style="border-top: #85a3ff0a solid 1rpx;padding: 30rpx;">
 				<view>
@@ -192,7 +192,7 @@
 				return new Promise((resolve, reject) => {
 					this.$http.upload('/upload/full', {
 						filePath: url,
-						name: 'file'
+						name: 'file' 
 					}).then(res => {
 						if (res.data.code) {
 							resolve(res.data.data.url)

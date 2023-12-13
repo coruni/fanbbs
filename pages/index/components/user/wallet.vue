@@ -128,12 +128,30 @@
 						</block>
 					</u-radio-group>
 				</view>
+				<u-row justify="space-between" @click="showCard = true">
+					<text>使用卡密</text>
+					<i class="ess icon-right_line" style="font-size: 34rpx;"></i>
+				</u-row>
 				<view style="margin-top: 20rpx;">
 					<u-button color="#85a3ff" shape="circle"
 						@click="selectPackage?goPay():$u.toast('你还有选择充值金额哦~')">充值</u-button>
 				</view>
 			</view>
+			<u-popup :show="showCard" round="10" customStyle="z-index: 10175;" @close="showCard = false" closeable>
+				<view style="height: 40vh;padding: 60rpx 30rpx 30rpx 30rpx;">
+					<text style="margin-bottom: 10rpx;">输入卡密</text>
+					<u-input v-model="card" placeholder="卡密" border="bottom"></u-input>
+
+				</view>
+				<view style="position: fixed;bottom: 0;width: 100%;">
+					<view style="padding: 30rpx;">
+						<u-button color="#85a3ff" shape="circle" @click="cardPay()">充值</u-button>
+					</view>
+				</view>
+
+			</u-popup>
 		</u-popup>
+
 	</z-paging-swiper>
 </template>
 
@@ -144,6 +162,8 @@
 	export default {
 		data() {
 			return {
+				card: null,
+				showCard: false,
 				logs: [],
 				pageHeight: 0,
 				showPayment: false,
@@ -288,11 +308,29 @@
 						break;
 				}
 			},
-			pay(provider){
-				if(provider=='')
-				uni.requestPayment({
-					provider:provider,
-					
+			pay(provider) {
+				if (provider == '')
+					uni.requestPayment({
+						provider: provider,
+
+					})
+			},
+			cardPay() {
+				if (this.card == null) {
+					uni.$u.toast('卡密不可为空')
+					return;
+				}
+				this.$http.post('/pay/tokenPay', {
+					key: this.card
+				}).then(res => {
+					if (res.data.code) {
+						uni.$u.toast(res.data.msg)
+						this.showCard = false;
+						this.showPayment = false;
+						this.card = null
+						this.getData()
+					}
+
 				})
 			}
 		}

@@ -154,58 +154,84 @@
 			"name": "search"
 		},
 		{
-			"path" : "pages/notice/message/finance",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/notice/message/finance",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"finance"
+			"name": "finance"
 		},
 		{
-			"path" : "pages/notice/message/systems",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/notice/message/systems",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"systems"
+			"name": "systems"
 		},
 		{
-			"path" : "pages/notice/message/comments",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/notice/message/comments",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"comments"
+			"name": "comments"
 		},
 		{
-			"path" : "pages/index/components/user/wallet",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/index/components/user/wallet",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"wallet"
+			"name": "wallet"
 		},
 		{
-			"path" : "publish/space/video",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "publish/space/video",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"video"
+			"name": "video"
 		},
 		{
-			"path" : "publish/space/space",
+			"path": "publish/space/space",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"name": "space"
+		},
+		{
+			"path": "pages/shop/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"name": "shop"
+		},
+		{
+			"path": "pages/shop/product",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+
+		{
+			"path": "pages/index/components/notice",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			},
+			"perm": "login"
+		},
+		{
+			"path" : "pages/shop/addProduct",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
-			},
-			"name":"space"
+			}
 		}
 	],
 	"globalStyle": {

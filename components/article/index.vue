@@ -1,7 +1,6 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
-		style="margin-bottom: 170rpx;" @onRefresh="onRefresh" cache-mode="always" use-cache
-		:cache-key="`home_index-${mid}`">
+		style="margin-bottom: 170rpx;" @onRefresh="onRefresh" auto-clean-list-when-reload>
 		<view style="margin: 20rpx;position: relative;top: 0;" v-if="isSwiper">
 			<u-swiper height="160" :list="swiperList" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10"></u-swiper>
@@ -15,7 +14,7 @@
 			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#85a3ff3c" color="#85a3ff" mode="closable"
 				customStyle="border-radius: 20rpx;"></u-notice-bar>
 		</view>
-		<block v-for="(item,index) in content" :key="index">
+		<block v-for="(item,index) in content" :key="index" v-if="content.length">
 			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
