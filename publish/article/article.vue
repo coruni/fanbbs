@@ -120,7 +120,12 @@
 					</u-row>
 					<block v-for="(item,index) in article.opt.files" :key="index">
 						<u-row customStyle="margin-bottom:10rpx">
-							<u-col span="7">
+							<u-col span="2" customStyle="margin-left:10rpx">
+								<u-input placeholder="名称" :adjustPosition="false" border="none" font-size="12"
+									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
+									v-model="article.opt.files[index].name"></u-input>
+							</u-col>
+							<u-col span="5" customStyle="margin-left:10rpx">
 								<u-input placeholder="资源链接" :adjustPosition="false" border="none" font-size="12"
 									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
 									v-model="article.opt.files[index].link"></u-input>

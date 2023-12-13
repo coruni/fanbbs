@@ -1,20 +1,34 @@
 <template>
 	<view style="margin-top: 10rpx;">
 		<view v-if="data.opt&&data.opt.files[0].link" style="margin-top: 20rpx;">
-			<block v-for="(item,index) in data.opt.files" :key="index">
-				<u-row justify="space-between" customStyle="margin-bottom:10rpx">
-					<u-row customStyle="background: #f7f7f7;border-radius: 10rpx;height:60rpx;flex:1"
-						@click="openUrl(item.link,'提取码',item.password)">
-						<u-icon name="download" size="18"></u-icon>
-						<text class="u-line-1">{{item.link}}</text>
-					</u-row>
-					<view v-if="item.unzipPass">
-						<u-button plain
-							customStyle="height:60rpx;width:auto;font-size:30rpx;border-radius:10rpx;margin-left:20rpx"
-							color="#85a3ff" @click="copy(item.unzipPass,'解压码')">解压码</u-button>
-					</view>
-				</u-row>
-			</block>
+
+			<view style="margin-top: 10rpx;background: #f7f7f7;border-radius: 20rpx;padding: 20rpx;">
+				<view style="margin-bottom: 10rpx;">
+					<i class="ess icon-download_line" style="color: #85a3ff;font-size: 34rpx;"></i>
+					<text style="font-weight: 600;margin-left: 10rpx;">资源下载</text>
+				</view>
+				<view style="display: flex;flex-direction: column;">
+					<block v-for="(item,index) in data.opt.files">
+						<u-row>
+							<u-button shape="circle">
+								<u-row>
+									<i class="ess icon-download_3_line"></i>
+									<text>{{item.name?item.name:`资源${index+1}`}}</text>
+								</u-row>
+							</u-button>
+							<u-row style="margin-left: 20rpx;">
+								<view>
+									<u-button shape="circle" @click="copy(item.password,'提取码')">提取码</u-button>
+								</view>
+								<view>
+									<u-button shape="circle" style="margin-left: 10rpx;" @click="copy(item.unzipPass,'解压密码')">解压密码</u-button>
+								</view>
+							</u-row>
+						</u-row>
+						
+					</block>
+				</view>
+			</view>
 		</view>
 		<u-row customStyle="margin-top: 20rpx;flex-wrap:wrap;">
 			<u-row v-if="data &&data.category && data.category.length">
@@ -79,6 +93,10 @@
 				}
 			},
 			copy(data, name) {
+				if(!data){
+					uni.$u.toast(name+'暂时没有')
+					return;
+				}
 				uni.setClipboardData({
 					data: data,
 					showToast: false,
