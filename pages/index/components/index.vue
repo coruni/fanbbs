@@ -13,11 +13,17 @@
 							justify-content: space-between;
 							flex:1;
 							border: #85a3ffc3 solid 1rpx;
-							padding:14rpx 20rpx;border-radius: 50rpx;margin-left: 20rpx;">
+							padding:12rpx 20rpx;border-radius: 50rpx;margin-left: 20rpx;">
 							<text style="color: #aaa;font-size: 28rpx;">搜索</text>
 							<i class="ess icon-search_3_line" style="font-size: 40rpx;color: #aaa;"></i>
 						</view>
-						<i class="ess icon-notification_line" style="margin-left:20rpx;font-size: 40rpx;" @tap.stop="goNotice()"></i>
+						<view style="position: relative;top: 0;">
+							<i class="ess icon-notification_line" style="margin-left:20rpx;font-size: 40rpx;"
+								@tap.stop="goNotice()"></i>
+							<i class="ess icon-round_fill" v-if="$store.state.noticeNum.total"
+								style="position: absolute;top:0;right: 0;color: red;font-size: 18rpx;"></i>
+
+						</view>
 					</u-row>
 				</view>
 			</u-navbar>
@@ -33,7 +39,7 @@
 		</u-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @animationfinish="animationfinish">
 			<swiper-item v-for="(page,pageIndex) in topTabbar" :key="pageIndex">
-				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex"  :mid="page.mid" v-if="!page.iswaterfall"
+				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.iswaterfall"
 					:isSwiper="!pageIndex" @edit="$emit('edit',$event)">
 				</articleIndex>
 				<water-fall-index v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex"
@@ -186,10 +192,10 @@
 					path: '/pages/common/search/search'
 				})
 			},
-			goNotice(){
+			goNotice() {
 				this.$Router.push({
-					path:'/pages/index/components/notice',
-					
+					path: '/pages/index/components/notice',
+
 				})
 			}
 		}

@@ -103,21 +103,20 @@
 			sendMessage() {
 				this.editorCtx.getContents({
 					success: (res) => {
+						// 将消息添加到列表
+						this.$refs.paging.addChatRecordData({
+							uid: this.userInfo.uid,
+							userJson: {
+								uid: this.userInfo.uid
+							},
+							text: res.text
+						})
 						this.$http.post('/typechoChat/sendMsg', {
 							chatid: this.roomId,
 							type: 0,
 							msg: res.text
 						}).then(ress => {
 							if (ress.data.code) {
-
-								// 将消息添加到列表
-								this.$refs.paging.addChatRecordData({
-									uid: this.userInfo.uid,
-									userJson: {
-										uid: this.userInfo.uid
-									},
-									text: res.text
-								})
 								// 清空编辑器消息
 								this.editorCtx.clear()
 							}
