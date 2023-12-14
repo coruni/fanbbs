@@ -822,9 +822,11 @@
 				this.$http.get('/typechoContents/contentsInfo', {
 					params: {
 						key: id,
-						isMd: 1
+						isMd: 1,
+						token:this.$store.state.hasLogin?uni.getStorageSync('token'):''
 					}
 				}).then(res => {
+					console.log(res)
 					if (res.data) {
 						this.article.cid = res.data.cid
 						this.article.title = res.data.title
