@@ -256,35 +256,49 @@
 						</block>
 					</u-row>
 					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
-						<u-row customStyle="margin:20rpx 0">
-							<u-icon name="thumb-down" size="24"></u-icon>
-							<text style="margin-left:10rpx">我不喜欢这类内容</text>
+						<u-row customStyle="margin-bottom:30rpx">
+							<i class="ess icon-alert_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">举报</text>
 						</u-row>
-						<u-row customStyle="margin:20rpx 0">
-							<u-icon name="warning" size="24"></u-icon>
-							<text style="margin-left:10rpx">举报</text>
+						<u-row customStyle="margin-bottom: 30rpx;">
+							<i class="ess icon-flash_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">复制链接</text>
 						</u-row>
-						<u-row customStyle="margin:20rpx 0">
-							<u-icon name="close-circle" size="24"></u-icon>
-							<text style="margin-left:10rpx">屏蔽用户</text>
+						<u-row customStyle="margin-bottom: 30rpx;">
+							<i class="ess icon-share_forward_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">通过系统分享</text>
 						</u-row>
-						<u-row customStyle="margin:20rpx 0">
-							<u-icon name="share" size="24"></u-icon>
-							<text style="margin-left:10rpx">复制链接</text>
-						</u-row>
-						<u-row customStyle="margin:20rpx 0">
-							<u-icon name="more-dot-fill" size="24"></u-icon>
-							<text style="margin-left:10rpx">通过系统分享</text>
-						</u-row>
-						<view style="margin: 20rpx 0;">
-							<text
-								v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.groupKey =='administrator'"
-								@click="goEdit()">编辑</text>
+						<view
+							v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.groupKey =='administrator'">
+							<u-row customStyle="margin-bottom: 30rpx;" @click="goEdit()">
+								<i class="ess icon-edit_line" style="font-size: 40rpx;"></i>
+								<text style="margin-left:20rpx">编辑</text>
+							</u-row>
+							<u-row customStyle="margin-bottom: 30rpx;color:red" @click="showDelete = true">
+								<i class="ess icon-delete_2_line" style="font-size: 40rpx;"></i>
+								<text style="margin-left:20rpx">删除</text>
+							</u-row>
+
 						</view>
 
 					</view>
 				</view>
 			</view>
+			<u-popup :show="showDelete" :round="10" mode="center" @close="showDelete = false" customStyle="width:500rpx">
+				<view
+					style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 50rpx;">
+					<text style="font-size: 34rpx;">提示</text>
+					<view style="margin-top:30rpx">
+						<text>是否确定删除？</text>
+					</view>
+					<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+						<u-button plain color="#85a3ff" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+							@click="showDelete = false">取消</u-button>
+						<u-button color="#85a3ff" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+							@click="deleteArticle()">确定</u-button>
+					</u-row>
+				</view>
+			</u-popup>
 		</u-popup>
 		<!-- 上传进度 -->
 		<uv-modal :show="showLoading" ref="upload" :zIndex="10076"
@@ -311,6 +325,7 @@
 				</u-row>
 			</view>
 		</u-popup>
+		
 	</z-paging-swiper>
 </template>
 
@@ -338,6 +353,7 @@
 		mixins: [ZPMixin],
 		data() {
 			return {
+				showDelete: false,
 				isReply: false,
 				editorCtx: null,
 				percentage: 30,
@@ -826,6 +842,19 @@
 						setTimeout(() => {
 							this.getData()
 						}, 800)
+					}
+				})
+			},
+			deleteArticle(){
+				this.$http.post('/article/articleDelete',{
+					key:this.article.cid
+				}).then(res=>{
+					if(res.data.code){
+						this.showDelete = false
+						uni.$u.toast(res.data.msg)
+						setTimeout(()=>{
+							this.$Router.back()
+						})
 					}
 				})
 			}
