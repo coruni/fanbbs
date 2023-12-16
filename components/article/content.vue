@@ -12,10 +12,30 @@
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
-		<view id="album" style="width: 100%;">
+		<!-- 三张图片以上才显示 -->
+		<view id="album" style="width: 100%;" v-if="data.images.length>=3">
 			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
 				singleMode="scaleToFill" :multipleSize="(elWidth-12)/3" v-if="data.images.length"></uv-album>
 		</view>
+		<!-- 一张图片 -->
+		<view v-if="data.images.length==1">
+			<image :src="data.images[0]" mode="aspectFill" style="width: 100%; height: 350rpx;border-radius: 20rpx;">
+			</image>
+		</view>
+		<!-- 两张图片 -->
+		<view v-if="data.images.length==2">
+			<u-row justify="space-between">
+				<u-col span="5.9">
+					<image style="width: 100%;height: 280rpx;border-radius: 20rpx 0 0 20rpx;" :src="data.images[0]">
+					</image>
+				</u-col>
+				<u-col span="5.9">
+					<image style="width: 100%;height: 280rpx;border-radius: 0 20rpx 20rpx 0;" :src="data.images[1]">
+					</image>
+				</u-col>
+			</u-row>
+		</view>
+
 
 		<view v-if="data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 20rpx;">
 			<block v-for="(item,index) in data.tag" :key="index">
@@ -58,7 +78,7 @@
 		created() {
 			this.$nextTick(() => {
 				this.getAlbumWidth();
-			},200)
+			}, 200)
 		},
 		mounted() {
 

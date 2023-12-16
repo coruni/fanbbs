@@ -475,7 +475,7 @@
 			shareTap,
 			filterHtml,
 			getData(id) {
-				this.$http.get('/typechoContents/contentsInfo', {
+				this.$http.get('/article/info', {
 					params: {
 						key: id ? id : this.cid,
 						isMd: 1,

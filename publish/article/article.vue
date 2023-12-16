@@ -641,7 +641,7 @@
 
 						this.$refs.publish.open();
 						let tags = this.article.tags.map(tag => tag.mid).join(',');
-						this.$http.post('/typechoContents/contentsAdd', {
+						this.$http.post('/article/articleAdd', {
 							params: JSON.stringify({
 								title: this.article.title,
 								text: this.article.text,
@@ -819,7 +819,7 @@
 				}
 			},
 			getContentInfo(id) {
-				this.$http.get('/typechoContents/contentsInfo', {
+				this.$http.get('/article/info', {
 					params: {
 						key: id,
 						isMd: 1,
@@ -873,7 +873,7 @@
 						}
 						console.log(this.article)
 						let tags = this.article.tags.map(tag => tag.mid).join(',');
-						this.$http.post('/typechoContents/contentsUpdate', {
+						this.$http.post('/article/articleUpdate', {
 							params: JSON.stringify({
 								cid: this.article.cid,
 								title: this.article.title,

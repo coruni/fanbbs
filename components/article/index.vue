@@ -80,7 +80,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/typechoContents/contentsList', {
+				this.$http.get('/article/articleList', {
 					params: {
 						page,
 						limit,
@@ -100,7 +100,7 @@
 				})
 			},
 			getSwiper() {
-				this.$http.get('/typechoContents/contentsList', {
+				this.$http.get('/article/articleList', {
 					params: {
 						searchParams: JSON.stringify({
 							isswiper: 1
