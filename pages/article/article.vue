@@ -833,7 +833,7 @@
 				else this.showComment = true;
 			},
 			buyHide() {
-				this.$http.post('/typechoContents/buyHide', {
+				this.$http.post('/article/buyHide', {
 					cid: this.article.cid
 				}).then(res => {
 					if (res.data.code) {

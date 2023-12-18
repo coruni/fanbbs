@@ -121,7 +121,7 @@
 		},
 		methods: {
 			getData(id) {
-				this.$http.get('/typechoMetas/metaInfo', {
+				this.$http.get('/category/metaInfo', {
 					params: {
 						key: id
 					}

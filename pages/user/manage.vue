@@ -218,7 +218,7 @@
 				this.getAllData()
 			},
 			getAllData() {
-				this.$http.post('/typechoContents/allData').then(res => {
+				this.$http.post('/article/allData').then(res => {
 					if (res.data.code) {
 						let data = res.data.data
 						this.data = [{
@@ -244,7 +244,7 @@
 				})
 			},
 			getCategory() {
-				this.$http.get('/typechoMetas/metasList', {
+				this.$http.get('/category/categoryList', {
 					page: 1,
 					limit: 30,
 					params: {
@@ -273,7 +273,7 @@
 			},
 			saveCategory(upload) {
 
-				this.$http.post('/typechoMetas/editMeta', {
+				this.$http.post('/category/editMeta', {
 					params: JSON.stringify({
 						mid: this.editCategory.mid ? this.editCategory.mid : '',
 						imgurl: this.editCategory.imgurl,
@@ -305,7 +305,7 @@
 				})
 			},
 			addCategory() {
-				this.$http.post('/typechoMetas/addMeta', {
+				this.$http.post('/category/addMeta', {
 					params: JSON.stringify({
 						imgurl: this.editCategory.imgurl,
 						name: this.editCategory.name,
@@ -389,7 +389,7 @@
 				}
 			},
 			getContentInfo(id) {
-				this.$http.get('/typechoContents/contentsInfo', {
+				this.$http.get('/article/info', {
 					params: {
 						key: id,
 						isMd: 1,
@@ -404,7 +404,7 @@
 			},
 			saveArticle() {
 				console.log(this.editArticle.status)
-				this.$http.post('/typechoContents/contentsUpdate', {
+				this.$http.post('/article/articleUpdate', {
 					params: JSON.stringify({
 						title: this.editArticle.title,
 						cid: this.editArticle.cid,

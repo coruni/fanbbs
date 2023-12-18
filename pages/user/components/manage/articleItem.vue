@@ -39,7 +39,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/typechoContents/contentsList', {
+				this.$http.get('/article/articleList', {
 					params: {
 						page,
 						limit,

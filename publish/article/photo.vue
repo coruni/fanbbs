@@ -120,7 +120,7 @@
 			},
 
 			getCategory() {
-				this.$http.get('/typechoMetas/metasList', {
+				this.$http.get('/category/categoryList', {
 					params: {
 						searchParams: JSON.stringify({
 							type: 'category',
@@ -138,7 +138,7 @@
 				})
 			},
 			getTags() {
-				this.$http.get('/typechoMetas/metasList', {
+				this.$http.get('/category/categoryList', {
 					params: {
 						searchParams: JSON.stringify({
 							type: 'tag',
@@ -182,7 +182,7 @@
 						this.$refs.publish.open()
 						let tags = this.article.tags.map(tag => tag.mid).join(',')
 						let images = this.images.map(file => file.url);
-						this.$http.post('/typechoContents/contentsAdd', {
+						this.$http.post('/article/contentsAdd', {
 							params: JSON.stringify({
 								title: this.article.title,
 								text: this.article.text,

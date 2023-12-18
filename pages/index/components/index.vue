@@ -141,7 +141,7 @@
 				this.getCategory()
 			},
 			getCategory() {
-				this.$http.get('/typechoMetas/metasList', {
+				this.$http.get('/category/categoryList', {
 					params: {
 						page: 1,
 						limit: 8,

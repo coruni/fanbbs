@@ -70,7 +70,7 @@
 				})
 			},
 			buyHide() {
-				this.$http.post('/typechoContents/buyHide', {
+				this.$http.post('/article/buyHide', {
 					cid: this.article.cid
 				}).then(res => {
 					console.log(res)

@@ -120,7 +120,7 @@
 
 			},
 			getCategory(page, limit) {
-				this.$http.get('/typechoMetas/metasList', {
+				this.$http.get('/category/categoryList', {
 					params: {
 						page,
 						limit,
@@ -135,7 +135,7 @@
 			},
 			inputSearch(page, limit) {
 				if(!this.search.length) return;
-				this.$http.get('/typechoContents/contentsList', {
+				this.$http.get('/article/articleList', {
 					params: {
 						page,
 						limit,

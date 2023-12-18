@@ -57,7 +57,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.post('/typechoContents/contentsList', {
+				this.$http.post('/article/articleList', {
 					page,
 					limit,
 					searchParams: JSON.stringify({
