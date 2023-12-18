@@ -39,7 +39,7 @@
 		methods: {
 			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
 			checkStstus() {
-				http.get('/typechoUsers/userStatus', {
+				http.get('/user/userStatus', {
 					params: {
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
@@ -51,7 +51,7 @@
 				})
 			},
 			getNoticeNum() {
-				http.get('/typechoUsers/unreadNum', {
+				http.get('/user/unreadNum', {
 					params: {
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
@@ -65,7 +65,7 @@
 				let account = uni.getStorageSync('account')
 				console.log(account,'账号信息')
 				if (!account) return;
-				http.get('/typechoUsers/userLogin', {
+				http.get('/user/userLogin', {
 					params: {
 						params: {
 							name: account.name,
@@ -90,7 +90,7 @@
 				})
 			},
 			getUserInfo(uid) {
-				http.get('/typechoUsers/userInfo', {
+				http.get('/user/userInfo', {
 					params: {
 						key: uid
 					}
@@ -102,7 +102,7 @@
 				})
 			},
 			getUserMeta() {
-				http.post('/typechoUsers/userData').then(res => {
+				http.post('/user/userData').then(res => {
 					if (res.data.code) {
 						this.setUserMeta(res.data.data)
 					}

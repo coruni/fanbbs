@@ -58,7 +58,7 @@
 				if (this.type == 'video') params.searchParams = JSON.stringify({
 					type: 4
 				})
-				this.$http.get('/typechoSpace/spaceList', {
+				this.$http.get('/space/spaceList', {
 					params
 				}).then(res => {
 					let list = [];
@@ -87,7 +87,7 @@
 				})
 			},
 			likeTap(id,index){
-				this.$http.post('/typechoSpace/spaceLikes',{
+				this.$http.post('/space/spaceLikes',{
 					id
 				}).then(res=>{
 					this.article[index].isLikes = !this.article[index].isLikes

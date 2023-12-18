@@ -381,7 +381,7 @@
 			},
 			getUserInfo() {
 				if (!uni.getStorageSync('token')) return;
-				this.$http.get('/typechoUsers/userInfo', {
+				this.$http.get('/user/userInfo', {
 					params: {
 						key: this.userInfo.uid
 					}
@@ -396,7 +396,7 @@
 				})
 			},
 			getUserMeta() {
-				this.$http.get('/typechoUsers/userData', {
+				this.$http.get('/user/userData', {
 					params: {
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
@@ -447,7 +447,7 @@
 				})
 			},
 			save(url) {
-				this.$http.post('/typechoUsers/userEdit', {
+				this.$http.post('/user/userEdit', {
 					params: JSON.stringify({
 						uid: this.userInfo.uid,
 						name: this.userInfo.name,
@@ -478,7 +478,7 @@
 				else this.isScroll = false;
 			},
 			checkUp() {
-				this.$http.post('/typechoUserlog/addLog', {
+				this.$http.post('/userlog/addLog', {
 					params: JSON.stringify({
 						type: 'clock'
 					})

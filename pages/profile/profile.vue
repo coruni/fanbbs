@@ -156,7 +156,7 @@
 		},
 		methods: {
 			getAuthor(id) {
-				this.$http.get('/typechoUsers/userInfo', {
+				this.$http.get('/user/userInfo', {
 					params: {
 						key: id
 					}
@@ -168,7 +168,7 @@
 				})
 			},
 			isFollow(id) {
-				this.$http.get('/typechoUsers/isFollow', {
+				this.$http.get('/user/isFollow', {
 					params: {
 						touid: id,
 						token: uni.getStorageSync('token')
@@ -203,7 +203,7 @@
 				else this.isScroll = false
 			},
 			getUserData(uid) {
-				this.$http.get('/typechoUsers/userData', {
+				this.$http.get('/user/userData', {
 					params: {
 						uid
 					}

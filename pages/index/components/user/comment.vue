@@ -76,7 +76,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/typechoComments/commentsList', {
+				this.$http.get('/comments/commentsList', {
 					params: {
 						page,
 						limit,

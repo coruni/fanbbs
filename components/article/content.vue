@@ -26,11 +26,13 @@
 		<view v-if="data.images.length==2">
 			<u-row justify="space-between">
 				<u-col span="5.9">
-					<image mode="aspectFill" style="width: 100%;height: 280rpx;border-radius: 20rpx 0 0 20rpx;" :src="data.images[0]">
+					<image mode="aspectFill" style="width: 100%;height: 280rpx;border-radius: 20rpx 0 0 20rpx;"
+						:src="data.images[0]">
 					</image>
 				</u-col>
 				<u-col span="5.9">
-					<image mode="aspectFill" style="width: 100%;height: 280rpx;border-radius: 0 20rpx 20rpx 0;" :src="data.images[1]">
+					<image mode="aspectFill" style="width: 100%;height: 280rpx;border-radius: 0 20rpx 20rpx 0;"
+						:src="data.images[1]">
 					</image>
 				</u-col>
 			</u-row>
@@ -76,9 +78,12 @@
 		},
 		onReady() {},
 		created() {
-			this.$nextTick(() => {
-				this.getAlbumWidth();
-			}, 200)
+			if (this.data.images.length >= 3) {
+				this.$nextTick(() => {
+					this.getAlbumWidth();
+				}, 200)
+			}
+
 		},
 		mounted() {
 

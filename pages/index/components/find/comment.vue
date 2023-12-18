@@ -146,7 +146,7 @@
 		methods: {
 			// 动态内容与回复同于一表 @getComments
 			getComments(page, limit) {
-				this.$http.get('/typechoSpace/spaceList', {
+				this.$http.get('/space/spaceList', {
 					params: {
 						page,
 						limit,
@@ -178,7 +178,7 @@
 					type: 3, // 回复类型为3
 					text: this.commentText,
 				}
-				this.$http.post('/typechoSpace/addSpace', {
+				this.$http.post('/space/addSpace', {
 					...params
 				}).then(res => {
 					console.log(res)

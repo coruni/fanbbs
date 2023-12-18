@@ -37,7 +37,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.post('/typechoUserlog/markList', {
+				this.$http.post('/userlog/markList', {
 					page,
 					limit,
 

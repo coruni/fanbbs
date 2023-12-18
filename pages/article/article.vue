@@ -582,7 +582,7 @@
 				if (order.name == '只看楼主') {
 					params.order = null
 				}
-				this.$http.get('/typechoComments/commentsList', {
+				this.$http.get('/comments/commentsList', {
 					params
 				}).then(res => {
 					if (res.statusCode == 200) {
@@ -615,7 +615,7 @@
 							images: this.images
 						})
 						this.isReply = true
-						this.$http.post('/typechoComments/commentsAdd', {
+						this.$http.post('/comments/commentsAdd', {
 							params
 						}).then(res => {
 							if (res.data.code) {
@@ -662,7 +662,7 @@
 			},
 			btnTap(type, num) {
 
-				this.$http.post('/typechoUserlog/addLog', {
+				this.$http.post('/userlog/addLog', {
 					params: JSON.stringify({
 						type,
 						cid: this.article.cid,
@@ -729,7 +729,7 @@
 					uni.$u.toast('不可以关注自己');
 					return;
 				};
-				this.$http.post('/typechoUsers/follow', {
+				this.$http.post('/user/follow', {
 					touid: id,
 				}).then(res => {
 					uni.$u.toast(res.data.msg)

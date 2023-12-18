@@ -155,7 +155,7 @@
 		},
 		methods: {
 			getData(id) {
-				this.$http.get('/typechoShop/shopInfo', {
+				this.$http.get('/shop/shopInfo', {
 					params: {
 						key: id,
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''

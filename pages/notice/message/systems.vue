@@ -37,7 +37,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.post('/typechoUsers/inbox', {
+				this.$http.post('/user/inbox', {
 					page,
 					limit,
 					type: 'system'
@@ -70,7 +70,7 @@
 				})
 			},
 			clearNotice() {
-				this.$http.post('/typechoUsers/setRead', {
+				this.$http.post('/user/setRead', {
 					type: 'system'
 				}).then(res => {
 					console.log(res)

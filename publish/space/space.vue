@@ -217,7 +217,7 @@
 							mask: true,
 							title: '发布中...'
 						})
-						this.$http.post('/typechoSpace/addSpace', {
+						this.$http.post('/space/addSpace', {
 							text: html,
 							type: 0,
 							toid: 0,

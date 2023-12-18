@@ -43,7 +43,7 @@
 
 			},
 			getArticle(id) {
-				this.$http.get('/typechoSpace/spaceInfo', {
+				this.$http.get('/space/spaceInfo', {
 					params: {
 						id
 					}

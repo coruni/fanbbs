@@ -110,7 +110,7 @@
 
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/typechoShop/shopList', {
+				this.$http.get('/shop/shopList', {
 					params: {
 						page,
 						limit,

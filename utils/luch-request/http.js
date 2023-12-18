@@ -62,7 +62,7 @@ http.interceptors.response.use(async (response) => {
 	if (store.state.hasLogin && !response.data.code && response.data.msg == '用户未登录或Token验证失败') {
 		let account = uni.getStorageSync('account')
 		try {
-			const res = await refresh.get('/typechoUsers/userLogin', {
+			const res = await refresh.get('/user/userLogin', {
 				params: {
 					params: {
 						name: account.name,

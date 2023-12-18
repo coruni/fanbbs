@@ -156,7 +156,7 @@
 
 			},
 			getNoticeNum() {
-				this.$http.get('/typechoUsers/unreadNum', {
+				this.$http.get('/user/unreadNum', {
 					params: {
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}

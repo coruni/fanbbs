@@ -82,7 +82,7 @@
 				})
 			},
 			save(url) {
-				this.$http.post('/typechoUsers/userEdit', {
+				this.$http.post('/user/userEdit', {
 					params: JSON.stringify({
 						uid: this.info.uid,
 						name: this.info.name,
@@ -101,7 +101,7 @@
 				})
 			},
 			getUserInfo() {
-				this.$http.get('/typechoUsers/userInfo', {
+				this.$http.get('/user/userInfo', {
 					params: {
 						key: this.info.uid
 					}

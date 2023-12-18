@@ -102,7 +102,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/TypechoHeadpicture/headList', {
+				this.$http.get('/headpicture/headList', {
 					params: {
 						page,
 						limit: 50,
@@ -119,7 +119,7 @@
 				})
 			},
 			getMyHead() {
-				this.$http.get('/TypechoHeadpicture/headList', {
+				this.$http.get('/headpicture/headList', {
 					params: {
 						limit: 50,
 						searchParams: JSON.stringify({
@@ -141,7 +141,7 @@
 					opt = {}
 				}
 				opt.head_picture = data.id
-				this.$http.post('/typechoUsers/userEdit', {
+				this.$http.post('/user/userEdit', {
 					params: JSON.stringify({
 						name: this.userInfo.name,
 						uid: this.userInfo.uid,
@@ -156,7 +156,7 @@
 			},
 			getUserInfo() {
 				if (!uni.getStorageSync('token')) return;
-				this.$http.get('/typechoUsers/userInfo', {
+				this.$http.get('/user/userInfo', {
 					params: {
 						key: this.userInfo.uid
 					}
@@ -204,7 +204,7 @@
 						type: 0,
 						permission: 0,
 					}
-					this.$http.post('/TypechoHeadpicture/headAdd', {
+					this.$http.post('/headpicture/headAdd', {
 						params: JSON.stringify(params)
 					}).then(res => {
 						console.log(res)

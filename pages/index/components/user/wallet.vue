@@ -266,7 +266,7 @@
 				this.getConfig()
 			},
 			getData() {
-				this.$http.post('/typechoUsers/userData').then(res => {
+				this.$http.post('/user/userData').then(res => {
 					if (res.data.code) {
 						this.userData = res.data.data
 						this.task[0].check = res.data.data.isClock
@@ -274,7 +274,7 @@
 				})
 			},
 			getConfig() {
-				this.$http.get('/typechoShop/vipInfo').then(res => {
+				this.$http.get('/shop/vipInfo').then(res => {
 					if (res.data.code) {
 						console.log(res)
 						this.config = res.data.data

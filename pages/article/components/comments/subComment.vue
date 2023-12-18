@@ -381,7 +381,7 @@
 				if (order.name == '只看楼主') {
 					params.order = null
 				}
-				this.$http.get('/typechoComments/commentsList', {
+				this.$http.get('/comments/commentsList', {
 					params
 				}).then(res => {
 					console.log(res)
@@ -424,7 +424,7 @@
 							images: this.images
 						})
 						this.isReply = true
-						this.$http.post('/typechoComments/commentsAdd', {
+						this.$http.post('/comments/commentsAdd', {
 							params
 						}).then(res => {
 							if (res.data.code) {

@@ -36,7 +36,7 @@
 
 			},
 			addProduct() {
-				this.$http.post('/typechoShop/addShop', {
+				this.$http.post('/shop/addShop', {
 					params: JSON.stringify(shop)
 				}).then(res => {
 					console.log()

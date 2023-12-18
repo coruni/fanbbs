@@ -142,7 +142,7 @@
 				})
 			},
 			save() {
-				this.$http.post('/typechoUsers/userEdit', {
+				this.$http.post('/user/userEdit', {
 					params: JSON.stringify({
 						uid: this.userInfo.uid,
 						name: this.userInfo.name,
@@ -161,7 +161,7 @@
 			},
 			getUserInfo() {
 				if (!uni.getStorageSync('token')) return;
-				this.$http.get('/typechoUsers/userInfo', {
+				this.$http.get('/user/userInfo', {
 					params: {
 						key: this.userInfo.uid
 					}

@@ -105,7 +105,7 @@
 		},
 		methods: {
 			getComments() {
-				this.$http.get('/typechoComments/commentsList', {
+				this.$http.get('/comments/commentsList', {
 					params: {
 						page: 1,
 						limit: 2,
