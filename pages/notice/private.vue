@@ -76,7 +76,7 @@
 		methods: {
 			getData(id) {
 
-				this.$http.post('/typechoChat/getPrivateChat', {
+				this.$http.post('/chat/getPrivateChat', {
 					touid: this.id
 				}).then(res => {
 					if (res.data.code) {
@@ -85,7 +85,7 @@
 				})
 			},
 			getMessages(page) {
-				this.$http.get('/typechoChat/msgList', {
+				this.$http.get('/chat/msgList', {
 					params: {
 						page,
 						limit: 30,
@@ -111,7 +111,7 @@
 							},
 							text: res.text
 						})
-						this.$http.post('/typechoChat/sendMsg', {
+						this.$http.post('/chat/sendMsg', {
 							chatid: this.roomId,
 							type: 0,
 							msg: res.text

@@ -109,7 +109,7 @@
 		methods: {
 			getData(page, limit) {
 				if (!this.$store.state.hasLogin) return;
-				this.$http.get('/typechoChat/myChat', {
+				this.$http.get('/chat/myChat', {
 					params: {
 						page,
 						limit,
@@ -123,7 +123,7 @@
 				})
 			},
 			getRoom(page, limit) {
-				this.$http.get('/typechoChat/allChat', {
+				this.$http.get('/chat/allChat', {
 					params: {
 						type: 1,
 						order: 'lastTime',
