@@ -33,7 +33,7 @@
 				this.getCategory()
 			},
 			getCategory() {
-				this.$http.get('/category/categoryList', {
+				this.$http.get('/category/list', {
 					params: {
 						page: 1,
 						limit: 50,

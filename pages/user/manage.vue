@@ -244,7 +244,7 @@
 				})
 			},
 			getCategory() {
-				this.$http.get('/category/categoryList', {
+				this.$http.get('/category/list', {
 					page: 1,
 					limit: 30,
 					params: {

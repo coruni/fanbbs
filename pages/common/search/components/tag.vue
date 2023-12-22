@@ -45,7 +45,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/category/categoryList', {
+				this.$http.get('/category/list', {
 					params: {
 						page,
 						limit,

@@ -120,7 +120,7 @@
 			},
 
 			getCategory() {
-				this.$http.get('/category/categoryList', {
+				this.$http.get('/category/list', {
 					params: {
 						searchParams: JSON.stringify({
 							type: 'category',
@@ -138,7 +138,7 @@
 				})
 			},
 			getTags() {
-				this.$http.get('/category/categoryList', {
+				this.$http.get('/category/list', {
 					params: {
 						searchParams: JSON.stringify({
 							type: 'tag',
