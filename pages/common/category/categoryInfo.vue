@@ -22,13 +22,12 @@
 								<u-avatar :src="info.imgurl" size="70" shape="square" mode="aspectFill"
 									customStyle="border-radius:20rpx !improtant"></u-avatar>
 								<view style="display: flex;flex-direction: column;margin-left: 30rpx;">
-									<text style="font-size: 36rpx;color: white;">{{info.name}}</text>
-
+									<text style="font-size: 36rpx;" :style="{color: info && info.opt && info.opt.background?'white':'black'}">{{info.name}}</text>
 								</view>
 							</u-row>
 							<view style="margin-top: 30rpx;">
 								<text
-									:style="{color:info.opt&&info.opt.color?info.opt&&info.opt.color:'#fff'}">{{info.description}}</text>
+									:style="{color:info.opt&&info.opt.color?info.opt&&info.opt.color:'white'}">{{info.description}}</text>
 							</view>
 							<view style="margin-top: 30rpx;">
 								<u-button shape="circle"

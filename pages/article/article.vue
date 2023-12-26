@@ -160,15 +160,11 @@
 				:show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
 				style="background: #85a3ff1e;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
-			<!-- <u--textarea :adjustPosition="false" :cursorSpacing="40" type="textarea" v-model="commentText"
-				placeholder="灵感迸发" border="none"
-				customStyle="background:#85a3ff1e;padding:4rpx 10rpx;border-radius:20rpx"></u--textarea> -->
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="2">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
-							<u-icon :name="item.icon" size="24" :color="showComemntBtn == item.name?'#85a3ff':''"
-								@click="cBtnTap(item.name)"></u-icon>
+							<i class="ess" :class="item.icon" style="font-size: 40rpx;" @click="cBtnTap(item.name)"></i>
 						</block>
 					</u-row>
 				</u-col>
@@ -408,10 +404,10 @@
 				],
 				cBtn: [{
 					name: '表情',
-					icon: 'heart',
+					icon: 'icon-emoji_line',
 				}, {
 					name: '图片',
-					icon: 'photo',
+					icon: 'icon-pic_line',
 				}],
 				share: [{
 						name: '微信',

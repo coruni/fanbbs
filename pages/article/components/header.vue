@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<text style="font-size: 50rpx;font-weight: 600;">{{data &&data.title}}</text>
+		<text style="font-size: 50rpx;font-weight: 600;word-break: break-all;">{{data &&data.title}}</text>
 		<u-row customStyle="color:#c0c4cc;font-size: 26rpx;" align="center">
 			<u-row>
 				<i class="ess icon-time_line"></i>

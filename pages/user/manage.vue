@@ -273,7 +273,7 @@
 			},
 			saveCategory(upload) {
 
-				this.$http.post('/category/editMeta', {
+				this.$http.post('/category/update', {
 					params: JSON.stringify({
 						mid: this.editCategory.mid ? this.editCategory.mid : '',
 						imgurl: this.editCategory.imgurl,
@@ -305,7 +305,7 @@
 				})
 			},
 			addCategory() {
-				this.$http.post('/category/addMeta', {
+				this.$http.post('/category/add', {
 					params: JSON.stringify({
 						imgurl: this.editCategory.imgurl,
 						name: this.editCategory.name,

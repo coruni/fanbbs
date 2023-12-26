@@ -2,7 +2,9 @@
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
 		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex"></find>
-		<shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop>
+		<!-- 商城 -->
+		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
+		<!-- <shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop> -->
 		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex"></user>
 		<!-- 间隔 -->
 
@@ -134,13 +136,15 @@
 	import user from './components/user.vue';
 	import notice from './components/notice.vue';
 	import shop from '../shop/index.vue';
+	import category from './components/category.vue';
 	export default {
 		components: {
 			index,
 			user,
 			find,
 			notice,
-			shop
+			shop,
+			category,
 		},
 		data() {
 			return {
