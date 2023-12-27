@@ -8,11 +8,15 @@
 				<text>{{update?'更新帖子':'发布帖子'}}</text>
 			</view>
 			<view slot="right">
-				<u-row>
-					<u-button plain color="#85a3ff" size="mini" v-if="!update" @click="showDraft=true">草稿箱</u-button>
-					<u-button plain color="#85a3ff" size="mini" customStyle="font-size:30rpx;margin-left:20rpx"
-						@click="update && article.cid? $u.throttle(updateArticle(),1000,true): $u.throttle(save(),1000,true)">{{update?'更新':'发布'}}</u-button>
-				</u-row>
+				<view
+					style="display: flex;align-items: center;background: #85a3ff; border-radius: 50rpx;padding: 4rpx 16rpx;color: white;font-size: 28rpx;">
+					<view style="border-radius: 50rpx 0 0 50rpx;margin-right: 10rpx;" hover-class="button_hover" @click="showDraft = true">
+						<text>草稿箱</text>
+					</view>
+					<view style="border-radius: 50rpx 0 0 50rpx;margin-left: 10rpx;" hover-class="button_hover" @click="save()">
+						<text>发布</text>
+					</view>
+				</view>
 			</view>
 		</u-navbar>
 		<view style="padding:20rpx 30rpx 0rpx 30rpx;" id="inputTitle">
@@ -55,15 +59,14 @@
 			<view style="padding-bottom: 20rpx;">
 				<u-row justify="space-between">
 					<u-row justify="space-between" customStyle="flex:1">
-						<u-icon name="photo" size="24" @click="chooseImage()"></u-icon>
-						<u-icon name="heart" size="24" @click="showItem('emoji')"></u-icon>
-						<u-icon name="arrow-up-fill" size="24" @click="showItem('format')"></u-icon>
-						<u-icon name="play-circle" size="24" @click="chooseVideo()"></u-icon>
-						<u-icon name="plus-circle" size="24" @click="showItem('more')"></u-icon>
+						<i class="ess icon-pic_line" style="font-size: 40rpx;" @click="chooseImage()"></i>
+						<i class="ess icon-emoji_line" style="font-size: 40rpx;" @click="showItem('emoji')"></i>
+						<i class="ess icon-font_line" style="font-size: 40rpx;" @click="showItem('format')"></i>
+						<i class="ess icon-play_circle_line" style="font-size: 40rpx;" @click="chooseVideo()"></i>
+						<i class="ess icon-add_line" style="font-size: 40rpx;" @click="showItem('more')"></i>
 					</u-row>
 					<view style="margin-left: 140rpx;">
-						<u-icon name="setting-fill" size="20" color="#85a3ff" @click="showItem('opt')"
-							customStyle="background:#85a3ff64;border-radius:50rpx;padding:10rpx;box-shadow: 0 0 9rpx #85a3ff"></u-icon>
+						<i class="ess icon-settings_1_line" style="font-size: 40rpx;" @click="showItem('setting')"></i>
 					</view>
 				</u-row>
 			</view>
@@ -113,9 +116,9 @@
 					<u-row justify="space-between" style="padding-bottom: 10rpx;">
 						<text style="font-weight: bold;">添加文件</text>
 						<u-row>
-							<u-icon name="photo" size="24" style="margin-right: 20rpx;"
-								@click="$refs.insertImage.open();showInsertImage = true"></u-icon>
-							<u-icon name="play-circle" size="24"></u-icon>
+							<i class="ess icon-pic_line" style="font-size: 40rpx;"
+								@click="$refs.insertImage.open();showInsertImage = true"></i>
+							<i class="ess icon-play_circle_line" style="font-size: 40rpx;margin-left: 30rpx;"></i>
 						</u-row>
 					</u-row>
 					<block v-for="(item,index) in article.opt.files" :key="index">
@@ -353,8 +356,8 @@
 				tags: [],
 				article: {
 					title: null,
-					price:0,
-					discount:1,
+					price: 0,
+					discount: 1,
 					text: null,
 					type: 'post',
 					category: {
@@ -649,8 +652,8 @@
 								mid: this.article.category.mid,
 								tag: tags,
 								opt: JSON.stringify(this.article.opt),
-								price:this.article.price,
-								discount:this.article.discount
+								price: this.article.price,
+								discount: this.article.discount
 							}),
 							text: this.article.text,
 						}).then(res => {
@@ -791,7 +794,7 @@
 
 				})
 			},
-			 onEditorReady() {
+			onEditorReady() {
 				// #ifdef MP-BAIDU
 				this.editorCtx = requireDynamicLib('editorLib').createEditorContext('editor');
 				// #endif
@@ -801,7 +804,7 @@
 					this.editorCtx = res.context
 				}).exec()
 				// #endif
-				
+
 				setTimeout(() => {
 					this.setContents()
 				}, 500)
@@ -823,7 +826,7 @@
 					params: {
 						key: id,
 						isMd: 1,
-						token:this.$store.state.hasLogin?uni.getStorageSync('token'):''
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
 					console.log(res)
@@ -837,16 +840,16 @@
 						this.article.opt = res.data.opt
 						this.article.price = res.data.price
 						this.article.discount = res.data.discount
-						
+
 						this.editorCtx.getContents({
-							success:(res)=>{
-								if(res.text.length<2){
+							success: (res) => {
+								if (res.text.length < 2) {
 									this.setContents()
 								}
 							}
 						})
 					}
-					
+
 				})
 			},
 			setContents() {
@@ -883,8 +886,8 @@
 								mid: this.article.category.mid ? this.article.category.mid :
 									this.article.mid,
 								tag: tags,
-								price:this.article.price,
-								discount:this.article.discount,
+								price: this.article.price,
+								discount: this.article.discount,
 								opt: JSON.stringify(this.article.opt)
 							}),
 							isMd: 0,
@@ -1017,9 +1020,14 @@
 		font-style: normal;
 		color: #999;
 	}
-	.ql-container ::v-deep img{
+
+	.ql-container ::v-deep img {
 		margin: 20rpx auto;
 		border-radius: 20rpx;
 		max-width: 80%;
+	}
+
+	.button_hover {
+		opacity: 0.5;
 	}
 </style>

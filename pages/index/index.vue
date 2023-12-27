@@ -2,9 +2,10 @@
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
 		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex"></find>
+		
+		<!-- <category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category> -->
 		<!-- 商城 -->
-		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
-		<!-- <shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop> -->
+		<shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop>
 		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex"></user>
 		<!-- 间隔 -->
 
@@ -103,17 +104,17 @@
 					display: flex;
 					flex-direction: column;
 					margin-top: 50rpx;">
-						<u-row customStyle="margin:20rpx 0">
-							<u-icon name="thumb-down" size="24"></u-icon>
-							<text style="margin-left:10rpx">我不喜欢这类内容</text>
+						<u-row customStyle="margin-bottom:30rpx">
+							<i class="ess icon-alert_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">举报</text>
 						</u-row>
-						<u-row customStyle="margin:20rpx 0">
-							<u-icon name="share" size="24"></u-icon>
-							<text style="margin-left:10rpx">复制链接</text>
+						<u-row customStyle="margin-bottom: 30rpx;">
+							<i class="ess icon-flash_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">复制链接</text>
 						</u-row>
-						<u-row customStyle="margin:20rpx 0">
-							<u-icon name="more-dot-fill" size="24"></u-icon>
-							<text style="margin-left:10rpx">通过系统分享</text>
+						<u-row customStyle="margin-bottom: 30rpx;">
+							<i class="ess icon-share_forward_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">通过系统分享</text>
 						</u-row>
 					</view>
 				</view>

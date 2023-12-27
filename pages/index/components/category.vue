@@ -1,5 +1,5 @@
 <template>
-	<z-paging-swiper style="margin-bottom: 110rpx;">
+	<z-paging-swiper>
 		<u-navbar placeholder title="板块列表">
 			<view slot="left"></view>
 		</u-navbar>

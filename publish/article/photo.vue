@@ -40,27 +40,22 @@
 			<uv-loading-icon text="发布中..." mode="circle" color="#85a3ff"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
-		<u-popup customStyle="border-radius:40rpx 40rpx 0 0" :show="showCategory" @close="showCategory = false"
-			:closeable="true">
+		<u-popup customStyle="border-radius:40rpx 40rpx 0 0;" :show="showCategory" @close="showCategory = false"
+			:closeable="true" >
 
-			<view style="height: 70vh;padding:30rpx">
+			<view style="height: 70vh;padding:30rpx;background:#85a3ff0a">
 				<view style="text-align: center;">选择板块</view>
 				<view style="margin-top: 30rpx;">
-					<u-grid :border="false" col="3">
-						<u-grid-item v-for="(item,index) in category" :key="index"
-							@click="article.category = item;showCategory=false"
-							:style="`background:${item.opt && item.opt.primary};border-radius:20rpx;height:200rpx;width:200rpx`">
-							<view
-								style="display: flex; flex-direction: column; justify-content: center;align-items: center;">
-								<image :src="item.imgurl"
-									style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;"
-									mode="aspectFill"></image>
-								<view style="margin-top: 20rpx;font-size: 30rpx;">
-									<text>{{item.name}}</text>
-								</view>
-							</view>
-						</u-grid-item>
-					</u-grid>
+					<u-row justify="space-between" style="flex-wrap: wrap;">
+						<block v-for="(item,index) in category" :key="index">
+							<u-col :span="5.8">
+								<u-row>
+									<image :src="item.imgurl"></image>
+								</u-row>
+							</u-col>
+						</block>
+						
+					</u-row>
 				</view>
 			</view>
 		</u-popup>

@@ -155,7 +155,7 @@
 		<!-- 页面公用组件 -->
 		<!-- 回复文章 -->
 		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20" :z-index="10074"
-			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
+			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease',padding:30+'rpx'}">
 			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
 				:show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
 				style="background: #85a3ff1e;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
@@ -164,7 +164,7 @@
 				<u-col span="2">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
-							<i class="ess" :class="item.icon" style="font-size: 40rpx;" @click="cBtnTap(item.name)"></i>
+							<i class="ess" :class="item.icon" style="font-size: 44rpx;" @click="cBtnTap(item.name)"></i>
 						</block>
 					</u-row>
 				</u-col>

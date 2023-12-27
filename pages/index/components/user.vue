@@ -17,8 +17,7 @@
 					</view>
 					<u-row slot="right">
 						<i class="ess icon-calendar_2_line" :style="{color:opacity>0.4? 'black':'white'}" style="font-size: 44rpx;margin-right: 20rpx;" @click="checkUp()"></i>
-						<u-icon name="setting" size="24" :color="opacity>0.4? 'black':'white'"
-							@click="showRightMenu = true"></u-icon>
+						<i class="ess icon-settings_1_line"  :style="{color:opacity>0.4? 'black':'white'}" style="font-size: 44rpx;margin-right: 20rpx;" @click="showRightMenu =true"></i>
 					</u-row>
 
 				</u-navbar>

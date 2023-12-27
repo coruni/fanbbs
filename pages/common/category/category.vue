@@ -5,15 +5,29 @@
 				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 			</view>
 		</u-navbar>
-		<u-grid col="4" customStyle="margin:20rpx">
-			<u-grid-item v-for="(item,index) in categories" :key="index">
-				<u-row justify="center" @click="goCategory(item.mid)"
-					customStyle="flex-direction:column; background:#f7f7f7;width:160rpx;height:200rpx;border-radius:20rpx;">
-					<u--image :src="item.imgurl" width="90rpx" mode="aspectFill" height="90rpx" radius="10"></u--image>
-					<text style="margin:10rpx 0;font-size: 28rpx;">{{item.name}}</text>
-				</u-row>
-			</u-grid-item>
-		</u-grid>
+		<view style="margin: 30rpx;">
+			<u-row justify="space-between" style="margin-top: 20rpx;flex-wrap: wrap;">
+				<block v-for="(item,index) in categories" :key="index">
+					<u-col :span="5.8">
+						<view style="display: flex;
+							 flex-direction: column;
+							 justify-content: center;
+							 align-items: center;
+							 background: white;
+							 border-radius: 20rpx;
+							 padding: 30rpx;
+							 height: 300rpx;
+							 margin-bottom: 20rpx;" @click="goCategory(item.mid)">
+							<u-image :src="item.imgurl" width="80px" height="80px" radius="10"></u-image>
+							<text style="margin-top: 30rpx;">{{item.name}}</text>
+							<text style="margin-top: 10rpx;font-size: 28rpx; color: #999;"
+								class="u-line-2">{{item.description}}</text>
+						</view>
+					</u-col>
+				</block>
+
+			</u-row>
+		</view>
 
 	</view>
 </template>
@@ -38,7 +52,7 @@
 						page: 1,
 						limit: 50,
 						searchParams: JSON.stringify({
-							type: 'category'
+							type: 'category',
 						})
 					}
 				}).then(res => {
@@ -62,5 +76,7 @@
 </script>
 
 <style>
-
+	page {
+		background: #85a3ff0a;
+	}
 </style>
