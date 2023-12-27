@@ -31,7 +31,7 @@
 				placeholder="请输入标题(必须)" placeholderStyle="font-size:40rpx" font-size="20"
 				customStyle="padding: 0;"></u-input>
 		</view>
-		<view style="padding: 20rpx 30rpx 30rpx 30rpx;">
+		<view style="padding: 20rpx 30rpx 0rpx 30rpx;">
 			<editor id="editor" :adjust-position="false" placeholder="请输入内容" @ready="onEditorReady"
 				:style="`height:${windowHeight}px`"></editor>
 		</view>
@@ -41,21 +41,30 @@
 			<view slot="confirmButton"></view>
 		</uv-modal>
 		<u-popup customStyle="border-radius:40rpx 40rpx 0 0;" :show="showCategory" @close="showCategory = false"
-			:closeable="true" >
+			:closeable="true">
 
 			<view style="height: 70vh;padding:30rpx;background:#85a3ff0a">
 				<view style="text-align: center;">选择板块</view>
 				<view style="margin-top: 30rpx;">
-					<u-row justify="space-between" style="flex-wrap: wrap;">
-						<block v-for="(item,index) in category" :key="index">
-							<u-col :span="5.8">
-								<u-row>
-									<image :src="item.imgurl"></image>
-								</u-row>
-							</u-col>
-						</block>
-						
-					</u-row>
+					<scroll-view scroll-y style="height: 65vh;">
+						<u-row justify="space-between" style="flex-wrap: wrap;">
+							<block v-for="(item,index) in category" :key="index">
+								<u-col :span="5.8">
+									<u-row style="padding: 20rpx;" align="top" @click="article.category = item;showCategory = false">
+										<image :src="item.imgurl"
+											style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;">
+										</image>
+										<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
+											<text style="font-weight: 600;" class="u-line-1">{{item.name}}</text>
+											<text style="font-size: 30rpx;color: #999;"
+												class="u-line-1">{{item.description}}</text>
+										</view>
+									</u-row>
+								</u-col>
+							</block>
+
+						</u-row>
+					</scroll-view>
 				</view>
 			</view>
 		</u-popup>
