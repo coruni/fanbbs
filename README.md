@@ -12,7 +12,8 @@ QQ交流群：680895745
 后端源码：[Github](https://github.com/maplene/ruleapi)
 
 ## 计划
-1. 重构我的评论
+1. 完善商城
+2. 修复修改文章 ID错误问题
 
 ## 捐赠
 <div style="text-align:center">
