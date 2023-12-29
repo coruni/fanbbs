@@ -13,23 +13,17 @@ export default {
 		//自定义下拉刷新中左侧图标的样式
 		refresherImgStyle: {
 			type: Object,
-			default: function() {
-				return u.gc('refresherImgStyle', {});
-			}
+			default: u.gc('refresherImgStyle', {})
 		},
 		//自定义下拉刷新中右侧状态描述文字的样式
 		refresherTitleStyle: {
 			type: Object,
-			default: function() {
-				return u.gc('refresherTitleStyle', {});
-			}
+			default: u.gc('refresherTitleStyle', {})
 		},
 		//自定义下拉刷新中右侧最后更新时间文字的样式(show-refresher-update-time为true时有效)
 		refresherUpdateTimeStyle: {
 			type: Object,
-			default: function() {
-				return u.gc('refresherUpdateTimeStyle', {});
-			}
+			default: u.gc('refresherUpdateTimeStyle', {})
 		},
 		//在微信小程序和QQ小程序中，是否实时监听下拉刷新中进度，默认为否
 		watchRefresherTouchmove: {
@@ -263,18 +257,21 @@ export default {
 		pullDownDisTimeStamp() {
 			return 1000 / this.refresherFps;
 		},
+		refresherThresholdUnitConverted() {
+			return u.addUnit(this.refresherThreshold, this.unit);
+		},
 		finalRefresherEnabled() {
 			if (this.useChatRecordMode) return false;
 			if (this.privateRefresherEnabled === -1) return this.refresherEnabled;
 			return this.privateRefresherEnabled === 1;
 		},
 		finalRefresherThreshold() {
-			let refresherThreshold = this.refresherThreshold;
+			let refresherThreshold = this.refresherThresholdUnitConverted;
 			let idDefault = false;
-			if (refresherThreshold === '80rpx') {
+			if (refresherThreshold === u.addUnit(80, this.unit)) {
 				idDefault = true;
 				if (this.showRefresherUpdateTime) {
-					refresherThreshold = '120rpx';
+					refresherThreshold = u.addUnit(120, this.unit);
 				}
 			}
 			if (idDefault && this.customRefresherHeight > 0) return this.customRefresherHeight + this.finalRefresherThresholdPlaceholder;
@@ -337,7 +334,7 @@ export default {
 			this.totalData = this.realTotalData;
 			this._refresherEnd();
 			this._endSystemLoadingAndRefresh();
-			this._handleScrollViewDisableBounce({ bounce: true });
+			this._handleScrollViewBounce({ bounce: true });
 			this.$nextTick(() => {
 				this.refresherTriggered = false;
 			})
@@ -441,11 +438,9 @@ export default {
 			moveDis = this._getFinalRefresherMoveDis(moveDis);
 			this._handleRefresherTouchmove(moveDis, touch);
 			if (!this.disabledBounce) {
-				if(this.isIos){
-					// #ifndef MP-LARK
-					this._handleScrollViewDisableBounce({ bounce: false });
-					// #endif
-				}
+				// #ifndef MP-LARK
+				this._handleScrollViewBounce({ bounce: false });
+				// #endif
 				this.disabledBounce = true;
 			}
 			this._emitTouchmove({ pullingDistance: moveDis, dy: this.moveDis - this.oldMoveDis });
@@ -468,13 +463,13 @@ export default {
 		// #ifndef APP-VUE || MP-WEIXIN || MP-QQ || H5
 		//拖拽结束
 		_refresherTouchend(e) {
+			this._handleScrollViewBounce({bounce: true});
 			if (this._touchDisabled() || !this.isTouchmoving) return;
 			const touch = u.getTouch(e);
 			let refresherTouchendY = touch.touchY;
 			let moveDis = refresherTouchendY - this.refresherTouchstartY;
 			moveDis = this._getFinalRefresherMoveDis(moveDis);
 			this._handleRefresherTouchend(moveDis);
-			this._handleScrollViewDisableBounce({bounce: true});
 			this.disabledBounce = false;
 		},
 		// #endif
@@ -515,12 +510,16 @@ export default {
 			}
 		},
 		//处理scroll-view bounce是否生效
-		_handleScrollViewDisableBounce({ bounce }) {
-			if (!this.usePageScroll && !this.scrollToTopBounceEnabled && this.wxsScrollTop <= 5) {
-				// #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5
-				this.refresherTransition = '';
-				// #endif
-				this.scrollEnable = bounce;
+		_handleScrollViewBounce({ bounce }) {
+			if (!this.usePageScroll && !this.scrollToTopBounceEnabled) {
+				if (this.wxsScrollTop <= 5) {
+					// #ifdef APP-VUE || MP-WEIXIN || MP-QQ || H5
+					this.refresherTransition = '';
+					// #endif
+					this.scrollEnable = bounce;
+				} else if (bounce) {
+					this.scrollEnable = bounce;
+				}
 			}
 		},
 		//wxs正在下拉状态改变处理
@@ -608,7 +607,7 @@ export default {
 			this._cleanRefresherCompleteTimeout();
 			// #ifndef APP-NVUE
 			const doRefreshAnimateAfter = !this.doRefreshAnimateAfter && (this.finalShowRefresherWhenReload) && this
-				.customRefresherHeight === -1 && this.refresherThreshold === '80rpx';
+				.customRefresherHeight === -1 && this.refresherThreshold === u.addUnit(80, this.unit);
 			if (doRefreshAnimateAfter) {
 				this.doRefreshAnimateAfter = true;
 				return;

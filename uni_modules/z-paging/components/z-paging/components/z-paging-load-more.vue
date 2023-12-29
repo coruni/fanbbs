@@ -1,23 +1,23 @@
 <!-- [z-paging]上拉加载更多view -->
 <template>
-	<view class="zp-l-container" :style="[c.customStyle]" @click="doClick">
+	<view class="zp-l-container" :class="{'zp-l-container-rpx':c.unit==='rpx','zp-l-container-px':c.unit==='px'}" :style="[c.customStyle]" @click="doClick">
 		<template v-if="!c.hideContent">
-			<text v-if="c.showNoMoreLine&&finalStatus===M.NoMore" class="zp-l-line" :style="[{backgroundColor:zTheme.line[ts]},c.noMoreLineCustomStyle]" />
+			<text v-if="c.showNoMoreLine&&finalStatus===M.NoMore" :class="{'zp-l-line-rpx':c.unit==='rpx','zp-l-line-px':c.unit==='px'}" :style="[{backgroundColor:zTheme.line[ts]},c.noMoreLineCustomStyle]" />
 			<!-- #ifndef APP-NVUE -->
 			<image v-if="finalStatus===M.Loading&&!!c.loadingIconCustomImage"
-				:src="c.loadingIconCustomImage" :style="[c.iconCustomStyle]" :class="{'zp-l-line-loading-custom-image':true,'zp-l-line-loading-custom-image-animated':c.loadingAnimated}" />
+				:src="c.loadingIconCustomImage" :style="[c.iconCustomStyle]" :class="{'zp-l-line-loading-custom-image':true,'zp-l-line-loading-custom-image-animated':c.loadingAnimated,'zp-l-line-loading-custom-image-rpx':c.unit==='rpx','zp-l-line-loading-custom-image-px':c.unit==='px'}" />
 			<image v-if="finalStatus===M.Loading&&finalLoadingIconType==='flower'&&!c.loadingIconCustomImage.length"
-				class="zp-line-loading-image" :style="[c.iconCustomStyle]" :src="zTheme.flower[ts]" />
+				:class="{'zp-line-loading-image-rpx':c.unit==='rpx','zp-line-loading-image-px':c.unit==='px'}" :style="[c.iconCustomStyle]" :src="zTheme.flower[ts]" />
 			<!-- #endif -->
 			<!-- #ifdef APP-NVUE -->
 			<view>
-				<loading-indicator v-if="finalStatus===M.Loading&&finalLoadingIconType!=='circle'" class="zp-line-loading-image" :style="[{color:zTheme.indicator[ts]}]" :animating="true" />
+				<loading-indicator v-if="finalStatus===M.Loading&&finalLoadingIconType!=='circle'" :class="{'zp-line-loading-image-rpx':c.unit==='rpx','zp-line-loading-image-px':c.unit==='px'}" :style="[{color:zTheme.indicator[ts]}]" :animating="true" />
 			</view>
 			<!-- #endif -->
 			<text v-if="finalStatus===M.Loading&&finalLoadingIconType==='circle'&&!c.loadingIconCustomImage.length"
-				class="zp-l-circle-loading-view" :style="[{borderColor:zTheme.circleBorder[ts],borderTopColor:zTheme.circleBorderTop[ts]},c.iconCustomStyle]" />
-			<text class="zp-l-text" :style="[{color:zTheme.title[ts]},c.titleCustomStyle]">{{ownLoadingMoreText}}</text>
-			<text v-if="c.showNoMoreLine&&finalStatus===M.NoMore" class="zp-l-line" :style="[{backgroundColor:zTheme.line[ts]},c.noMoreLineCustomStyle]" />
+				class="zp-l-circle-loading-view" :class="{'zp-l-circle-loading-view-rpx':c.unit==='rpx','zp-l-circle-loading-view-px':c.unit==='px'}" :style="[{borderColor:zTheme.circleBorder[ts],borderTopColor:zTheme.circleBorderTop[ts]},c.iconCustomStyle]" />
+			<text :class="{'zp-l-text-rpx':c.unit==='rpx','zp-l-text-px':c.unit==='px'}" :style="[{color:zTheme.title[ts]},c.titleCustomStyle]">{{ownLoadingMoreText}}</text>
+			<text v-if="c.showNoMoreLine&&finalStatus===M.NoMore" :class="{'zp-l-line-rpx':c.unit==='rpx','zp-l-line-px':c.unit==='px'}" :style="[{backgroundColor:zTheme.line[ts]},c.noMoreLineCustomStyle]" />
 		</template>
 	</view>
 </template>
@@ -74,8 +74,6 @@
 	@import "../css/z-paging-static.css";
 
 	.zp-l-container {
-		height: 80rpx;
-		font-size: 27rpx;
 		/* #ifndef APP-NVUE */
 		clear: both;
 		display: flex;
@@ -84,12 +82,27 @@
 		align-items: center;
 		justify-content: center;
 	}
+	.zp-l-container-rpx {
+		height: 80rpx;
+		font-size: 27rpx;
+	}
+	.zp-l-container-px {
+		height: 40px;
+		font-size: 14px;
+	}
 
 	.zp-l-line-loading-custom-image {
 		color: #a4a4a4;
+	}
+	.zp-l-line-loading-custom-image-rpx {
 		margin-right: 8rpx;
 		width: 28rpx;
 		height: 28rpx;
+	}
+	.zp-l-line-loading-custom-image-px {
+		margin-right: 4px;
+		width: 14px;
+		height: 14px;
 	}
 	
 	.zp-l-line-loading-custom-image-animated{
@@ -99,9 +112,6 @@
 	}
 
 	.zp-l-circle-loading-view {
-		margin-right: 8rpx;
-		width: 23rpx;
-		height: 23rpx;
 		border: 3rpx solid #dddddd;
 		border-radius: 50%;
 		/* #ifndef APP-NVUE */
@@ -112,18 +122,39 @@
 		height: 30rpx;
 		/* #endif */
 	}
+	.zp-l-circle-loading-view-rpx {
+		margin-right: 8rpx;
+		width: 23rpx;
+		height: 23rpx;
+	}
+	.zp-l-circle-loading-view-px {
+		margin-right: 4px;
+		width: 12px;
+		height: 12px;
+	}
 
-	.zp-l-text {
+	.zp-l-text-rpx {
 		/* #ifdef APP-NVUE */
 		font-size: 30rpx;
 		margin: 0rpx 10rpx;
 		/* #endif */
 	}
+	.zp-l-text-px {
+		/* #ifdef APP-NVUE */
+		font-size: 15px;
+		margin: 0px 5px;
+		/* #endif */
+	}
 
-	.zp-l-line {
+	.zp-l-line-rpx {
 		height: 1px;
 		width: 100rpx;
 		margin: 0rpx 10rpx;
+	}
+	.zp-l-line-px {
+		height: 1px;
+		width: 50px;
+		margin: 0rpx 5px;
 	}
 
 	/* #ifndef APP-NVUE */

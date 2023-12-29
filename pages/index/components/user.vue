@@ -16,8 +16,10 @@
 						</u-row>
 					</view>
 					<u-row slot="right">
-						<i class="ess icon-calendar_2_line" :style="{color:opacity>0.4? 'black':'white'}" style="font-size: 44rpx;margin-right: 20rpx;" @click="checkUp()"></i>
-						<i class="ess icon-settings_1_line"  :style="{color:opacity>0.4? 'black':'white'}" style="font-size: 44rpx;margin-right: 20rpx;" @click="showRightMenu =true"></i>
+						<i class="ess icon-calendar_2_line" :style="{color:opacity>0.4? 'black':'white'}"
+							style="font-size: 44rpx;margin-right: 20rpx;" @click="checkUp()"></i>
+						<i class="ess icon-settings_1_line" :style="{color:opacity>0.4? 'black':'white'}"
+							style="font-size: 44rpx;margin-right: 20rpx;" @click="showRightMenu =true"></i>
 					</u-row>
 
 				</u-navbar>
@@ -40,7 +42,8 @@
 						<!-- 占位结束 -->
 						<u-row>
 							<view style="position: relative;top: 0;">
-								<text style="font-weight: 600;font-size: 34rpx;">{{userInfo && userInfo.screenName}}</text>
+								<text
+									style="font-weight: 600;font-size: 34rpx;">{{userInfo && userInfo.screenName}}</text>
 								<uv-line-progress :height="4"
 									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
 									:percentage="100-((userInfo.nextExp - userInfo.experience) / userInfo.nextExp) * 100"
@@ -182,7 +185,8 @@
 						</i>
 					</u-row>
 					<view style="display: flex;flex-direction: column;margin-top: 30rpx;">
-						<text style="color: #999;">下一级所需经验{{userInfo && userInfo.experience}}/{{userInfo && userInfo.nextExp}}</text>
+						<text
+							style="color: #999;">下一级所需经验{{userInfo && userInfo.experience}}/{{userInfo && userInfo.nextExp}}</text>
 						<u-line-progress :height="4"
 							:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
 							:percentage="100-((userInfo && userInfo.nextExp - userInfo.experience) / userInfo.nextExp) * 100"
@@ -266,7 +270,7 @@
 						{
 							name: '我的订单',
 							icon: 'heart',
-							path: '',
+							path: 'orderList',
 						},
 						{
 							name: '我的小摊',
@@ -357,6 +361,7 @@
 			...mapState(['userInfo', 'userMeta'])
 		},
 		created() {
+			console.log(this.$store.hasLogin)
 			uni.$on('login', data => {
 				this.$store.commit('loginStatus')
 				this.isMounted = true
@@ -382,7 +387,8 @@
 				if (!uni.getStorageSync('token')) return;
 				this.$http.get('/user/userInfo', {
 					params: {
-						key: this.userInfo.uid
+						key: this.userInfo.uid,
+						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
 					console.log(res)

@@ -26,9 +26,7 @@ export default {
 		//为保证数据一致，设置当前tab切换时的标识key，并在complete中传递相同key，若二者不一致，则complete将不会生效
 		dataKey: {
 			type: [Number, String, Object],
-			default: function() {
-				return u.gc('dataKey', null);
-			},
+			default: u.gc('dataKey', null),
 		},
 		//使用缓存，若开启将自动缓存第一页的数据，默认为否。请注意，因考虑到切换tab时不同tab数据不同的情况，默认仅会缓存组件首次加载时第一次请求到的数据，后续的下拉刷新操作不会更新缓存。
 		useCache: {
@@ -257,6 +255,11 @@ export default {
 				this.customNoMore = nomore == true ? 1 : 0;
 			}
 			return this.addData(data, success);
+		},
+		//请求结束且请求失败时调用，支持传入请求失败原因
+		completeByError(errorMsg) {
+			this.customerEmptyViewErrorText = errorMsg;
+			return this.complete(false);
 		},
 		//与上方complete方法功能一致，新版本中设置服务端回调数组请使用complete方法
 		addData(data, success = true) {
@@ -501,7 +504,7 @@ export default {
 			}
 			this.isSettingCacheList = false;
 			if (success) {
-				if (!(this.privateConcat === false && this.loadingStatus === Enum.More.NoMore)) {
+				if (!(this.privateConcat === false && !this.isHandlingRefreshToPage && this.loadingStatus === Enum.More.NoMore)) {
 					this.loadingStatus = Enum.More.Default;
 				}
 				if (isLocal) {
@@ -589,7 +592,7 @@ export default {
 				this.totalData = [];
 			}
 			if (this.customNoMore !== -1) {
-				if (this.customNoMore === 1 || !newVal.length) {
+				if (this.customNoMore === 1 || (this.customNoMore !== 0 && !newVal.length)) {
 					this.loadingStatus = Enum.More.NoMore;
 				}
 			} else {
@@ -604,8 +607,8 @@ export default {
 						newVal.reverse();
 					}
 					// #endif
-					this.totalData = newVal;
 				}
+				this.totalData = newVal;
 				if (this.useChatRecordMode) {
 					// #ifndef APP-NVUE
 					this.$nextTick(() => {
@@ -658,14 +661,20 @@ export default {
 		},
 		//根据pageNo处理refresh操作
 		_handleRefreshWithDisPageNo(pageNo) {
-			if (!this.realTotalData.length) return this.reload();
+			if (!this.isHandlingRefreshToPage && !this.realTotalData.length) return this.reload();
 			if (pageNo >= 1) {
 				this.loading = true;
 				this.privateConcat = false;
 				const totalPageSize = pageNo * this.pageSize;
 				this.currentRefreshPageSize = totalPageSize;
-				this._emitQuery(this.defaultPageNo, totalPageSize, Enum.QueryFrom.Refresh);
-				this._callMyParentQuery(this.defaultPageNo, totalPageSize);
+				if (this.isLocalPaging && this.isHandlingRefreshToPage) {
+					this._localPagingQueryList(this.defaultPageNo, totalPageSize, 0, res => {
+						this.complete(res);
+					})
+				} else {
+					this._emitQuery(this.defaultPageNo, totalPageSize, Enum.QueryFrom.Refresh);
+					this._callMyParentQuery(this.defaultPageNo, totalPageSize);
+				}
 			}
 			return new Promise((resolve, reject) => {
 				this.dataPromiseResultMap.reload = { resolve, reject };

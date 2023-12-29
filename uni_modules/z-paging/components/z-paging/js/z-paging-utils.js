@@ -1,44 +1,22 @@
 // [z-paging]工具类
 
-import zConfig from './z-paging-config'
 import zLocalConfig from '../config/index'
 import c from './z-paging-constant'
 
 const storageKey = 'Z-PAGING-REFRESHER-TIME-STORAGE-KEY';
 let config = null;
+let configLoaded = false;
 const timeoutMap = {};
-
-/*
-当z-paging未使用uni_modules管理时，控制台会有警告：WARNING: Module not found: Error: Can't resolve '@/uni_modules/z-paging'...
-此时注释下方try中的代码即可
-*/
-// #ifdef VUE2
-try {
-	const contextKeys = require.context('@/uni_modules/z-paging', false, /\z-paging-config$/).keys();
-	if (contextKeys.length) {
-		const suffix = '.js';
-		config = require('@/uni_modules/z-paging/z-paging-config' + suffix);
-	}
-} catch (e) {}
-// #endif
 
 //获取默认配置信息
 function gc(key, defaultValue) {
-	if (!config) {
-		if (zLocalConfig && Object.keys(zLocalConfig).length) {
-			config = zLocalConfig;
-		} else {
-			const tempConfig = zConfig.getConfig();
-			if (zConfig && tempConfig) {
-				config = tempConfig;
-			}
-		}
+	return () => {
+		_handleDefaultConfig();
+		if (!config) return defaultValue;
+		const value = config[key];
+		return value === undefined ? defaultValue : value;
 	}
-	if (!config) return defaultValue;
-	const value = config[_toKebab(key)];
-	return value === undefined ? defaultValue : value;
 }
-
 
 //获取最终的touch位置
 function getTouch(e) {
@@ -50,10 +28,7 @@ function getTouch(e) {
 	} else if (e.datail && e.datail != {}) {
 		touch = e.datail;
 	} else {
-		return {
-			touchX: 0,
-			touchY: 0
-		}
+		return {touchX: 0, touchY: 0}
 	}
 	return {
 		touchX: touch.clientX,
@@ -67,8 +42,8 @@ function getTouchFromZPaging(target) {
 		const classList = target.classList;
 		if (classList && classList.contains('z-paging-content')) {
 			return {
-				isFromZp: true, 
-				isPageScroll: classList.contains('z-paging-content-page'), 
+				isFromZp: true,
+				isPageScroll: classList.contains('z-paging-content-page'),
 				isReachedTop: classList.contains('z-paging-reached-top')
 			};
 		} else {
@@ -166,7 +141,36 @@ function wait(ms) {
 	});
 }
 
+// 添加单位
+function addUnit(value, unit) {
+	if (Object.prototype.toString.call(value) === '[object String]') {
+		let tempValue = value;
+		tempValue = tempValue.replace('rpx', '').replace('upx', '').replace('px', '');
+		if (value.indexOf('rpx') === -1 && value.indexOf('upx') === -1 && text.indexOf('px') !== -1) {
+			tempValue = parseFloat(tempValue) * 2;
+		}
+		value = tempValue;
+	}
+	return unit === 'rpx' ? value + 'rpx' : (value / 2) + 'px';
+}
+
 //------------------ 私有方法 ------------------------
+//处理全局配置
+function _handleDefaultConfig() {
+	if (configLoaded) return;
+	if (zLocalConfig && Object.keys(zLocalConfig).length) {
+		config = zLocalConfig;
+	}
+	if (!config && uni.$zp) {
+		config = uni.$zp.config;
+	}
+	config = config ? Object.keys(config).reduce((result, key) => {
+	    result[_toCamelCase(key)] = config[key];
+	    return result;
+	}, {}) : null;
+	configLoaded = true;
+}
+
 //时间格式化
 function _timeFormat(time, textMap) {
 	const date = new Date(time);
@@ -212,6 +216,12 @@ function _toKebab(value) {
 	return value.replace(/([A-Z])/g, "-$1").toLowerCase();
 }
 
+//短横线转驼峰
+function _toCamelCase(value) {
+    return value.replace(/-([a-z])/g, (_, group1) => group1.toUpperCase());
+}
+
+
 export default {
 	gc,
 	setRefesrherTime,
@@ -224,5 +234,6 @@ export default {
 	getInstanceId,
 	consoleErr,
 	delay,
-	wait
+	wait,
+	addUnit
 };

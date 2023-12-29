@@ -31,9 +31,7 @@ export default {
 		//点击返回顶部按钮的自定义样式
 		backToTopStyle: {
 			type: Object,
-			default: function() {
-				return u.gc('backToTopStyle', {});
-			},
+			default: u.gc('backToTopStyle', {}),
 		},
 		//iOS点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向，默认为是
 		enableBackToTop: {
@@ -49,22 +47,31 @@ export default {
 		}
 	},
 	computed: {
+		backToTopThresholdUnitConverted() {
+			return u.addUnit(this.backToTopThreshold, this.unit);
+		},
+		backToTopBottomUnitConverted() {
+			return u.addUnit(this.backToTopBottom, this.unit);
+		},
 		finalEnableBackToTop() {
 			return this.usePageScroll ? false : this.enableBackToTop;
 		},
 		finalBackToTopThreshold() {
-			return u.convertToPx(this.backToTopThreshold);
+			return u.convertToPx(this.backToTopThresholdUnitConverted);
 		},
 		finalBackToTopStyle() {
 			const backToTopStyle = this.backToTopStyle;
 			if (!backToTopStyle.bottom) {
-				backToTopStyle.bottom = this.windowBottom + u.convertToPx(this.backToTopBottom) + 'px';
+				backToTopStyle.bottom = this.windowBottom + u.convertToPx(this.backToTopBottomUnitConverted) + 'px';
 			}
 			if(!backToTopStyle.position){
 				backToTopStyle.position = this.usePageScroll ? 'fixed': 'absolute';
 			}
 			return backToTopStyle;
 		},
+		finalBackToTopClass() {
+			return `${this.backToTopClass} zp-back-to-top-${this.unit}`;
+		}
 	},
 	methods: {
 		//点击返回顶部

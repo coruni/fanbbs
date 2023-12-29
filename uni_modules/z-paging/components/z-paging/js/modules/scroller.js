@@ -351,18 +351,21 @@ export default {
 		},
 		//滚动到指定位置
 		_scrollToY(y, offset = 0, animate = false, addScrollTop = false) {
-			this.privateScrollWithAnimation = animate ? 1 : 0;
+			this.privateScrollWithAnimation = animate ? 1 : 0;			
 			if (this.usePageScroll) {
+				if (addScrollTop && this.pageScrollTop !== -1) {
+				   y += this.pageScrollTop; 
+				}
+				const scrollTop = y - offset;
 				uni.pageScrollTo({
-					scrollTop: y - offset,
+					scrollTop,
 					duration: animate ? 100 : 0
 				});
 			} else {
-				if(addScrollTop){
+				if (addScrollTop) {
 				   y += this.oldScrollTop; 
 				}
 				this.scrollTop = y - offset;
-				this.oldScrollTop = this.scrollTop;
 			}
 		},
 		//scroll-view滚动中
@@ -417,7 +420,9 @@ export default {
 			this.$emit('scrollTopChange', newVal);
 			this.$emit('update:scrollTop', newVal);
 			this._checkShouldShowBackToTop(newVal);
-			const scrollTop = this.isIos ? (newVal > 5 ? 6 : 0) : (newVal > 105 ? 106 : (newVal > 5 ? 6 : 0));
+			// 之前在安卓中scroll-view有概率滚动到顶部时scrollTop不为0导致下拉刷新判断异常，经过测试在HX3.98+已修复，因此暂时关闭此容错判断
+			// const scrollTop = this.isIos ? (newVal > 5 ? 6 : 0) : (newVal > 105 ? 106 : (newVal > 5 ? 6 : 0));
+			const scrollTop = newVal > 5 ? 6 : 0;
 			if (isPageScrollTop && this.wxsPageScrollTop !== scrollTop) {
 				this.wxsPageScrollTop = scrollTop;
 			} else if (!isPageScrollTop && this.wxsScrollTop !== scrollTop) {

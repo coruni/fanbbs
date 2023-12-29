@@ -1,0 +1,106 @@
+<template>
+	<view>
+		<z-paging @query="getData" ref="paging" v-model="list" :auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
+			<view style="margin: 20rpx;">
+				<block v-for="(item,index) in list" :key="index">
+					<view style="padding: 30rpx;background: white;border-radius: 20rpx;margin-bottom: 20rpx;">
+						<u-row style="margin-bottom: 20rpx;" justify="space-between">
+							<u-row>
+								<u-avatar size="30" :src="item.bossInfo.avatar"></u-avatar>
+								<text
+									style="font-weight: 600;margin-left: 20rpx;">{{item.bossInfo.nickname?item.bossInfo.nickname:item.bossInfo.name}}</text>
+							</u-row>
+							<text
+								style="color: #85a3ff;">{{item.paid&&!item.isTracking?'待发货':item.paid &&item.isTracking?'待收货':'待支付'}}</text>
+						</u-row>
+						<u-row align="top">
+							<image :src="item.product_image[0]" mode="aspectFill" style="width: 120rpx;
+								height: 120rpx;
+								border-radius: 20rpx;">
+							</image>
+							<view style="display: flex;flex-direction: column;margin-left: 20rpx;flex:1">
+								<u-row justify="space-between">
+									<text style="font-weight: 600;" class="u-line-1">{{item.product_name}}</text>
+									<u-row style="color: red;">
+										<i class="ess icon-coin_line"></i>
+										<text>{{item.price}}</text>
+									</u-row>
+								</u-row>
+								<text style="font-size: 30rpx;color: #999;">{{item.specs.name}}</text>
+							</view>
+						</u-row>
+						<!-- 底部控件 -->
+						<view style="margin-top: 60rpx;">
+							<u-row justify="space-between">
+								<text style="font-size: 28rpx;color: #999;">更多</text>
+								<view>
+									<u-row v-if="!item.paid">
+										<u-button shape="circle" plain style="height: 60rpx;"
+											@click="$emit('address',item)">修改地址</u-button>
+										<u-button shape="circle" color="#85a3ff"
+											style="height: 60rpx;margin-left: 20rpx;"
+											@click="$emit('buy',item)">继续支付</u-button>
+									</u-row>
+									<u-row v-if="item.paid && item.isTracking">
+										<u-button shape="circle" plain style="height: 60rpx;">查看物流</u-button>
+										<u-button shape="circle" color="#85a3ff"
+											style="height: 60rpx;margin-left: 20rpx;">再来一单</u-button>
+									</u-row>
+									<u-row v-if="item.paid && !item.isTracking">
+										<u-button shape="circle" plain style="height: 60rpx;">联系卖家</u-button>
+										<u-button shape="circle" color="#85a3ff"
+											style="height: 60rpx;margin-left: 20rpx;">再来一单</u-button>
+									</u-row>
+								</view>
+							</u-row>
+
+						</view>
+
+					</view>
+				</block>
+			</view>
+		</z-paging>
+	</view>
+</template>
+
+<script>
+	export default {
+		name: 'listItem',
+		props: {
+			data: {
+				type: Object,
+				default: null,
+			}
+		},
+		data() {
+			return {
+				list: [],
+				showPayment: false,
+
+			}
+		},
+		methods: {
+			getData(page, limit) {
+				let searchParams = {};
+				// 遍历order数组
+				this.data.order.forEach(condition => {
+					searchParams[condition.order] = condition.value;
+				});
+				this.$http.post('/shop/orderList', {
+					page,
+					limit,
+					searchParams: JSON.stringify(searchParams)
+				}).then(res => {
+					console.log(res)
+					this.$refs.paging.complete(res.data.data.data)
+				})
+			},
+			reload() {
+				this.$refs.paging.reload()
+			}
+		}
+	}
+</script>
+
+<style>
+</style>

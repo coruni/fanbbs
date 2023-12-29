@@ -101,6 +101,28 @@
 						</u-row>
 					</view>
 				</u-row>
+				<view style="margin-top: 20rpx;">
+					<u-row justify="space-between" @click="showAddress =true">
+						<u-row align="top" style="flex:1">
+							<view style="background: #85a3ff;
+								border-radius: 50rpx;
+								color: white;
+								padding: 8rpx;
+								font-size: 26rpx;
+								display: flex;
+								align-items: baseline;
+								flex-shrink: 0;">
+								<i class="ess icon-home_1_line"></i>
+								<text style="margin-left: 10rpx;">配送至：</text>
+							</view>
+							<view style="padding-left: 20rpx;">
+								<text>{{$store.state.userInfo.address?$store.state.userInfo.address.address:'你还没有设置地址，点击设置'}}</text>
+							</view>
+						</u-row>
+						<i class="ess icon-right_line"></i>
+					</u-row>
+				</view>
+
 				<view style="margin-top: 20rpx;
 				background: #f7f7f7;
 				border-radius: 20rpx;
@@ -129,9 +151,38 @@
 					</u-row>
 				</view>
 				<view style="margin-top: 60rpx;">
-					<u-button color="#85a3ff" shape="circle">立即购买</u-button>
+					<u-button color="#85a3ff" shape="circle" @click="genOrder()">立即购买</u-button>
 				</view>
 			</view>
+
+			<u-popup :show="showAddress" @close="showAddress = false" closeable round="10">
+				<view style="margin-top: 30rpx;text-align: center;">
+					<text>收货地址</text>
+				</view>
+				<view style="margin: 30rpx;height: 50vh;">
+					<u-form :model="address" :rules="rules" ref="address">
+						<u-form-item :borderBottom="false" prop="contacts" label="收货人" label-width="80">
+							<u-input v-model="address.contacts" placeholder="名字"></u-input>
+						</u-form-item>
+						<u-form-item :borderBottom="false" prop="phone" label="手机号" label-width="80">
+							<u-input v-model="address.phone" maxlength="11" placeholder="手机号"></u-input>
+						</u-form-item>
+						<u-form-item :borderBottom="false" prop="province" label="所在地区" label-width="80">
+							<u-input v-model="address.region" disabled
+								:placeholder="address.region?address.region:'所在地区'" @click="getLocaltion()">
+								<template slot="suffix">
+									<u-icon name="map" color="#85a3ff" size="20" @click="getLocaltion()"></u-icon>
+								</template>
+							</u-input>
+						</u-form-item>
+						<u-form-item :borderBottom="false" prop="detailAddress" label="详细地址" label-width="80">
+							<u-textarea placeholder="镇/村/门牌号" v-model="address.detailAddress" height="40"></u-textarea>
+						</u-form-item>
+					</u-form>
+					<u-button color="#85a3ff" style="margin-top: 60rpx;" shape="circle"
+						@click="saveAddress();showAddress=false">保存</u-button>
+				</view>
+			</u-popup>
 		</u-popup>
 		<!-- fixed占位 -->
 		<u-gap height="50"></u-gap>
@@ -139,6 +190,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex';
 	export default {
 		data() {
 			return {
@@ -148,10 +202,61 @@
 				selectSpecs: {},
 				showSpecs: false,
 				showBuy: false,
+				showAddress: false,
+				address: {
+					contacts: '',
+					phone: '',
+					province: '',
+					city: '',
+					district: '',
+					detailAddress: '',
+					address: '',
+					region: ''
+				},
+				// 规则校验
+				rules: {
+					// 字段名称
+					'contacts': {
+						type: 'string',
+						required: true,
+						min: 2,
+						max: 8,
+						message: '请填写姓名',
+						trigger: ['blur', 'change']
+					},
+					'phone': {
+						type: 'string',
+						required: true,
+						pattern: '[0-9]',
+						message: '请填写正确手机号码',
+						len: 11,
+						min: 11,
+						trigger: ['blur', 'change']
+					},
+					'province': {
+						type: 'string',
+						required: true,
+						message: '请定位获取位置',
+						trigger: ['blur', 'change']
+					},
+					'detailAddress': {
+						type: 'string',
+						required: true,
+						message: '请输入正确地址',
+						trigger: ['blur', 'change']
+					}
+				}
 			};
 		},
 		onLoad(params) {
+			console.log(this.$store.state)
 			this.getData(params.id)
+		},
+		computed: {
+			...mapState(['userInfo'])
+		},
+		created() {
+			this.address = this.$store.state.userInfo.address
 		},
 		methods: {
 			getData(id) {
@@ -172,6 +277,58 @@
 				uni.previewImage({
 					urls: this.info.imgurl,
 					current: index
+				})
+			},
+			genOrder() {
+				if(!this.selectSpecs.id){
+					uni.$u.toast('请选择商品规格') 
+					return;
+				} 
+				this.$http.post('/shop/genOrder', {
+					product: this.info.id,
+					specs: this.selectSpecs.id,
+					address: JSON.stringify(this.address)
+				}).then(res => {
+					if (res.data.code) {
+						this.$Router.push({
+							path: '/pages/shop/order',
+							query: {
+								id: res.data.data.orderId
+							}
+						})
+					} else {
+						uni.$u.toast(res.data.msg)
+					}
+				})
+			},
+			getLocaltion() {
+				uni.getLocation({
+					type: 'gcj02',
+					geocode: true,
+					success: (res) => {
+						console.log(res)
+						this.address.region = res.address.province + res.address.city + res.address.district
+						this.address.province = res.address.province
+						this.address.city = res.address.city
+						this.address.district = res.address.district
+					},
+					fail: (err) => {
+						console.log(err)
+					}
+				})
+			},
+			saveAddress() {
+				let address = this.address
+				address.address = address.region + address.detailAddress
+				this.$http.post('/user/userEdit', {
+					params: JSON.stringify({
+						address: address
+					})
+				}).then(res => {
+					console.log(res)
+					if (res.data.code) {
+						uni.$u.toast('已设置地址')
+					}
 				})
 			}
 		}

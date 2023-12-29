@@ -9,6 +9,7 @@ export default {
 		return {
 			systemInfo: null,
 			cssSafeAreaInsetBottom: -1,
+			isReadyDestroy: false,
 		}
 	},
 	computed: {
@@ -61,9 +62,21 @@ export default {
 			return this.$slots;
 		}
 	},
+	beforeDestroy() {
+		this.isReadyDestroy = true;
+	},
 	methods: {
+		// 更新fixed模式下z-paging的布局
+		updateFixedLayout() {
+			this.fixed && this.$nextTick(() => {
+				this.systemInfo = uni.getSystemInfoSync();
+			})
+		},
 		//获取节点尺寸
 		_getNodeClientRect(select, inDom = true, scrollOffset = false) {
+			if (this.isReadyDestroy) {
+				return Promise.resolve(false);
+			};
 			// #ifdef APP-NVUE
 			select = select.replace(/[.|#]/g, '');
 			const ref = this.$refs[select];

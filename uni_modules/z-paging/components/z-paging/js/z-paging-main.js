@@ -93,9 +93,7 @@ export default {
 		//设置z-paging的style，部分平台(如微信小程序)无法直接修改组件的style，可使用此属性代替
 		pagingStyle: {
 			type: Object,
-			default: function() {
-				return u.gc('pagingStyle', {});
-			},
+			default: u.gc('pagingStyle', {}),
 		},
 		//z-paging的高度，优先级低于pagingStyle中设置的height；传字符串，如100px、100rpx、100%
 		height: {
@@ -115,9 +113,7 @@ export default {
 		//设置z-paging的容器(插槽的父view)的style
 		pagingContentStyle: {
 			type: Object,
-			default: function() {
-				return u.gc('pagingContentStyle', {});
-			},
+			default: u.gc('pagingContentStyle', {}),
 		},
 		//z-paging是否自动高度，若自动高度则会自动铺满屏幕
 		autoHeight: {
@@ -174,6 +170,11 @@ export default {
 			type: Boolean,
 			default: u.gc('watchTouchDirectionChange', false)
 		},
+		//z-paging中布局的单位，默认为rpx
+		unit: {
+			type: String,
+			default: u.gc('unit', 'rpx')
+		}
 	},
 	created(){
 		if (this.createdReload && !this.refresherOnly && this.auto) {
@@ -196,6 +197,7 @@ export default {
 			this.systemInfo = uni.getSystemInfoSync();
 			!this.usePageScroll && this.autoHeight && this._setAutoHeight();
 			this.loaded = true;
+			u.delay(this.updateFixedLayout);
 		})
 		this.updatePageScrollTopHeight();
 		this.updatePageScrollBottomHeight();
@@ -249,7 +251,7 @@ export default {
 	},
 	computed: {
 		finalPagingStyle() {
-			const pagingStyle = this.pagingStyle;
+			const pagingStyle = { ...this.pagingStyle };
 			if (!this.systemInfo) return pagingStyle;
 			const { windowTop, windowBottom } = this;
 			if (!this.usePageScroll && this.fixed) {
@@ -282,7 +284,7 @@ export default {
 			return this.pagingContentStyle;
 		},
 		renderJsIgnore() {
-			if ((this.usePageScroll && this.useChatRecordMode) || !this.refresherEnabled || !this.useCustomRefresher) {
+			if ((this.usePageScroll && this.useChatRecordMode) || (!this.refresherEnabled && this.scrollable) || !this.useCustomRefresher) {
 				this.$nextTick(() => {
 					this.renderPropScrollTop = 10;
 				})
@@ -404,8 +406,13 @@ export default {
 		},
 		//添加全局emit监听
 		_onEmit() {
-			uni.$on(c.errorUpdateKey, () => {
-				this.loading && this.complete(false).catch(() => {});
+			uni.$on(c.errorUpdateKey, (errorMsg) => {
+				if (this.loading) {
+					if (!!errorMsg) {
+						this.customerEmptyViewErrorText = errorMsg;
+					}
+					this.complete(false).catch(() => {});
+				}
 			})
 			uni.$on(c.completeUpdateKey, (data) => {
 				setTimeout(() => {
@@ -442,6 +449,6 @@ export default {
 		_offEmit(){
 			uni.$off(c.errorUpdateKey);
 			uni.$off(c.completeUpdateKey);
-		}
+		},
 	},
 };
