@@ -10,11 +10,13 @@
 			<view slot="right">
 				<view
 					style="display: flex;align-items: center;background: #85a3ff; border-radius: 50rpx;padding: 4rpx 16rpx;color: white;font-size: 28rpx;">
-					<view style="border-radius: 50rpx 0 0 50rpx;margin-right: 10rpx;" hover-class="button_hover" @click="showDraft = true">
+					<view style="border-radius: 50rpx 0 0 50rpx;margin-right: 10rpx;" hover-class="button_hover"
+						@click="showDraft = true">
 						<text>草稿箱</text>
 					</view>
-					<view style="border-radius: 50rpx 0 0 50rpx;margin-left: 10rpx;" hover-class="button_hover" @click="save()">
-						<text>发布</text>
+					<view style="border-radius: 50rpx 0 0 50rpx;margin-left: 10rpx;" hover-class="button_hover"
+						@click="update?updateArticle(): save()">
+						<text>{{update?'更新':'发布'}}</text>
 					</view>
 				</view>
 			</view>
@@ -892,7 +894,6 @@
 							}),
 							isMd: 0,
 						}).then(res => {
-							console.log(res)
 							if (res.data.code) {
 								uni.$u.toast(res.data.msg)
 								setTimeout(() => {
