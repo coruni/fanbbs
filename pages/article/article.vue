@@ -117,7 +117,7 @@
 			<template #bottom>
 				<u-row customStyle="padding:10rpx 20rpx;border-top:#85a3ff1e solid 1rpx" justify="space-between">
 					<u-col span="6">
-						<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background:#85a3ff1e"
+						<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background: #85a3ff0a;"
 							class="u-info" @click="showComment = true">
 							<u-icon name="edit-pen" size="20"></u-icon>
 							<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
@@ -158,7 +158,7 @@
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease',padding:30+'rpx'}">
 			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
 				:show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
-				style="background: #85a3ff1e;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+				style="background: #85a3ff0a;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="2">
@@ -490,7 +490,7 @@
 				this.$http.get('/article/info', {
 					params: {
 						key: id ? id : this.cid,
-						isMd: 1,
+						isMd: 0,
 						uid: this.$store.state.hasLogin ? this.$store.state.userInfo.uid : '',
 						token: uni.getStorageSync('token')
 					}

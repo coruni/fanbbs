@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<z-paging @query="getData" ref="paging" v-model="list" :auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false">
+		<z-paging @query="getData" ref="paging" v-model="list" :auto-scroll-to-top-when-reload="false"
+			:auto-clean-list-when-reload="false">
 			<view style="margin: 20rpx;">
 				<block v-for="(item,index) in list" :key="index">
 					<view style="padding: 30rpx;background: white;border-radius: 20rpx;margin-bottom: 20rpx;">
@@ -43,11 +44,14 @@
 									</u-row>
 									<u-row v-if="item.paid && item.isTracking">
 										<u-button shape="circle" plain style="height: 60rpx;">查看物流</u-button>
+										<u-button shape="circle" plain style="height: 60rpx;margin-left: 20rpx;"
+											@click="goPrivate(item.bossInfo)">联系卖家</u-button>
 										<u-button shape="circle" color="#85a3ff"
-											style="height: 60rpx;margin-left: 20rpx;">再来一单</u-button>
+											style="height: 60rpx;margin-left: 20rpx;">确认收货</u-button>
 									</u-row>
 									<u-row v-if="item.paid && !item.isTracking">
-										<u-button shape="circle" plain style="height: 60rpx;">联系卖家</u-button>
+										<u-button shape="circle" plain style="height: 60rpx;"
+											@click="goPrivate(item.bossInfo)">联系卖家</u-button>
 										<u-button shape="circle" color="#85a3ff"
 											style="height: 60rpx;margin-left: 20rpx;">再来一单</u-button>
 									</u-row>
@@ -97,7 +101,16 @@
 			},
 			reload() {
 				this.$refs.paging.reload()
-			}
+			},
+			goPrivate(data) {
+				this.$Router.push({
+					path: '/pages/notice/private',
+					query: {
+						id: data.uid,
+						nickname: data.nickname
+					}
+				})
+			},
 		}
 	}
 </script>

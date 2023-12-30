@@ -275,7 +275,7 @@
 						{
 							name: '我的小摊',
 							icon: 'heart',
-							path: '',
+							path: 'myProduct',
 						}
 					],
 					blance: [{
@@ -361,7 +361,6 @@
 			...mapState(['userInfo', 'userMeta'])
 		},
 		created() {
-			console.log(this.$store.hasLogin)
 			uni.$on('login', data => {
 				this.$store.commit('loginStatus')
 				this.isMounted = true

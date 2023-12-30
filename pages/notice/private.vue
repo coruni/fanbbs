@@ -65,20 +65,20 @@
 			}
 		},
 		onLoad(params) {
-			console.log(params)
 			this.nickname = params.nickname
 			this.id = params.id
-			this.getData(params.id)
+			this.getData()
+			
 		},
 		computed: {
 			...mapState(['userInfo'])
 		},
 		methods: {
-			getData(id) {
-
+			getData() {
 				this.$http.post('/chat/getPrivateChat', {
 					touid: this.id
 				}).then(res => {
+					console.log(res)
 					if (res.data.code) {
 						this.roomId = res.data.data
 					}

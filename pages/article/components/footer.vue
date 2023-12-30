@@ -43,7 +43,7 @@
 					<text>{{data.category[0].name}}</text>
 				</view>
 			</u-row>
-			<view v-if="data.tag.length>0" style="display: flex;">
+			<view v-if="data.tag && data.tag.length>0" style="display: flex;">
 				<block v-for="(item,index) in data.tag" :key="index">
 					<view style="
 						font-size: 26rpx;

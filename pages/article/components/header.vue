@@ -12,7 +12,6 @@
 				<text>{{data.views}}</text>
 			</u-row>
 		</u-row>
-
 		<u-row justify="space-between"
 			style="background: #85a3ff0a;padding: 40rpx 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
 			<u-row @click="goProfile(data.authorId)" style="flex: 1;">

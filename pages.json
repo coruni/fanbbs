@@ -257,6 +257,15 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/user/product",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"myProduct"
 		}
 	],
 	"globalStyle": {
