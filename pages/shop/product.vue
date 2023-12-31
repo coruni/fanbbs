@@ -162,21 +162,21 @@
 				<view style="margin: 30rpx;height: 50vh;">
 					<u-form :model="address" :rules="rules" ref="address">
 						<u-form-item :borderBottom="false" prop="contacts" label="收货人" label-width="80">
-							<u-input v-model="address.contacts" placeholder="名字"></u-input>
+							<u-input v-model="address && address.contacts" placeholder="名字"></u-input>
 						</u-form-item>
 						<u-form-item :borderBottom="false" prop="phone" label="手机号" label-width="80">
-							<u-input v-model="address.phone" maxlength="11" placeholder="手机号"></u-input>
+							<u-input v-model="address && address.phone" maxlength="11" placeholder="手机号"></u-input>
 						</u-form-item>
 						<u-form-item :borderBottom="false" prop="province" label="所在地区" label-width="80">
-							<u-input v-model="address.region" disabled
-								:placeholder="address.region?address.region:'所在地区'" @click="getLocaltion()">
+							<u-input v-model="address && address.region" disabled
+								:placeholder="address && address.region?address.region:'所在地区'" @click="getLocaltion()">
 								<template slot="suffix">
 									<u-icon name="map" color="#85a3ff" size="20" @click="getLocaltion()"></u-icon>
 								</template>
 							</u-input>
 						</u-form-item>
 						<u-form-item :borderBottom="false" prop="detailAddress" label="详细地址" label-width="80">
-							<u-textarea placeholder="镇/村/门牌号" v-model="address.detailAddress" height="40"></u-textarea>
+							<u-textarea placeholder="镇/村/门牌号" v-model="address && address.detailAddress" height="40"></u-textarea>
 						</u-form-item>
 					</u-form>
 					<u-button color="#85a3ff" style="margin-top: 60rpx;" shape="circle"
