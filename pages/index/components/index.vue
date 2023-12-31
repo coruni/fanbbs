@@ -146,7 +146,8 @@
 						page: 1,
 						limit: 8,
 						searchParams: JSON.stringify({
-							type: 'category'
+							type: 'category',
+							isrecommend: 1,
 						})
 					}
 				}).then(res => {

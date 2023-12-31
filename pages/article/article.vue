@@ -280,7 +280,8 @@
 					</view>
 				</view>
 			</view>
-			<u-popup :show="showDelete" :round="10" mode="center" @close="showDelete = false" customStyle="width:500rpx">
+			<u-popup :show="showDelete" :round="10" mode="center" @close="showDelete = false"
+				customStyle="width:500rpx">
 				<view
 					style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 50rpx;">
 					<text style="font-size: 34rpx;">提示</text>
@@ -321,7 +322,7 @@
 				</u-row>
 			</view>
 		</u-popup>
-		
+
 	</z-paging-swiper>
 </template>
 
@@ -648,9 +649,18 @@
 						return ''
 					}).replace(/\|</g, '<').replace(/>\|/g, '>').replace(/【(回复|付费)查看：([^】]+)】/g, (match, type,
 						content) => {
-						return `<a style="text-decoration:unset;color:#85a3ff;border:#85a3ff dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
+						let html = ''
+
+						html += `<a style="text-decoration:unset;color:#85a3ff;border:#85a3ff dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
 						${type}内容，${type}后查看
-						</a>`;
+						</a>`
+						if (type == "付费") {
+							html += `<div style="position:absolute;bottom:10px;right:0;border-radius:5px 0 5px 0;color:white;background:#a385ff;padding:0 8px;font-size:12px !important;display:flex">
+							<div><i class="ess icon-coin_line" style="font-size:12px"></div>
+							<p style="font-size:12px;margin-left:2px">${this.article.price>0?this.article.price:'免费'}</p>
+							</div>`
+						}
+						return html;
 					})
 
 				}
@@ -841,14 +851,14 @@
 					}
 				})
 			},
-			deleteArticle(){
-				this.$http.post('/article/articleDelete',{
-					key:this.article.cid
-				}).then(res=>{
-					if(res.data.code){
+			deleteArticle() {
+				this.$http.post('/article/articleDelete', {
+					key: this.article.cid
+				}).then(res => {
+					if (res.data.code) {
 						this.showDelete = false
 						uni.$u.toast(res.data.msg)
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.$Router.back()
 						})
 					}

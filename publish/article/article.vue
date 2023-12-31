@@ -515,35 +515,37 @@
 			},
 
 			async chooseImage() {
-				// 重置进度条
-				this.percentage = 30;
+				this.percentage = 0; // 重置进度条
 				try {
 					const res = await uni.chooseImage({
 						count: 20
 					});
-					let loading = 100 / res.tempFilePaths.length - this.percentage
-					let count = res.tempFilePaths.length
-					this.showLoading = true
+					let increment = 70 / res.tempFilePaths.length; // 计算每张图片的上传进度增量
+					let count = res.tempFilePaths.length;
+
+					this.showLoading = true;
+
 					for (let i in res.tempFilePaths) {
 						let image = await this.upload(res.tempFilePaths[i]);
-						count--
-						this.percentage += loading
+						count--;
+						this.percentage += increment; // 增加上传进度
 						this.editorCtx.insertImage({
 							src: image,
-							alt: this.article.title ? this.article.title : 'Chikata'
+							alt: this.article.title ? this.article.title : 'IMAGE'
 						});
 					}
-					if (!count) {
+
+					if (count === 0) {
 						setTimeout(() => {
 							this.showLoading = false;
-						}, 200)
+						}, 200);
 					}
-					// 图片插入完成插入换行
+
 					this.editorCtx.insertText({
 						text: '\n'
 					});
 				} catch (error) {
-
+					console.error(error); // 打印错误信息到控制台
 				}
 			},
 			// 选择视频
@@ -831,7 +833,6 @@
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data) {
 						this.article.cid = res.data.cid
 						this.article.title = res.data.title
