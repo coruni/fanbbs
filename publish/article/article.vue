@@ -34,7 +34,7 @@
 			<u-row justify="space-between" @click="showCategory = true">
 				<text>选择发布位置</text>
 				<u-row>
-					<text>{{article.category.name}}</text>
+					<text>{{ article && article.category && article.category.name}}</text>
 					<u-icon name="arrow-right" color="#999"></u-icon>
 				</u-row>
 			</u-row>

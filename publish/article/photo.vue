@@ -186,7 +186,7 @@
 						this.$refs.publish.open()
 						let tags = this.article.tags.map(tag => tag.mid).join(',')
 						let images = this.images.map(file => file.url);
-						this.$http.post('/article/contentsAdd', {
+						this.$http.post('/article/articleAdd', {
 							params: JSON.stringify({
 								title: this.article.title,
 								text: this.article.text,
