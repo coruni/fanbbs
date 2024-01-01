@@ -113,7 +113,7 @@
 					<text @click="editorCtx.undo()">撤销</text>
 				</u-row>
 			</view>
-		
+
 			<!-- 更多 -->
 			<view v-show="itemName=='more'">
 				<u-row justify="space-between" style="padding-bottom: 10rpx;">
@@ -153,7 +153,7 @@
 					</u-row>
 				</block>
 			</view>
-		
+
 			<!-- 设置 -->
 			<view v-show="itemName=='opt'">
 				<u-row justify="space-between">
@@ -520,7 +520,7 @@
 					const res = await uni.chooseImage({
 						count: 20
 					});
-					let increment = 70 / res.tempFilePaths.length; // 计算每张图片的上传进度增量
+					let increment = 100 / res.tempFilePaths.length; // 计算每张图片的上传进度增量
 					let count = res.tempFilePaths.length;
 
 					this.showLoading = true;
@@ -554,11 +554,29 @@
 				this.percentage = 30;
 				uni.chooseVideo({
 					extension: ['mp4', 'avi', 'webm'],
-					compressed: true,
+					compressed: false,
 					success: (res) => {
-						this.videoPath = res.tempFilePath
-						this.videoInfo.width = res.width
-						this.videoInfo.height = res.width
+						uni.getVideoInfo({
+							src: res.tempFilePath,
+							success: (res) => {
+								this.videoInfo.width = res.width
+								this.videoInfo.height = res.width
+								this.videoInfo.orientation = res.orientation
+								this.videoInfo.bitrate = res.bitrate
+							}
+						})
+						let ratio = Math.sqrt((1920 * 1080) / (this.videoInfo.width * this.videoInfo.height));
+						let resolution = ratio >= 1 ? 1 : ratio;
+						let bitrate = this.videoInfo.bitrate > 4 * 1024 ? 4 * 1024 : this.videoInfo.bitrate;
+						uni.compressVideo({
+							src: res.tempFilePath,
+							bitrate,
+							resolution,
+							quality: 'medium',
+							success: (res) => {
+								this.videoPath = res.tempFilePath
+							}
+						})
 					}
 				})
 			},
@@ -771,6 +789,7 @@
 						alt: `src=${this.videoInfo.url}|poster=${poster}|type=video`,
 						width: '100%',
 						height: '200px',
+						extClass:'imageCover',
 						data: {
 							type: 'video',
 							poster: poster,
@@ -945,7 +964,7 @@
 				let duration = await this.getDuration(videoPath)
 				let list = []
 				for (let i = 0; i < 12; i++) {
-					const frame = await this.captureFrame(videoPath, duration / 1000 * i)
+					const frame = await this.captureFrame(videoPath, duration / 1000 * (3 * i))
 					list.push(frame)
 				}
 				this.$ownerInstance.callMethod('captureList', {
@@ -1025,5 +1044,11 @@
 
 	.button_hover {
 		opacity: 0.5;
+	}
+	.imageCover{
+		position: relative;
+		object-fit: cover;
+		width: 100%;
+		height: 200px;
 	}
 </style>

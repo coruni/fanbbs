@@ -19,7 +19,8 @@
 		</view>
 		<!-- 一张图片 -->
 		<view v-if="data.images.length==1">
-			<image :src="data.images[0]" mode="heightFix" style="width: 100%; max-height: 350rpx;;border-radius: 20rpx;"
+			<!-- <u-image :src="data.images[0]" :mode="mode" width="100%" radius="10" height="200"></u-image> -->
+			<image :src="data.images[0]" :mode="mode" style="width: 100%; max-height: 400rpx;border-radius: 20rpx;background: #f7f7f7;"
 				@click.stop="picPreview(data.images,0)">
 			</image>
 		</view>
@@ -27,12 +28,12 @@
 		<view v-if="data.images.length==2">
 			<u-row justify="space-between">
 				<u-col span="5.9">
-					<image mode="aspectFill" style="width: 100%;height: 280rpx;border-radius: 20rpx 0 0 20rpx;"
+					<image mode="aspectFill" style="width: 100%;height: 300rpx;border-radius: 20rpx 0 0 20rpx;"
 						:src="data.images[0]" @click.stop="picPreview(data.images,0)">
 					</image>
 				</u-col>
 				<u-col span="5.9">
-					<image mode="aspectFill" style="width: 100%;height: 280rpx;border-radius: 0 20rpx 20rpx 0;"
+					<image mode="aspectFill" style="width: 100%;height: 300rpx;border-radius: 0 20rpx 20rpx 0;"
 						:src="data.images[1]" @click.stop="picPreview(data.images,1)">
 					</image>
 				</u-col>
@@ -74,6 +75,7 @@
 		data() {
 			return {
 				elWidth: uni.getStorageSync('albumWidth') ? (uni.getStorageSync('albumWidth') - 12) / 3 : 100,
+				mode: 'aspectFill'
 			}
 		},
 		created() {
@@ -86,8 +88,24 @@
 					this.getAlbumWidth();
 				}, 200)
 			}
+			this.getImageInfo()
 		},
 		methods: {
+			getImageInfo() {
+				if (this.data.images.length == 1) {
+					uni.getImageInfo({
+						src: this.data.images[0],
+						success: (res) => {
+							if (res.width < res.height) {
+								this.mode = 'heightFix'
+							}else{
+								this.mode = 'aspectFill'
+							}
+						}
+					})
+				}
+
+			},
 			getAlbumWidth() {
 				uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
 					if (data.width == 0) {
