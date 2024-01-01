@@ -131,9 +131,6 @@
 				}
 				plus.runtime.getProperty(plus.runtime.appid, (inf) => {
 					this.$http.get('/system/app', {
-						params: {
-							key: config.app
-						}
 					}).then(res => {
 						console.log(res)
 						if (res.data.code) {

@@ -19,8 +19,8 @@
 		</view>
 		<!-- 一张图片 -->
 		<view v-if="data.images.length==1">
-			<image :src="data.images[0]" mode="heightFix"
-				style="width: 100%; max-height: 350rpx;;border-radius: 20rpx;" @click.stop="picPreview(data.images,0)">
+			<image :src="data.images[0]" mode="heightFix" style="width: 100%; max-height: 350rpx;;border-radius: 20rpx;"
+				@click.stop="picPreview(data.images,0)">
 			</image>
 		</view>
 		<!-- 两张图片 -->
