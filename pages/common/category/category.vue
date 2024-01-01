@@ -77,6 +77,6 @@
 
 <style>
 	page {
-		background: #85a3ff0a;
+		background: #85a3ff0a !important;
 	}
 </style>

@@ -2,7 +2,7 @@
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
 		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex"></find>
-		
+
 		<!-- <category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category> -->
 		<!-- 商城 -->
 		<shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop>
@@ -12,26 +12,29 @@
 		<!-- 底部导航栏 -->
 
 		<template #bottom>
-			<u-row justify="space-between" customStyle="padding:20rpx;
-				background:white;
-				z-index:999;
-				border-top:#85a3ff1e solid 1rpx">
-				<block v-for="(item,index) in tabbar" :key="index">
-					<u-row customStyle="flex-direction:column" v-if="index!=4">
-						<view style="position: relative;padding: 10rpx;" @tap.stop="tabbarTap(index)">
-							<i class="ess" :class="[item.icon]" style="font-size: 45rpx;"
-								:style="{color: item.active ? '#85a3ff' : ''}"></i>
-							<u-badge :isDot="true" bgColor="#85a3ffc4" :offset="[12,7]" absolute
-								customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
-								:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
+			<view style="background:white;padding:20rpx;
+					z-index:999;
+					border-top:#85a3ff1e solid 1rpx">
+				<u-row justify="space-between">
+					<block v-for="(item,index) in tabbar" :key="index">
+						<u-row customStyle="flex-direction:column" v-if="index!=4">
+							<view style="position: relative;padding: 10rpx;" @tap.stop="tabbarTap(index)">
+								<i class="ess" :class="[item.icon]" style="font-size: 45rpx;"
+									:style="{color: item.active ? '#85a3ff' : ''}"></i>
+								<u-badge :isDot="true" bgColor="#85a3ffc4" :offset="[12,7]" absolute
+									customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
+									:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
+							</view>
+						</u-row>
+						<view v-else @tap.stop="tabbarTap(index)">
+							<u-avatar :src="$store.state.userInfo.avatar" size="28"
+								customStyle="border:4rpx solid #85a3ff"
+								:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
 						</view>
-					</u-row>
-					<view v-else @tap.stop="tabbarTap(index)">
-						<u-avatar :src="$store.state.userInfo.avatar" size="28" customStyle="border:6rpx solid #85a3ff"
-							:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
-					</view>
-				</block>
-			</u-row>
+					</block>
+				</u-row>
+			</view>
+
 		</template>
 		<!-- <u-tabbar :value="tabbarIndex" @change="tabbarTap" placeholder safeAreaInsetBottom activeColor="#85a3ff">
 			<u-tabbar-item :text="item.name" :icon="item.icon"

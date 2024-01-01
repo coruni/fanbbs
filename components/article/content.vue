@@ -73,7 +73,7 @@
 		},
 		data() {
 			return {
-				elWidth: (uni.getStorageSync('albumWidth') - 12) / 3,
+				elWidth: uni.getStorageSync('albumWidth') ? (uni.getStorageSync('albumWidth') - 12) / 3 : 100,
 			}
 		},
 		created() {
@@ -92,7 +92,9 @@
 				uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
 					if (data.width == 0) {
 						// 如果宽度为0，直接使用本地存储的宽度 笨办法
-						this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
+						if (uni.getStorageSync('albumWidth')) {
+							this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
+						}
 					} else {
 						// 如果宽度不为0，保存宽度到 elWidth
 						this.elWidth = (data.width - 12) / 3;
