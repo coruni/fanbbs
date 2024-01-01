@@ -20,7 +20,7 @@
 		<!-- 一张图片 -->
 		<view v-if="data.images.length==1">
 			<image :src="data.images[0]" mode="heightFix"
-				style="width: 100%; max-height: 350rpx;;border-radius: 20rpx;">
+				style="width: 100%; max-height: 350rpx;;border-radius: 20rpx;" @click.stop="picPreview(data.images,0)">
 			</image>
 		</view>
 		<!-- 两张图片 -->
@@ -28,12 +28,12 @@
 			<u-row justify="space-between">
 				<u-col span="5.9">
 					<image mode="aspectFill" style="width: 100%;height: 280rpx;border-radius: 20rpx 0 0 20rpx;"
-						:src="data.images[0]">
+						:src="data.images[0]" @click.stop="picPreview(data.images,0)">
 					</image>
 				</u-col>
 				<u-col span="5.9">
 					<image mode="aspectFill" style="width: 100%;height: 280rpx;border-radius: 0 20rpx 20rpx 0;"
-						:src="data.images[1]">
+						:src="data.images[1]" @click.stop="picPreview(data.images,1)">
 					</image>
 				</u-col>
 			</u-row>
@@ -73,14 +73,14 @@
 		},
 		data() {
 			return {
-				elWidth: (uni.getStorageSync('albumWidth')-12)/3,
+				elWidth: (uni.getStorageSync('albumWidth') - 12) / 3,
 			}
 		},
 		created() {
 			// 直接计算图片大小
 			if (this.data.images.length >= 3) {
 				if (uni.getStorageSync('albumWidth') > 0) {
-					this.elWidth = (uni.getStorageSync('albumWidth')-12)/3
+					this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
 				}
 				this.$nextTick(() => {
 					this.getAlbumWidth();
@@ -92,10 +92,10 @@
 				uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
 					if (data.width == 0) {
 						// 如果宽度为0，直接使用本地存储的宽度 笨办法
-						this.elWidth = (uni.getStorageSync('albumWidth')-12)/3
+						this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
 					} else {
 						// 如果宽度不为0，保存宽度到 elWidth
-						this.elWidth = (data.width-12)/3;
+						this.elWidth = (data.width - 12) / 3;
 						uni.setStorageSync('albumWidth', data.width)
 					}
 				}).exec();
@@ -114,6 +114,12 @@
 
 				}).replace(/\|</g, '<').replace(/>\|/g, '>')
 			},
+			picPreview(urls, current) {
+				uni.previewImage({
+					urls,
+					current
+				})
+			}
 		}
 	}
 </script>
