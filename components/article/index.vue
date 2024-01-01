@@ -2,7 +2,7 @@
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
 		style="margin-bottom: 170rpx;" @onRefresh="onRefresh" auto-clean-list-when-reload>
 		<view style="margin: 20rpx;position: relative;top: 0;" v-if="isSwiper">
-			<u-swiper height="160" :list="swiperList" keyName="image" circular @click="swiperTap"
+			<u-swiper height="200" :list="swiperList" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10"></u-swiper>
 			<view
 				style="font-size: 24rpx;background: #85a3ffa0;border-radius:20rpx 0rpx 20rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
