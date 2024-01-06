@@ -80,7 +80,7 @@
 				})
 			},
 			clearNotice() {
-				this.$http.post('/user/setRead', {
+				this.$http.post('/user/clearNum', {
 					type: 'comment'
 				}).then(res => {
 					console.log(res.data.msg)

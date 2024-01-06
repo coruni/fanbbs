@@ -69,7 +69,7 @@
 				})
 			},
 			clearNotice() {
-				this.$http.post('/user/setRead', {
+				this.$http.post('/user/clearNum', {
 					type: 'finance'
 				}).then(res => {
 					console.log(res)

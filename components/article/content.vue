@@ -9,13 +9,14 @@
 					customStyle="background: #85a3ff1e;padding:4rpx;border-radius:10rpx"></u-icon>
 			</view>
 		</u-row>
+		
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
 		<!-- 三张图片以上才显示 -->
 		<view id="album" style="width: 100%;" v-if="data.images.length>=3">
 			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
-				singleMode="scaleToFill" :multipleSize="elWidth" v-if="data.images.length"></uv-album>
+				singleMode="scaleToFill" :multipleSize="elWidth" v-if="data.images.length" ></uv-album>
 		</view>
 		<!-- 一张图片 -->
 		<view v-if="data.images.length==1">
@@ -41,7 +42,7 @@
 		</view>
 
 
-		<view v-if="data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 20rpx;">
+		<view v-if="data.tag && data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 20rpx;">
 			<block v-for="(item,index) in data.tag" :key="index">
 				<view style="
 					font-size: 26rpx;

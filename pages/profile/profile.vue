@@ -181,12 +181,11 @@
 			getAuthor(id) {
 				this.$http.get('/user/userInfo', {
 					params: {
-						key: id,
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+						id
 					}
 				}).then(res => {
 					console.log(res)
-					if (res.statusCode == 200) {
+					if (res.data.code == 200) {
 						this.info = res.data.data
 					}
 				})
@@ -218,7 +217,7 @@
 						uid
 					}
 				}).then(res => {
-					if (res.data.code) {
+					if (res.data.code == 200) {
 						this.userData = res.data.data
 					}
 				})
@@ -237,16 +236,17 @@
 				})
 			},
 			follow(id) {
-				console.log(id)
 				if (this.$store.state.userInfo.uid == id) {
 					uni.$u.toast('不可以关注自己');
 					return;
 				};
 				this.$http.post('/user/follow', {
-					touid: id,
+					id
 				}).then(res => {
-					uni.$u.toast(res.data.msg)
-					this.info.isFollow = !this.info.isFollow
+					if (res.data.code == 200) {
+						uni.$u.toast(res.data.msg)
+						this.info.isFollow = !this.info.isFollow
+					}
 				})
 
 				this.$refs.follow.close()

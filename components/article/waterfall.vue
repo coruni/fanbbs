@@ -1,7 +1,7 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto="false" :auto-clean-list-when-reload="false"
 		:auto-scroll-to-top-when-reload="false" cache-mode="always" use-cache
-		:cache-key="`home_index_waterfall-${mid}`" >
+		:cache-key="`home_index_waterfall-${mid}`">
 		<uv-waterfall ref="waterfall" v-model="content" :add-time="10" :left-gap="leftGap" :rightGap="rightGap"
 			:column-gap="columnGap" @changeList="changeList">
 			<!-- 第一列数据 -->
@@ -114,15 +114,14 @@
 					params: {
 						page,
 						limit,
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							mid: this.mid ? this.mid : '',
 						}),
 						order: 'istop desc, created desc',
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
-					if (res.statusCode == 200) {
-						this.$refs.paging.complete(res.data.data);
+					if (res.data.code == 200) {
+						this.$refs.paging.complete(res.data.data.data);
 						this.is_loaded = true
 					}
 				}).catch(err => {

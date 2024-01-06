@@ -5,7 +5,6 @@ import {
 	router
 } from '@/router.js'
 const http = new Request()
-
 // 全局配置
 http.setConfig((config) => {
 	config.baseURL = cConfig.api
@@ -16,11 +15,13 @@ http.setConfig((config) => {
 	return config
 })
 
+
 // 请求拦截
 //   所有的网络请求都会先走这个方法
 http.interceptors.request.use((config) => {
 	config.header = {
 		...config.header,
+		'Authorization': uni.getStorageSync('token')
 	}
 
 	if (!store.state.hasLogin && config.method == 'POST') {
@@ -31,8 +32,6 @@ http.interceptors.request.use((config) => {
 		})
 		return Promise.reject(config)
 	}
-	if (store.state.token && config.method != 'GET') config.params.token = store.state.token;
-
 	return config
 }, (config) => {
 	return Promise.reject(config)
@@ -62,12 +61,10 @@ http.interceptors.response.use(async (response) => {
 	if (store.state.hasLogin && !response.data.code && response.data.msg == '用户未登录或Token验证失败') {
 		let account = uni.getStorageSync('account')
 		try {
-			const res = await refresh.get('/user/userLogin', {
+			const res = await refresh.get('/user/login', {
 				params: {
-					params: {
-						name: account.name,
-						password: account.password
-					}
+					account: account.name,
+					password: account.password
 				}
 			})
 			if (res.data.code) {

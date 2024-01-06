@@ -2,7 +2,7 @@
 	<view>
 		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false"
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" cache-mode="always" use-cache
-			:cache-key="`article_mid_sub-${data.coid}`">
+			:cache-key="`article_mid_sub-${data.id}`">
 			<template #top>
 				<u-navbar autoBack placeholder style="z-index: 10;">
 					<view slot="left">
@@ -15,10 +15,10 @@
 											margin:30rpx;
 											border-bottom: 1rpx #f7f7f7 solid;">
 				<view style="position: relative;">
-					<u-avatar :src="data.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"
-						@click="goProfile(data.authorId)"></u-avatar>
+					<u-avatar :src="data.userInfo.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"
+						@click="goProfile(data.userInfo.uid)"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
-						:src="data.opt&&data.opt.headStatus&&data.opt.head_picture">
+						:src="data.userInfo&&data.userInfo.opt&&data.opt.head_picture">
 					</image>
 				</view>
 				<view style="
@@ -30,10 +30,10 @@
 					<u-row>
 						<u-row>
 							<text
-								:style="{color:data.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.author}}</text>
-							<i v-if="data.level" :class="`level icon-lv-${data.level}`"
+								:style="{color:data.userInfo.isVip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
+							<i v-if="data.userInfo.level" :class="`level icon-lv-${data.userInfo.level}`"
 								style="font-size: 50rpx; margin-left: 10rpx;"
-								:style="{ color: data.level > 8 ? $level[Math.floor(data.level/2)-1] : $level[data.level-1] }">
+								:style="{ color: data.userInfo.level > 8 ? $level[Math.floor(data.userInfo.level/2)-1] : $level[data.userInfo.level-1] }">
 							</i>
 						</u-row>
 
@@ -43,7 +43,7 @@
 							color: #98e6a8;
 							padding: 0 16rpx;
 							border-radius: 50rpx;
-							margin-left:20rpx" v-if="data.authorId == data.ownerId">作者</text>
+							margin-left:20rpx" v-if="data.userInfo.uid == data.article.authorId">作者</text>
 					</u-row>
 					<view style="margin-top:10rpx;word-break: break-word;">
 						<uv-parse :previewImg="false" selectable :showImgMenu="false"
@@ -56,7 +56,8 @@
 					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:30%" justify="space-between">
-							<u-row @click="commentCheck(false,data.coid,data.author)">
+							<u-row
+								@click="commentCheck(false,data.id,data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name)">
 								<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
 								<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
 							</u-row>
@@ -136,8 +137,9 @@
 					<view style="padding:30rpx">
 						<u-skeleton rows="2" avatar :loading="loading">
 							<u-row align="top">
-								<u-avatar :src="item.avatar" size="24" customStyle="border:4rpx solid #85a3ff32"
-									@click="goProfile(item.authorId)"></u-avatar>
+								<u-avatar :src="item.userInfo.avatar" size="24"
+									customStyle="border:4rpx solid #85a3ff32"
+									@click="goProfile(item.userInfo.uid)"></u-avatar>
 
 								<view style="
 								display: flex;
@@ -147,24 +149,26 @@
 									<u-row>
 										<u-row>
 											<text
-												:style="{color:item.isvip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{item.author}}</text>
-											<i v-if="item.level" :class="`level icon-lv-${item.level}`"
+												:style="{color:item.isVip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
+											<i v-if="item.userInfo.level"
+												:class="`level icon-lv-${item.userInfo.level}`"
 												style="font-size: 50rpx; margin-left: 10rpx;"
-												:style="{ color: item.level > 8 ? $level[Math.floor(item.level/2)-1] : $level[item.level-1] }">
+												:style="{ color: item.userInfo.level > 8 ? $level[Math.floor(item.userInfo.level/2)-1] : $level[item.userInfo.level-1] }">
 											</i>
 										</u-row>
 
 										<text
 											style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"
-											v-if="item.authorId == data.ownerId">作者</text>
+											v-if="item.userInfo.uid == data.article.authorId">作者</text>
 									</u-row>
 									<view style="margin-top:10rpx;word-break: break-word;"
-										@click="commentCheck(true,item.coid,item.author)">
+										@click="commentCheck(true,item.id,item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name)">
 
 										<uv-parse :previewImg="false" selectable :showImgMenu="false"
 											:content="formatEmoji(item.text)"></uv-parse>
 									</view>
-									<view v-if="item.parent != data.coid&&item.authorId!=item.parentComments.authorId"
+									<view
+										v-if="item.parent != data.id&&item.userInfo.uid!=item.parentComment.userInfo.uid"
 										class="u-line-1" style="
 										padding-left:20rpx;
 										border-left: 6rpx #85a3ff1e solid;
@@ -173,9 +177,9 @@
 										color: #999;
 										display: flex !important;">
 										<text
-											style="color:#a899e6;flex-shrink: 0;padding-right: 10rpx;">@{{item.parentComments.author}}</text>
+											style="color:#a899e6;flex-shrink: 0;padding-right: 10rpx;">@{{item.parentComment.userInfo.screenName?item.parentComment.userInfo.screenName:item.parentComment.userInfo.name}}</text>
 										<uv-parse :previewImg="false" selectable :showImgMenu="false"
-											:content="item.parentComments.text" class="u-line-1"></uv-parse>
+											:content="item.parentComment.text" class="u-line-1"></uv-parse>
 									</view>
 									<u-swiper :list="item.images" v-if="item.images && item.images.length"
 										:autoplay="false" indicator height="150" indicator-style="left" radius="10"
@@ -185,7 +189,8 @@
 										<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 											<text>{{$u.timeFrom(item.created,'mm-dd')}}</text>
 											<u-row customStyle="flex-basis:30%" justify="space-between">
-												<u-row @click="commentCheck(true,item.coid,item.author)">
+												<u-row
+													@click="commentCheck(true,item.id,item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name)">
 													<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
 													<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
 												</u-row>
@@ -206,9 +211,11 @@
 			<template #bottom>
 				<u-row customStyle="margin:20rpx;" justify="space-between">
 					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1;background:#85a3ff1e"
-						class="u-info" @click="commentCheck(false,data.coid,data.author);">
+						class="u-info"
+						@click="commentCheck(false,data.id,data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name);">
 						<u-icon name="edit-pen" size="20"></u-icon>
-						<text style="margin-left:10rpx;font-size: 28rpx;">回复{{data.author}}</text>
+						<text
+							style="margin-left:10rpx;font-size: 28rpx;">回复{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
 					</u-row>
 				</u-row>
 
@@ -369,24 +376,20 @@
 				let params = {
 					page,
 					limit,
-					searchParams: JSON.stringify({
-						cid: this.data.cid,
-						type: 'comment',
-						allparent: this.data.coid,
-						authorId: order.name == '只看楼主' ? this.data.ownerId : null
-					}),
+					id: this.data.cid,
+					all: this.data.id,
 					order: order.order
 				}
 
 				if (order.name == '只看楼主') {
 					params.order = null
 				}
-				this.$http.get('/comments/commentsList', {
+				this.$http.get('/comments/list', {
 					params
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+						this.$refs.paging.complete(res.data.data.data)
 					}
 					setTimeout(() => {
 						this.loading = false
@@ -415,17 +418,18 @@
 							uni.$u.toast('再多说点吧~')
 							return;
 						};
-
-						let params = JSON.stringify(params = {
-							cid: this.data.cid,
+						console.log(this.data.article)
+						let params = {
+							id: this.data.article.id,
 							parent: this.pid,
-							allparent: this.data.coid,
+							all: this.data.id,
 							text: this.commentText,
 							images: this.images
-						})
+						}
+						console.log(params)
 						this.isReply = true
-						this.$http.post('/comments/commentsAdd', {
-							params
+						this.$http.post('/comments/add', {
+							...params
 						}).then(res => {
 							if (res.data.code) {
 								uni.$u.toast('已发送~')

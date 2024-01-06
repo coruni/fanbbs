@@ -46,9 +46,9 @@
 									style="font-weight: 600;font-size: 34rpx;">{{userInfo && userInfo.screenName}}</text>
 								<uv-line-progress :height="4"
 									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
-									:percentage="100-((userInfo.nextExp - userInfo.experience) / userInfo.nextExp) * 100"
+									:percentage="100-((userInfo.nextLevel - userInfo.experience) / userInfo.nextExp) * 100"
 									:showText="false" style="position: absolute;bottom: 0;width: 100%;"
-									v-if="userInfo && userInfo.experience && userInfo.nextExp && userInfo.level">
+									v-if="userInfo && userInfo.experience && userInfo.nextLevel && userInfo.level">
 								</uv-line-progress>
 							</view>
 							<i @click="showLevel = true" v-if="userInfo.level"
@@ -75,19 +75,19 @@
 				</u-row>
 				<u-row justify="space-around" customStyle="margin-top:40rpx">
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.contentsNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.articles}}</text>
 						<text>帖子</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.followNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.follows}}</text>
 						<text>关注</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.fanNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.fans}}</text>
 						<text>粉丝</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.commentsNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.comments}}</text>
 						<text>评论</text>
 					</view>
 				</u-row>
@@ -386,12 +386,12 @@
 				if (!uni.getStorageSync('token')) return;
 				this.$http.get('/user/userInfo', {
 					params: {
-						key: this.userInfo.uid,
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
-					}
+						id: this.userInfo.uid,
+					},
+					
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
+					if (res.data.code==200) {
 						this.$store.commit('setUser', res.data.data)
 					}
 
@@ -401,11 +401,8 @@
 			},
 			getUserMeta() {
 				this.$http.get('/user/userData', {
-					params: {
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
-					}
 				}).then(res => {
-					if (res.data.code) {
+					if (res.data.code==200) {
 						this.$store.commit('setUserMeta', res.data.data)
 					}
 				})
@@ -452,14 +449,10 @@
 			},
 			save(url) {
 				this.$http.post('/user/userEdit', {
-					params: JSON.stringify({
-						uid: this.userInfo.uid,
-						name: this.userInfo.name,
-						userBg: url
-					})
+					background: url
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
+					if (res.data.code==200) {
 						this.getUserInfo()
 					}
 				})

@@ -17,7 +17,8 @@
 			<view style="margin-top: 30rpx;display: flex; align-items: center; justify-content: space-between;">
 				<text style="background: #85a3ff1a;color: #85a3ff;padding:8rpx 16rpx;border-radius: 10rpx;"
 					@click="showHeadUpload = true">自定义</text>
-				<text style="background: #85a3ff1a;color: #85a3ff;padding:8rpx 16rpx;border-radius: 10rpx;" @click="showMyHead = true">我的头像框</text>
+				<text style="background: #85a3ff1a;color: #85a3ff;padding:8rpx 16rpx;border-radius: 10rpx;"
+					@click="showMyHead = true">我的头像框</text>
 			</view>
 
 		</view>
@@ -57,23 +58,23 @@
 		</u-popup>
 		<!-- 我的头像框 -->
 		<u-popup round="10" :show="showMyHead" @close="showMyHead=false" :closeable="true">
-		<view style="padding: 30rpx;height: 60vh;">
-			<view style="margin-top: 20rpx;">
-				<text>我的头像框</text>
+			<view style="padding: 30rpx;height: 60vh;">
+				<view style="margin-top: 20rpx;">
+					<text>我的头像框</text>
+				</view>
+				<z-paging :fixed="false" use-page-scroll ref="myhead" v-model="myHead" @query="getMyHead">
+					<u-grid col="4">
+						<u-grid-item v-for="(item,index) in myHead" :key="index"
+							customStyle="flex-wrap:wrap;height:180rpx;width:180rpx"
+							@click="$u.throttle(setHeadPicture(item),1000,true)">
+							<view style="position: relative;top: 0;margin:30rpx;padding-left: 10rpx">
+								<u-avatar :src="userInfo.avatar" size="55"></u-avatar>
+								<image :src="item.link" class="avatar_head" mode="aspectFit"></image>
+							</view>
+						</u-grid-item>
+					</u-grid>
+				</z-paging>
 			</view>
-			<z-paging :fixed="false" use-page-scroll ref="myhead" v-model="myHead" @query="getMyHead">
-				<u-grid col="4">
-					<u-grid-item v-for="(item,index) in myHead" :key="index"
-						customStyle="flex-wrap:wrap;height:180rpx;width:180rpx"
-						@click="$u.throttle(setHeadPicture(item),1000,true)">
-						<view style="position: relative;top: 0;margin:30rpx;padding-left: 10rpx">
-							<u-avatar :src="userInfo.avatar" size="55"></u-avatar>
-							<image :src="item.link" class="avatar_head" mode="aspectFit"></image>
-						</view>
-					</u-grid-item>
-				</u-grid>
-			</z-paging>
-		</view>
 		</u-popup>
 	</view>
 </template>
@@ -98,40 +99,30 @@
 			...mapState(['userInfo'])
 		},
 		created() {
-			
+
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/headpicture/headList', {
+				this.$http.get('/headpicture/list', {
 					params: {
 						page,
 						limit: 50,
-						searchParams: JSON.stringify({
-							type: 1
-						}),
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+					if (res.data.code == 200) {
+						this.$refs.paging.complete(res.data.data.data)
 					}
 				})
 			},
 			getMyHead() {
-				this.$http.get('/headpicture/headList', {
+				this.$http.get('/headpicture/list', {
 					params: {
-						limit: 50,
-						searchParams: JSON.stringify({
-							type: 0
-						}),
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : '',
-						self: true
+						limit: 50
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code) {
-						this.myHead = res.data.data
+						this.myHead = res.data.data.data
 					}
 				})
 			},
@@ -142,14 +133,10 @@
 				}
 				opt.head_picture = data.id
 				this.$http.post('/user/userEdit', {
-					params: JSON.stringify({
-						name: this.userInfo.name,
-						uid: this.userInfo.uid,
-						opt: JSON.stringify(opt)
-					})
+					opt: JSON.stringify(opt)
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
+					if (res.data.code == 200) {
 						this.getUserInfo()
 					}
 				})
@@ -158,8 +145,7 @@
 				if (!uni.getStorageSync('token')) return;
 				this.$http.get('/user/userInfo', {
 					params: {
-						key: this.userInfo.uid,
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+						id: this.userInfo.uid,
 					}
 				}).then(res => {
 					if (res.data.code) {

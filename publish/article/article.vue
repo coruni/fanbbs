@@ -72,109 +72,110 @@
 					</view>
 				</u-row>
 			</view>
+			<view v-if="showPanel" :style="{height:panelHeight+'px'}">
+				<!-- 表情 -->
+				<view v-show="itemName =='emoji'" style="height: 100%;">
+					<block v-for="(one,oneIndex) in emojiData" :key="oneIndex">
+						<swiper :style="{height:panelHeight-30+'px'}" v-show="emojiIndex == oneIndex">
+							<swiper-item v-for="(two,twoIndex) in one.list" :key="twoIndex">
+								<u-row justify="space-between" customStyle="flex-wrap:wrap">
+									<image :src="one.base+one.slug+'_'+three+'.'+one.format" v-for="(three,key) in two"
+										:key="key" mode="aspectFill" style="width: 100rpx;height: 100rpx;margin: 10rpx;"
+										@click="insertEmoji(one.base,one.name,one.slug,three,one.format,key)"></image>
+								</u-row>
+							</swiper-item>
+						</swiper>
+					</block>
+					<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#85a3ff"
+						itemStyle="height: 24px;"
+						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
+						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
+						style="position: static;"></u-tabs>
+				</view>
+				<!-- 颜色 -->
+				<view v-show="itemName=='format'" style="height: 100%;">
+					<u-row justify="space-between">
+						<u-row justify="start" v-for="(color,index) in format.color" :key="index"
+							customStyle="flex-direction:column">
+							<text :style="{background:color,padding:25+'rpx',borderRadius:50+'rpx'}"
+								@click="formatTool('color',color)"></text>
+							<u-icon name="arrow-up-fill" color="#999"
+								v-if="formatStatus && formatStatus.color&&formatStatus.color.toLowerCase() == color"></u-icon>
+						</u-row>
+					</u-row>
+					<u-row customStyle="padding-top:40rpx" justify="space-between">
+						<text v-for="(method,index) in format.method" :key="index"
+							@click="formatTool(method.tool)">{{method.name}}</text>
+						<text @click="editorCtx.removeFormat()">清除选区</text>
+						<text @click="editorCtx.undo()">撤销</text>
+					</u-row>
+				</view>
+
+				<!-- 更多 -->
+				<view v-show="itemName=='more'">
+					<u-row justify="space-between" style="padding-bottom: 10rpx;">
+						<text style="font-weight: bold;">添加文件</text>
+						<u-row>
+							<i class="ess icon-pic_line" style="font-size: 40rpx;"
+								@click="$refs.insertImage.open();showInsertImage = true"></i>
+							<i class="ess icon-play_circle_line" style="font-size: 40rpx;margin-left: 30rpx;"></i>
+						</u-row>
+					</u-row>
+					<block v-for="(item,index) in article.opt.files" :key="index">
+						<u-row customStyle="margin-bottom:10rpx">
+							<u-col span="2" customStyle="margin-left:10rpx">
+								<u-input placeholder="名称" :adjustPosition="false" border="none" font-size="12"
+									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
+									v-model="article.opt.files[index].name"></u-input>
+							</u-col>
+							<u-col span="5" customStyle="margin-left:10rpx">
+								<u-input placeholder="资源链接" :adjustPosition="false" border="none" font-size="12"
+									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
+									v-model="article.opt.files[index].link"></u-input>
+							</u-col>
+							<u-col span="2" customStyle="margin-left:10rpx">
+								<u-input placeholder="提取码" :adjustPosition="false" border="none" font-size="12"
+									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
+									v-model="article.opt.files[index].password"></u-input>
+							</u-col>
+							<u-col span="2" customStyle="margin-left:5rpx">
+								<u-input placeholder="解压密码" :adjustPosition="false" border="none" font-size="12"
+									customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
+									v-model="article.opt.files[index].unzipPass"></u-input>
+							</u-col>
+							<u-col span="1" customStyle="margin-left:10rpx">
+								<u-icon :name="article.opt.files.length>=2?'minus-circle':'plus-circle'" size="20"
+									color="#85a3ff" @click="addFile(index)"></u-icon>
+							</u-col>
+						</u-row>
+					</block>
+				</view>
+
+				<!-- 设置 -->
+				<view v-show="itemName=='setting'">
+					<u-row justify="space-between">
+						<u-row customStyle="flex-direction:column" justify="start" align="top">
+							<text style="font-size: 32rpx;font-weight: bold;">创作声明</text>
+							<text style="font-size: 26rpx;color: #999;">开启之后文章显示创作声明</text>
+						</u-row>
+						<u-switch size="20" v-model="article.opt.create" activeColor="#85a3ff"></u-switch>
+					</u-row>
+					<u-gap height="6"></u-gap>
+					<u-row justify="space-between">
+						<text style="font-size: 32rpx;font-weight: bold;">允许评论</text>
+						<u-switch size="20" v-model="article.allowComment" activeColor="#85a3ff"></u-switch>
+					</u-row>
+					<u-gap height="6"></u-gap>
+					<u-row justify="space-between">
+						<text style="font-size: 32rpx;font-weight: bold;">付费可见价格</text>
+						<u-number-box v-model="article.price" integer :min="0" :max="100"></u-number-box>
+					</u-row>
+				</view>
+			</view>
 			<!-- 视频处理 -->
 			<view style="display: none;" :prop="videoPath" :change:prop="capture.captures"></view>
 		</view>
-		<view v-if="showPanel" :style="{height:panelHeight+'px'}">
-			<!-- 表情 -->
-			<view v-show="itemName =='emoji'" style="height: 100%;">
-				<block v-for="(one,oneIndex) in emojiData" :key="oneIndex">
-					<swiper :style="{height:panelHeight-30+'px'}" v-show="emojiIndex == oneIndex">
-						<swiper-item v-for="(two,twoIndex) in one.list" :key="twoIndex">
-							<u-row justify="space-between" customStyle="flex-wrap:wrap">
-								<image :src="one.base+one.slug+'_'+three+'.'+one.format" v-for="(three,key) in two"
-									:key="key" mode="aspectFill" style="width: 100rpx;height: 100rpx;margin: 10rpx;"
-									@click="insertEmoji(one.base,one.name,one.slug,three,one.format,key)"></image>
-							</u-row>
-						</swiper-item>
-					</swiper>
-				</block>
-				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#85a3ff"
-					itemStyle="height: 24px;"
-					:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
-					:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
-					style="position: static;"></u-tabs>
-			</view>
-			<!-- 颜色 -->
-			<view v-show="itemName=='format'" style="height: 100%;">
-				<u-row justify="space-between">
-					<u-row justify="start" v-for="(color,index) in format.color" :key="index"
-						customStyle="flex-direction:column">
-						<text :style="{background:color,padding:25+'rpx',borderRadius:50+'rpx'}"
-							@click="formatTool('color',color)"></text>
-						<u-icon name="arrow-up-fill" color="#999"
-							v-if="formatStatus && formatStatus.color&&formatStatus.color.toLowerCase() == color"></u-icon>
-					</u-row>
-				</u-row>
-				<u-row customStyle="padding-top:40rpx" justify="space-between">
-					<text v-for="(method,index) in format.method" :key="index"
-						@click="formatTool(method.tool)">{{method.name}}</text>
-					<text @click="editorCtx.removeFormat()">清除选区</text>
-					<text @click="editorCtx.undo()">撤销</text>
-				</u-row>
-			</view>
 
-			<!-- 更多 -->
-			<view v-show="itemName=='more'">
-				<u-row justify="space-between" style="padding-bottom: 10rpx;">
-					<text style="font-weight: bold;">添加文件</text>
-					<u-row>
-						<i class="ess icon-pic_line" style="font-size: 40rpx;"
-							@click="$refs.insertImage.open();showInsertImage = true"></i>
-						<i class="ess icon-play_circle_line" style="font-size: 40rpx;margin-left: 30rpx;"></i>
-					</u-row>
-				</u-row>
-				<block v-for="(item,index) in article.opt.files" :key="index">
-					<u-row customStyle="margin-bottom:10rpx">
-						<u-col span="2" customStyle="margin-left:10rpx">
-							<u-input placeholder="名称" :adjustPosition="false" border="none" font-size="12"
-								customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
-								v-model="article.opt.files[index].name"></u-input>
-						</u-col>
-						<u-col span="5" customStyle="margin-left:10rpx">
-							<u-input placeholder="资源链接" :adjustPosition="false" border="none" font-size="12"
-								customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
-								v-model="article.opt.files[index].link"></u-input>
-						</u-col>
-						<u-col span="2" customStyle="margin-left:10rpx">
-							<u-input placeholder="提取码" :adjustPosition="false" border="none" font-size="12"
-								customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
-								v-model="article.opt.files[index].password"></u-input>
-						</u-col>
-						<u-col span="2" customStyle="margin-left:5rpx">
-							<u-input placeholder="解压密码" :adjustPosition="false" border="none" font-size="12"
-								customStyle="padding: 8rpx;background:#f7f7f7;border-radius:10rpx"
-								v-model="article.opt.files[index].unzipPass"></u-input>
-						</u-col>
-						<u-col span="1" customStyle="margin-left:10rpx">
-							<u-icon :name="article.opt.files.length>=2?'minus-circle':'plus-circle'" size="20"
-								color="#85a3ff" @click="addFile(index)"></u-icon>
-						</u-col>
-					</u-row>
-				</block>
-			</view>
-
-			<!-- 设置 -->
-			<view v-show="itemName=='opt'">
-				<u-row justify="space-between">
-					<u-row customStyle="flex-direction:column" justify="start" align="top">
-						<text style="font-size: 32rpx;font-weight: bold;">创作声明</text>
-						<text style="font-size: 26rpx;color: #999;">开启之后文章显示创作声明</text>
-					</u-row>
-					<u-switch size="20" v-model="article.opt.create" activeColor="#85a3ff"></u-switch>
-				</u-row>
-				<u-gap height="6"></u-gap>
-				<u-row justify="space-between">
-					<text style="font-size: 32rpx;font-weight: bold;">允许评论</text>
-					<u-switch size="20" v-model="article.allowComment" activeColor="#85a3ff"></u-switch>
-				</u-row>
-				<u-gap height="6"></u-gap>
-				<u-row justify="space-between">
-					<text style="font-size: 32rpx;font-weight: bold;">付费可见价格</text>
-					<u-number-box v-model="article.price" integer :min="0" :max="100"></u-number-box>
-				</u-row>
-			</view>
-		</view>
 		<!-- 组件 -->
 		<!-- 分类 -->
 		<u-popup mode="right" :show="showCategory" @close="showCategory = false">
@@ -470,34 +471,35 @@
 			getCategory() {
 				this.$http.get('/category/list', {
 					params: {
-						searchParams: JSON.stringify({
-							type: 'category',
-
-						}),
+						page: 1,
+						limit: 50,
+						params: JSON.stringify({
+							type: 'category'
+						})
 					}
 				}).then(res => {
-					if (res.data.code) {
-
-						for (let i in res.data.data) {
-							if (res.data.data[i].mid == 1) this.article.category = res.data.data[i];
+					console.log(res)
+					if (res.data.code == 200) {
+						for (let i in res.data.data.data) {
+							if (res.data.data.data[i].mid == 1) this.article.category = res.data.data.data[i];
 						}
-						this.category = res.data.data
+						this.category = res.data.data.data
 					}
 				})
 			},
 			getTags() {
 				this.$http.get('/category/list', {
 					params: {
-						searchParams: JSON.stringify({
+						page: 1,
+						limit: 10,
+						params: JSON.stringify({
 							type: 'tag',
 						}),
 						order: 'count'
 					}
 				}).then(res => {
-
 					if (res.data.code) {
-						this.tags = res.data.data
-
+						this.tags = res.data.data.data
 					}
 				})
 			},
@@ -667,17 +669,14 @@
 						this.$refs.publish.open();
 						let tags = this.article.tags.map(tag => tag.mid).join(',');
 						this.$http.post('/article/articleAdd', {
-							params: JSON.stringify({
-								title: this.article.title,
-								text: this.article.text,
-								category: this.article.category.mid,
-								mid: this.article.category.mid,
-								tag: tags,
-								opt: JSON.stringify(this.article.opt),
-								price: this.article.price,
-								discount: this.article.discount
-							}),
+							title: this.article.title,
 							text: this.article.text,
+							category: this.article.category.mid,
+							mid: this.article.category.mid,
+							tag: tags,
+							opt: JSON.stringify(this.article.opt),
+							price: this.article.price,
+							discount: this.article.discount,
 						}).then(res => {
 							if (res.data.code) {
 								setTimeout(() => {
@@ -789,7 +788,7 @@
 						alt: `src=${this.videoInfo.url}|poster=${poster}|type=video`,
 						width: '100%',
 						height: '200px',
-						extClass:'imageCover',
+						extClass: 'imageCover',
 						data: {
 							type: 'video',
 							poster: poster,
@@ -847,21 +846,21 @@
 			getContentInfo(id) {
 				this.$http.get('/article/info', {
 					params: {
-						key: id,
-						isMd: 1,
+						id,
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
-					}
+					},
+
 				}).then(res => {
-					if (res.data) {
-						this.article.cid = res.data.cid
-						this.article.title = res.data.title
-						this.article.text = res.data.text
-						this.article.category = res.data.category[0] ? res.data.category[0] : this.category[0]
-						this.article.tags = res.data.tag
-						this.article.mid = res.data.mid
-						this.article.opt = res.data.opt
-						this.article.price = res.data.price
-						this.article.discount = res.data.discount
+					if (res.data.code == 200) {
+						this.article.cid = res.data.data.cid
+						this.article.title = res.data.data.title
+						this.article.text = res.data.data.text
+						this.article.category = res.data.data.category ? res.data.data.category : this.category[0]
+						this.article.tags = res.data.data.tag
+						this.article.mid = res.data.data.mid
+						this.article.opt = res.data.data.opt
+						this.article.price = res.data.data.price
+						this.article.discount = res.data.data.discount
 
 						this.editorCtx.getContents({
 							success: (res) => {
@@ -898,22 +897,19 @@
 						}
 						console.log(this.article)
 						let tags = this.article.tags.map(tag => tag.mid).join(',');
-						this.$http.post('/article/articleUpdate', {
-							params: JSON.stringify({
-								cid: this.article.cid,
-								title: this.article.title,
-								text: this.article.text,
-								category: this.article.category.mid ? this.article.category
-									.mid : this.article.mid,
-								mid: this.article.category.mid ? this.article.category.mid :
-									this.article.mid,
-								tag: tags,
-								price: this.article.price,
-								discount: this.article.discount,
-								opt: JSON.stringify(this.article.opt)
-							}),
-							isMd: 0,
+						this.$http.post('/article/update', {
+							id: this.article.cid,
+							title: this.article.title,
+							text: this.article.text,
+							category: this.article.category.mid ? this.article.category
+								.mid : this.article.category[0].mid,
+							mid: this.article.category.mid ? this.article.category.mid : this.article.category[0].mid,
+							tag: tags,
+							price: this.article.price,
+							discount: this.article.discount,
+							opt: JSON.stringify(this.article.opt)
 						}).then(res => {
+							console.log(res)
 							if (res.data.code) {
 								uni.$u.toast(res.data.msg)
 								setTimeout(() => {
@@ -1045,7 +1041,8 @@
 	.button_hover {
 		opacity: 0.5;
 	}
-	.imageCover{
+
+	.imageCover {
 		position: relative;
 		object-fit: cover;
 		width: 100%;

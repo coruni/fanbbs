@@ -70,7 +70,7 @@
 				})
 			},
 			clearNotice() {
-				this.$http.post('/user/setRead', {
+				this.$http.post('/user/clearNum', {
 					type: 'system'
 				}).then(res => {
 					console.log(res)

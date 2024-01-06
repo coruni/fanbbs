@@ -58,19 +58,19 @@
 		methods: {
 			getData(page, limit) {
 				this.$http.get('/article/articleList', {
-					params:{
+					params: {
 						page,
 						limit,
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							mid: this.mid,
 						}),
 						random: 1,
 						order: 'likes desc,replyTime desc,text desc,views desc,created desc',
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+						
 					}
 				}).then(res => {
 					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+						this.$refs.paging.complete(res.data.data.data)
 					}
 				})
 			},

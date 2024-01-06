@@ -110,11 +110,11 @@
 
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/shop/shopList', {
+				this.$http.get('/shop/list', {
 					params: {
 						page,
 						limit,
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							status: 1
 						})
 					}

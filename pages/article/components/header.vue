@@ -24,7 +24,7 @@
 				</view>
 				<view style="display: flex;flex-direction: column;margin-left:20rpx;font-size: 30rpx;width: 0;flex:1">
 					<u-row>
-						<text style="font-weight: 600;">{{data && data.authorInfo && data.authorInfo.name}}</text>
+						<text style="font-weight: 600;">{{data.authorInfo&& data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
 						<i v-if="data.authorInfo.level" :class="`level icon-lv-${data.authorInfo.level}`"
 							style="font-size: 50rpx; margin-left: 10rpx;"
 							:style="{ color: data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }">
@@ -35,12 +35,12 @@
 				</view>
 			</u-row>
 			<view>
-				<u-button :plain="data && data.authorInfo&& !data.authorInfo.isfollow" shape="circle"
+				<u-button :plain="data && data.authorInfo&& !data.authorInfo.isFollow" shape="circle"
 					hover-class="button_hover"
-					:color="data && data.authorInfo&& data.authorInfo.isfollow?'#85a3ff0f':'#85a3ff'"
+					:color="data && data.authorInfo&& data.authorInfo.isFollow?'#85a3ff0f':'#85a3ff'"
 					customStyle="width:160rpx;height:65rpx"
-					:style="{color:data && data.authorInfo&& data.authorInfo.isfollow?'black':'#85a3ff'}"
-					:text="data && data.authorInfo&& data.authorInfo.isfollow?'已关注':'关注'"
+					:style="{color:data && data.authorInfo&& data.authorInfo.isFollow?'black':'#85a3ff'}"
+					:text="data && data.authorInfo&& data.authorInfo.isFollow?'已关注':'关注'"
 					@click="$emit('follow',data.authorId)"></u-button>
 			</view>
 		</u-row>

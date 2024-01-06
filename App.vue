@@ -17,10 +17,6 @@
 				this.$store.commit('setUserMeta', uni.getStorageSync('userMeta'));
 				this.$store.commit('loginStatus');
 				this.getNoticeNum()
-				//检测登录状态
-				setTimeout(() => {
-					this.checkStstus()
-				}, 200)
 			}
 			setTimeout(() => {
 				this.getAppData()
@@ -38,20 +34,9 @@
 		},
 		methods: {
 			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
-			checkStstus() {
-				http.get('/user/userStatus', {
-					params: {
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
-					}
-				}).then(res => {
-					if (!res.data.code) {
-						//状态不通过重新登录
-						this.login()
-					}
-				})
-			},
+			
 			getNoticeNum() {
-				http.get('/user/unreadNum', {
+				http.get('/user/noticeNum', {
 					params: {
 						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
@@ -65,12 +50,10 @@
 				let account = uni.getStorageSync('account')
 				console.log(account,'账号信息')
 				if (!account) return;
-				http.get('/user/userLogin', {
+				http.get('/user/login', {
 					params: {
-						params: {
-							name: account.name,
-							password: account.password
-						}
+						account: account.name,
+						password: account.password
 					}
 				}).then(res => {
 					console.log(res)
@@ -92,7 +75,7 @@
 			getUserInfo(uid) {
 				http.get('/user/userInfo', {
 					params: {
-						key: uid
+						id: uid
 					}
 				}).then(res => {
 					console.log(res)

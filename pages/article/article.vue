@@ -110,7 +110,7 @@
 				<block v-for="(item,index) in comments" v-if="comments">
 					<view style="margin:10rpx 0">
 						<comment :data="item" @subComment="subComment = $event;showSub =true"
-							@reply="pid = $event.coid;showComment =true" :article="article"></comment>
+							@reply="pid = $event.id;showComment =true" :article="article"></comment>
 					</view>
 				</block>
 			</view>
@@ -131,7 +131,7 @@
 								<u-text text="发电" size="12"></u-text>
 							</view>
 							<view style="display: flex; flex-direction: column;align-items: center;"
-								@click="$u.throttle(btnTap('mark'),1000,true)">
+								@click="$u.throttle(mark(),1000,true)">
 								<i class="ess icon-star_line" style="font-size: 44rpx;"
 									:style="{color:article && article.isMark?'#85a3ff':''}"
 									:class="{'animate__animated animate__pulse':article && article.isMark}"></i>
@@ -140,7 +140,7 @@
 							</view>
 
 							<view style="display: flex; flex-direction: column;align-items: center;"
-								@click="$u.throttle(btnTap('likes'),1000,true)">
+								@click="$u.throttle(like(),1000,true)">
 								<i class="ess icon-thumb_up_2_line" style="font-size: 44rpx;"
 									:style="{color:article && article.isLike?'#85a3ff':''}"
 									:class="{'animate__animated animate__pulse':article && article.isLike}"></i>
@@ -265,7 +265,7 @@
 							<text style="margin-left:20rpx">通过系统分享</text>
 						</u-row>
 						<view
-							v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.groupKey =='administrator'">
+							v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.group =='administrator'">
 							<u-row customStyle="margin-bottom: 30rpx;" @click="goEdit()">
 								<i class="ess icon-edit_line" style="font-size: 40rpx;"></i>
 								<text style="margin-left:20rpx">编辑</text>
@@ -490,16 +490,13 @@
 			getData(id) {
 				this.$http.get('/article/info', {
 					params: {
-						key: id ? id : this.cid,
-						isMd: 0,
-						uid: this.$store.state.hasLogin ? this.$store.state.userInfo.uid : '',
-						token: uni.getStorageSync('token')
-					}
+						id: id ? id : this.cid,
+					},
 				}).then(res => {
 					console.log(res)
 					if (res.statusCode == 200) {
-						this.article = res.data
-						this.article.text = res.data && this.replaceEmoji(res.data.text)
+						this.article = res.data.data
+						this.article.text = res.data.data && this.replaceEmoji(res.data.data.text)
 					}
 				})
 			},
@@ -567,25 +564,23 @@
 				let params = {
 					page,
 					limit,
-					searchParams: JSON.stringify({
-						type: 'comment',
-						cid: this.cid,
-						parent: 0,
-						authorId: order.name == '只看楼主' ? this.article.authorId : null
-					}),
+					all: 0,
+					parent: 0,
+					id: this.cid,
 					order: order.order
 				}
-
 				if (order.name == '只看楼主') {
 					params.order = null
 				}
-				this.$http.get('/comments/commentsList', {
+				this.$http.get('/comments/list', {
 					params
 				}).then(res => {
-					if (res.statusCode == 200) {
-						this.$refs.comments.complete(res.data.data)
+					console.log(res)
+					if (res.data.code == 200) {
+						this.$refs.comments.complete(res.data.data.data)
 					}
 				}).catch(err => {
+					console.log(err)
 					this.$refs.comments.complete(false)
 				})
 			},
@@ -597,25 +592,26 @@
 							function(match, alt) {
 								return `[${alt}]`;
 							});
-						console.log(res.text, this.commentText.length)
 						if (res.text.length < 2) {
 							uni.$u.toast('再多说点吧~')
 							return;
 						};
 
-						let params = JSON.stringify(params = {
-							cid: this.cid,
-							ownerId: this.article.authorId,
+						let params = {
+							id: this.article.cid,
 							parent: this.pid ? this.pid : 0,
-							allParent: this.pid ? this.pid : 0,
+							all: this.pid ? this.pid : 0,
 							text: this.commentText,
 							images: this.images
-						})
+						}
+						console.log(params)
 						this.isReply = true
-						this.$http.post('/comments/commentsAdd', {
-							params
+						this.$http.post('/comments/add', {
+							...params
 						}).then(res => {
-							if (res.data.code) {
+							console.log(res)
+
+							if (res.data.code == 200) {
 								uni.$u.toast('已发送~')
 								this.commentText = null
 								this.showComment = false
@@ -627,6 +623,7 @@
 							}
 							this.isReply = false
 						}).catch(err => {
+							console.log(err)
 							this.isReply = false
 						})
 					}
@@ -666,35 +663,23 @@
 				}
 
 			},
-			btnTap(type, num) {
-
-				this.$http.post('/userlog/addLog', {
-					params: JSON.stringify({
-						type,
-						cid: this.article.cid,
-						num,
-					})
+			like() {
+				this.$http.post('/article/like', {
+					id: this.article.cid
 				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
-						uni.$u.toast(type == 'likes' ? '点赞' + res.data.msg : res.data.msg)
-						switch (type) {
-							case 'likes':
-								this.article.isLike = !this.article.isLike
-								break;
-							case 'mark':
-								this.article.isMark = !this.article.isMark
-								break;
-							case 'reward':
-								uni.$u.toast('投喂' + res.data.msg)
-								setTimeout(() => {
-									this.$refs.reward.close()
-								}, 500)
-							default:
-								break;
-						}
-					} else {
+					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
+						this.article.isLike = !this.article.isLike
+					}
+				})
+			},
+			mark() {
+				this.$http.post('/article/mark', {
+					id: this.article.cid
+				}).then(res => {
+					if (res.data.code == 200) {
+						uni.$u.toast(res.data.msg)
+						this.article.isMark = !this.article.isMark
 					}
 				})
 			},
@@ -736,10 +721,10 @@
 					return;
 				};
 				this.$http.post('/user/follow', {
-					touid: id,
+					id
 				}).then(res => {
 					uni.$u.toast(res.data.msg)
-					this.article.authorInfo.isfollow = !this.article.authorInfo.isfollow
+					this.article.authorInfo.isFollow = !this.article.authorInfo.isFollow
 				})
 			},
 			onEditorReady() {
@@ -839,8 +824,8 @@
 				else this.showComment = true;
 			},
 			buyHide() {
-				this.$http.post('/article/buyHide', {
-					cid: this.article.cid
+				this.$http.post('/article/buy', {
+					id: this.article.cid
 				}).then(res => {
 					if (res.data.code) {
 						uni.$u.toast(res.data.msg)
@@ -852,10 +837,10 @@
 				})
 			},
 			deleteArticle() {
-				this.$http.post('/article/articleDelete', {
-					key: this.article.cid
+				this.$http.post('/article/delete', {
+					id: this.article.cid
 				}).then(res => {
-					if (res.data.code) {
+					if (res.data.code == 200) {
 						this.showDelete = false
 						uni.$u.toast(res.data.msg)
 						setTimeout(() => {

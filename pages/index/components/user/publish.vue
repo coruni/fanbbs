@@ -2,7 +2,8 @@
 	<view>
 		<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
 			style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" use-cache	:cache-key="`user_publish`">
+			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" use-cache
+			:cache-key="`user_publish`">
 			<block v-for="(item,index) in article">
 				<view style="margin: 30rpx;" @click="goArticle(item)">
 					<u-row align="bottom" customStyle="margin-bottom:20rpx">
@@ -10,7 +11,7 @@
 						<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
 						<view v-if="item.category&&item.category.length" style="color: #999;font-size: 26rpx;">
 							<text style="margin: 0 10rpx;">·</text>
-							<text>{{item.category[0].name}}</text>
+							<text>{{item.category.name}}</text>
 						</view>
 					</u-row>
 					<articleContent :data="item"></articleContent>
@@ -60,14 +61,14 @@
 				this.$http.post('/article/articleList', {
 					page,
 					limit,
-					searchParams: JSON.stringify({
+					params: JSON.stringify({
 						type: 'post',
 						authorId: this.$store.state.userInfo.uid
 					}),
-					order: 'created desc'
-
+					order: 'created desc',
+					
 				}).then(res => {
-					this.$refs.paging.complete(res.data.data)
+					this.$refs.paging.complete(res.data.data.data)
 				})
 			},
 			goArticle(data) {

@@ -79,7 +79,7 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/comments/commentsList', {
+				this.$http.get('/comments/list', {
 					params: {
 						page,
 						limit,
@@ -92,8 +92,8 @@
 
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+					if (res.data.code==200) {
+						this.$refs.paging.complete(res.data.data.data)
 					}
 				})
 			},

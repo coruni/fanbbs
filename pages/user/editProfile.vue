@@ -41,9 +41,9 @@
 			<u-gap height="10"></u-gap>
 			<view>
 				<u-text text="性别" bold color="#999"></u-text>
-				<view @click="showSexChoose = true">
+				<view @tap.stop="showSexChoose = true">
 					<u-input type="idcard" v-model="info.sex" placeholder="选择性别"
-						customStyle="padding:10rpx 20rpx;border-radius:10rpx" disabled disabledColor="">
+						customStyle="padding:10rpx 20rpx;border-radius:10rpx" :disabled="showSexChoose" disabledColor="none">
 						<view slot="suffix">
 							<u-icon name="arrow-right" color="#999" size="12"></u-icon>
 						</view>
@@ -111,6 +111,7 @@
 		},
 		created() {
 			this.info = this.userInfo
+			console.log(this.info)
 		},
 		methods: {
 			choose(isAvatar) {
@@ -142,16 +143,12 @@
 				})
 			},
 			save() {
-				this.$http.post('/user/userEdit', {
-					params: JSON.stringify({
-						uid: this.userInfo.uid,
-						name: this.userInfo.name,
-						introduce: this.info.introduce,
-						sex: this.info.sex,
-						screenName: this.info.screenName,
-						avatar: this.info.avatar,
-						userBg: this.info.userBg
-					})
+				this.$http.post('/user/update', {
+					introduce: this.info.introduce,
+					sex: this.info.sex,
+					nickname: this.info.screenName,
+					avatar: this.info.avatar,
+					background: this.info.userBg
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
@@ -163,11 +160,11 @@
 				if (!uni.getStorageSync('token')) return;
 				this.$http.get('/user/userInfo', {
 					params: {
-						key: this.userInfo.uid,
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+						id: this.userInfo.uid,
 					}
 				}).then(res => {
-					if (res.data.code) {
+					console.log(res)
+					if (res.data.code==200) {
 						this.$store.commit('setUser', res.data.data)
 						uni.$u.toast('资料已更新')
 					}
