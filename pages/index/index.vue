@@ -3,9 +3,9 @@
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
 		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex"></find>
 
-		<!-- <category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category> -->
+		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
 		<!-- 商城 -->
-		<shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop>
+		<!-- <shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop> -->
 		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex"></user>
 		<!-- 间隔 -->
 
@@ -231,7 +231,7 @@
 						active: false,
 						type: 'shop',
 						count: 0,
-						icon: 'icon-basket_line'
+						icon: 'icon-anniversary_line'
 					},
 					{
 						name: '我的',

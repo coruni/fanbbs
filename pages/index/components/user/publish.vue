@@ -6,13 +6,17 @@
 			:cache-key="`user_publish`">
 			<block v-for="(item,index) in article">
 				<view style="margin: 30rpx;" @click="goArticle(item)">
-					<u-row align="bottom" customStyle="margin-bottom:20rpx">
-						<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
-						<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
-						<view v-if="item.category&&item.category.length" style="color: #999;font-size: 26rpx;">
-							<text style="margin: 0 10rpx;">·</text>
-							<text>{{item.category.name}}</text>
-						</view>
+					<u-row justify="space-between" customStyle="margin-bottom:20rpx">
+						<u-row align="bottom">
+							<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
+							<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
+							<view v-if="item.category" style="color: #999;font-size: 26rpx;">
+								<text style="margin: 0 10rpx;">·</text>
+								<text>{{item.category.name}}</text>
+							</view>
+						</u-row>
+						<i class="ess icon-more_1_line" style="font-size: 60rpx;"
+							@click.stop="$emit('articleMenu',data)"></i>
 					</u-row>
 					<articleContent :data="item"></articleContent>
 					<articleFooter :data="item"></articleFooter>
@@ -63,10 +67,10 @@
 					limit,
 					params: JSON.stringify({
 						type: 'post',
-						authorId: this.$store.state.userInfo.uid
+						uid: this.$store.state.userInfo.uid
 					}),
 					order: 'created desc',
-					
+
 				}).then(res => {
 					this.$refs.paging.complete(res.data.data.data)
 				})

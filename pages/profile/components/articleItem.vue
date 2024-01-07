@@ -8,9 +8,9 @@
 					<u-row align="bottom" customStyle="margin-bottom:20rpx">
 						<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
 						<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
-						<view v-if="item.category.length" style="color: #999;">
+						<view v-if="item.category" style="color: #999;">
 							<text style="margin: 0 10rpx;">·</text>
-							<text>{{item.category[0].name}}</text>
+							<text>{{item.category.name}}</text>
 						</view>
 					</u-row>
 					<articleContent :data="item"></articleContent>
@@ -65,14 +65,14 @@
 					params: {
 						page,
 						limit,
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							type: 'post',
 							authorId: this.uid
 						}),
 						order: 'created desc'
 					}
 				}).then(res => {
-					this.$refs.paging.complete(res.data.data)
+					this.$refs.paging.complete(res.data.data.data)
 				})
 			},
 			goArticle(data) {

@@ -14,8 +14,11 @@
 		</template>
 		<swiper style="height: 100%;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current"
 			v-if="isMounted">
-			<swiper-item v-for="(item,index) in tabs" :key="index">
-				<articleItem :type="item.type" @comments="showComments = true;commentData = $event"></articleItem>
+			<swiper-item>
+				<articleItem></articleItem>
+			</swiper-item>
+			<swiper-item>
+				<videoItem></videoItem>
 			</swiper-item>
 		</swiper>
 		<u-popup :show="showComments" @close="showComments = false" customStyle="border-radius:40rpx 40rpx 0 0">
@@ -28,12 +31,12 @@
 </template>
 
 <script>
-	import commentItem from './find/comment.vue';
 	import articleItem from './find/article.vue';
+	import videoItem from './find/video.vue';
 	export default {
 		components: {
 			articleItem,
-			commentItem
+			videoItem
 		},
 		name: 'find',
 		props: {
@@ -59,7 +62,7 @@
 				commentData: {},
 				showComments: false,
 				tabs: [{
-						name: '发现',
+						name: '关注',
 						type: 'all'
 					},
 					{

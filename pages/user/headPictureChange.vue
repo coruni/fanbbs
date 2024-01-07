@@ -184,20 +184,13 @@
 				})
 				let headImg = await this.upload()
 				if (headImg) {
-					let params = {
+					this.$http.post('/headpicture/add', {
 						name: `用户${this.userInfo.uid}`,
-						link: headImg,
-						status: 1,
-						type: 0,
-						permission: 0,
-					}
-					this.$http.post('/headpicture/headAdd', {
-						params: JSON.stringify(params)
+						link:headImg
 					}).then(res => {
-						console.log(res)
-						if (res.data.code)[
+						if (res.data.code==200){
 							this.setHeadPicture(res.data.data)
-						]
+						}
 						uni.hideLoading()
 						setTimeout(() => {
 							uni.$u.toast(res.data.msg)

@@ -123,13 +123,11 @@
 			getData(id) {
 				this.$http.get('/category/info', {
 					params: {
-						key: id
+						id
 					}
 				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
+					if (res.data.code == 200) {
 						this.info = res.data.data
-						console.log(uni.$u.hexToRgb(this.info.opt.primary))
 					}
 				})
 			},

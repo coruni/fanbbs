@@ -37,14 +37,14 @@
 		},
 		methods: {
 			getData(page, limit) {
-				this.$http.post('/userlog/markList', {
+				this.$http.post('/article/markList', {
 					page,
 					limit,
 
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+					if (res.data.code == 200) {
+						this.$refs.paging.complete(res.data.data.data)
 					}
 				})
 			},

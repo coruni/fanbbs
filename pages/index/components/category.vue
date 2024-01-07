@@ -1,29 +1,33 @@
 <template>
-	<z-paging-swiper>
+	<view>
 		<u-navbar placeholder title="板块列表">
 			<view slot="left"></view>
 		</u-navbar>
-		<uv-vtabs chain :list="list" :height="tabHeight">
-			<template v-for="(item,index) in list">
-				<uv-vtabs-item :index="index" :key="index">
-					<view style="margin: 0 30rpx;">
-						<block v-for="(sub,subIndex) in item.subCategory" :key="index">
-							<u-row @click="goCategory(sub.mid)">
-								<u-avatar shape="square" :src="sub.imgurl" size="35"></u-avatar>
-								<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
-									<text class="u-line-1">{{sub.name}}</text>
-									<text class="u-line-1 u-info" style="font-size: 30rpx;">{{sub.description}}</text>
-								</view>
-							</u-row>
-						</block>
-					</view>
-				</uv-vtabs-item>
-			</template>
-		</uv-vtabs>
-		<view>
-			text
+		<view style="margin: 30rpx;">
+			<u-swiper radius="10" height="180"></u-swiper>
+			<u-row justify="space-between" style="margin-top: 20rpx;">
+				<text style="font-weight: 600;">板块</text>
+				<u-row style="color: #999;font-size: 28rpx;">
+					<text>全部</text>
+					<i class="ess icon-right_line" style="font-size: 40rpx;"></i>
+				</u-row>
+			</u-row>
+			<u-row justify="space-between" style="margin-top: 20rpx;flex-wrap: wrap;">
+				<block v-for="(item,index) in categories" :key="index">
+					<u-col :span="5.8" @click="goCategory(item.mid)">
+						<u-row align="top">
+							<image :src="item.imgurl" mode="aspectFill" style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;"></image>
+							<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
+								<text class="u-line-1">{{item.name}}</text>
+								<text style="color: #999;font-size: 28rpx;" class="u-line-1">{{item.description}}</text>
+							</view>
+						</u-row>
+					</u-col>
+				</block>
+			</u-row>
 		</view>
-	</z-paging-swiper>
+	</view>
+		
 </template>
 
 <script>
@@ -41,8 +45,8 @@
 		},
 		data() {
 			return {
-				list: [],
-				tabHeight:720,
+				categories: [],
+				tabHeight: 720,
 			}
 		},
 
@@ -51,24 +55,21 @@
 			console.log(this.tabHeight)
 			this.getData()
 			this.$nextTick(() => {
-
 			}, 1)
 		},
 		methods: {
 			getData(page, limit) {
 				this.$http.get('/category/list', {
 					params: {
-						page,
-						limit,
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							type: 'category',
 							parent: 0,
 						})
 					}
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
-						this.list = res.data.data
+					if (res.data.code == 200) {
+						this.categories =res.data.data.data
 					}
 				})
 			},

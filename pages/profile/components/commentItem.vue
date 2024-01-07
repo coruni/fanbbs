@@ -13,30 +13,31 @@
 					<view style="margin-top: 20rpx;">
 						<uv-parse :content="item.text" :showImgMenu="false" :preview-img="false"></uv-parse>
 					</view>
-
-					<view v-if="item.images.length">
+			
+					<view v-if="item.images && item.images.length">
 						<u-album :urls="item.images"></u-album>
 					</view>
-					<view v-if="item.parentComments.author"
+					<view v-if="item.parentComment && item.parentComment.userInfo"
 						style="font-size: 28rpx;display: flex;align-items: center;color: #999;padding-left: 10rpx;border-left: 4rpx #99999932 solid;">
-						<text style="flex-shrink: 0;">@{{item.parentComments.author}}：</text>
-
-						<uv-parse :content="item.parentComments.text" class="u-line-1"
+						<text style="flex-shrink: 0;">@{{item.parentComment.userInfo.screenName?item.parentComment.userInfo.screenName:item.parentComment.userInfo.name}}：</text>
+			
+						<uv-parse :content="item.parentComment.text" class="u-line-1"
 							style="white-space: nowrap;overflow: hidden;overflow-y: unset;"></uv-parse>
 					</view>
-
+			
 					<view style="background: #85a3ff0a;border-radius: 20rpx;margin-top: 10rpx;"
-						@click="goArticle(item.contentsInfo)">
+						@click="goArticle(item.article)">
 						<u-row>
 							<image mode="aspectFill"
 								style="height: 100rpx;width: 100rpx;background: #f7f7f7;border-radius: 20rpx 0 0 20rpx;">
 							</image>
-							<text style="margin-left: 20rpx;color: #999;">{{item.contentsInfo.title}}</text>
+							<text style="margin-left: 20rpx;color: #999;">{{item.article.title}}</text>
 						</u-row>
 					</view>
-
-					<view style="margin-top: 20rpx;color: #999;">
-						<text>{{item.contentsInfo.category[0].name}}</text>
+			
+					<view style="margin-top: 20rpx;color: #999;"
+						v-if="item.article.category&&item.article.category">
+						<text>{{item.article.category.name}}</text>
 					</view>
 				</view>
 				<view style="border-bottom: 1rpx #f7f7f7 solid;"></view>
@@ -83,9 +84,9 @@
 					params: {
 						page,
 						limit,
-						searchParams: JSON.stringify({
-							type: 'comment',
-							authorId: this.uid
+						params: JSON.stringify({
+							type: 0,
+							uid: this.uid
 						}),
 						order: 'created desc'
 					}

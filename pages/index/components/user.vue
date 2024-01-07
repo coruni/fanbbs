@@ -118,7 +118,8 @@
 					<swiper style="height: 100vh;" :current="tabsIndex"
 						@animationfinish="tabsIndex = $event.detail.current" v-if="$store.state.hasLogin">
 						<swiper-item style="overflow: auto;">
-							<publish :isScroll="isScroll" :data="userInfo" ref="publish"></publish>
+							<publish :isScroll="isScroll" :data="userInfo" ref="publish"
+								@articleMenu="showArticleMenu = true"></publish>
 						</swiper-item>
 						<swiper-item style="overflow: auto;">
 							<comment :isScroll="isScroll" :data="userInfo" ref="comment"></comment>
@@ -153,16 +154,19 @@
 					<text style="margin-left:20rpx;font-weight: 600;">管理面板</text>
 				</u-row>
 			</view>
-			<view style="position: fixed;bottom: 0;margin: 20rpx;background: #fff;border-radius: 20rpx; width: 65vw;">
-				<u-row justify="space-between" @click="goLogout">
-					<block v-for="(item,index) in static">
-						<u-row customStyle="padding:30rpx;flex-direction:column;align-items:center;">
-							<u-icon :name="item.icon" size="22" bold
-								customStyle="background:#eee;padding:15rpx;border-radius:500rpx"></u-icon>
-							<text style="font-size: 30rpx;color: #999;">{{item.name}}</text>
-						</u-row>
-					</block>
-				</u-row>
+			<view style="position: fixed;bottom: 0; width: 70vw;">
+				<view style="margin: 20rpx;background: #fff;border-radius: 20rpx;">
+					<u-row justify="space-between">
+						<block v-for="(item,index) in static" :key="index">
+							<u-row customStyle="padding:30rpx;flex-direction:column;align-items:center;"
+								@click="goLogout">
+								<u-icon :name="item.icon" size="22" bold
+									customStyle="background:#eee;padding:15rpx;border-radius:500rpx"></u-icon>
+								<text style="font-size: 30rpx;color: #999;">{{item.name}}</text>
+							</u-row>
+						</block>
+					</u-row>
+				</view>
 			</view>
 		</u-popup>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
@@ -198,6 +202,30 @@
 				</view>
 			</view>
 		</u-popup>
+
+		<!-- 文章菜单 -->
+		<u-popup :show="showArticleMenu" round="10" @close="showArticleMenu = false" closeable>
+			<view style="margin: 30rpx;text-align: center;">
+				<text>帖子管理</text>
+				<view style="display: flex;
+				flex-direction: column;">
+					<view style="margin-bottom:30rpx">
+						<u-row>
+							<i class="ess icon-edit_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">编辑</text>
+						</u-row>
+					</view>
+					<view style="margin-bottom:30rpx">
+						<u-row style="color: red;">
+							<i class="ess icon-delete_2_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">删除</text>
+						</u-row>
+					</view>
+				</view>
+
+			</view>
+		</u-popup>
+
 	</view>
 </template>
 
@@ -263,11 +291,6 @@
 						}
 					],
 					all: [{
-							name: '我的帖子',
-							icon: 'heart',
-							path: '',
-						},
-						{
 							name: '我的订单',
 							icon: 'heart',
 							path: 'orderList',
@@ -355,6 +378,7 @@
 				opacity: 0,
 				allHeight: 0,
 				isScroll: false,
+				showArticleMenu: false,
 			}
 		},
 		computed: {
@@ -388,10 +412,10 @@
 					params: {
 						id: this.userInfo.uid,
 					},
-					
+
 				}).then(res => {
 					console.log(res)
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.$store.commit('setUser', res.data.data)
 					}
 
@@ -400,9 +424,8 @@
 				})
 			},
 			getUserMeta() {
-				this.$http.get('/user/userData', {
-				}).then(res => {
-					if (res.data.code==200) {
+				this.$http.get('/user/userData', {}).then(res => {
+					if (res.data.code == 200) {
 						this.$store.commit('setUserMeta', res.data.data)
 					}
 				})
@@ -452,7 +475,7 @@
 					background: url
 				}).then(res => {
 					console.log(res)
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.getUserInfo()
 					}
 				})

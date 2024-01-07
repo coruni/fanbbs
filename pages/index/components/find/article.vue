@@ -1,24 +1,11 @@
 <template>
 	<z-paging @query="getData" ref="paging" v-model="article" style="margin-bottom: 100rpx;">
 		<block v-for="(item,index) in article" :key="index" v-if="article">
-			<view style="margin: 30rpx;">
-				<u-row align="top" style="">
-					<u-avatar :src="item.userJson.avatar" size="30"></u-avatar>
-					<view style="display: flex;flex-direction: column;flex: 1;margin-left: 20rpx;">
-						<view style="flex:1">
-							<text style="font-weight: 600;">{{item.userJson.name}}</text>
-							<uv-parse :content="formatEmoji(item.text)"></uv-parse>
-							<album :data="item"></album>
-						</view>
-						<view style="margin-top: 40rpx;">
-							<u-row justify="space-between" style="color: #999;">
-								<i class="ess icon-share_3_line" style="font-size: 40rpx;"></i>
-								<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
-								<i class="ess icon-thumb_up_2_line" @click="likeTap(item.id,index)" :style="{color:item.isLikes?'#85a3ff':''}" style="font-size: 40rpx;"></i>
-							</u-row>
-						</view>
-					</view>
-				</u-row>
+			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+				<article-header :data="item" @follow="$refs.paging.reload()"
+					@menuTap="$emit('edit',$event)"></article-header>
+				<article-content :data="item"></article-content>
+				<article-footer :data="item"></article-footer>
 			</view>
 			<view style="border-top: #f7f7f7 solid 1rpx;"></view>
 		</block>
@@ -26,10 +13,14 @@
 </template>
 
 <script>
-	import album from './components/album.vue';
+	import articleHeader from '@/components/article/header.vue';
+	import articleContent from '@/components/article/content.vue';
+	import articleFooter from '@/components/article/footer.vue';
 	export default {
 		components: {
-			album
+			articleHeader,
+			articleContent,
+			articleFooter
 		},
 		props: {
 			type: {
@@ -49,22 +40,27 @@
 		},
 
 		methods: {
-
 			getData(page, limit) {
 				let params = {
 					page,
 					limit,
 				}
-				if (this.type == 'video') params.searchParams = JSON.stringify({
-					type: 4
-				})
-				this.$http.get('/space/spaceList', {
+				this.$http.get('/article/follow', {
 					params
 				}).then(res => {
 					let list = [];
 					console.log(res)
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+					if (res.data.code == 200) {
+						this.$refs.paging.complete(res.data.data.data)
+					}
+				})
+			},
+			goArticle(data) {
+				uni.setStorageSync(`article_${data.cid}`, data)
+				this.$Router.push({
+					path: '/pages/article/article',
+					query: {
+						id: data.cid
 					}
 				})
 			},
@@ -86,14 +82,6 @@
 					return match;
 				})
 			},
-			likeTap(id,index){
-				this.$http.post('/space/spaceLikes',{
-					id
-				}).then(res=>{
-					this.article[index].isLikes = !this.article[index].isLikes
-					uni.$u.toast(res.data.msg)
-				})
-			}
 		}
 	}
 </script>

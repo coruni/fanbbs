@@ -1,7 +1,8 @@
 <template>
 	<view>
 		<z-paging @query="getData" ref="paging" v-model="article" :auto-scroll-to-top-when-reload="false"
-			:auto-clean-list-when-reload="false" :use-page-scroll="!scroll" :refresher-enabled="false" use-cache	:cache-key="`category_new-${mid}`">
+			:auto-clean-list-when-reload="false" :use-page-scroll="!scroll" :refresher-enabled="false" use-cache
+			:cache-key="`category_new-${mid}`">
 			<block v-for="(item,index) in article" :key="index">
 				<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 					<article-header :data="item"></article-header>
@@ -58,20 +59,19 @@
 		methods: {
 			getData(page, limit) {
 				this.$http.get('/article/articleList', {
-					params:{
+					params: {
 						page,
 						limit,
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							mid: this.mid,
 						}),
 						order: 'created desc',
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
-					
+
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+					if (res.data.code == 200) {
+						this.$refs.paging.complete(res.data.data.data)
 					}
 				})
 			},

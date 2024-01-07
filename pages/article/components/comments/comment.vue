@@ -70,7 +70,7 @@
 								<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
 								<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
 							</u-row>
-							<u-row>
+							<u-row @click="like()" :style="{color:data.isLike?'#ffa385':''}">
 								<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
 								<text
 									style="font-size: 28rpx;margin-left: 10rpx;">{{data && data.likes?data.likes:''}}</text>
@@ -130,6 +130,17 @@
 					path: '/pages/profile/profile',
 					query: {
 						id: data.userInfo.uid
+					}
+				})
+			},
+			like() {
+				this.$http.post('/comments/like', {
+					id: this.data.id
+				}).then(res => {
+					console.log(res)
+					if (res.data.code == 200) {
+						this.data.isLike = !this.data.isLike
+						this.data.likes += this.data.isLike ? 1 : -1;
 					}
 				})
 			},

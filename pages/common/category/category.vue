@@ -25,7 +25,6 @@
 						</view>
 					</u-col>
 				</block>
-
 			</u-row>
 		</view>
 
@@ -51,14 +50,13 @@
 					params: {
 						page: 1,
 						limit: 50,
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							type: 'category',
 						})
 					}
 				}).then(res => {
-					console.log(res)
-					if (res.statusCode == 200) {
-						this.categories = res.data.data
+					if (res.data.code == 200) {
+						this.categories = res.data.data.data
 					}
 				})
 			},

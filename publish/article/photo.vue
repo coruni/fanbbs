@@ -50,9 +50,10 @@
 						<u-row justify="space-between" style="flex-wrap: wrap;">
 							<block v-for="(item,index) in category" :key="index">
 								<u-col :span="5.8">
-									<u-row style="padding: 20rpx;" align="top" @click="article.category = item;showCategory = false">
+									<u-row style="padding: 20rpx;" align="top"
+										@click="article.category = item;showCategory = false">
 										<image :src="item.imgurl"
-											style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;">
+											style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
 										</image>
 										<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
 											<text style="font-weight: 600;" class="u-line-1">{{item.name}}</text>
@@ -126,16 +127,17 @@
 			getCategory() {
 				this.$http.get('/category/list', {
 					params: {
-						searchParams: JSON.stringify({
+						limit: 100,
+						params: JSON.stringify({
 							type: 'category',
 						}),
 					}
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
-						let data = res.data.data;
-						for (let i in res.data.data) {
-							if (res.data.data[i].mid == 1) this.article.category = res.data.data[i];
+					if (res.data.code == 200) {
+						let data = res.data.data.data;
+						for (let i in data) {
+							if (data[i].mid == 1) this.article.category = data[i];
 						}
 						this.category = data
 					}

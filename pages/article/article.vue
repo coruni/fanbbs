@@ -385,10 +385,10 @@
 				showSub: false,
 				orderList: [{
 						name: '全部评论',
-						order: ''
+						order: 'likes desc,created desc'
 					}, {
 						name: '点赞最多',
-						order: 'likes'
+						order: 'likes desc'
 					},
 					{
 						name: '最新',
@@ -493,7 +493,6 @@
 						id: id ? id : this.cid,
 					},
 				}).then(res => {
-					console.log(res)
 					if (res.statusCode == 200) {
 						this.article = res.data.data
 						this.article.text = res.data.data && this.replaceEmoji(res.data.data.text)
@@ -580,7 +579,6 @@
 						this.$refs.comments.complete(res.data.data.data)
 					}
 				}).catch(err => {
-					console.log(err)
 					this.$refs.comments.complete(false)
 				})
 			},

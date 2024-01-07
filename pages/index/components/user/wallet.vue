@@ -7,7 +7,7 @@
 					<view
 						style="background: #85a3ffa0;border-radius: 20rpx;padding: 30rpx;display: flex;align-items: center;width: 200rpx;">
 						<i class="ess icon-yinhangka" style="font-size: 36rpx;color: white;"></i>
-						<text style="margin-left: 30rpx;color: #fff;">{{userData&&userData.assets}}</text>
+						<text style="margin-left: 30rpx;color: #fff;">{{userInfo.assets}}</text>
 					</view>
 					<view>
 						<u-button color="#85a3ffa0" shape="circle" throttleTime="1000"
@@ -107,7 +107,7 @@
 								<text style="font-size: 50rpx;">{{item.price}}</text>
 							</view>
 							<view style="color: #999;text-align: center;font-size: 24rpx;">
-								<text>积分{{item.price*config.scale}}</text>
+								<text>积分{{item.price*config.ratio}}</text>
 							</view>
 						</view>
 					</u-grid-item>
@@ -256,6 +256,7 @@
 		},
 		created() {
 			this.selectPackage = this.payPackage[0]
+			console.log(this.userInfo)
 			this.initData()
 			this.appInfo = this.$store.state.appInfo
 			this.pageHeight = uni.getSystemInfoSync().windowHeight - uni.getSystemInfoSync().statusBarHeight
@@ -274,7 +275,7 @@
 				})
 			},
 			getConfig() {
-				this.$http.get('/shop/vipInfo').then(res => {
+				this.$http.get('/system/vip').then(res => {
 					if (res.data.code) {
 						console.log(res)
 						this.config = res.data.data
@@ -282,13 +283,16 @@
 				})
 			},
 			getLog(page, limit) {
-				this.$http.post('/pay/payLogList', {
-					page,
-					limit
+				this.$http.get('/pay/list', {
+					params: {
+						page,
+						limit
+					}
+
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+					if (res.data.code == 200) {
+						this.$refs.paging.complete(res.data.data.data)
 					}
 				})
 			},

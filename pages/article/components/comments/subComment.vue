@@ -194,9 +194,10 @@
 													<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
 													<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
 												</u-row>
-												<u-row>
+												<u-row @click="like(index)" :style="{color:item.isLike?'#ffa385':''}">
 													<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
-													<text style="font-size: 28rpx;margin-left: 10rpx;"></text>
+													<text
+														style="font-size: 28rpx;margin-left: 10rpx;">{{item && item.likes?item.likes:''}}</text>
 												</u-row>
 
 											</u-row>
@@ -218,8 +219,6 @@
 							style="margin-left:10rpx;font-size: 28rpx;">回复{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
 					</u-row>
 				</u-row>
-
-
 			</template>
 
 		</z-paging>
@@ -420,7 +419,7 @@
 						};
 						console.log(this.data.article)
 						let params = {
-							id: this.data.article.id,
+							id: this.data.article.cid,
 							parent: this.pid,
 							all: this.data.id,
 							text: this.commentText,
@@ -455,6 +454,18 @@
 					path: '/pages/profile/profile',
 					query: {
 						id
+					}
+				})
+			},
+			like(index) {
+				this.$http.post('/comments/like', {
+					id: this.comments[index].id
+				}).then(res => {
+					console.log(res)
+					if (res.data.code == 200) {
+						uni.$u.toast(res.data.msg)
+						this.comments[index].isLike = !this.comments[index].isLike
+						this.comments[index].likes += this.comments[index].isLike ? 1 : -1;
 					}
 				})
 			},
