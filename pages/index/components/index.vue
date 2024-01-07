@@ -9,20 +9,14 @@
 					<u-row>
 						<u-avatar :src="userInfo.avatar" size="30" customStyle="margin-right:20rpx"
 							@click="avatarTap()"></u-avatar>
-						<view @click="goSearch()" style="display: flex;
-							justify-content: space-between;
-							flex:1;
-							border: #85a3ffc3 solid 1rpx;
-							padding:12rpx 20rpx;border-radius: 50rpx;margin-left: 20rpx;">
-							<text style="color: #aaa;font-size: 28rpx;">搜索</text>
-							<i class="ess icon-search_3_line" style="font-size: 40rpx;color: #aaa;"></i>
-						</view>
+						<uv-search :showAction="false" placeholder="看你想看" :disabled="true"
+							 :animation="true"
+							@click="goSearch()"></uv-search>
 						<view style="position: relative;top: 0;">
 							<i class="ess icon-notification_line" style="margin-left:20rpx;font-size: 40rpx;"
 								@tap.stop="goNotice()"></i>
 							<i class="ess icon-round_fill" v-if="$store.state.noticeNum.total"
 								style="position: absolute;top:0;right: 0;color: red;font-size: 18rpx;"></i>
-
 						</view>
 					</u-row>
 				</view>
@@ -118,7 +112,7 @@
 						icon: 'account'
 					},
 				],
-				lineBg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAOCAYAAABdC15GAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFxSURBVHgBzZNRTsJAEIb/WTW+lpiY+FZPIDew3ABP4GJ8hxsI9zBpOYHeQDwBPQI+mRiRvpLojtPdYhCorQqF/6GdbGd2vvwzBXZcNAt4oj1ANeUoAT5iqkUjbEFLHNmhD1YPEvpZ3ghkGlVDCkc94/BmHMq998I5ONiY1ZBfpKAyuOtgAc5yOEDmYEWNh32BHF91sGHZHmwW4azciN9aQwnz3SJEgOmte+R2tdLprTYoa50mvuomlLpD4Y3oQZnov6D2RzCqI93bWOHaEmAGqQUyRBlZR1WfarcD/EJ2z8DtzDGvsMCwpm8XOCfDUsVOCYhiqRxI/CTQo4UOvjzO7Pow18vfywneuUHHUUxLn55lLw5JFpZ8bEUcY8oXdOLWiHLTxvoGpLqoUmy6dBT15o/ox3znpoycAmxUsiJTbs1cmxeVKp+0zmFIS7bGWiVghC7Vwse8jFKAX9eljh4ggKLLv7uaQvG9/F59Oo2SouxPu7OTCxN/s8wAAAAASUVORK5CYII='
+				searchFoucs: false,
 			}
 		},
 		created() {
@@ -145,14 +139,14 @@
 					params: {
 						page: 1,
 						limit: 8,
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							type: 'category',
 							isrecommend: 1,
 						})
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {
-						this.topTabbar = this.topTabbar.concat(res.data.data)
+						this.topTabbar = this.topTabbar.concat(res.data.data.data)
 					}
 				})
 			},

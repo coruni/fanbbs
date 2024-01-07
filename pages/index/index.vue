@@ -2,15 +2,12 @@
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
 		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex"></find>
-
 		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
 		<!-- 商城 -->
 		<!-- <shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop> -->
 		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex"></user>
 		<!-- 间隔 -->
-
 		<!-- 底部导航栏 -->
-
 		<template #bottom>
 			<view style="background:white;padding:20rpx;
 					z-index:999;
@@ -245,30 +242,13 @@
 			}
 		},
 		created() {
-			this.initData()
+			
 		},
 		onReady() {},
 		methods: {
 			shareTap,
 			filterHtml,
-			initData() {
-				this.getCategory()
-			},
-			getCategory() {
-				this.$http.get('/category/list', {
-					params: {
-						page: 1,
-						limit: 8,
-						// searchParams: JSON.stringify({
-						// 	isrecommend: 1
-						// })
-					}
-				}).then(res => {
-					if (res.statusCode == 200) {
-						this.topTabbar = this.topTabbar.concat(res.data.data)
-					}
-				})
-			},
+			
 			animationfinish(data) {
 				this.topTabIndex = data.detail.current
 			},

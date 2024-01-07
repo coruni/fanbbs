@@ -67,7 +67,7 @@
 					limit,
 					params: JSON.stringify({
 						type: 'post',
-						uid: this.$store.state.userInfo.uid
+						authorId: this.$store.state.userInfo.uid
 					}),
 					order: 'created desc',
 

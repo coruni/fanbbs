@@ -20,7 +20,7 @@
 		</view>
 		<view v-else>
 			<u-row justify="space-between">
-				<u-icon name="thumb-up" size="20" :label="data.views"></u-icon>
+				<u-icon name="thumb-up" size="20" :label="data.likes"></u-icon>
 				<u-avatar size="20" :src="data&& data.authorInfo && data.authorInfo.avatar"></u-avatar>
 			</u-row>
 		</view>

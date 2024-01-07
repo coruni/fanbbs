@@ -49,7 +49,7 @@
 					params: {
 						page,
 						limit,
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							type: 'tag',
 							name: this.key && this.key
 						}),
@@ -58,7 +58,7 @@
 				}).then(res => {
 					console.log(res)
 					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+						this.$refs.paging.complete(res.data.data.data)
 					}
 				})
 			}

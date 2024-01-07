@@ -18,7 +18,8 @@
 					<view slot="right">
 						<view v-show="showNavAvatar"
 							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #85a3ff32;padding: 0rpx 16rpx;line-height: 1;">
-							<u-row customStyle="margin-right:20rpx;" @click="follow(article.authorId)">
+							<u-row customStyle="margin-right:20rpx;"
+								@click="article.authorInfo.isFollow?showFollow = true:follow(article.authorId)">
 								<i class="ess icon-add_line" style="font-size: 30rpx;font-weight: 600;"
 									:style="{color:article && article.authorInfo &&article.authorInfo.isfollow?'':'#85a3ff'}"
 									v-if="article && article.authorInfo &&!article.authorInfo.isfollow"></i>
@@ -36,7 +37,8 @@
 				</u-navbar>
 			</template>
 			<view style="padding: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
-				<articleHeader :data="article" @follow="follow($event)"></articleHeader>
+				<articleHeader :data="article" @follow="article.authorInfo.isFollow?showFollow = true:follow($event)">
+				</articleHeader>
 				<articleContent :data="article" :autoPreview="isScroll" @ready="loading = false" @hideTap="hideTap">
 				</articleContent>
 				<articleFooter :data="article"></articleFooter>
@@ -322,6 +324,21 @@
 				</u-row>
 			</view>
 		</u-popup>
+		<u-popup :show="showFollow" :round="10" mode="center" @close="showFollow = false" customStyle="width:500rpx">
+			<view
+				style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 50rpx;">
+				<text style="font-size: 34rpx;">提示</text>
+				<view style="margin-top:30rpx">
+					<text>是否取消关注？</text>
+				</view>
+				<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+					<u-button plain color="#85a3ff" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+						@click="showFollow = false">取消</u-button>
+					<u-button color="#85a3ff" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+						@click="follow(article.authorId)">确定</u-button>
+				</u-row>
+			</view>
+		</u-popup>
 
 	</z-paging-swiper>
 </template>
@@ -351,6 +368,7 @@
 		data() {
 			return {
 				showDelete: false,
+				showFollow: false,
 				isReply: false,
 				editorCtx: null,
 				percentage: 30,
@@ -721,8 +739,11 @@
 				this.$http.post('/user/follow', {
 					id
 				}).then(res => {
+					if (res.data.code == 200) {
+						this.article.authorInfo.isFollow = !this.article.authorInfo.isFollow
+					}
+					this.showFollow = false;
 					uni.$u.toast(res.data.msg)
-					this.article.authorInfo.isFollow = !this.article.authorInfo.isFollow
 				})
 			},
 			onEditorReady() {

@@ -159,7 +159,7 @@
 					<u-row justify="space-between">
 						<block v-for="(item,index) in static" :key="index">
 							<u-row customStyle="padding:30rpx;flex-direction:column;align-items:center;"
-								@click="goLogout">
+								@click="bottomTap(item)">
 								<u-icon :name="item.icon" size="22" bold
 									customStyle="background:#eee;padding:15rpx;border-radius:500rpx"></u-icon>
 								<text style="font-size: 30rpx;color: #999;">{{item.name}}</text>
@@ -321,15 +321,18 @@
 				static: [{
 						name: '退出',
 						path: '',
+						type: 'logout',
 						icon: 'setting'
 					}, {
 						name: '反馈',
 						path: '',
+						type: '',
 						icon: 'file-text'
 					},
 					{
 						name: '客服',
 						path: '',
+						type: '',
 						icon: 'kefu-ermai'
 					},
 
@@ -496,6 +499,15 @@
 				this.opacity = scrollTop / 100;
 				if (scrollTop > 407) this.isScroll = true;
 				else this.isScroll = false;
+			},
+			bottomTap(data) {
+				switch (data.type) {
+					case 'logout':
+						this.goLogout();
+						break;
+					default:
+						break;
+				}
 			},
 			checkUp() {
 				this.$http.post('/userlog/addLog', {

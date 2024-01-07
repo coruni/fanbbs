@@ -14,7 +14,7 @@
 			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#85a3ff3c" color="#85a3ff" mode="closable"
 				customStyle="border-radius: 20rpx;"></u-notice-bar>
 		</view>
-		<block v-for="(item,index) in content" :key="item.cid" v-if="content.length">
+		<block v-for="(item,index) in content" :key="index" v-if="content.length">
 			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>

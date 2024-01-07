@@ -678,18 +678,18 @@
 							price: this.article.price,
 							discount: this.article.discount,
 						}).then(res => {
-							if (res.data.code) {
+							if (res.data.code==200) {
 								setTimeout(() => {
 									this.$refs.publish.close();
-									uni.$u.toast(res.data.msg);
+									
 									setTimeout(() => {
 										this.$Router.back(1);
 									}, 800);
 								}, 1500);
 							} else {
-								uni.$u.toast(res.data.msg);
 								this.$refs.publish.close();
 							}
+							uni.$u.toast(res.data.msg);
 						});
 					}
 				});
@@ -909,13 +909,13 @@
 							discount: this.article.discount,
 							opt: JSON.stringify(this.article.opt)
 						}).then(res => {
-							console.log(res)
-							if (res.data.code) {
-								uni.$u.toast(res.data.msg)
+							if (res.data.code==200) {
+								
 								setTimeout(() => {
 									this.$Router.back(1)
 								}, 500)
 							}
+							uni.$u.toast(res.data.msg)
 						})
 					}
 				})
