@@ -3,9 +3,12 @@
 		<z-paging @query="getData" ref="paging" v-model="article" :auto-scroll-to-top-when-reload="false"
 			:auto-clean-list-when-reload="false" :use-page-scroll="!scroll" :refresher-enabled="false">
 			<block v-for="(item,index) in article" :key="index">
-				<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
-					<article-header :data="item"></article-header>
-					<article-content :data="item"></article-content>
+				<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
+					style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+					<article-header :data="item" @follow="$refs.paging.reload()"
+						@menuTap="$emit('edit',$event)"></article-header>
+					<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
+					<article-content :data="item" v-else></article-content>
 					<article-footer :data="item"></article-footer>
 				</view>
 				<view :style="`border-bottom:1rpx ${border} solid`"></view>
@@ -18,6 +21,7 @@
 	import articleHeader from '@/components/article/header.vue';
 	import articleContent from '@/components/article/content.vue';
 	import articleFooter from '@/components/article/footer.vue';
+	import articlePhoto from '@/components/article/photo.vue';
 	export default {
 		name: 'hotArticle',
 		props: {
@@ -48,6 +52,7 @@
 			articleHeader,
 			articleContent,
 			articleFooter,
+			articlePhoto
 		},
 		data() {
 			return {
@@ -66,7 +71,7 @@
 						}),
 						random: 1,
 						order: 'likes desc,replyTime desc,text desc,views desc,created desc',
-						
+
 					}
 				}).then(res => {
 					if (res.data.code) {
@@ -78,6 +83,14 @@
 				uni.setStorageSync(`article_${data.cid}`, data)
 				this.$Router.push({
 					path: '/pages/article/article',
+					query: {
+						id: data.cid
+					}
+				})
+			},
+			goPhoto(data) {
+				this.$Router.push({
+					path: '/pages/article/photo',
 					query: {
 						id: data.cid
 					}

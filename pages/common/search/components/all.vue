@@ -6,7 +6,7 @@
 			</view>
 			<block v-for="(item,index) in article" :key="index">
 				<view style="margin: 30rpx;padding: 30rpx;background:#fff;border-radius: 20rpx;"
-					@click="goArticle(item)">
+					@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
 					<view style="display: flex;flex-direction: column;">
 						<u-row justify="space-between" align="top">
 							<view class="u-line-2" style="display: flex;flex-direction: column;">
@@ -95,6 +95,14 @@
 			goArticle(data) {
 				this.$Router.push({
 					path: '/pages/article/article',
+					query: {
+						id: data.cid
+					}
+				})
+			},
+			goPhoto(data) {
+				this.$Router.push({
+					path: '/pages/article/photo',
 					query: {
 						id: data.cid
 					}

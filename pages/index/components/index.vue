@@ -47,8 +47,8 @@
 	import {
 		mapState
 	} from 'vuex';
-	import waterFallIndex from '@/components/article/waterfall.vue';
-	import articleIndex from '@/components/article/index.vue';
+	import waterFallIndex from '@/components/waterfall.vue';
+	import articleIndex from '@/components/index.vue';
 	export default {
 		components: {
 			articleIndex,

@@ -498,7 +498,7 @@
 						order: 'count'
 					}
 				}).then(res => {
-					if (res.data.code) {
+					if (res.data.code==200) {
 						this.tags = res.data.data.data
 					}
 				})
@@ -613,7 +613,7 @@
 						name: 'file',
 					}).then(res => {
 						console.log(res)
-						if (res.data.code) {
+						if (res.data.code==200) {
 							resolve(res.data.data.url)
 						} else {
 							this.uploadErr.status = true
@@ -635,7 +635,7 @@
 						name: 'file',
 					}).then(res => {
 						console.log(res)
-						if (res.data.code) {
+						if (res.data.code==200) {
 							resolve(res.data.data.url)
 						} else {
 							this.uploadErr.status = true

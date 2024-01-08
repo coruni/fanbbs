@@ -12,7 +12,7 @@
 							<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="28"
 								customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 							<text
-								style="font-weight: 600;font-size: 30rpx;margin-left: 20rpx;">{{article && article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
+								style="font-weight: 600;font-size: 30rpx;margin-left: 20rpx;">{{article && article.authorInfo && article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
 						</view>
 					</view>
 					<view slot="right">
@@ -37,12 +37,96 @@
 				</u-navbar>
 			</template>
 			<view style="padding: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
-				<articleHeader :data="article" @follow="article.authorInfo.isFollow?showFollow = true:follow($event)">
-				</articleHeader>
-				<articleContent :data="article" :autoPreview="isScroll" @ready="loading = false" @hideTap="hideTap">
-				</articleContent>
-				<articleFooter :data="article"></articleFooter>
+				<text style="font-size: 60rpx;">{{article.title}}</text>
+				<u-row align="top" justify="space-between"
+					style="margin-top: 30rpx;background: #85a3ff28;border-radius: 20rpx;box-shadow: 1rpx 1rpx 2rpx rgba(0, 0, 0, 0.06);">
+					<u-col :span="5.8">
+						<image :src="article.images[0]" mode="heightFix"
+							style="border-radius: 20rpx;height: 380rpx;width: 260rpx; background: #f7f7f7;"></image>
+					</u-col>
+					<u-col :span="5">
+						<view
+							style="display: flex;flex-direction: column;align-items: flex-end; justify-content: flex-start;padding: 20rpx 30rpx;flex:1">
+							<view
+								style="background: #fff;padding: 20rpx;border-radius: 20rpx;font-size: 26rpx;width: 100%;"
+								class="ripple">
+								<u-row justify="space-between">
+									<text>{{article.category.name}}</text>
+									<text>23.33MiB</text>
+								</u-row>
+								<u-row justify="space-between">
+									<u-row>
+										<i class="ess icon-heart_fill" style="color: red;"></i>
+										<text style="margin-left: 5rpx;">{{article.likes}}</text>
+									</u-row>
+									<text>{{article.images.length}}页</text>
+								</u-row>
+								<view style="text-align: center;margin-top: 10rpx;">
+									<text>{{$u.timeFormat(article.created, 'yyyy-mm-dd hh:MM')}}</text>
+								</view>
+							</view>
+
+							<!-- 控件二 -->
+							<view style="margin-top: 30rpx;border-radius: 20rpx;border: 1rpx #999 solid;padding: 10rpx;"
+								class="ripple">
+								<u-row justify="space-between">
+									<i class="ess icon-triangle_fill"></i>
+									<text style="font-size: 26rpx;margin-left: 20rpx;">{{article.category.name}}</text>
+								</u-row>
+							</view>
+							<!-- 控件三 -->
+							<view style="margin-top: 30rpx;border-radius: 20rpx;border: 1rpx #999 solid;padding: 10rpx;"
+								class="ripple">
+								<u-row justify="space-between">
+									<i class="ess icon-user_2_line"></i>
+									<text
+										style="font-size: 26rpx;margin-left: 20rpx;">{{article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
+								</u-row>
+							</view>
+						</view>
+					</u-col>
+				</u-row>
+				<!-- 按钮 -->
+				<view style="margin-top: 40rpx;">
+					<u-row>
+						<u-button color="#85a3ff3c" shape="circle" :hairline="false"
+							style="color: black;margin-right: 10rpx;">下载</u-button>
+						<u-button color="#85a3ff" shape="circle" :hairline="false" style="margin-left: 10rpx;"
+							@click="goRead()">阅读</u-button>
+					</u-row>
+				</view>
+				<!-- 交互控件 -->
+				<view style="margin-top: 60rpx;">
+					<u-row justify="space-around">
+						<view style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
+							<i class="ess ripple" :class="article.isLike?'icon-heart_fill':'icon-heart_line'"
+								style="font-size: 60rpx;" :style="{color:article.isLike?'red':''}" @click="like()"></i>
+							<text>{{article.likes}}</text>
+						</view>
+						<view style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
+							<i class="ess ripple" :class="article.isMark?'icon-star_fill':'icon-star_line'"
+								style="font-size: 60rpx;" :style="{color:article.isMark?'#f2ba49':''}"
+								@click="mark()"></i>
+							<text>{{article.marks?article.marks:0}}</text>
+						</view>
+
+					</u-row>
+				</view>
+
 			</view>
+
+			<!-- 标签 -->
+			<view style="margin: 30rpx;" v-if="article && article.tag.length">
+				<u-row style="flex-wrap: wrap;">
+					<block v-for="(item,index) in article.tag" :key="index">
+						<view
+							style="background: #85a3ff1e;padding: 8rpx 26rpx;border-radius: 50rpx;margin-right: 20rpx;">
+							<text>{{item.name}}</text>
+						</view>
+					</block>
+				</u-row>
+			</view>
+
 			<!-- 评论区 -->
 			<u-gap height="8" bgColor="#85a3ff0a"></u-gap>
 			<!-- #ifdef APP -->
@@ -117,39 +201,11 @@
 				</block>
 			</view>
 			<template #bottom>
-				<u-row customStyle="padding:10rpx 20rpx;border-top:#85a3ff1e solid 1rpx" justify="space-between">
-					<u-col span="6">
-						<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background: #85a3ff0a;"
-							class="u-info" @click="showComment = true">
-							<u-icon name="edit-pen" size="20"></u-icon>
-							<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
-						</u-row>
-					</u-col>
-					<u-col span="5">
-						<u-row customStyle="margin-left:20rpx;flex:1" justify="space-around">
-							<view style="display: flex; flex-direction: column;align-items: center;"
-								@click="$refs.reward.open()">
-								<i class="ess icon-copper_coin_line" style="font-size: 44rpx;"></i>
-								<u-text text="发电" size="12"></u-text>
-							</view>
-							<view style="display: flex; flex-direction: column;align-items: center;"
-								@click="$u.throttle(mark(),1000,true)">
-								<i class="ess icon-star_line" style="font-size: 44rpx;"
-									:style="{color:article && article.isMark?'#85a3ff':''}"
-									:class="{'animate__animated animate__pulse':article && article.isMark}"></i>
-
-								<u-text text="收藏" size="12"></u-text>
-							</view>
-
-							<view style="display: flex; flex-direction: column;align-items: center;"
-								@click="$u.throttle(like(),1000,true)">
-								<i class="ess icon-thumb_up_2_line" style="font-size: 44rpx;"
-									:style="{color:article && article.isLike?'#85a3ff':''}"
-									:class="{'animate__animated animate__pulse':article && article.isLike}"></i>
-								<u-text text="点赞" size="12"></u-text>
-							</view>
-						</u-row>
-					</u-col>
+				<u-row
+					customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background: #85a3ff0a;margin:20rpx 30rpx 30rpx 30rpx"
+					class="u-info" @click="showComment = true">
+					<u-icon name="edit-pen" size="20"></u-icon>
+					<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
 				</u-row>
 			</template>
 		</z-paging>
@@ -392,7 +448,7 @@
 				emojiIndex: 0,
 				author: null,
 				subComment: null,
-				loading: true,
+				loading: false,
 				showMore: false,
 				showComment: false,
 				showComemntBtn: null,
@@ -686,6 +742,7 @@
 					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
 						this.article.isLike = !this.article.isLike
+						this.article.likes += this.article.isLike ? 1 : -1;
 					}
 				})
 			},
@@ -696,6 +753,7 @@
 					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
 						this.article.isMark = !this.article.isMark
+						this.article.marks += this.article.marks ? 1 : -1;
 					}
 				})
 			},
@@ -831,12 +889,6 @@
 				}
 
 			},
-			preview(urls, current) {
-				uni.previewImage({
-					urls,
-					current
-				})
-			},
 
 			hideTap(type) {
 				if (type == '付费') this.showPay = true
@@ -867,15 +919,61 @@
 						})
 					}
 				})
+			},
+			goRead() {
+				uni.setStorageSync('photo_read', this.article)
+				this.$Router.push({
+					path: '/pages/article/components/preview_photo/preview_photo',
+					query: {
+						id: this.article.cid
+					},
+					animation: {
+						animationType: 'slide-in-bottom',
+						animationDuration: 300
+					}
+				})
 			}
 		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="less">
 	.ql-container ::v-deep .ql-blank::before {
 		min-height: 60rpx;
 		height: 60rpx;
 		font-style: normal;
+	}
+
+	.ripple {
+		.button-ripple()
+	}
+
+	.button-ripple() {
+		overflow: hidden;
+		position: relative;
+		transition: background-color .3s linear, border .3s linear;
+
+		&:after {
+			content: "";
+			display: block;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			pointer-events: none;
+			background-image: radial-gradient(circle, #000 10%, rgba(0, 0, 0, 0) 10.01%);
+			background-repeat: no-repeat;
+			background-position: 50%;
+			transform: scale(10);
+			opacity: 0;
+			transition: transform .5s, opacity 1s;
+		}
+
+		&:active:after {
+			transform: scale(0);
+			opacity: .2;
+			transition: 0s;
+		}
 	}
 </style>

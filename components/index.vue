@@ -15,10 +15,12 @@
 				customStyle="border-radius: 20rpx;"></u-notice-bar>
 		</view>
 		<block v-for="(item,index) in content" :key="index" v-if="content.length">
-			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+			<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
+				style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
-				<article-content :data="item"></article-content>
+				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
+				<article-content :data="item" v-else></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
 			<view style="border-bottom:1rpx #f7f7f7 solid"></view>
@@ -30,13 +32,13 @@
 	import articleHeader from '@/components/article/header.vue';
 	import articleContent from '@/components/article/content.vue';
 	import articleFooter from '@/components/article/footer.vue';
-
-	import swiper from '../../uni_modules/uview-ui/libs/config/props/swiper';
+	import articlePhoto from '@/components/article/photo.vue';
 	export default {
 		components: {
 			articleHeader,
 			articleContent,
 			articleFooter,
+			articlePhoto,
 		},
 		name: 'articleIndex',
 		props: {
@@ -128,9 +130,17 @@
 				})
 			},
 			goArticle(data) {
-				uni.setStorageSync(`article_${data.cid}`, data)
+
 				this.$Router.push({
 					path: '/pages/article/article',
+					query: {
+						id: data.cid
+					}
+				})
+			},
+			goPhoto(data) {
+				this.$Router.push({
+					path: '/pages/article/photo',
 					query: {
 						id: data.cid
 					}

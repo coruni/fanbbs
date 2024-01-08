@@ -1,40 +1,67 @@
 <template>
 	<view>
-		<uv-navbar autoBack placeholder rightText="">
+		<uv-navbar autoBack placeholder>
 			<view slot="left">
 				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
-				<u-button :color="article.category.mid&&article.title?'#85a3ff':'#e6e6e6'" shape="circle"
-					customStyle="width:150rpx;height:50rpx"
-					@click="article.category.mid&&article.title?save():$u.toast('要选择正确的板块哦~')">发布</u-button>
+				<view
+					style="display: flex;align-items: center;background: #85a3ff; border-radius: 50rpx;padding: 4rpx 16rpx;color: white;font-size: 28rpx;">
+					<view hover-class="button_hover" @click="save()">
+						<text>发布</text>
+					</view>
+				</view>
 			</view>
 		</uv-navbar>
-		<view style="padding: 30rpx;" id="image">
-			<u-row @click="showCategory = true"
-				style="background: #f7f7f7;padding: 8rpx 16rpx;width: 260rpx;border-radius: 20rpx;margin-bottom: 20rpx;"
-				justify="space-between">
-				<u-row align="center">
-					<u-avatar customStyle="margin-right:10rpx" :src="article.category.imgurl"
-						v-if="article.category.imgurl" size="20"></u-avatar>
-					<text>{{article.category.name?article.category.name:'选择板块'}}</text>
+		<view style="margin: 30rpx;" id="input">
+			<u-row align="center">
+				<u-col :span="7">
+					<u-input maxlength="30" :adjustPosition="false" border="bottom" v-model="article.title"
+						placeholder="请输入标题(必须)" customStyle="padding: 0;"></u-input>
+				</u-col>
+				<u-row justify="space-between"
+					style="border-radius: 50rpx;background: #f7f7f7;flex-shrink: 0;padding: 10rpx;flex:1;margin-left: 20rpx;"
+					@click="showCategory = true">
+					<u-row>
+						<image :src="article.category.imgurl" mode="aspectFill"
+							style="border-radius: 50rpx;width: 50rpx;height: 50rpx;"></image>
+						<view style="margin-left: 20rpx">
+							<text>{{article.category.name}}</text>
+						</view>
+					</u-row>
+					<i class="ess icon-right_line"></i>
 				</u-row>
-				<u-icon name="arrow-right"></u-icon>
 			</u-row>
-			<uv-scroll-list :indicator="false">
-				<u-upload :fileList="images" @afterRead="afterRead" @delete="deletePic" name="photo" multiple
-					:maxCount="9" width="100" height="100" customStyle="flex-wrap:nowrap"></u-upload>
-			</uv-scroll-list>
 		</view>
-		<view style="padding: 30rpx;" id="input">
-			<u-input maxlength="30" :adjustPosition="false" border="bottom" v-model="article.title"
-				placeholder="请输入标题(必须)" placeholderStyle="font-size:40rpx" font-size="20"
-				customStyle="padding: 0;"></u-input>
+		<view style="margin: 30rpx;;background: #f7f7f7;border-radius: 20rpx;padding: 30rpx;">
+			<editor id="editor" :adjust-position="false" placeholder="内容写在顶部,其余位置不要写,请上传图片" @ready="onEditorReady"
+				:style="`height:${editorHeight -keyboardHeight-toolbarHeight-180}px;`"></editor>
 		</view>
-		<view style="padding: 20rpx 30rpx 0rpx 30rpx;">
-			<editor id="editor" :adjust-position="false" placeholder="请输入内容" @ready="onEditorReady"
-				:style="`height:${windowHeight}px`"></editor>
+		<view id="toolbar" style="margin: 30rpx;">
+			<u-row justify="space-between">
+				<i class="ess icon-pic_2_line" style="font-size: 40rpx;" @click="chooseImage()"></i>
+				<!-- 标签 -->
+				<u-col :span="10">
+					<u-row justify="space-between" @click="showTag = true">
+						<u-row style="margin-left: 20rpx;">
+							<text style="flex-shrink: 0;">标签：</text>
+							<scroll-view scroll-y style="height: 100%;">
+								<u-row>
+									<block v-for="(item,index) in tags" key="index">
+										<view
+											style="border-radius: 50rpx; padding: 8rpx 14rpx;background: #85a3ff1e;color: #85a3ff;font-size: 26rpx; margin-right: 20rpx;">
+											<text>{{item.name}}</text>
+										</view>
+									</block>
+								</u-row>
+							</scroll-view>
+						</u-row>
+						<i class="ess icon-right_line"></i>
+					</u-row>
+				</u-col>
+			</u-row>
 		</view>
+		<!-- 组件 -->
 		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false"
 			width="300rpx">
 			<uv-loading-icon text="发布中..." mode="circle" color="#85a3ff"></uv-loading-icon>
@@ -42,7 +69,6 @@
 		</uv-modal>
 		<u-popup customStyle="border-radius:40rpx 40rpx 0 0;" :show="showCategory" @close="showCategory = false"
 			:closeable="true">
-
 			<view style="height: 70vh;padding:30rpx;background:#85a3ff0a">
 				<view style="text-align: center;">选择板块</view>
 				<view style="margin-top: 30rpx;">
@@ -63,12 +89,44 @@
 									</u-row>
 								</u-col>
 							</block>
-
 						</u-row>
 					</scroll-view>
 				</view>
 			</view>
 		</u-popup>
+		<!-- 标签&&话题 -->
+		<u-popup customStyle="border-radius:40rpx 40rpx 0 0" :show="showTag" @close="showTag = false">
+			<view style="height: 70vh;padding:30rpx">
+				<view style="margin-top: 30rpx;">
+					<u-row customStyle="flex-wrap:nowrap;font-size:30rpx">
+						<text style="font-weight: bold;">标签&话题：</text>
+						<text style="color: #999;">选择相关内容、分类，获得更多浏览</text>
+					</u-row>
+					<view style="margin-top: 20rpx;">
+						<u-input prefix-icon="search" placeholder="搜索标签&话题"
+							customStyle="padding:10rpx 6rpx;background:#f7f7f7" border="none"></u-input>
+					</view>
+				</view>
+				<view style="margin-top: 40rpx;">
+					<text style="font-weight: bold;">推荐话题</text>
+					<scroll-view scroll-y style="flex:1;height: 55vh;;overflow-y: scroll;">
+						<block v-for="(item,index) in tags" :key="index">
+							<view @click="tagTap(item)" style="padding: 10rpx 0;">
+								<text
+									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#85a3ff':''}">{{item.name}}</text>
+							</view>
+						</block>
+					</scroll-view>
+				</view>
+			</view>
+		</u-popup>
+		<u-modal :show="showLoading" @close="showLoading=false;uploadErr.status = false;uploadErr.msg=null;"
+			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
+			:title="uploadErr.status?'上传错误':'上传中...'">
+			<u-line-progress :percentage="percentage" activeColor="#85a3ff" :showText="false"
+				v-if="!uploadErr.status"></u-line-progress>
+			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
+		</u-modal>
 	</view>
 </template>
 
@@ -77,8 +135,19 @@
 		data() {
 			return {
 				images: [],
+				percentage: 0,
+				uploadErr: {
+					status: false,
+					msg: null,
+				},
+				showTag: false,
+				showLoading: false,
 				showCategory: false,
 				category: [],
+				tags: [],
+				keyboardHeight: 0,
+				toolbarHeight: 0,
+				editorHeight: 0,
 				article: {
 					title: '',
 					text: '',
@@ -107,16 +176,18 @@
 			this.initData()
 		},
 		onReady() {
-			let height = 0;
-			uni.createSelectorQuery().in(this).select("#image").boundingClientRect(data => {
-				height = data.height
-			}).exec()
+			let inputHeight = 0;
 			uni.createSelectorQuery().in(this).select("#input").boundingClientRect(data => {
-				height += data.height
-				console.log(height)
+				inputHeight = data.height
 			}).exec()
+			uni.createSelectorQuery().in(this).select("#toolbar").boundingClientRect(data => {
+				this.toolbarHeight = data.height
+			}).exec()
+			uni.onKeyboardHeightChange(data => {
+				this.keyboardHeight = data.height
+			})
 			let systemInfo = uni.getSystemInfoSync()
-			this.windowHeight = systemInfo.windowHeight - systemInfo.statusBarHeight - 152 - 59 - 100
+			this.editorHeight = systemInfo.screenHeight - systemInfo.statusBarHeight - inputHeight
 		},
 		methods: {
 			initData() {
@@ -146,21 +217,17 @@
 			getTags() {
 				this.$http.get('/category/list', {
 					params: {
-						searchParams: JSON.stringify({
+						params: JSON.stringify({
 							type: 'tag',
 						}),
-						order: 'count'
+						order: 'count desc'
 					}
 				}).then(res => {
-
-					if (res.data.code) {
-						this.tags = res.data.data
+					if (res.data.code == 200) {
+						this.tags = res.data.data.data
 
 					}
 				})
-			},
-			deletePic(event) {
-				this.images.splice(event.index, 1)
 			},
 			onEditorReady() {
 				// #ifdef MP-BAIDU
@@ -180,76 +247,104 @@
 				}
 				this.editorCtx.getContents({
 					success: res => {
-						this.article.text = res.text
-						if (res.text.length < 4) {
-							uni.$u.toast('再多说点什么吧~')
+						this.article.text = res.html
+						if (res.html.length < 15) {
+							uni.$u.toast('你还没上传图片呢')
 							return
 						}
 						this.$refs.publish.open()
 						let tags = this.article.tags.map(tag => tag.mid).join(',')
-						let images = this.images.map(file => file.url);
 						this.$http.post('/article/articleAdd', {
-							params: JSON.stringify({
-								title: this.article.title,
-								text: this.article.text,
-								category: this.article.category.mid,
-								mid: this.article.category.mid,
-								tag: tags,
-								type: 'photo',
-								opt: JSON.stringify(this.article.opt),
-								images: images
-							}),
+							title: this.article.title,
 							text: this.article.text,
+							category: this.article.category.mid,
+							tag: tags,
+							type: 'photo',
+							opt: JSON.stringify(this.article.opt),
+							images: this.images
 						}).then(res => {
-							if (res.data.code) {
+							if (res.data.code == 200) {
 								setTimeout(() => {
 									this.$refs.publish.close()
-									uni.$u.toast(res.data.msg)
 									setTimeout(() => {
 										this.$Router.back(1)
+										uni.$u.toast(res.data.msg)
 									}, 800)
 								}, 1500)
 							} else {
-								uni.$u.toast(res.data.msg)
 								this.$refs.publish.close()
+								uni.$u.toast(res.data.msg)
 							}
+						}).catch(err => {
+							console.log(err)
 						})
 					}
 				})
 
 			},
-			// 新增图片
-			async afterRead(event) {
-				// 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
-				let lists = [].concat(event.file)
-				let imagesLength = this.images.length
-				lists.map((item) => {
-					this.images.push({
-						...item,
-						status: 'uploading',
-						message: '上传中'
-					})
-				})
-				for (let i = 0; i < lists.length; i++) {
-					const result = await this.uploadFilePromise(lists[i].url)
-					let item = this.images[imagesLength]
-					this.images.splice(imagesLength, 1, Object.assign(item, {
-						status: 'success',
-						message: '',
-						url: result
-					}))
-					imagesLength++
+			async chooseImage() {
+				this.percentage = 0; // 重置进度条
+				try {
+					const res = await uni.chooseImage({
+						count: 100
+					});
+					let increment = 100 / res.tempFilePaths.length; // 计算每张图片的上传进度增量
+					let count = res.tempFilePaths.length;
+
+					this.showLoading = true;
+
+					for (let i in res.tempFilePaths) {
+						let image = await this.upload(res.tempFilePaths[i]);
+						count--;
+						this.percentage += increment; // 增加上传进度
+						this.editorCtx.insertImage({
+							src: image,
+							alt: this.article.title ? this.article.title : 'IMAGE'
+						});
+					}
+
+					if (count === 0) {
+						setTimeout(() => {
+							this.showLoading = false;
+						}, 200);
+					}
+
+					this.editorCtx.insertText({
+						text: '\n'
+					});
+				} catch (err) {
+					console.error(err); // 打印错误信息到控制台
 				}
 			},
-			uploadFilePromise(url) {
+			tagTap(item) {
+				// 检查标签是否已存在于数组中
+				const index = this.article.tags.findIndex(tag => tag.mid === item.mid);
+
+				if (index !== -1) {
+					// 如果存在，从数组中删除
+					this.article.tags.splice(index, 1);
+				} else {
+					// 如果不存在，加入数组
+					this.article.tags.push(item);
+				}
+			},
+			upload(image) {
 				return new Promise((resolve, reject) => {
 					this.$http.upload('/upload/full', {
-						filePath: url,
-						name: 'file'
+						filePath: image,
+						name: 'file',
 					}).then(res => {
-						if (res.data.code) {
+						console.log(res)
+						if (res.data.code == 200) {
+							this.images.push(res.data.data.url)
 							resolve(res.data.data.url)
+						} else {
+							this.uploadErr.status = true
+							this.uploadErr.msg = res.data.msg
 						}
+					}).catch(err => {
+						this.uploadErr.status = true
+						this.uploadErr.msg = '网络错误'
 					})
 				})
 			},
@@ -258,13 +353,27 @@
 </script>
 
 <style lang="scss">
-	/deep/ .u-upload__wrap {
-		flex-wrap: nowrap;
+	.ql-container ::v-deep .ql-blank::before {
+		font-style: normal;
+		color: #999;
+		min-height: 0rpx;
 	}
 
-	.ql-container ::v-deep .ql-blank::before {
-		/* 此处设置 placeholder 样式 */
-		font-style: normal;
-		text-decoration: unset;
+	.ql-container ::v-deep img {
+		margin: 20rpx auto;
+		border-radius: 20rpx;
+		max-width: 80%;
+		display: block;
+	}
+
+	.button_hover {
+		opacity: 0.5;
+	}
+
+	.imageCover {
+		position: relative;
+		object-fit: cover;
+		width: 100%;
+		height: 200px;
 	}
 </style>

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-	import list from '../../uni_modules/uview-ui/libs/config/props/list';
+	
 	import articleFooter from '@/components/article/footer.vue';
 	export default {
 		name: 'waterFall',

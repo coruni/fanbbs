@@ -50,7 +50,7 @@
 			"perm": "login"
 		},
 		{
-			"path": "pages/article/circle",
+			"path": "pages/article/photo",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
@@ -266,6 +266,14 @@
 				"enablePullDownRefresh" : false
 			},
 			"name":"myProduct"
+		},
+		{
+			"path" : "pages/article/components/preview_photo/preview_photo",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

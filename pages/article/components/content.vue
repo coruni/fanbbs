@@ -2,11 +2,8 @@
 	<view style="margin-top:20rpx;">
 		<!-- 内容 overflow:unset防止抖动-->
 		<!-- <u-parse>组件错误更换为uv-parse -->
-		<u-swiper height="200" :list="data.images" v-if="data&&data.images&&data.type=='photo'" :autoplay="false"
-			indicator-mode="dot" @click="preview(data.images,$event)" style="margin-bottom: 20rpx;" indicator
-			radius="10"></u-swiper>
 		<uv-parse :ImgCache="true"
-			:tag-style="{img:'border-radius:20rpx',video:'border-radius:20rpx !improtant',uniVideo:'border-radius:20rpx !improtant'}"
+			:tag-style="{img:!isPreview?'border-radius:20rpx':'',video:'border-radius:20rpx !improtant',uniVideo:'border-radius:20rpx !improtant'}"
 			style="overflow: unset;white-space: normal;word-break: break-all" :show-img-menu="!isScroll"
 			:content="data.text" img-cache lazyLoad selectable @ready="htmlReady()" @linktap="linkTap"
 			v-if="data"></uv-parse>
@@ -22,6 +19,10 @@
 				default: null,
 			},
 			autoPreview: {
+				type: Boolean,
+				default: false,
+			},
+			isPreview: {
 				type: Boolean,
 				default: false,
 			}

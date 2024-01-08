@@ -22,8 +22,6 @@
 					<text style="font-size: 26rpx;color: #999;">{{$u.timeFrom(data.created,'mm-dd')}}</text>
 				</view>
 			</u-row>
-			
-
 			<view style="display: flex;align-items: center;">
 				<view @click.stop="follow(data.authorInfo.uid)">
 					<u-button v-if="!isfollow && data && data.authorInfo.uid !== userInfo.uid" plain color="#85a3ff" size="mini"
