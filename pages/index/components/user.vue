@@ -148,7 +148,7 @@
 			</block>
 			<!-- 管理面板 -->
 			<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;"
-				v-if="userInfo && userInfo.groupKey =='administrator'">
+				v-if="userInfo && userInfo.group =='administrator'">
 				<u-row customStyle="padding:30rpx" @click="goPage('manage')">
 					<u-icon name="setting" size="24"></u-icon>
 					<text style="margin-left:20rpx;font-weight: 600;">管理面板</text>
@@ -468,13 +468,14 @@
 					filePath: url,
 					name: 'file'
 				}).then(res => {
-					if (res.data.code) {
+					console.log(res)
+					if (res.data.code == 200) {
 						this.save(res.data.data.url)
 					}
 				})
 			},
 			save(url) {
-				this.$http.post('/user/userEdit', {
+				this.$http.post('/user/update', {
 					background: url
 				}).then(res => {
 					console.log(res)

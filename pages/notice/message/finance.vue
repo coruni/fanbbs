@@ -42,7 +42,7 @@
 					type: 'finance'
 				}).then(res => {
 					console.log(res)
-					this.$refs.paging.complete(res.data.data)
+					this.$refs.paging.complete(res.data.data.data)
 					setTimeout(() => {
 						this.loading = false
 					}, 500)

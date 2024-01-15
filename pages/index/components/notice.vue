@@ -7,13 +7,7 @@
 						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 					</view>
 				</u-navbar>
-				<view style="margin: 30rpx;">
-					<uv-scroll-list :indicator="false">
-						<block v-for="(item,index) in rooms" :key="index">
-							<u-avatar :src="item.pic"></u-avatar>
-						</block>
-					</uv-scroll-list>
-				</view>
+				
 			</template>
 
 			<view style="margin: 30rpx;">
@@ -99,8 +93,6 @@
 		},
 		created() {
 			if (this.$store.state.hasLogin) {
-				this.getRoom()
-				this.getNoticeNum()
 			}
 			uni.$on('login', data => {
 				this.$refs.paging.reload()
@@ -109,31 +101,15 @@
 		methods: {
 			getData(page, limit) {
 				if (!this.$store.state.hasLogin) return;
-				this.$http.get('/chat/myChat', {
+				this.$http.get('/chat/chatList', {
 					params: {
 						page,
 						limit,
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
 					}
-
 				}).then(res => {
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
-					}
-				})
-			},
-			getRoom(page, limit) {
-				this.$http.get('/chat/allChat', {
-					params: {
-						type: 1,
-						order: 'lastTime',
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
-					}
-
-				}).then(res => {
-					
-					if (res.data.code) {
-						this.rooms = res.data.data
+					console.log(res)
+					if (res.data.code==200) {
+						this.$refs.paging.complete(res.data.data.data)
 					}
 				})
 			},

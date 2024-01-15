@@ -5,7 +5,7 @@
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" use-cache
 			:cache-key="`user_publish`">
 			<block v-for="(item,index) in article">
-				<view style="margin: 30rpx;" @click="goArticle(item)">
+				<view style="margin: 30rpx;"  @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
 					<u-row justify="space-between" customStyle="margin-bottom:20rpx">
 						<u-row align="bottom">
 							<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
@@ -18,7 +18,8 @@
 						<i class="ess icon-more_1_line" style="font-size: 60rpx;"
 							@click.stop="$emit('articleMenu',data)"></i>
 					</u-row>
-					<articleContent :data="item"></articleContent>
+					<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
+					<article-content :data="item" v-else></article-content>
 					<articleFooter :data="item"></articleFooter>
 				</view>
 				<view style="border-bottom:1rpx #f7f7f7 solid"></view>
@@ -31,11 +32,13 @@
 	import articleHeader from '@/components/article/header.vue';
 	import articleContent from '@/components/article/content.vue';
 	import articleFooter from '@/components/article/footer.vue';
+	import articlePhoto from '@/components/article/photo.vue';
 	export default {
 		components: {
 			articleHeader,
 			articleContent,
-			articleFooter
+			articleFooter,
+			articlePhoto
 		},
 		name: 'publish',
 		props: {
@@ -66,7 +69,6 @@
 					page,
 					limit,
 					params: JSON.stringify({
-						type: 'post',
 						authorId: this.$store.state.userInfo.uid
 					}),
 					order: 'created desc',
@@ -79,6 +81,14 @@
 				uni.setStorageSync(`article_${data.cid}`, data)
 				this.$Router.push({
 					path: '/pages/article/article',
+					query: {
+						id: data.cid
+					}
+				})
+			},
+			goPhoto(data) {
+				this.$Router.push({
+					path: '/pages/article/photo',
 					query: {
 						id: data.cid
 					}

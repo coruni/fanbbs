@@ -135,7 +135,8 @@
 					filePath: url,
 					name: 'file'
 				}).then(res => {
-					if (res.data.code) {
+					console.log(res)
+					if (res.data.code==200) {
 						if (isAvatar) this.info.avatar = res.data.data.url;
 						else this.info.userBg = res.data.data.url;
 						this.save()

@@ -13,16 +13,18 @@ export default {
 		}
 	},
 	computed: {
+		// 顶部可用距离
 		windowTop() {
 			if (!this.systemInfo) return 0;
-			//暂时修复vue3中隐藏系统导航栏后windowTop获取不正确的问题，具体bug详见https://ask.dcloud.net.cn/question/141634
-			//感谢litangyu！！https://github.com/SmileZXLee/uni-z-paging/issues/25
+			// 暂时修复vue3中隐藏系统导航栏后windowTop获取不正确的问题，具体bug详见https://ask.dcloud.net.cn/question/141634
+			// 感谢litangyu！！https://github.com/SmileZXLee/uni-z-paging/issues/25
 			// #ifdef VUE3 && H5
 			const pageHeadNode = document.getElementsByTagName("uni-page-head");
 			if (!pageHeadNode.length) return 0;
 			// #endif
 			return this.systemInfo.windowTop || 0;
 		},
+		// 底部安全区域高度
 		safeAreaBottom() {
 			if (!this.systemInfo) return 0;
 			let safeAreaBottom = 0;
@@ -34,6 +36,7 @@ export default {
 			// #endif
 			return safeAreaBottom;
 		},
+		// 是否是比较老的webview，在一些老的webview中，需要进行一些特殊处理
 		isOldWebView() {
 			// #ifndef APP-NVUE || MP-KUAISHOU
 			try {
@@ -49,6 +52,7 @@ export default {
 			// #endif
 			return false;
 		},
+		// 当前组件的$slots，兼容不同平台
 		zSlots() {
 			// #ifdef VUE2
 			
@@ -60,11 +64,16 @@ export default {
 			// #endif
 			
 			return this.$slots;
-		}
+		},
 	},
 	beforeDestroy() {
 		this.isReadyDestroy = true;
 	},
+	// #ifdef VUE3
+	unmounted() {
+		this.isReadyDestroy = true;
+	},
+	// #endif
 	methods: {
 		// 更新fixed模式下z-paging的布局
 		updateFixedLayout() {
@@ -72,11 +81,12 @@ export default {
 				this.systemInfo = uni.getSystemInfoSync();
 			})
 		},
-		//获取节点尺寸
+		// 获取节点尺寸
 		_getNodeClientRect(select, inDom = true, scrollOffset = false) {
 			if (this.isReadyDestroy) {
 				return Promise.resolve(false);
 			};
+			// nvue中获取节点信息
 			// #ifdef APP-NVUE
 			select = select.replace(/[.|#]/g, '');
 			const ref = this.$refs[select];
@@ -91,6 +101,8 @@ export default {
 			});
 			return;
 			// #endif
+			
+			// vue中获取节点信息
 			//#ifdef MP-ALIPAY
 			inDom = false;
 			//#endif
@@ -102,7 +114,7 @@ export default {
 				});
 			});
 		},
-		//获取slot="left"和slot="right"宽度并且更新布局
+		// 获取slot="left"和slot="right"宽度并且更新布局
 		_updateLeftAndRightWidth(targetStyle, parentNodePrefix) {
 			this.$nextTick(() => {
 				let delayTime = 0;
@@ -118,7 +130,7 @@ export default {
 				}, delayTime)
 			})
 		},
-		//通过获取css设置的底部安全区域占位view高度设置bottom距离
+		// 通过获取css设置的底部安全区域占位view高度设置bottom距离（直接通过systemInfo在部分平台上无法获取到底部安全区域）
 		_getCssSafeAreaInsetBottom(success) {
 			this._getNodeClientRect('.zp-safe-area-inset-bottom').then(res => {
 				this.cssSafeAreaInsetBottom = res ? res[0].height : -1;

@@ -20,14 +20,15 @@
 					</view>
 					<view v-if="item.parentComment && item.parentComment.userInfo"
 						style="font-size: 28rpx;display: flex;align-items: center;color: #999;padding-left: 10rpx;border-left: 4rpx #99999932 solid;">
-						<text style="flex-shrink: 0;">@{{item.parentComment.userInfo.screenName?item.parentComment.userInfo.screenName:item.parentComment.userInfo.name}}：</text>
+						<text
+							style="flex-shrink: 0;">@{{item.parentComment.userInfo.screenName?item.parentComment.userInfo.screenName:item.parentComment.userInfo.name}}：</text>
 
 						<uv-parse :content="item.parentComment.text" class="u-line-1"
 							style="white-space: nowrap;overflow: hidden;overflow-y: unset;"></uv-parse>
 					</view>
 
 					<view style="background: #85a3ff0a;border-radius: 20rpx;margin-top: 10rpx;"
-						@click="goArticle(item.article)">
+						@tap.stop="item.article.type=='post'?goArticle(item):item.article.type=='photo'?goPhoto(item):goArticle(item)">
 						<u-row>
 							<image mode="aspectFill"
 								style="height: 100rpx;width: 100rpx;background: #f7f7f7;border-radius: 20rpx 0 0 20rpx;">
@@ -36,8 +37,7 @@
 						</u-row>
 					</view>
 
-					<view style="margin-top: 20rpx;color: #999;"
-						v-if="item.article.category&&item.article.category">
+					<view style="margin-top: 20rpx;color: #999;" v-if="item.article.category&&item.article.category">
 						<text>{{item.article.category.name}}</text>
 					</view>
 				</view>
@@ -89,7 +89,6 @@
 					}
 
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
@@ -99,13 +98,22 @@
 				this.$refs.paging.reload();
 			},
 			goArticle(data) {
+				console.log(data)
 				this.$Router.push({
 					path: '/pages/article/article',
 					query: {
 						id: data.cid
 					}
 				})
-			}
+			},
+			goPhoto(data) {
+				this.$Router.push({
+					path: '/pages/article/photo',
+					query: {
+						id: data.cid
+					}
+				})
+			},
 		}
 	}
 </script>

@@ -14,8 +14,8 @@
 				<view style="margin:30rpx;background: #fff;border-radius: 20rpx;padding: 30rpx;"
 					@click="goArticle(item)">
 					<u-row customStyle="margin-bottom:20rpx">
-						<u-avatar :src="item.userJson.avatar" size="24"></u-avatar>
-						<text style="margin-left:20rpx;font-weight: 600;">{{item.userJson.name}}</text>
+						<u-avatar :src="item.reply.userInfo.avatar" size="24"></u-avatar>
+						<text style="margin-left:20rpx;font-weight: 600;">{{item.reply.userInfo.screenName}}</text>
 					</u-row>
 					<u-parse class="u-line-2" :content="formatEmoji(item.text)"></u-parse>
 					<view style="border-left: #f7f7f7 6rpx solid;padding-left: 10rpx;margin: 10rpx 0;">
@@ -53,7 +53,7 @@
 					type: 'comment'
 				}).then(res => {
 					console.log(res)
-					this.$refs.paging.complete(res.data.data)
+					this.$refs.paging.complete(res.data.data.data)
 					setTimeout(() => {
 						this.loading = false
 					}, 500)
@@ -71,11 +71,11 @@
 				})
 			},
 			goArticle(data) {
-				console.log(data)
+
 				this.$Router.push({
 					path: '/pages/article/article',
 					query: {
-						id: data.contentsInfo.cid
+						id: data.article.id
 					}
 				})
 			},

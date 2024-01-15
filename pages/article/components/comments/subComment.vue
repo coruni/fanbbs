@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<z-paging ref="paging" @query="getComments" v-model="comments" :refresher-enabled="false"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" cache-mode="always" use-cache
+		<z-paging ref="paging" @query="getComments" v-model="comments" :auto-scroll-to-top-when-reload="false"
+			:auto-clean-list-when-reload="false" cache-mode="always" use-cache
 			:cache-key="`article_mid_sub-${data.id}`">
 			<template #top>
 				<u-navbar autoBack placeholder style="z-index: 10;">

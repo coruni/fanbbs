@@ -58,7 +58,7 @@ againHttp.interceptors.request.use(config => {
 // 响应拦截
 //   所有的网络请求返回数据之后都会先执行这个方法
 http.interceptors.response.use(async (response) => {
-	if (store.state.hasLogin && !response.data.code && response.data.msg == '用户未登录或Token验证失败') {
+	if (store.state.hasLogin && response.data.code==401) {
 		let account = uni.getStorageSync('account')
 		try {
 			const res = await refresh.get('/user/login', {
@@ -67,7 +67,7 @@ http.interceptors.response.use(async (response) => {
 					password: account.password
 				}
 			})
-			if (res.data.code) {
+			if (res.data.code==200) {
 
 				store.commit('setToken', res.data.data.token)
 				try {
@@ -78,7 +78,7 @@ http.interceptors.response.use(async (response) => {
 					return Promise.reject(e)
 				}
 			} else {
-				uni.$u.toast('用户信息已更新，重新登陆')
+				uni.$u.toast('请重新登录')
 				store.commit('logout')
 				router.push({
 					path: '/pages/user/login',
