@@ -511,18 +511,9 @@
 				}
 			},
 			checkUp() {
-				this.$http.post('/userlog/addLog', {
-					params: JSON.stringify({
-						type: 'clock'
-					})
-				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
-						uni.$u.toast('签到' + res.data.msg)
-					} else {
-						if (res.data.msg != '你的操作太频繁了') {
-							uni.$u.toast(res.data.msg)
-						}
+				this.$http.post('/user/sign').then(res => {
+					if (res.data.code == 200) {
+						uni.$u.toast(res.data.msg)
 					}
 				})
 			}
