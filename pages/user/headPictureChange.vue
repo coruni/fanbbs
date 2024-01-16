@@ -169,7 +169,7 @@
 			},
 			async addHead() {
 				console.log(this.userInfo.groupKey, this.userInfo.isvip)
-				if (!this.userInfo.isvip && this.userInfo.groupKey !== 'administrator' && this.userInfo.groupKey !==
+				if (!this.userInfo.isvip || this.userInfo.group != 'administrator' && this.userInfo.group !=
 					'editor') {
 					uni.$u.toast('非会员用户无法使用');
 					return;

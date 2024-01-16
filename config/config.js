@@ -1,6 +1,6 @@
 const config = {
 	// API接口，必须是HTTPS开头
-	"api": "https://appapi.moec.cc",
+	"api": "http://localhost",
 	// 应用 废弃
 	"app": "Tz0q1VjS",
 	// 版本号，禁止私自修改，后果自负
