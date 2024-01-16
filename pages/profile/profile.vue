@@ -57,19 +57,19 @@
 				</u-row>
 				<u-row justify="space-around" customStyle="margin-top:40rpx">
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.contentsNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.articles}}</text>
 						<text>帖子</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.followNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.follows}}</text>
 						<text>关注</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.fanNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.fans}}</text>
 						<text>粉丝</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.commentsNum}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.comments}}</text>
 						<text>评论</text>
 					</view>
 				</u-row>
@@ -163,11 +163,9 @@
 			};
 		},
 		onLoad(params) {
-			if (params) {
-				this.id = params.id
-				this.getAuthor(params.id)
-				this.getUserData(params.id)
-			}
+			this.id = params.id
+			this.getAuthor(params.id)
+			this.getUserData(params.id)
 		},
 		created() {
 
@@ -211,12 +209,13 @@
 				if (scrollTop >= this.elementHeight) this.isScroll = true
 				else this.isScroll = false
 			},
-			getUserData(uid) {
+			getUserData(id) {
 				this.$http.get('/user/userData', {
 					params: {
-						uid
+						id
 					}
 				}).then(res => {
+					console.log(res)
 					if (res.data.code == 200) {
 						this.userData = res.data.data
 					}
