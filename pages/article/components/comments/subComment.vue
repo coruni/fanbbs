@@ -18,7 +18,7 @@
 					<u-avatar :src="data.userInfo.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"
 						@click="goProfile(data.userInfo.uid)"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
-						:src="data.userInfo&&data.userInfo.opt&&data.opt.head_picture">
+						:src="data.userInfo&&data.userInfo.opt&&data.userInfo.opt.head_picture">
 					</image>
 				</view>
 				<view style="
@@ -211,7 +211,7 @@
 			</view>
 			<template #bottom>
 				<u-row customStyle="margin:20rpx;" justify="space-between">
-					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1;background:#85a3ff1e"
+					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1;background: #85a3ff0a;"
 						class="u-info"
 						@click="commentCheck(false,data.id,data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name);">
 						<u-icon name="edit-pen" size="20"></u-icon>
@@ -227,7 +227,7 @@
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
 			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
 				:show-img-toolbar="false" @ready="onEditorReady" :placeholder="`回复${replyWho}`"
-				style="background: #85a3ff1e;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+				style="background: #85a3ff0a;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="2">
