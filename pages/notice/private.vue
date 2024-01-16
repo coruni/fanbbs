@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<z-paging ref="paging" @query="getMessages" v-model="messages" use-chat-record-mode auto-hide-keyboard-when-chat
-			use-page-scroll v-if="roomId">
+		<z-paging ref="paging" @query="getData" v-model="messages" use-chat-record-mode auto-hide-keyboard-when-chat
+			use-page-scroll>
 			<template #top>
 				<u-navbar placeholder autoBack :title="nickname">
 					<view slot="left">
@@ -11,16 +11,16 @@
 			</template>
 			<view style="margin: 30rpx;">
 				<block v-for="(item,index) in messages" :key="index">
-					<u-row v-if="item.uid != userInfo.uid" align="top" customStyle="margin-bottom: 20rpx;">
-						<u-avatar :src="item.userJson.avatar"></u-avatar>
+					<u-row v-if="item.sender_id != userInfo.uid" align="top" style="margin-bottom: 20rpx;transform: scaleY(-1)">
+						<u-avatar :src="item.userInfo.avatar"></u-avatar>
 						<view
 							style="background: #85a3ff32;padding:10rpx;margin-left: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
 							<uv-parse :tagStyle="{img:'border-radius:10px'}" :content="item.text"
 								style="word-wrap: normal;flex-wrap: wrap; word-break: break-all;"></uv-parse>
 						</view>
 					</u-row>
-					<u-row v-if="item.uid == userInfo.uid" justify="end" align="top"
-						customStyle="margin-bottom: 20rpx;">
+					<u-row v-if="item.sender_id == userInfo.uid" justify="end" align="top"
+						style="margin-bottom: 20rpx;transform: scaleY(-1);">
 						<view
 							style="background: #85a3ff32;padding:10rpx;margin-right: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
 							<uv-parse :tagStyle="{img:'border-radius:10px'}" :content="item.text"
@@ -67,37 +67,22 @@
 		onLoad(params) {
 			this.nickname = params.nickname
 			this.id = params.id
-			this.getData()
-			
 		},
 		computed: {
 			...mapState(['userInfo'])
 		},
 		methods: {
-			getData() {
-				this.$http.post('/chat/getPrivateChat', {
-					touid: this.id
+			getData(page, limit) {
+				this.$http.post('/chat/chatRecord', {
+					page,
+					limit: 30,
+					id: this.id
 				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
-						this.roomId = res.data.data
+					if (res.data.code == 200) {
+						this.$refs.paging.complete(res.data.data.data)
 					}
-				})
-			},
-			getMessages(page) {
-				this.$http.get('/chat/msgList', {
-					params: {
-						page,
-						limit: 30,
-						chatid: this.roomId,
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
-					}
-
-				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
-					}
+				}).catch(err => {
+					this.$refs.paging.complete(false)
 				})
 			},
 			sendMessage() {
@@ -105,16 +90,13 @@
 					success: (res) => {
 						// 将消息添加到列表
 						this.$refs.paging.addChatRecordData({
-							uid: this.userInfo.uid,
-							userJson: {
-								uid: this.userInfo.uid
-							},
-							text: res.text
+							sender_id:this.userInfo.uid,
+							text: res.html
 						})
 						this.$http.post('/chat/sendMsg', {
-							chatid: this.roomId,
+							id: this.id,
 							type: 0,
-							msg: res.text
+							text: res.html
 						}).then(ress => {
 							if (ress.data.code) {
 								// 清空编辑器消息
