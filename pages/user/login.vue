@@ -81,9 +81,9 @@
 				</u-row>
 			</view>
 
-			<view style="margin-top: 40rpx;">
-				<u-button :text="isLogin?'登录':'注册'" :hairline="false" color="#85a3ff" size="normal" loading-size="10"
-					customStyle="width:300rpx; height:80rpx;border-radius:10rpx;box-shadow:0 0 9rpx 0 #85a3ff"
+			<view style="margin-top: 20rpx;">
+				<u-button :text="isLogin?'登录':'注册'" shape="circle" :hairline="false" color="#85a3ff" size="normal"
+					loading-size="10" customStyle="width:300rpx; height:70rpx;box-shadow:0 0 9rpx 0 #85a3ff"
 					@click="isLogin?login():register()"></u-button>
 			</view>
 			<u-gap height="60"></u-gap>
@@ -99,7 +99,7 @@
 				</u-row>
 			</u-row>
 		</view>
-		<view style="margin: 40rpx;" v-show="isForget">
+		<view style="margin: 40rpx;margin-top: 20rpx;" v-show="isForget">
 			<u-text text="找回密码" size="17" bold></u-text>
 			<u--input placeholder="用户名" prefixIcon="email" prefixIconStyle="font-size:40rpx"
 				customStyle="padding:15rpx 0 0 0" border="bottom" v-model="account">
