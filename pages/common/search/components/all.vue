@@ -16,7 +16,7 @@
 									:content="replaceEmoji(item.text)"></uv-parse>
 							</view>
 							<image v-if="item.images&&item.images[0]"
-								:src="item.images&& item.images[0]?item.images[0]:'/static/login.png'"
+								:src="item.images&& item.images[0]?item.images[0]:'/static/login.jpg'"
 								style="width: 260rpx;height: 160rpx; border-radius: 20rpx;flex-shrink: 0;"
 								mode="aspectFill"></image>
 						</u-row>

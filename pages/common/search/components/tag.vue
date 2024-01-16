@@ -4,7 +4,7 @@
 			<block v-for="(item,index) in tags">
 				<view style="margin:30rpx;padding: 30rpx;background: #fff;border-radius: 20rpx;">
 					<u-row>
-						<u--image :src="item.imgurl && item.imgurl?item.imgurl:'/static/login.png'" mode="aspectFill"
+						<u--image :src="item.imgurl && item.imgurl?item.imgurl:'/static/login.jpg'" mode="aspectFill"
 							height="50px" width="50px" radius="10"></u--image>
 						<view style="margin-left:20rpx">
 							<text>{{item.name}}</text>

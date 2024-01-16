@@ -24,7 +24,7 @@
 
 				</u-navbar>
 			</template>
-			<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.png'" mode="aspectFill"
+			<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
 				style="width: 100%;height: 400rpx;transform: scale(1);" @click="chooseBackImg()"></image>
 			<view class="userPanel">
 				<view style="position: absolute;top: -80rpx;">
