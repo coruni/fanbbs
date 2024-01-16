@@ -118,10 +118,12 @@
 			getMyHead() {
 				this.$http.get('/headpicture/list', {
 					params: {
-						limit: 50
+						limit: 50,
+						self:1
 					}
 				}).then(res => {
-					if (res.data.code) {
+					console.log(res)
+					if (res.data.code==200) {
 						this.myHead = res.data.data.data
 					}
 				})
@@ -132,7 +134,7 @@
 					opt = {}
 				}
 				opt.head_picture = data.id
-				this.$http.post('/user/userEdit', {
+				this.$http.post('/user/update', {
 					opt: JSON.stringify(opt)
 				}).then(res => {
 					console.log(res)
@@ -168,10 +170,10 @@
 				})
 			},
 			async addHead() {
-				console.log(this.userInfo.groupKey, this.userInfo.isvip)
-				if (!this.userInfo.isvip || this.userInfo.group != 'administrator' && this.userInfo.group !=
-					'editor') {
-					uni.$u.toast('非会员用户无法使用');
+				let permission = false
+				if (this.userInfo.group == 'administrator' || this.userInfo.group == 'editor') permission = true;
+				if (!permission && !this.userInfo.isVip) {
+					uni.$u.toast('非会员用户或权限不足');
 					return;
 				}
 				if (this.uploadHeadPic == null || this.uploadHeadPic == '') {
@@ -186,9 +188,9 @@
 				if (headImg) {
 					this.$http.post('/headpicture/add', {
 						name: `用户${this.userInfo.uid}`,
-						link:headImg
+						link: headImg
 					}).then(res => {
-						if (res.data.code==200){
+						if (res.data.code == 200) {
 							this.setHeadPicture(res.data.data)
 						}
 						uni.hideLoading()
