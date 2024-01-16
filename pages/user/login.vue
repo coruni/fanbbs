@@ -27,9 +27,12 @@
 					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="username">
 				</u--input>
 				<u-gap></u-gap>
-
 				<u--input placeholder="密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
 					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
+				</u--input>
+				<u-gap></u-gap>
+				<u--input placeholder="确认密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
+					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password2">
 				</u--input>
 				<u-gap></u-gap>
 				<u--input placeholder="邮箱" prefixIcon="email" prefixIconStyle="font-size:40rpx"
@@ -47,12 +50,6 @@
 							<u-button @tap="getCode" plain color="#85a3ff" size="mini">{{tips}}</u-button>
 						</view>
 					</u-row>
-					<u-gap></u-gap>
-				</view>
-				<view v-else>
-					<u--input placeholder="确认密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
-						customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password2">
-					</u--input>
 				</view>
 				<view v-if="config.isInvite">
 					<u-gap></u-gap>
