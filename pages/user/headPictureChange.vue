@@ -122,22 +122,15 @@
 						self:1
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code==200) {
 						this.myHead = res.data.data.data
 					}
 				})
 			},
 			setHeadPicture(data) {
-				let opt = this.userInfo.opt
-				if (!opt) {
-					opt = {}
-				}
-				opt.head_picture = data.id
-				this.$http.post('/user/update', {
-					opt: JSON.stringify(opt)
+				this.$http.post('/headpicture/set', {
+					id:data.id
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.getUserInfo()
 					}

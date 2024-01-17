@@ -41,7 +41,7 @@
 				<u-row align="top" justify="space-between"
 					style="margin-top: 30rpx;background: #85a3ff28;border-radius: 20rpx;box-shadow: 1rpx 1rpx 2rpx rgba(0, 0, 0, 0.06);">
 					<u-col :span="5.8">
-						<image :src="article.images[0]" mode="heightFix"
+						<image :src="article.images[0]" mode="aspectFill"
 							style="border-radius: 20rpx;height: 380rpx;width: 260rpx; background: #f7f7f7;"></image>
 					</u-col>
 					<u-col :span="5">
