@@ -131,6 +131,7 @@
 				this.$http.post('/headpicture/set', {
 					id:data.id
 				}).then(res => {
+					console.log(res)
 					if (res.data.code == 200) {
 						this.getUserInfo()
 					}
