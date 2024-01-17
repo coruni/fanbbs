@@ -59,7 +59,6 @@ againHttp.interceptors.request.use(config => {
 //   所有的网络请求返回数据之后都会先执行这个方法
 http.interceptors.response.use(async (response) => {
 	let code = response.data.code
-	console.log(code)
 	if (store.state.hasLogin &&code==400|| code==401 || code==402 || code==403 || code == 404) {
 		let account = uni.getStorageSync('account')
 		try {

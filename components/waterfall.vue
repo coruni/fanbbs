@@ -10,7 +10,7 @@
 				<view>
 					<view v-for="(item,index) in list1" :key="item.cid" :style="[imageStyle(item)]"
 						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
-						@click="goArticle(item)">
+						@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
 						<image
 							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
 							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
@@ -28,7 +28,7 @@
 				<view>
 					<view v-for="(item,index) in list2" :key="item.cid" :style="[imageStyle(item)]"
 						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
-						@click="goArticle(item)">
+						@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
 						<image
 							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
 							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
@@ -132,6 +132,14 @@
 				uni.setStorageSync(`article_${data.cid}`, data)
 				this.$Router.push({
 					path: '/pages/article/article',
+					query: {
+						id: data.cid
+					}
+				})
+			},
+			goPhoto(data) {
+				this.$Router.push({
+					path: '/pages/article/photo',
 					query: {
 						id: data.cid
 					}

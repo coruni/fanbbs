@@ -76,11 +76,11 @@
 		},
 		methods: {
 			getData() {
-				this.$http.post('/shop/shopTypeList', {
+				this.$http.post('/shop/typeList', {
 					limit: 30,
 				}).then(res => {
 					if (res.data.code) {
-						let data = res.data.data
+						let data = res.data.data.data
 						data.forEach(item => {
 							this.columns[0].push({
 								name: item.name,
@@ -91,17 +91,17 @@
 				})
 			},
 			getList(page, limit) {
-				this.$http.post('/shop/shopList', {
+				this.$http.post('/shop/list', {
 					page,
 					limit,
-					searchParams: JSON.stringify({
+					params: JSON.stringify({
 						uid: this.$store.state.userInfo.uid,
 						sort: this.select.id ? this.select.id : ''
 					})
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+					if (res.data.code==200) {
+						this.$refs.paging.complete(res.data.data.data)
 					}
 				}).catch(err => {
 					this.$refs.paging.complete(false)

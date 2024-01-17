@@ -140,7 +140,7 @@
 				<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;">
 					<block v-for="(item,subindex) in panel">
 						<u-row customStyle="padding:30rpx" @click="goPage(item.path);showRightMenu = false">
-							<u-icon :name="item.icon" size="24"></u-icon>
+							<i class="ess" :class="item.icon" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx;font-weight: 600;">{{item.name}}</text>
 						</u-row>
 					</block>
@@ -150,21 +150,25 @@
 			<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;"
 				v-if="userInfo && userInfo.group =='administrator'">
 				<u-row customStyle="padding:30rpx" @click="goPage('manage')">
-					<u-icon name="setting" size="24"></u-icon>
+					<i class="ess icon-settings_1_line" style="font-size: 40rpx;"></i>
 					<text style="margin-left:20rpx;font-weight: 600;">管理面板</text>
 				</u-row>
 			</view>
 			<view style="position: fixed;bottom: 0; width: 70vw;">
-				<view style="margin: 20rpx;background: #fff;border-radius: 20rpx;">
+				<view style="margin: 20rpx;background: #fff;border-radius: 20rpx;padding: 20rpx;">
 					<u-row justify="space-between">
-						<block v-for="(item,index) in static" :key="index">
-							<u-row customStyle="padding:30rpx;flex-direction:column;align-items:center;"
-								@click="bottomTap(item)">
-								<u-icon :name="item.icon" size="22" bold
-									customStyle="background:#eee;padding:15rpx;border-radius:500rpx"></u-icon>
-								<text style="font-size: 30rpx;color: #999;">{{item.name}}</text>
-							</u-row>
-						</block>
+						<u-row style="flex-direction: column;" justify="center" @click="goLogout()">
+							<i class="ess icon-flash_line" style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;color: red;"></i>
+							<text style="font-size: 26rpx;margin-top: 10rpx;">退出</text>
+						</u-row>
+						<u-row style="flex-direction: column;" justify="center">
+							<i class="ess icon-clipboard_line" style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
+							<text style="font-size: 26rpx;margin-top: 10rpx;">反馈</text>
+						</u-row>
+						<u-row style="flex-direction: column;" justify="center">
+							<i class="ess icon-headphone_line" style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
+							<text style="font-size: 26rpx;margin-top: 10rpx;">客服</text>
+						</u-row>
 					</u-row>
 				</view>
 			</view>
@@ -276,44 +280,44 @@
 				rightMenuItem: {
 					personl: [{
 							name: '个人信息',
-							icon: 'heart',
+							icon: 'icon-quill_pen_line',
 							path: 'editUser'
 						},
 						{
 							name: '我的收藏',
-							icon: 'heart',
+							icon: 'icon-star_line',
 							path: 'collect'
 						},
 						{
 							name: '浏览历史',
-							icon: 'heart',
+							icon: 'icon-time_line',
 							path: '',
 						}
 					],
 					all: [{
 							name: '我的订单',
-							icon: 'heart',
+							icon: 'icon-bill_line',
 							path: 'orderList',
 						},
 						{
 							name: '我的小摊',
-							icon: 'heart',
+							icon: 'icon-shopping_cart_2_line',
 							path: 'myProduct',
 						}
 					],
 					blance: [{
 							name: '我的钱包',
-							icon: 'heart',
+							icon: 'icon-wallet_3_line',
 							path: 'wallet',
 						},
 						{
 							name: '兑换中心',
-							icon: 'heart',
+							icon: 'icon-coin_2_line',
 							path: '',
 						},
 						{
 							name: '商城',
-							icon: 'heart',
+							icon: 'icon-shopping_bag_3_line',
 							path: 'shop',
 						}
 					]
