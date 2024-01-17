@@ -12,7 +12,7 @@ const store = new Vuex.Store({
 		config: {},
 		hasLogin: false,
 		appInfo: {},
-		noticeNum: 0,
+		noticeNum: {},
 	},
 	mutations: {
 		setToken(state, payload) {

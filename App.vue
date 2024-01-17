@@ -7,6 +7,7 @@
 	import {
 		http
 	} from '@/utils/luch-request/http.js'
+import store from './store';
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -36,12 +37,10 @@
 			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
 			
 			getNoticeNum() {
+				if(!store.state.hasLogin) return;
 				http.get('/user/noticeNum', {
-					params: {
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
-					}
 				}).then(res => {
-					if (res.data.code) {
+					if (res.data.code==200) {
 						this.$store.commit('setNoticeNum', res.data.data)
 					}
 				})

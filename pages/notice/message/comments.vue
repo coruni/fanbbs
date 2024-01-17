@@ -2,7 +2,6 @@
 	<view>
 		<u-loading-page :loading="loading"></u-loading-page>
 		<z-paging ref="paging" v-model="comments" @query="getData" :refresher-enabled="false" v-show="!loading">
-
 			<template #top>
 				<u-navbar bgColor="transparent" title="评论" placeholder autoBack>
 					<view slot="left">
@@ -14,12 +13,24 @@
 				<view style="margin:30rpx;background: #fff;border-radius: 20rpx;padding: 30rpx;"
 					@click="goArticle(item)">
 					<u-row customStyle="margin-bottom:20rpx">
-						<u-avatar :src="item.reply.userInfo.avatar" size="24"></u-avatar>
-						<text style="margin-left:20rpx;font-weight: 600;">{{item.reply.userInfo.screenName}}</text>
+						<u-avatar :src="item.reply && item.reply.userInfo.avatar" size="24"></u-avatar>
+						<text
+							style="margin-left:20rpx;font-weight: 600;">{{item.reply && item.reply.userInfo && item.reply.userInfo.screenName?item.reply && item.reply.userInfo && item.reply.userInfo.screenName:item.reply && item.reply.userInfo && item.reply.userInfo.name}}</text>
 					</u-row>
-					<u-parse class="u-line-2" :content="formatEmoji(item.text)"></u-parse>
-					<view style="border-left: #f7f7f7 6rpx solid;padding-left: 10rpx;margin: 10rpx 0;">
-						<text style="color: #999;font-size: 28rpx;">{{item.contenTitle}}</text>
+					<u-parse class="u-line-2" :content="formatEmoji(item.text)"
+						v-if="item.text !=item.article.title"></u-parse>
+					<u-parse class="u-line-2" :content="formatEmoji(item.reply.text)" v-else></u-parse>
+					<view style="border-left: #f7f7f7 6rpx solid;padding-left: 10rpx;margin: 10rpx 0;display: flex;"
+						class="u-line" v-if="item.text !=item.article.title">
+						<text v-if="item.reply"
+							style="color:#a899e6;flex-shrink: 0;padding-right: 10rpx;">@{{item.reply.userInfo.screenName?item.reply.userInfo.screenName:item.reply.userInfo.name}}</text>
+						<uv-parse style="color: #999;font-size: 28rpx;"
+							:content="item.reply && item.reply.text"></uv-parse>
+					</view>
+					<view style="border-left: #f7f7f7 6rpx solid;padding-left: 10rpx;margin: 10rpx 0;display: flex;"
+						class="u-line" v-else>
+						<text v-if="item.article"
+							style="color: #999;flex-shrink: 0;padding-right: 10rpx;font-size: 26rpx;">回复帖子：{{item.article.title}}</text>
 					</view>
 					<u-row justify="space-between" customStyle="color:#999;font-size:26rpx">
 						<text>{{$u.timeFormat(item.created,'mm-dd')}}</text>
