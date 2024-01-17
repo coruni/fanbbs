@@ -123,8 +123,9 @@
 					text: null,
 					price: null,
 					num: 0,
-					vipDiscount: 1,
+					images: [],
 					sort: '',
+					freight: null,
 					specs: [{
 						id: 1,
 						name: '',
@@ -159,12 +160,11 @@
 		},
 		methods: {
 			getData(id) {
-				this.$http.post('/shop/shopInfo', {
-					key: id
+				this.$http.post('/shop/info', {
+					id
 				}).then(res => {
-					console.log(res)
-					if (res.data) {
-						this.shop = res.data;
+					if (res.data.code == 200) {
+						this.shop = res.data.data;
 						this.columns[0].map(item => {
 							if (item.id == res.data.sort.id) {
 								this.shop.sort = item;
@@ -186,24 +186,30 @@
 				})
 			},
 			addProduct() {
-				this.$http.post('/shop/addShop', {
-					params: JSON.stringify(shop)
+				this.$http.post('/shop/add', {
+					...this.shop,
+					specs: JSON.stringify(this.shop.specs),
+					sort: this.shop.sort.id
 				}).then(res => {
-					console.log()
+					console.log(res)
+					if (res.data.code == 200) {
+
+					}
 				})
 			},
 			getCategory() {
-				this.$http.get('/shop/shopTypeList', {
-
+				this.$http.get('/shop/typeList', {
 				}).then(res => {
-					if (res.data.code) {
-						this.shop.sort = res.data.data[0]
-						res.data.data.forEach(item => {
-							this.columns[0].push({
-								name: item.name,
-								id: item.id
+					if (res.data.code == 200) {
+						if (res.data.data.data.length > 0) {
+							this.shop.sort = res.data.data.data[0]
+							res.data.data.data.forEach(item => {
+								this.columns[0].push({
+									name: item.name,
+									id: item.id
+								});
 							});
-						});
+						}
 					}
 				})
 			},
@@ -217,10 +223,12 @@
 					this.editorCtx = res.context
 				}).exec()
 				// #endif
-
-				setTimeout(() => {
-					this.setContents()
-				}, 500)
+				if(this.update){
+					setTimeout(() => {
+						this.setContents()
+					}, 500)
+				}
+				
 			},
 			specsAdd() {
 				const lastSpec = this.shop.specs[this.shop.specs.length - 1];
