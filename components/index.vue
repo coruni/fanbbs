@@ -1,6 +1,6 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
-		style="margin-bottom: 170rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false">
+		style="margin-bottom: 170rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" use-cache :cache-key="`articleList_${mid}`">
 		<view style="margin: 20rpx;position: relative;top: 0;" v-if="isSwiper">
 			<u-swiper height="200" :list="swiperList" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10"></u-swiper>
@@ -93,7 +93,6 @@
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
-						console.log(res.data.data.data)
 						this.$refs.paging.complete(res.data.data.data);
 						this.is_loaded = true
 					}
@@ -130,7 +129,6 @@
 				})
 			},
 			goArticle(data) {
-
 				this.$Router.push({
 					path: '/pages/article/article',
 					query: {

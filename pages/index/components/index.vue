@@ -116,7 +116,11 @@
 			}
 		},
 		created() {
-			this.initData()
+			if( uni.getStorageSync('topList')){
+				this.topTabbar = uni.getStorageSync('topList')
+			}
+			this.getCategory()
+			
 		},
 		computed: {
 			...mapState(['userInfo'])
@@ -131,9 +135,6 @@
 			next()
 		},
 		methods: {
-			initData() {
-				this.getCategory()
-			},
 			getCategory() {
 				this.$http.get('/category/list', {
 					params: {
@@ -146,7 +147,14 @@
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {
-						this.topTabbar = this.topTabbar.concat(res.data.data.data)
+						let topList = [
+							{
+								name:'首页'
+							}
+						]
+						topList = topList.concat(res.data.data.data)
+						// 缓存 
+						uni.setStorageSync('topList',topList)
 					}
 				})
 			},

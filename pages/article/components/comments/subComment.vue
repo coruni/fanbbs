@@ -224,23 +224,22 @@
 		</z-paging>
 		<!-- 回复评论弹窗 -->
 		<u-popup :show="showComment" @close="showComment = false" round="20"
-			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease-in-out',padding:30+'rpx'}">
+			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease',padding:30+'rpx'}">
 			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
 				:show-img-toolbar="false" @ready="onEditorReady" :placeholder="`回复${replyWho}`"
 				style="background: #85a3ff0a;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
-				<u-col span="2">
+				<u-col span="3">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
-							<u-icon :name="item.icon" size="24" :color="showComemntBtn == item.name?'#85a3ff':''"
-								@click="cBtnTap(item.name)"></u-icon>
+							<i class="ess" :class="item.icon" style="font-size: 44rpx;" @click="cBtnTap(item.name)"></i>
 						</block>
 					</u-row>
 				</u-col>
 				<view>
 					<u-button shape="circle" color="#85a3ff" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx"
-						text="发送" @click="$u.throttle(reply(),2000,true)"></u-button>
+						text="发送" @click="$u.throttle(reply(),2000,true) "></u-button>
 				</view>
 			</u-row>
 			<uv-scroll-list :indicator="false" v-if="images.length" style="margin-top: 20rpx;">
@@ -273,6 +272,19 @@
 					:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 					:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
 					style="position: static;"></u-tabs>
+			</block>
+			<block v-if="showComemntBtn=='颜色'">
+				<u-row justify="space-between" style="margin-top: 30rpx;">
+					<u-col :span="6">
+						<u-row justify="space-between">
+							<block v-for="(color,index) in colors" :key="index">
+								<text :style="{background:color}" style="padding: 15rpx;border-radius: 50rpx;"
+									@tap.stop="colorTap(color)"></text>
+							</block>
+						</u-row>
+					</u-col>
+					<i class="ess icon-eraser_line" style="font-size: 40rpx;" @tap.stop="editorCtx.removeFormat()"></i>
+				</u-row>
 			</block>
 		</u-popup>
 		<uv-modal ref="upload" :zIndex="10076" @close="uploadErr.status = false;uploadErr.msg=null;"
@@ -308,12 +320,18 @@
 				emojiData: [],
 				emojiIndex: 0,
 				cBtn: [{
-					name: '表情',
-					icon: 'heart',
-				}, {
-					name: '图片',
-					icon: 'photo',
-				}],
+						name: '表情',
+						icon: 'icon-emoji_line',
+					}, {
+						name: '图片',
+						icon: 'icon-pic_line',
+					},
+					{
+						name: '颜色',
+						icon: 'icon-palette_line'
+					}
+				],
+				colors: ['#85A3ff', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],
 				orderList: [{
 						name: '全部评论',
 						order: ''
@@ -364,9 +382,7 @@
 		},
 		onUnload() {
 			// 取消键盘监听
-			uni.offKeyboardHeightChange(data => {
-				console.log('取消了')
-			})
+			uni.offKeyboardHeightChange(data => {})
 
 		},
 		methods: {
@@ -524,9 +540,18 @@
 				this.emojiData = result;
 			},
 			cBtnTap(name) {
+				let perimission = false
+				let userInfo = this.$store.state.userInfo
+				if (userInfo.group == 'administrator' || userInfo.group == 'editor' || userInfo.isVip) {
+					perimission = true
+				}
+				
 				if (name == '图片') {
 					this.chooseImage()
 					return;
+				}
+				if (name == '颜色' && !perimission) {
+					return
 				}
 				if (name == this.showComemntBtn) this.showComemntBtn = null;
 				else this.showComemntBtn = name
@@ -617,6 +642,9 @@
 					urls,
 					current
 				})
+			},
+			colorTap(color) {
+				this.editorCtx.format('color', color)
 			}
 		}
 	}

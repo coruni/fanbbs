@@ -114,7 +114,6 @@ import store from './store';
 				plus.runtime.getProperty(plus.runtime.appid, (inf) => {
 					this.$http.get('/system/app', {
 					}).then(res => {
-						console.log(res)
 						if (res.data.code) {
 							data.describe = res.data.data.versionIntro
 							data.edition_url = platform == 'android' ? res.data.data.androidUrl : res.data

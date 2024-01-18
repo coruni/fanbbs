@@ -9,9 +9,11 @@
 					</view>
 				</u-navbar>
 			</template>
-			<view style="margin: 30rpx;">
+			<view style="margin: 30rpx;"
+				:style="{transform: `translateY(${keyboardHeight+'px'})`,transition:'transform 0.3s ease'}">
 				<block v-for="(item,index) in messages" :key="index">
-					<u-row v-if="item.sender_id != userInfo.uid" align="top" style="margin-bottom: 20rpx;transform: scaleY(-1)">
+					<u-row v-if="item.sender_id != userInfo.uid" align="top"
+						style="margin-bottom: 20rpx;transform: scaleY(-1)">
 						<u-avatar :src="item.userInfo.avatar"></u-avatar>
 						<view
 							style="background: #85a3ff32;padding:10rpx;margin-left: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
@@ -31,9 +33,11 @@
 				</block>
 			</view>
 			<template #bottom>
-				<view style="padding: 30rpx;background: #fff;">
+				<view style="padding: 30rpx;background: #fff;"
+					:style="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease'}">
 					<u-row align="bottom">
-						<editor id="editor" @ready="onEditorReady"
+						<editor id="editor" @ready="onEditorReady" :adjust-position="false" :show-img-size="false"
+							:show-img-resize="false" :show-img-toolbar="false"
 							style="background: #85a3ff32;height: auto;min-height: unset;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 						</editor>
 						<u-button color="#85a3ff" style="width: 140rpx;height: 60rpx;margin-left: 20rpx;" shape="circle"
@@ -57,6 +61,8 @@
 				roomId: 0,
 				messages: [],
 				editorCtx: null,
+				keyboardHeight: 0,
+				windowHeight: 0,
 			}
 		},
 		onPageScroll(e) {
@@ -64,9 +70,22 @@
 				this.$refs.paging.doChatRecordLoadMore()
 			}
 		},
+		onReady() {
+			uni.onKeyboardHeightChange((data) => {
+				this.keyboardHeight = data.height
+			})
+		},
+		created() {
+			let SystemInfo = uni.getSystemInfoSync()
+			this.windowHeight = SystemInfo.windowHeight - SystemInfo.statusBarHeight
+		},
 		onLoad(params) {
 			this.nickname = params.nickname
 			this.id = params.id
+
+		},
+		onUnload() {
+			uni.offKeyboardHeightChange()
 		},
 		computed: {
 			...mapState(['userInfo'])
@@ -76,7 +95,8 @@
 				this.$http.post('/chat/chatRecord', {
 					page,
 					limit: 30,
-					id: this.id
+					id: this.id,
+					order: 'created asc'
 				}).then(res => {
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
@@ -90,9 +110,10 @@
 					success: (res) => {
 						// 将消息添加到列表
 						this.$refs.paging.addChatRecordData({
-							sender_id:this.userInfo.uid,
+							sender_id: this.userInfo.uid,
 							text: res.html
 						})
+						if (!res.text.length) return;
 						this.$http.post('/chat/sendMsg', {
 							id: this.id,
 							type: 0,

@@ -2,7 +2,6 @@
 	<view>
 		<u-loading-page :loading="loading"></u-loading-page>
 		<z-paging ref="paging" v-model="systems" @query="getData" :refresher-enabled="false" v-show="!loading">
-
 			<template #top>
 				<u-navbar bgColor="transparent" title="系统" placeholder autoBack>
 					<view slot="left">

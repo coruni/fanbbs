@@ -267,9 +267,11 @@
 				this.editorCtx.getContents({
 					success: (res) => {
 						params.text = res.html
-						this.$http.post('/shop/addShop', {
-							params: JSON.stringify(params)
+						this.$http.post('/shop/add', {
+							...params,
+							specs:JSON.stringify(params.specs)
 						}).then(res => {
+							console.log(res)
 							uni.hideLoading()
 							if (res.data.code) {
 								uni.$u.toast('发布完成')
@@ -278,6 +280,7 @@
 								}, 800)
 							}
 						}).catch(err => {
+							console.log(err)
 							uni.hideLoading()
 							uni.$u.toast('发布失败')
 						})

@@ -71,6 +71,7 @@
 				})
 			},
 			formatEmoji(html) {
+				if(html==null) return html;
 				return html.replace(/\[([^\]]+)_([^\]]+)\]/g, (match, name, key) => {
 					const emoji = this.$emoji.data.find(e => e.name === name);
 					if (emoji) {
