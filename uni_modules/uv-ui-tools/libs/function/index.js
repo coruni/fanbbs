@@ -366,7 +366,7 @@ function timeFrom(timestamp = null, format = 'yyyy-mm-dd') {
 		case timer >= 3600 && timer < 86400:
 			tips = `${parseInt(timer / 3600)}小时前`
 			break
-		case timer >= 86400 && timer < 2592000:
+		case timer >= 86400 && timer < 172800:
 			tips = `${parseInt(timer / 86400)}天前`
 			break
 		default:

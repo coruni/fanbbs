@@ -20,7 +20,7 @@
 					</u-row>
 					<u-row style="font-size: 20rpx;color: #999;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
-						<text style="margin-left: 30rpx;">{{data.category.name}}</text>
+						<text style="margin-left: 30rpx;">{{data.category && data.category.name}}</text>
 					</u-row>
 				</view>
 			</u-row>
