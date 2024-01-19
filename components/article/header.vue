@@ -9,7 +9,7 @@
 						:src="data.authorInfo && data.authorInfo.opt && data.authorInfo.opt.head_picture">
 					</image>
 				</view>
-				<view style="display: flex;flex-direction: column;margin-left:20rpx">
+				<view style="display: flex;flex-direction: column;margin-left:20rpx;">
 					<u-row>
 						<text style="font-size: 30rpx;font-weight: 600;"
 							:class="{'vipname':data&& data.authorInfo && data.authorInfo.isvip}">{{data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
@@ -18,8 +18,10 @@
 							:style="{ color: data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }">
 						</i>
 					</u-row>
-					
-					<text style="font-size: 26rpx;color: #999;">{{$u.timeFrom(data.created,'mm-dd')}}</text>
+					<u-row style="font-size: 20rpx;color: #999;">
+						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
+						<text style="margin-left: 30rpx;">{{data.category.name}}</text>
+					</u-row>
 				</view>
 			</u-row>
 			<view style="display: flex;align-items: center;">

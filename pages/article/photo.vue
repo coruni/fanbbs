@@ -107,7 +107,7 @@
 							<i class="ess ripple" :class="article.isMark?'icon-star_fill':'icon-star_line'"
 								style="font-size: 60rpx;" :style="{color:article.isMark?'#f2ba49':''}"
 								@click="mark()"></i>
-							<text>{{article.marks?article.marks:0}}</text>
+							<text>{{article && article.marks}}</text>
 						</view>
 
 					</u-row>
@@ -740,7 +740,6 @@
 					id: this.article.cid
 				}).then(res => {
 					if (res.data.code == 200) {
-						uni.$u.toast(res.data.msg)
 						this.article.isLike = !this.article.isLike
 						this.article.likes += this.article.isLike ? 1 : -1;
 					}
@@ -751,9 +750,12 @@
 					id: this.article.cid
 				}).then(res => {
 					if (res.data.code == 200) {
-						uni.$u.toast(res.data.msg)
 						this.article.isMark = !this.article.isMark
-						this.article.marks += this.article.marks ? 1 : -1;
+						if(this.article.isMark && this.article.marks){
+							this.article.marks +=1
+						}else{
+							this.article.marks -=1
+						}
 					}
 				})
 			},

@@ -130,7 +130,7 @@
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$refs.reward.open()">
 								<i class="ess icon-copper_coin_line" style="font-size: 44rpx;"></i>
-								<u-text text="发电" size="12"></u-text>
+								<u-text text="发电" size="12" color="#999"></u-text>
 							</view>
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$u.throttle(mark(),1000,true)">
@@ -138,7 +138,7 @@
 									:style="{color:article && article.isMark?'#85a3ff':''}"
 									:class="{'animate__animated animate__pulse':article && article.isMark}"></i>
 
-								<u-text text="收藏" size="12"></u-text>
+								<text style="font-size: 24rpx;color: #999;">{{article && article.marks}}</text>
 							</view>
 
 							<view style="display: flex; flex-direction: column;align-items: center;"
@@ -146,7 +146,7 @@
 								<i class="ess icon-thumb_up_2_line" style="font-size: 44rpx;"
 									:style="{color:article && article.isLike?'#85a3ff':''}"
 									:class="{'animate__animated animate__pulse':article && article.isLike}"></i>
-								<u-text text="点赞" size="12"></u-text>
+								<text style="font-size: 24rpx;color: #999;">{{article && article.likes}}</text>
 							</view>
 						</u-row>
 					</u-col>
@@ -708,8 +708,8 @@
 					id: this.article.cid
 				}).then(res => {
 					if (res.data.code == 200) {
-						uni.$u.toast(res.data.msg)
 						this.article.isLike = !this.article.isLike
+						this.article.likes += this.article.isLike ? 1 : -1;
 					}
 				})
 			},
@@ -718,8 +718,12 @@
 					id: this.article.cid
 				}).then(res => {
 					if (res.data.code == 200) {
-						uni.$u.toast(res.data.msg)
 						this.article.isMark = !this.article.isMark
+						if(this.article.isMark && this.article.marks){
+							this.article.marks +=1
+						}else{
+							this.article.marks -=1
+						}
 					}
 				})
 			},
