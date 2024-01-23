@@ -21,12 +21,6 @@
 				<videoItem></videoItem>
 			</swiper-item>
 		</swiper>
-		<u-popup :show="showComments" @close="showComments = false" customStyle="border-radius:40rpx 40rpx 0 0">
-			<!-- 使用view包裹 防止子组件等待撑开 -->
-			<view>
-				<commentItem :data="commentData"></commentItem>
-			</view>
-		</u-popup>
 	</z-paging-swiper>
 </template>
 

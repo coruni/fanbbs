@@ -12,9 +12,9 @@
 					<i class="ess icon-right_line" style="font-size: 40rpx;"></i>
 				</u-row>
 			</u-row>
-			<u-row justify="space-between" style="margin-top: 20rpx;flex-wrap: wrap;">
+			<u-row justify="space-between" style="flex-wrap: wrap;">
 				<block v-for="(item,index) in categories" :key="index">
-					<u-col :span="5.8" @click="goCategory(item.mid)">
+					<u-col :span="5.8" @click="goCategory(item.mid)" style="margin-top: 20rpx;">
 						<u-row align="top">
 							<image :src="item.imgurl" mode="aspectFill" style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;"></image>
 							<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
@@ -52,7 +52,6 @@
 
 		created() {
 			this.tabHeight = uni.getSystemInfoSync().windowHeight - 44 - 60
-			console.log(this.tabHeight)
 			this.getData()
 			this.$nextTick(() => {
 			}, 1)
@@ -67,7 +66,6 @@
 						})
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.categories =res.data.data.data
 					}

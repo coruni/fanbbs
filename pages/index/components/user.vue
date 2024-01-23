@@ -257,7 +257,6 @@
 		watch: {
 			current: {
 				handler(e) {
-					console.log(e, this.index)
 					if (e == this.index && this.$store.state.hasLogin) {
 						this.isMounted = true;
 						this.$nextTick(() => {

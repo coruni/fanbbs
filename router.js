@@ -28,7 +28,6 @@ const router = createRouter({
 });
 //全局路由前置守卫
 router.beforeEach((to, from, next) => {
-	console.log(to)
 	if (!store.state.hasLogin && to.perm == 'login') {
 		next({
 			path: '/pages/user/login',

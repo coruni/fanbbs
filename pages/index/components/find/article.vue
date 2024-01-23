@@ -7,7 +7,7 @@
 				<article-content :data="item"></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-			<view style="border-top: #f7f7f7 solid 1rpx;"></view>
+			<u-gap bgColor="#f7f7f7" height="6"></u-gap>
 		</block>
 	</z-paging>
 </template>

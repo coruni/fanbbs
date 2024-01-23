@@ -23,7 +23,7 @@
 				<article-content :data="item" v-else></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-			<view style="border-bottom:1rpx #f7f7f7 solid"></view>
+			<u-gap bgColor="#85a3ff0a" height="6"></u-gap>
 		</block>
 	</z-paging>
 </template>

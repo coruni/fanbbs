@@ -1,21 +1,18 @@
 <template>
-	<view>
-		<z-paging @query="getData" ref="paging" v-model="article" :auto-scroll-to-top-when-reload="false"
-			:auto-clean-list-when-reload="false" :use-page-scroll="!scroll" :refresher-enabled="false" use-cache
-			:cache-key="`category_new-${mid}`">
-			<block v-for="(item,index) in article" :key="index">
-				<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
-					style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
-					<article-header :data="item" @follow="$refs.paging.reload()"
-						@menuTap="$emit('edit',$event)"></article-header>
-					<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
-					<article-content :data="item" v-else></article-content>
-					<article-footer :data="item"></article-footer>
-				</view>
-				<view :style="`border-bottom:1rpx ${border} solid`"></view>
-			</block>
-		</z-paging>
-	</view>
+	<z-paging @query="getData" ref="paging" v-model="article" :auto-scroll-to-top-when-reload="false"
+		:auto-clean-list-when-reload="false" :use-page-scroll="!scroll" :refresher-enabled="false">
+		<block v-for="(item,index) in article" :key="index">
+			<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
+				style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+				<article-header :data="item" @follow="$refs.paging.reload()"
+					@menuTap="$emit('edit',$event)"></article-header>
+				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
+				<article-content :data="item" v-else></article-content>
+				<article-footer :data="item"></article-footer>
+			</view>
+			<u-gap bgColor="#85a3ff0a" height="6"></u-gap>
+		</block>
+	</z-paging>
 </template>
 
 <script>
@@ -24,7 +21,7 @@
 	import articleFooter from '@/components/article/footer.vue';
 	import articlePhoto from '@/components/article/photo.vue';
 	export default {
-		name: 'newArticle',
+		name: 'hotArticle',
 		props: {
 			mid: {
 				type: [String, Number],
@@ -37,6 +34,14 @@
 			border: {
 				type: String,
 				default: null,
+			},
+			order: {
+				type: String,
+				default: 'likes desc,replyTime desc,text desc,views desc,created desc'
+			},
+			random:{
+				type: Boolean,
+				default: true,
 			}
 
 		},
@@ -70,11 +75,11 @@
 						params: JSON.stringify({
 							mid: this.mid,
 						}),
-						order: 'created desc',
-					}
+						random: this.random ? 1 : 0,
+						order: this.order,
 
+					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}

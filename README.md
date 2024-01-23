@@ -11,6 +11,11 @@ QQ交流群：680895745
 
 后端源码：[Github](https://github.com/maplene/ruleapi)
 
+## 架设教程
+1. 下载本前端
+2. 下载后端[github](https://github.com/maplene/typeapi) 使用java8及以上 运行 java -jar *.jar
+3. 下载后台[github](https://github.com/maplene/web-admin)
+
 ## 计划
 1. 完善商城
 2. 修复修改文章 ID错误问题
