@@ -9,12 +9,12 @@
 请Fork一份源码到自己存储桶上，确保自己的代码规范美观，需要合并请合并到Dev分支
 QQ交流群：680895745
 
-后端源码：[Github](https://github.com/maplene/ruleapi)
+后端源码：[Github](https://github.com/coruni/backend)
 
 ## 架设教程
 1. 下载本前端
-2. 下载后端[github](https://github.com/maplene/typeapi) 使用java8及以上 运行 java -jar *.jar
-3. 下载后台[github](https://github.com/maplene/web-admin)
+2. 下载后端[github](https://github.com/coruni/backend) 使用java8及以上 运行 java -jar *.jar
+3. 下载后台[github](https://github.com/coruni/backendui)
 
 ## 计划
 1. 完善商城
