@@ -260,6 +260,7 @@
 				this.root.$emit('imgtap', node.attrs)
 				// 自动预览图片
 				if (this.root.previewImg) {
+					const self = this; // 保存正确的this指向
 					uni.previewImage({
 						// #ifdef MP-WEIXIN
 						showmenu: this.root.showImgMenu,
@@ -283,15 +284,15 @@
 										}
 									})
 								}
-								if (this.root.imgList[attrs.i].startsWith('http')) {
-									let imageUrl = this.root.imgList[attrs.i];
+								if (self.root.imgList[node.attrs.i].startsWith('http')) {
+									let imageUrl = self.root.imgList[node.attrs.i];
 									imageUrl = imageUrl.replace('_compress.webp', '');
 									uni.downloadFile({
 										url: imageUrl,
 										success: res => save(res.tempFilePath)
 									})
 								} else {
-									save(this.root.imgList[attrs.i])
+									save(self.root.imgList[node.attrs.i])
 								}
 							}
 						},
