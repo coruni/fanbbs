@@ -1,9 +1,9 @@
 {
     "name" : "Qo萝",
-    "appid" : "__UNI__3F0725D",
+    "appid" : "__UNI__GBA3B19B",
     "description" : "",
-    "versionName" : "1.2.2",
-    "versionCode" : 22,
+    "versionName" : "1.2.3",
+    "versionCode" : 23,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -15,6 +15,9 @@
             "waiting" : true,
             "autoclose" : true,
             "delay" : 0
+        },
+        "compatible" : {
+            "ignoreVersion" : true
         },
         /* 模块配置 */
         "modules" : {

@@ -7,7 +7,7 @@
 			<u-swiper radius="10" height="180"></u-swiper>
 			<u-row justify="space-between" style="margin-top: 20rpx;">
 				<text style="font-weight: 600;">板块</text>
-				<u-row style="color: #999;font-size: 28rpx;">
+				<u-row style="color: #999;font-size: 28rpx;" @click="goCategoryList()">
 					<text>全部</text>
 					<i class="ess icon-right_line" style="font-size: 40rpx;"></i>
 				</u-row>
@@ -78,7 +78,12 @@
 						id
 					}
 				})
-			}
+			},
+			goCategoryList() {
+				this.$Router.push({
+					name: 'categoryList'
+				})
+			},
 		}
 	}
 </script>

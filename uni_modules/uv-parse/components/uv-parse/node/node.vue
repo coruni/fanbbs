@@ -252,7 +252,7 @@ export default {
       const attrs = this.childs[e.currentTarget.dataset.i].attrs
       if (this.opts[3] && !attrs.ignore) {
         uni.showActionSheet({
-          itemList: ['保存图片'],
+          itemList: ['保存原图'],
           success: () => {
             const save = path => {
               uni.saveImageToPhotosAlbum({
@@ -265,8 +265,10 @@ export default {
               })
             }
             if (this.root.imgList[attrs.i].startsWith('http')) {
+			  let imageUrl = this.root.imgList[attrs.i];
+			  imageUrl = imageUrl.replace('_compress.webp', '');
               uni.downloadFile({
-                url: this.root.imgList[attrs.i],
+                url: imageUrl,
                 success: res => save(res.tempFilePath)
               })
             } else {

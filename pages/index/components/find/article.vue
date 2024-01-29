@@ -1,5 +1,23 @@
 <template>
-	<z-paging @query="getData" ref="paging" v-model="article" style="margin-bottom: 100rpx;">
+	<z-paging @query="getData" ref="paging" v-model="article" style="margin-bottom: 100rpx;"
+		:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'">
+		<scroll-view scroll-x v-if="!article.length">
+			<u-row style="margin: 30rpx;">
+				<block v-for="(item,index) in users" :key="index">
+					<view
+						style="display: flex;flex-direction: column;align-items: center;border-radius: 20rpx;background-color: #85a3ff0a;padding: 20rpx;">
+						<view style="position: relative;">
+							<u-avatar :src="item.avatar"></u-avatar>
+						</view>
+						<text style="margin-top: 20rpx;">{{item.screenName?item.screenName:item.name}}</text>
+						<u-button style="height: 60rpx;margin-top:20rpx" color="#85a3ff" shape="circle"
+							@click="follow(item.uid,index)">关注</u-button>
+					</view>
+				</block>
+			</u-row>
+
+		</scroll-view>
+
 		<block v-for="(item,index) in article" :key="index" v-if="article">
 			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
@@ -7,7 +25,7 @@
 				<article-content :data="item"></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-			<u-gap bgColor="#f7f7f7" height="6"></u-gap>
+			<u-gap bgColor="#85a3ff0a" height="6"></u-gap>
 		</block>
 	</z-paging>
 </template>
@@ -35,10 +53,13 @@
 				showComemnts: false,
 				id: 0,
 				elWidth: 300,
+				users: [],
 
 			}
 		},
-
+		created() {
+			this.getRandomUser()
+		},
 		methods: {
 			getData(page, limit) {
 				let params = {
@@ -53,8 +74,25 @@
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
+				}).catch(err => {
+					this.$refs.paging.complete(false)
 				})
 			},
+
+			getRandomUser() {
+				this.$http.get('/user/userList', {
+					params: {
+						page: 1,
+						limit: 10,
+						random: 1,
+					}
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.users = res.data.data.data
+					}
+				})
+			},
+
 			goArticle(data) {
 				uni.setStorageSync(`article_${data.cid}`, data)
 				this.$Router.push({
@@ -64,6 +102,7 @@
 					}
 				})
 			},
+
 
 			reload() {
 				this.$refs.paging.reload()
@@ -82,6 +121,13 @@
 					return match;
 				})
 			},
+			follow(id, index) {
+				this.$http.post('/user/follow', {
+					id
+				}).then(res => {
+					this.users[index].isFollow = !this.users[index].isFollow
+				})
+			}
 		}
 	}
 </script>
