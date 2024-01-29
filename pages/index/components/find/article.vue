@@ -1,15 +1,17 @@
 <template>
 	<z-paging @query="getData" ref="paging" v-model="article" style="margin-bottom: 100rpx;"
 		:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'">
-		<scroll-view scroll-x v-if="!article.length">
+		<scroll-view scroll-x v-if="!article.length && !$store.state.hasLogin">
 			<u-row style="margin: 30rpx;">
 				<block v-for="(item,index) in users" :key="index">
 					<view
-						style="display: flex;flex-direction: column;align-items: center;border-radius: 20rpx;background-color: #85a3ff0a;padding: 20rpx;">
+						style="display: flex;flex-direction: column;align-items: center;border-radius: 20rpx;background-color: #85a3ff0a;padding: 20rpx;margin-right: 20rpx;flex-shrink: 0;width: 160rpx;">
 						<view style="position: relative;">
 							<u-avatar :src="item.avatar"></u-avatar>
 						</view>
-						<text style="margin-top: 20rpx;">{{item.screenName?item.screenName:item.name}}</text>
+						<view class="u-line-1">
+							<text style="margin-top: 20rpx;">{{item.screenName?item.screenName:item.name}}</text>
+						</view>
 						<u-button style="height: 60rpx;margin-top:20rpx" color="#85a3ff" shape="circle"
 							@click="follow(item.uid,index)">关注</u-button>
 					</view>
