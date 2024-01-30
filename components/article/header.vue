@@ -18,7 +18,7 @@
 							:style="{ color: data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }">
 						</i>
 					</u-row>
-					<u-row style="font-size: 20rpx;color: #999;">
+					<u-row style="font-size: 24rpx;color: #999;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
 						<text style="margin-left: 30rpx;">{{data.category && data.category.name}}</text>
 					</u-row>

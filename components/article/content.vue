@@ -9,19 +9,20 @@
 					customStyle="background: #85a3ff1e;padding:4rpx;border-radius:10rpx"></u-icon>
 			</view>
 		</u-row>
-		
+
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
 		<!-- 三张图片以上才显示 -->
 		<view id="album" style="width: 100%;" v-if="data.images.length>=3">
 			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
-				singleMode="scaleToFill" :multipleSize="elWidth" v-if="data.images.length" ></uv-album>
+				singleMode="scaleToFill" :multipleSize="elWidth" v-if="data.images.length"></uv-album>
 		</view>
 		<!-- 一张图片 -->
 		<view v-if="data.images.length==1">
 			<!-- <u-image :src="data.images[0]" :mode="mode" width="100%" radius="10" height="200"></u-image> -->
-			<image :src="data.images[0]" :mode="mode" style="width: 100%; max-height: 400rpx;border-radius: 20rpx;background: #f7f7f7;"
+			<image :src="data.images[0]" :mode="mode"
+				style="width: 100%; max-height: 400rpx;border-radius: 20rpx;background: #f7f7f7;"
 				@click.stop="picPreview(data.images,0)">
 			</image>
 		</view>
@@ -99,7 +100,7 @@
 						success: (res) => {
 							if (res.width < res.height) {
 								this.mode = 'heightFix'
-							}else{
+							} else {
 								this.mode = 'aspectFill'
 							}
 						}
@@ -138,7 +139,32 @@
 			picPreview(urls, current) {
 				uni.previewImage({
 					urls,
-					current
+					current,
+					longPressActions: {
+						itemList: ['保存原图'],
+						success(data) {
+							const save = path => {
+								uni.saveImageToPhotosAlbum({
+									filePath: path,
+									success() {
+										uni.showToast({
+											title: '保存成功'
+										})
+									}
+								})
+							}
+							if (urls[current].startsWith('http')) {
+								let imageUrl = urls[current];
+								imageUrl = imageUrl.replace('_compress.webp', '');
+								uni.downloadFile({
+									url: imageUrl,
+									success: res => save(res.tempFilePath)
+								})
+							} else {
+								save(urls[current])
+							}
+						}
+					},
 				})
 			}
 		}
