@@ -675,7 +675,7 @@
 					return html.replace(
 						/<img[^>]*?alt="src=([^"]+)\|poster=([^"]+)\|type=video"[^>]*?>/g, (match, src, poster) => {
 							return `<div style="border-radius:10px"><video src="${src}" poster="${poster}" object-fit muted width="100%" style="border-radius:10px" /></div>`
-						}).replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
+						}).replace(/_\|#([^_]+)_([^|]+)\|/g, (match, name, key) => {
 						const emoji = this.$emoji.data.find(e => e.name === name)
 						if (emoji) {
 							const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
