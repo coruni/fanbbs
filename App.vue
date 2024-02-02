@@ -7,7 +7,7 @@
 	import {
 		http
 	} from '@/utils/luch-request/http.js'
-import store from './store';
+	import store from './store';
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -17,7 +17,8 @@ import store from './store';
 				this.$store.commit('setUser', uni.getStorageSync('user'));
 				this.$store.commit('setUserMeta', uni.getStorageSync('userMeta'));
 				this.$store.commit('loginStatus');
-				this.getNoticeNum()
+				this.getNoticeNum();
+				this.getUserTasks()
 			}
 			setTimeout(() => {
 				this.getAppData()
@@ -35,19 +36,18 @@ import store from './store';
 		},
 		methods: {
 			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
-			
+
 			getNoticeNum() {
-				if(!store.state.hasLogin) return;
-				http.get('/user/noticeNum', {
-				}).then(res => {
-					if (res.data.code==200) {
+				if (!store.state.hasLogin) return;
+				http.get('/user/noticeNum', {}).then(res => {
+					if (res.data.code == 200) {
 						this.$store.commit('setNoticeNum', res.data.data)
 					}
 				})
 			},
 			login() {
 				let account = uni.getStorageSync('account')
-				console.log(account,'账号信息')
+				console.log(account, '账号信息')
 				if (!account) return;
 				http.get('/user/login', {
 					params: {
@@ -96,7 +96,15 @@ import store from './store';
 						key: config.app
 					}
 				}).then(res => {
-					this.$store.commit('setAppInfo', res.data.data)
+					this.$store.commit('setAppInfo', res.data.data.app)
+					this.$store.commit('setHomepage', res.data.data.appHomepage)
+				})
+			},
+			getUserTasks() {
+				http.get('/user/tasks', {}).then(res => {
+					if (res.data.code == 200) {
+						this.$store.commit('setTasks', res.data.data);
+					}
 				})
 			},
 			getUpdate() {
@@ -112,8 +120,7 @@ import store from './store';
 					edition_silence: 0, // 是否静默更新 0代表否 1代表是
 				}
 				plus.runtime.getProperty(plus.runtime.appid, (inf) => {
-					this.$http.get('/system/app', {
-					}).then(res => {
+					this.$http.get('/system/app', {}).then(res => {
 						if (res.data.code) {
 							data.describe = res.data.data.versionIntro
 							data.edition_url = platform == 'android' ? res.data.data.androidUrl : res.data
@@ -161,6 +168,7 @@ import store from './store';
 		src: url('/static/font/moe.ttf');
 
 	}
+
 	@import 'animate.css';
 	@import "@/uni_modules/uview-ui/index.scss";
 	/*每个页面公共css */
@@ -205,6 +213,4 @@ import store from './store';
 		background: $c-primary;
 		color: white;
 	}
-
-	
 </style>

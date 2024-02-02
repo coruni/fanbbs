@@ -16,12 +16,9 @@
 						</u-row>
 					</view>
 					<u-row slot="right">
-						<i class="ess icon-calendar_2_line" :style="{color:opacity>0.4? 'black':'white'}"
-							style="font-size: 44rpx;margin-right: 20rpx;" @click="checkUp()"></i>
 						<i class="ess icon-settings_1_line" :style="{color:opacity>0.4? 'black':'white'}"
 							style="font-size: 44rpx;margin-right: 20rpx;" @click="showRightMenu =true"></i>
 					</u-row>
-
 				</u-navbar>
 			</template>
 			<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
@@ -43,7 +40,7 @@
 						<u-row>
 							<view style="position: relative;top: 0;">
 								<text
-									style="font-weight: 600;font-size: 34rpx;">{{userInfo && userInfo.screenName}}</text>
+									style="font-weight: 600;font-size: 34rpx;">{{userInfo && userInfo.screenName?userInfo.screenName:userInfo.name}}</text>
 								<uv-line-progress :height="4"
 									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
 									:percentage="100-((userInfo.nextLevel - userInfo.experience) / userInfo.nextExp) * 100"
@@ -70,6 +67,12 @@
 							@click="goPage('editUser')">
 							<u-icon name="edit-pen" color="#85a3ff"></u-icon>
 							<text>编辑</text>
+						</u-button>
+						<u-gap></u-gap>
+						<u-button :plain="!$store.state.tasks.isSign" :color="$store.state.tasks.isSign?'#ffe085':'#85a3ff'" shape="circle" customStyle="height:60rpx"
+							@click="checkUp()">
+							<i class="ess icon-leaf_line"></i>
+							<text>{{$store.state.tasks.isSign?'已签到':'签到'}}</text>
 						</u-button>
 					</view>
 				</u-row>

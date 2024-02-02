@@ -224,28 +224,28 @@
 						name: '打卡',
 						point: 5,
 						times: 1,
-						check: this.userData && this.userData.isClock ? 1 : 0,
+						check: this.tasksInfo && this.tasksInfo.isSign,
 						icon: 'heart'
 					},
 					{
 						name: '点赞',
 						point: 2,
 						times: 3,
-						check: 0,
+						check: this.tasksInfo && this.tasksInfo.likes,
 						icon: 'heart'
 					},
 					{
 						name: '浏览帖子',
 						point: 5,
 						times: 2,
-						check: 0,
+						check: this.tasksInfo && this.tasksInfo.views,
 						icon: 'heart'
 					},
 					{
 						name: '分享',
 						point: 5,
 						times: 1,
-						check: 0,
+						check: this.tasksInfo && this.tasksInfo.shares,
 						icon: 'heart'
 					}
 				]
@@ -267,18 +267,22 @@
 				this.getConfig()
 			},
 			getData() {
-				this.$http.post('/user/userData').then(res => {
-					if (res.data.code) {
-						this.userData = res.data.data
-						this.task[0].check = res.data.data.isClock
+				this.$http.post('/user/tasks').then(res => {
+					console.log(res)
+					if (res.data.code == 200) {
+						this.task[0].check = res.data.data.isSign
+						this.task[1].check = res.data.data.likes
+						this.task[2].check = res.data.data.views
+						this.task[3].check = res.data.data.shares
+
 					}
 				})
 			},
 			getConfig() {
 				this.$http.get('/system/vip').then(res => {
 					if (res.data.code) {
-						console.log(res)
 						this.config = res.data.data
+						this.$store.commit('setTasks', res.data.data)
 					}
 				})
 			},
@@ -290,7 +294,6 @@
 					}
 
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}

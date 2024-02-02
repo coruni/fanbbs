@@ -15,7 +15,7 @@
 						<text style="font-size: 32rpx;font-weight: 600;">财务通知</text>
 					</view>
 					<view style="margin-top: 20rpx;">
-						<text>{{item.userJson.name}}{{item.text}}</text>
+						<text>{{item.text}}</text>
 					</view>
 				</view>
 			</block>

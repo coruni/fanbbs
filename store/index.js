@@ -13,6 +13,8 @@ const store = new Vuex.Store({
 		hasLogin: false,
 		appInfo: {},
 		noticeNum: {},
+		homepage: [],
+		tasks: {}
 	},
 	mutations: {
 		setToken(state, payload) {
@@ -37,6 +39,13 @@ const store = new Vuex.Store({
 				data: payload
 			})
 		},
+		setHomepage(state, payload) {
+			state.homepage = payload
+			uni.setStorage({
+				key: 'appHomepage',
+				data: payload
+			})
+		},
 		setUserMeta(state, payload) {
 			state.userMeta = payload
 			uni.setStorage({
@@ -49,6 +58,13 @@ const store = new Vuex.Store({
 		},
 		setNoticeNum(state, payload) {
 			state.noticeNum = payload
+		},
+		setTasks(state, payload) {
+			state.tasks = payload
+			uni.setStorage({
+				key: 'userTasks',
+				data: payload
+			})
 		},
 		logout(state, payload) {
 			uni.clearStorage('user');

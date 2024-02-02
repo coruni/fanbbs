@@ -1,7 +1,8 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
-		style="margin-bottom: 170rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" use-cache :cache-key="`articleList_${mid}`">
-		<view style="margin: 20rpx;position: relative;top: 0;" v-if="isSwiper">
+		style="margin-bottom: 170rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" use-cache
+		:cache-key="`articleList_${mid}`">
+		<view style="margin: 20rpx;position: relative;top: 0;" v-if="swiper==0">
 			<u-swiper height="200" :list="swiperList" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10"></u-swiper>
 			<view
@@ -10,6 +11,17 @@
 				<text style="color: #fff;">{{swiperIndex+1}}/{{swiperList.length}}</text>
 			</view>
 		</view>
+		<view style="margin: 30rpx;margin-top: 0;" v-if="$store.state.homepage.length>0 && swiper==0">
+			<u-grid col="5">
+				<u-grid-item v-for="(item,index) in $store.state.homepage" :key="index">
+					<view style="display: flex;flex-direction: column;align-items: center;" @tap.stop="homepageTap(item)">
+						<u-image :src="item.image" width="90rpx" height="90rpx" radius="10"></u-image>
+						<text style="margin-top: 20rpx;font-size: 28rpx;">{{item.name}}</text>
+					</view>
+				</u-grid-item>
+			</u-grid>
+		</view>
+		
 		<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement&&isSwiper">
 			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#85a3ff3c" color="#85a3ff" mode="closable"
 				customStyle="border-radius: 20rpx;"></u-notice-bar>
@@ -74,11 +86,18 @@
 				swiperList: [],
 				data: null,
 				showMenu: false,
+				gutter: 40,
+				width: 0,
 
 			};
 		},
 		created() {
 			this.getSwiper()
+			// 获取宽度
+			
+			let systemInfo= uni.getSystemInfoSync()
+			// 计算宽度 每行五个项目
+			this.width = (systemInfo.windowWidth - (this.gutter * 3)) / 5 -10 +'px'
 		},
 		methods: {
 			getData(page, limit) {
@@ -147,13 +166,27 @@
 			onRefresh() {
 				this.getSwiper()
 			},
-			con(e) {
-				console.log(e)
+			homepageTap(data) {
+				// 判断类型前往不同页面
+				if(!data.type){
+					this.$Router.push({
+						path:data.page,
+					})
+				}else{
+					// #ifndef APP || MP
+					window.open(data.page)
+					// #endif
+					// #ifdef APP || MP
+					plus.runtime.openWeb(data.page)
+					// #endif
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-
+	::v-deep .u-grid-item--hover-class {
+		opacity: 1 !important;
+	}
 </style>
