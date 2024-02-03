@@ -69,8 +69,9 @@
 							<text>编辑</text>
 						</u-button>
 						<u-gap></u-gap>
-						<u-button :plain="!$store.state.tasks.isSign" :color="$store.state.tasks.isSign?'#ffe085':'#85a3ff'" shape="circle" customStyle="height:60rpx"
-							@click="checkUp()">
+						<u-button :plain="!$store.state.tasks.isSign"
+							:color="$store.state.tasks.isSign?'#ffe085':'#85a3ff'" shape="circle"
+							customStyle="height:60rpx" @click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
 							<text>{{$store.state.tasks.isSign?'已签到':'签到'}}</text>
 						</u-button>
@@ -161,15 +162,18 @@
 				<view style="margin: 20rpx;background: #fff;border-radius: 20rpx;padding: 20rpx;">
 					<u-row justify="space-between">
 						<u-row style="flex-direction: column;" justify="center" @click="goLogout()">
-							<i class="ess icon-flash_line" style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;color: red;"></i>
+							<i class="ess icon-flash_line"
+								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;color: red;"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">退出</text>
 						</u-row>
 						<u-row style="flex-direction: column;" justify="center">
-							<i class="ess icon-clipboard_line" style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
+							<i class="ess icon-clipboard_line"
+								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">反馈</text>
 						</u-row>
 						<u-row style="flex-direction: column;" justify="center">
-							<i class="ess icon-headphone_line" style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
+							<i class="ess icon-headphone_line"
+								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">客服</text>
 						</u-row>
 					</u-row>
@@ -520,6 +524,9 @@
 				this.$http.post('/user/sign').then(res => {
 					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
+						let data = uni.getStorageSync('userTasks')
+						data.isSign = true
+						this.$store.state.commit('setTasks', data)
 					}
 				})
 			}
