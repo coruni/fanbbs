@@ -384,6 +384,7 @@
 				},
 				update: 0,
 				timer: null,
+				isSave: false,
 			}
 		},
 		onReady() {
@@ -498,7 +499,7 @@
 						order: 'count'
 					}
 				}).then(res => {
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.tags = res.data.data.data
 					}
 				})
@@ -613,7 +614,7 @@
 						name: 'file',
 					}).then(res => {
 						console.log(res)
-						if (res.data.code==200) {
+						if (res.data.code == 200) {
 							resolve(res.data.data.url)
 						} else {
 							this.uploadErr.status = true
@@ -635,7 +636,7 @@
 						name: 'file',
 					}).then(res => {
 						console.log(res)
-						if (res.data.code==200) {
+						if (res.data.code == 200) {
 							resolve(res.data.data.url)
 						} else {
 							this.uploadErr.status = true
@@ -649,11 +650,12 @@
 				})
 			},
 			save() {
+				if(isSave) return;
 				if (this.article.title < 4) {
 					uni.$u.toast('标题太短')
 					return
 				}
-
+				this.isSave = true;
 				this.editorCtx.getContents({
 					success: res => {
 						this.article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
@@ -678,19 +680,19 @@
 							price: this.article.price,
 							discount: this.article.discount,
 						}).then(res => {
-							if (res.data.code==200) {
+							if (res.data.code == 200) {
+								setTimeout(() => {
+									this.$Router.back(1);
+								}, 1500);
 								setTimeout(() => {
 									this.$refs.publish.close();
-									
-									setTimeout(() => {
-										this.$Router.back(1);
-									}, 800);
-								}, 1500);
-							} else {
-								this.$refs.publish.close();
+								}, 1000);
 							}
 							uni.$u.toast(res.data.msg);
-						});
+							this.isSave = false
+						}).catch(err => {
+							this.isSave = false
+						})
 					}
 				});
 			},
@@ -903,14 +905,15 @@
 							text: this.article.text,
 							category: this.article.category.mid ? this.article.category
 								.mid : this.article.category[0].mid,
-							mid: this.article.category.mid ? this.article.category.mid : this.article.category[0].mid,
+							mid: this.article.category.mid ? this.article.category.mid : this.article
+								.category[0].mid,
 							tag: tags,
 							price: this.article.price,
 							discount: this.article.discount,
 							opt: JSON.stringify(this.article.opt)
 						}).then(res => {
-							if (res.data.code==200) {
-								
+							if (res.data.code == 200) {
+
 								setTimeout(() => {
 									this.$Router.back(1)
 								}, 500)
