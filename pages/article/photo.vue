@@ -50,7 +50,7 @@
 							<view
 								style="background: #fff;padding: 20rpx;border-radius: 20rpx;font-size: 26rpx;width: 100%;"
 								class="ripple">
-								<u-row justify="space-between">
+								<u-row justify="space-between" class="u-line-1">
 									<text>{{article.category.name}}</text>
 									<text>23.33MiB</text>
 								</u-row>
@@ -69,7 +69,7 @@
 							<!-- 控件二 -->
 							<view style="margin-top: 30rpx;border-radius: 20rpx;border: 1rpx #999 solid;padding: 10rpx;"
 								class="ripple">
-								<u-row justify="space-between">
+								<u-row justify="space-between" class="u-line-1">
 									<i class="ess icon-triangle_fill"></i>
 									<text style="font-size: 26rpx;margin-left: 20rpx;">{{article.category.name}}</text>
 								</u-row>

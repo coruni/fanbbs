@@ -121,17 +121,17 @@
 				}
 				plus.runtime.getProperty(plus.runtime.appid, (inf) => {
 					this.$http.get('/system/app', {}).then(res => {
-						if (res.data.code) {
-							data.describe = res.data.data.versionIntro
-							data.edition_url = platform == 'android' ? res.data.data.androidUrl : res.data
+						if (res.data.code==200) {
+							data.describe = res.data.data.app.versionIntro
+							data.edition_url = platform == 'android' ? res.data.data.app.androidUrl : res.data
 								.data
 								.iosUrl
-							data.edition_force = res.data.data.forceUpdate
-							data.package_type = res.data.data.updateType
-							data.edition_number = res.data.data.versionCode
-							data.edition_name = res.data.data.version
-							data.edition_silence = res.data.data.silence
-							data.edition_issue = res.data.data.issue
+							data.edition_force = res.data.data.app.forceUpdate
+							data.package_type = res.data.data.app.updateType
+							data.edition_number = res.data.data.app.versionCode
+							data.edition_name = res.data.data.app.version
+							data.edition_silence = res.data.data.app.silence
+							data.edition_issue = res.data.data.app.issue
 
 							// 判断版本号
 							if (Number(data.edition_number) > Number(inf.versionCode) && data
