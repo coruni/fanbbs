@@ -14,12 +14,24 @@
 				</view>
 
 			</view>
-			<view style="margin-top: 30rpx;display: flex; align-items: center; justify-content: space-between;">
-				<text style="background: #85a3ff1a;color: #85a3ff;padding:8rpx 16rpx;border-radius: 10rpx;"
-					@click="showHeadUpload = true">自定义</text>
-				<text style="background: #85a3ff1a;color: #85a3ff;padding:8rpx 16rpx;border-radius: 10rpx;"
-					@click="showMyHead = true">我的头像框</text>
-			</view>
+			<u-row style="margin-top: 30rpx;">
+				<u-row style="flex:1">
+					<view style="margin-right: 30rpx;">
+						<u-button style="height: 60rpx;" color="#85a3ff" shape="circle"
+							@click="showHeadUpload = true">自定义</u-button>
+					</view>
+					<view>
+						<u-button style="height: 60rpx;" color="#85a3ff" shape="circle"
+							@click="showMyHead = true">我的头像框</u-button>
+					</view>
+
+				</u-row>
+				<view>
+					<u-button style="height: 60rpx;" color="#85a3ff" shape="circle"
+						@click="clear()">取消佩戴</u-button>
+				</view>
+			</u-row>
+
 
 		</view>
 		<z-paging @query="getData" ref="paging" v-model="headPicture" :fixed="false" :refresher-enabled="false"
@@ -109,7 +121,6 @@
 						limit: 50,
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
@@ -119,22 +130,22 @@
 				this.$http.get('/headpicture/list', {
 					params: {
 						limit: 50,
-						self:1
+						self: 1
 					}
 				}).then(res => {
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.myHead = res.data.data.data
 					}
 				})
 			},
 			setHeadPicture(data) {
 				this.$http.post('/headpicture/set', {
-					id:data.id
+					id: data.id
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.getUserInfo()
 					}
+					uni.$u.toast(res.data.msg)
 				})
 			},
 			getUserInfo() {
@@ -218,6 +229,13 @@
 					})
 				})
 			},
+			clear() {
+				this.$http.post('/headpicture/clear').then(res => {
+					if (res.data.code == 200) {
+						this.getUserInfo()
+					}
+				})
+			}
 		}
 	}
 </script>

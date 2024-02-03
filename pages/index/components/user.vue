@@ -73,7 +73,7 @@
 							:color="$store.state.tasks.isSign?'#ffe085':'#85a3ff'" shape="circle"
 							customStyle="height:60rpx" @click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
-							<text>{{$store.state.tasks.isSign?'已签到':'签到'}}</text>
+							<text>{{tasks && tasks.isSign?'已签到':'签到'}}</text>
 						</u-button>
 					</view>
 				</u-row>
@@ -392,6 +392,7 @@
 				allHeight: 0,
 				isScroll: false,
 				showArticleMenu: false,
+				tasks: {}
 			}
 		},
 		computed: {
@@ -402,8 +403,8 @@
 				this.$store.commit('loginStatus')
 				this.isMounted = true
 			})
+			this.tasks = uni.getStorageSync('userTasks')
 		},
-		onReady() {},
 		methods: {
 			onRefresh() {
 				if (this.$store.state.hasLogin) {
@@ -524,12 +525,19 @@
 				this.$http.post('/user/sign').then(res => {
 					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
-						let data = uni.getStorageSync('userTasks')
-						data.isSign = true
-						this.$store.state.commit('setTasks', data)
+						this.getUserTasks()
+						this.tasks.isSign = true;
 					}
 				})
-			}
+			},
+			getUserTasks() {
+				http.get('/user/tasks', {}).then(res => {
+					if (res.data.code == 200) {
+						this.$store.commit('setTasks', res.data.data);
+						this.tasks = res.data.data
+					}
+				})
+			},
 		}
 	}
 </script>

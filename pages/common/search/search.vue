@@ -7,7 +7,7 @@
 					<i class="ess icon-left_line" style="font-size: 60rpx;" @click=""></i>
 				</view>
 				<view slot="center" style="margin: 0 20rpx;flex:1;margin-left:100rpx">
-					<uv-search :showAction="false" v-model="search" actionText="搜索" :animation="true" bgColor="#85a3ff14" @search="searchTap = true"></uv-search>
+					<uv-search :showAction="false" v-model="search" actionText="搜索" :animation="true"  @search="searchTap = true"></uv-search>
 				</view>
 			</u-navbar>
 			<view v-if="searchTap">

@@ -530,7 +530,7 @@
 				}).then(res => {
 					if (res.statusCode == 200) {
 						this.article = res.data.data
-						this.article.text = res.data.data && this.replaceEmoji(res.data.data.text)
+						this.article.text = res.data.data && res.data.data.text && this.replaceEmoji(res.data.data.text)
 					}
 				})
 			},

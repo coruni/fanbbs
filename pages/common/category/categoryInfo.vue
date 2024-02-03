@@ -33,10 +33,10 @@
 							</view>
 						</u-row>
 						<view>
-							<u-button color="#85a3ff" style="height: 60rpx;" shape="circle">关注</u-button>
+							<u-button color="#85a3ff" style="height: 60rpx;" shape="circle" @click="follow(info.mid)">{{info.isFollow?'已关注':'关注'}}</u-button>
 						</view>
-						
-						
+
+
 					</u-row>
 					<view style="margin-top: 60rpx;">
 						<u-row justify="space-between">
@@ -145,6 +145,7 @@
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
+						console.log(res)
 						this.info = res.data.data
 					}
 				})
@@ -164,6 +165,16 @@
 					this.isSticky = false;
 					this.isScroll = false;
 				}
+			},
+			follow(id) {
+				this.$http.post('/category/follow', {
+					id
+				}).then(res => {
+					console.log(res)
+					if (res.data.code == 200) {
+						this.info.isFollow = !this.info.isFollow
+					}
+				})
 			}
 		}
 	}

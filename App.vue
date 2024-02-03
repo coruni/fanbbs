@@ -124,7 +124,7 @@
 						if (res.data.code==200) {
 							data.describe = res.data.data.app.versionIntro
 							data.edition_url = platform == 'android' ? res.data.data.app.androidUrl : res.data
-								.data
+								.data.app
 								.iosUrl
 							data.edition_force = res.data.data.app.forceUpdate
 							data.package_type = res.data.data.app.updateType
