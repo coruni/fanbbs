@@ -63,10 +63,15 @@
 			this.getRandomUser()
 		},
 		methods: {
+
 			getData(page, limit) {
 				let params = {
 					page,
 					limit,
+				}
+				if (!this.$store.state.hasLogin) {
+					this.$refs.paging.complete(false)
+					return;
 				}
 				this.$http.get('/article/follow', {
 					params

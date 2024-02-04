@@ -14,8 +14,11 @@
 			"portrait-primary",
 			"landscape-primary"
 		],
+		"statusbar": {
+			"immersed": true
+		},
 		"softinput": {
-			"mode": "adjustResize" 
+			"mode": "adjustResize"
 		},
 		"splashscreen": {
 			"alwaysShowBeforeRender": true,

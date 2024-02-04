@@ -3,17 +3,13 @@
 		<template #top>
 			<u-navbar placeholder>
 				<view slot="left"></view>
-				<view slot="center" v-if="isMounted">
-					<u-tabs :list="tabs" :current="tabsIndex" lineColor="#85a3ff"
-						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
-						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"
-						:itemStyle="{fontSize:'16rpx',height:'30px'}" lineHeight="3"
-						@change="tabsIndex = $event.index"></u-tabs>
+				<view slot="center" style="flex:1" v-if="isMounted">
+					<z-tabs ref="tabs" :list="list" :scrollCount="2" :current="tabsIndex"
+						@change="tabsChange" active-color="#85a3ff" bar-animate-mode="worm"></z-tabs>
 				</view>
 			</u-navbar>
 		</template>
-		<swiper style="height: 100%;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current"
-			v-if="isMounted">
+		<swiper style="height: 100%;" :current="tabsIndex" @transition="swiperTransition" @animationfinish="swiperAnimationfinish">
 			<swiper-item>
 				<articleItem></articleItem>
 			</swiper-item>
@@ -55,7 +51,7 @@
 				article: [],
 				commentData: {},
 				showComments: false,
-				tabs: [{
+				list: [{
 						name: '关注',
 						type: 'all'
 					},
@@ -70,7 +66,19 @@
 			}
 		},
 		methods: {
-
+			//tabs通知swiper切换
+			tabsChange(index) {
+				this.tabsIndex = index;
+			},
+			//swiper滑动中
+			swiperTransition(e) {
+				this.$refs.tabs.setDx(e.detail.dx);
+			},
+			//swiper滑动结束
+			swiperAnimationfinish(e) {
+				this.tabsIndex = e.detail.current;
+				this.$refs.tabs.unlockDx();
+			},
 		}
 	}
 </script>

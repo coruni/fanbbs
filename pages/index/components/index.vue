@@ -9,8 +9,7 @@
 					<u-row>
 						<u-avatar :src="userInfo.avatar" size="30" customStyle="margin-right:20rpx"
 							@click="avatarTap()"></u-avatar>
-						<uv-search :showAction="false" placeholder="看你想看" :disabled="true"
-							 :animation="true"
+						<uv-search :showAction="false" placeholder="看你想看" :disabled="true" :animation="true"
 							@click="goSearch()"></uv-search>
 						<view style="position: relative;top: 0;">
 							<i class="ess icon-notification_line" style="margin-left:20rpx;font-size: 40rpx;"
@@ -23,15 +22,9 @@
 			</u-navbar>
 		</template>
 		<!-- 模拟首屏开始 -->
-		<u-tabs :list="topTabbar" lineWidth="20" lineHeight="3" @change="changeTab" :current="topTabIndex"
-			lineColor="#85a3ff" :activeStyle="{color: '#85a3ff',fontWeight: 'bold',transform: 'scale(1.05)'}"
-			:inactiveStyle="{color: '#000',transform: 'scale(1)'}"
-			itemStyle="padding-left: 30rpx; padding-right: 30rpx; height: 68rpx;">
-			<view slot="right" style="padding-left: 8rpx;margin-right: 20rpx;" @click="goCategoryList()">
-				<i class="ess icon-menu_line" style="font-size: 40rpx;"></i>
-			</view>
-		</u-tabs>
-		<swiper style="height: 100%;" :current="topTabIndex" @animationfinish="animationfinish">
+		<z-tabs ref="tabs" :list="topTabbar" :scrollCount="1" :current="topTabIndex"
+			@change="tabsChange" active-color="#85a3ff" bar-animate-mode="worm"></z-tabs>
+		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition" @animationfinish="swiperAnimationfinish">
 			<swiper-item v-for="(page,pageIndex) in topTabbar" :key="pageIndex">
 				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.iswaterfall"
 					:isSwiper="!pageIndex" @edit="$emit('edit',$event)">
@@ -116,11 +109,11 @@
 			}
 		},
 		created() {
-			if( uni.getStorageSync('topList')){
+			if (uni.getStorageSync('topList')) {
 				this.topTabbar = uni.getStorageSync('topList')
 			}
 			this.getCategory()
-			
+
 		},
 		computed: {
 			...mapState(['userInfo'])
@@ -147,22 +140,27 @@
 					}
 				}).then(res => {
 					if (res.statusCode == 200) {
-						let topList = [
-							{
-								name:'首页'
-							}
-						]
+						let topList = [{
+							name: '首页'
+						}]
 						topList = topList.concat(res.data.data.data)
 						// 缓存 
-						uni.setStorageSync('topList',topList)
+						uni.setStorageSync('topList', topList)
 					}
 				})
 			},
-			animationfinish(data) {
-				this.topTabIndex = data.detail.current
+			//tabs通知swiper切换
+			tabsChange(index) {
+				this.topTabIndex = index;
 			},
-			changeTab(data) {
-				this.topTabIndex = data.index
+			//swiper滑动中
+			swiperTransition(e) {
+				this.$refs.tabs.setDx(e.detail.dx);
+			},
+			//swiper滑动结束
+			swiperAnimationfinish(e) {
+				this.topTabIndex = e.detail.current;
+				this.$refs.tabs.unlockDx();
 			},
 			tabbarTap(index) {
 				if (index === 2) {

@@ -103,24 +103,25 @@
 					</view>
 				</view>
 			</view>
-			<view style="position: relative;top: 0rpx;">
+			<view style="position: relative;top: 0rpx;" v-if="isMounted">
 				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff">
-						<u-tabs :list="list" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold;"
-							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"
-							v-if="isMounted"></u-tabs>
+						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
+							active-color="#85a3ff" :active-style="{color:'#303133',fontWeight:'bold'}"
+							bar-animate-mode="worm"></z-tabs>
+
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
 					<u-sticky bgColor="#fff" offsetTop="60">
-						<u-tabs :list="list" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold"
-							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"
-							v-if="isMounted"></u-tabs>
+						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
+							active-color="#85a3ff" :active-style="{color:'#303133',fontWeight:'bold'}"
+							bar-animate-mode="worm"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<swiper style="height: 100vh;" :current="tabsIndex"
-						@animationfinish="tabsIndex = $event.detail.current" v-if="$store.state.hasLogin">
+						@transition="swiperTransition" @animationfinish="swiperAnimationfinish" v-if="$store.state.hasLogin && isMounted">
 						<swiper-item style="overflow: auto;">
 							<publish :isScroll="isScroll" :data="userInfo" ref="publish"
 								@articleMenu="showArticleMenu = true"></publish>
@@ -406,6 +407,19 @@
 			this.tasks = uni.getStorageSync('userTasks')
 		},
 		methods: {
+			//tabs通知swiper切换
+			tabsChange(index) {
+				this.tabsIndex = index;
+			},
+			//swiper滑动中
+			swiperTransition(e) {
+				this.$refs.tabs.setDx(e.detail.dx);
+			},
+			//swiper滑动结束
+			swiperAnimationfinish(e) {
+				this.tabsIndex = e.detail.current;
+				this.$refs.tabs.unlockDx();
+			},
 			onRefresh() {
 				if (this.$store.state.hasLogin) {
 					this.$refs.publish.reload()
