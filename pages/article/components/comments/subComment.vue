@@ -371,7 +371,7 @@
 		created() {
 
 			this.formatEmojiData()
-		},
+		}, 
 		onLoad(params) {
 			this.data = uni.getStorageSync('subComment_' + params.id)
 			uni.onKeyboardHeightChange(data => {
@@ -437,9 +437,8 @@
 							parent: this.pid,
 							all: this.data.id,
 							text: this.commentText,
-							images: this.images
+							images: JSON.stringify(this.images)
 						}
-						console.log(params)
 						this.isReply = true
 						this.$http.post('/comments/add', {
 							...params
