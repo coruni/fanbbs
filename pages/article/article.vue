@@ -568,7 +568,6 @@
 						} catch (error) {
 							this.uploadErr.status = true
 							this.uploadErr.msg = error.data.msg
-							console.error("Upload failed:", error);
 						}
 					});
 
@@ -640,15 +639,13 @@
 							parent: this.pid ? this.pid : 0,
 							all: this.pid ? this.pid : 0,
 							text: this.commentText,
-							images: this.images
+							images: JSON.stringify(this.images)
 						}
 						console.log(params)
 						this.isReply = true
 						this.$http.post('/comments/add', {
 							...params
 						}).then(res => {
-							console.log(res)
-
 							if (res.data.code == 200) {
 								uni.$u.toast('已发送~')
 								this.commentText = null
