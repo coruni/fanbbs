@@ -14,7 +14,7 @@
 			</u-row>
 			<u-row justify="space-between" style="flex-wrap: wrap;">
 				<block v-for="(item,index) in categories" :key="index">
-					<u-col :span="5.8" @click="goCategory(item.mid)" style="margin-top: 20rpx;">
+					<u-col :span="5.8" @click="goCategory(item.mid)" style="margin-top: 30rpx;">
 						<u-row align="top">
 							<image :src="item.imgurl" mode="aspectFill" style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;"></image>
 							<view style="margin-left: 20rpx;display: flex;flex-direction: column;">

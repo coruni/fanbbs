@@ -22,9 +22,10 @@
 			</u-navbar>
 		</template>
 		<!-- 模拟首屏开始 -->
-		<z-tabs ref="tabs" :list="topTabbar" :scrollCount="1" :current="topTabIndex"
-			@change="tabsChange" active-color="#85a3ff" bar-animate-mode="worm"></z-tabs>
-		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition" @animationfinish="swiperAnimationfinish">
+		<z-tabs ref="tabs" :list="topTabbar" :scrollCount="1" :current="topTabIndex" @change="tabsChange"
+			active-color="#85a3ff" bar-animate-mode="worm"></z-tabs>
+		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition"
+			@animationfinish="swiperAnimationfinish">
 			<swiper-item v-for="(page,pageIndex) in topTabbar" :key="pageIndex">
 				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.iswaterfall"
 					:isSwiper="!pageIndex" @edit="$emit('edit',$event)">
@@ -109,7 +110,7 @@
 			}
 		},
 		created() {
-			if (uni.getStorageSync('topList')) {
+			if (uni.getStorageSync('topList').length > 1) {
 				this.topTabbar = uni.getStorageSync('topList')
 			}
 			this.getCategory()
@@ -144,6 +145,7 @@
 							name: '首页'
 						}]
 						topList = topList.concat(res.data.data.data)
+						this.topTabbar = topList
 						// 缓存 
 						uni.setStorageSync('topList', topList)
 					}

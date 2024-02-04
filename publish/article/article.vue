@@ -556,7 +556,6 @@
 				// 重置进度条
 				this.percentage = 30;
 				uni.chooseVideo({
-					extension: ['mp4', 'avi', 'webm'],
 					compressed: false,
 					success: (res) => {
 						uni.getVideoInfo({

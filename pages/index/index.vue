@@ -42,17 +42,7 @@
 		<!-- 组件开始 -->
 		<u-popup :show="showPublish" @close="showPublish = false" customStyle="border-radius:20rpx 20rpx 0 0">
 			<view style="margin: 20rpx;">
-				<view style="position: relative;text-align: center;">
-					<u--text text="发布文章" size="16" bold customStyle="z-index:1"></u--text>
-					<view style="z-index: 0;
-						position: absolute;
-						background-color: #85a3ff;
-						top: 30rpx;
-						padding: 6rpx 68rpx;
-						box-shadow: 0 0 9px 0 #85a3ff;
-						border-radius: 500rpx;">
-					</view>
-				</view>
+				<text>发布文章</text>
 				<u-row justify="space-around" customStyle="margin-top:30rpx">
 					<block v-for="(item,index) in publish" :key="index">
 						<view style="
@@ -68,16 +58,11 @@
 						</view>
 					</block>
 				</u-row>
-				<view style="margin-top: 10rpx;">
-					<u--text text="发动态" size="14"></u--text>
-					<view style="background:#f7f7f7;
-						margin-top:10rpx;
-						margin-bottom:40rpx;
-						padding: 30rpx 20rpx;
-						border-radius: 10rpx;" @click="goPublish('space')">
-						<text style="font-size: 26rpx;color: #999;">请输入内容</text>
+				<view style="margin-top: 30rpx;">
+					<view style="font-size: 26rpx;color: #999;display: flex;flex-direction: column;">
+						<text>1. 在本APP中发布内容则代表您接受本社区的服务条款以及用户协议</text>
+						<text>2. 帖子：图文混搭、图片：仅发布图片、视频：仅发布视频</text>
 					</view>
-
 				</view>
 			</view>
 		</u-popup>
