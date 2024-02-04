@@ -653,6 +653,7 @@
 				if(this.isSave) return;
 				if (this.article.title < 4) {
 					uni.$u.toast('标题太短')
+					this.isSave = false;
 					return
 				}
 				this.isSave = true;
@@ -665,6 +666,7 @@
 
 						if (this.article.text.length < 20) {
 							uni.$u.toast('再多写点吧~');
+							this.isSave = false;
 							return;
 						}
 
@@ -688,6 +690,7 @@
 							setTimeout(() => {
 								this.$refs.publish.close();
 							}, 1000);
+							uni.$u.toast(res.data.msg)
 							this.isSave = false
 						}).catch(err => {
 							this.isSave = false

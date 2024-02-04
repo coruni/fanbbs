@@ -245,6 +245,7 @@
 				if (this.isSave) return;
 				if (this.article.title < 4) {
 					uni.$u.toast('标题太短')
+					this.isSave = false;
 					return
 				}
 				this.isSave = true;
@@ -253,6 +254,7 @@
 						this.article.text = res.html
 						if (res.html.length < 15) {
 							uni.$u.toast('你还没上传图片呢')
+							this.isSave = false;
 							return
 						}
 						this.$refs.publish.open()
@@ -274,6 +276,7 @@
 							setTimeout(() => {
 								this.$refs.publish.close()
 							}, 1000)
+							uni.$u.toast(res.data.msg)
 							this.isSave = false;
 						}).catch(err => {
 							this.isSave = false;
