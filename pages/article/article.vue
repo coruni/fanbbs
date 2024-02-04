@@ -493,6 +493,9 @@
 			this.cid = params.id
 			this.author = uni.getStorageSync(`article_${params.id}`)
 			this.getData(params.id)
+			uni.onKeyboardHeightChange(data => {
+				this.keyboardHeight = data.height
+			})
 
 		},
 		beforeRouteLeave(to, from, next) {
@@ -509,13 +512,7 @@
 		created() {
 			this.formatEmoji()
 		},
-		onShow() {
-			uni.onKeyboardHeightChange(data => {
-				console.log(data)
-				this.keyboardHeight = data.height
-			})
-		},
-		onUnload() {
+		beforeDestroy() {
 			// 取消监听
 			uni.offKeyboardHeightChange(data => {})
 		},

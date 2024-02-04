@@ -372,13 +372,11 @@
 
 			this.formatEmojiData()
 		},
-		onShow() {
+		onLoad(params) {
+			this.data = uni.getStorageSync('subComment_' + params.id)
 			uni.onKeyboardHeightChange(data => {
 				this.keyboardHeight = data.height
 			})
-		},
-		onLoad(params) {
-			this.data = uni.getStorageSync('subComment_' + params.id)
 		},
 		onUnload() {
 			// 取消键盘监听
