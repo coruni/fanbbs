@@ -525,9 +525,10 @@
 						id: id ? id : this.cid,
 					},
 				}).then(res => {
+					console.log(res)
 					if (res.statusCode == 200) {
 						this.article = res.data.data
-						this.article.text = res.data.data && res.data.data.text && this.replaceEmoji(res.data.data.text)
+						this.article.text = res.data.data && this.replaceEmoji(res.data.data.text)
 					}
 				})
 			},
@@ -686,7 +687,7 @@
 						let html = ''
 
 						html += `<a style="text-decoration:unset;color:#85a3ff;border:#85a3ff dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
-						${type}内容，${type}后查看
+						隐藏内容，${type}后查看
 						</a>`
 						if (type == "付费") {
 							html += `<div style="position:absolute;bottom:10px;right:0;border-radius:5px 0 5px 0;color:white;background:#a385ff;padding:0 8px;font-size:12px !important;display:flex">

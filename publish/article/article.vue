@@ -684,10 +684,10 @@
 								setTimeout(() => {
 									this.$Router.back(1);
 								}, 1500);
-								setTimeout(() => {
-									this.$refs.publish.close();
-								}, 1000);
 							}
+							setTimeout(() => {
+								this.$refs.publish.close();
+							}, 1000);
 							uni.$u.toast(res.data.msg);
 							this.isSave = false
 						}).catch(err => {
