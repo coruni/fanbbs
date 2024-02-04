@@ -688,7 +688,6 @@
 							setTimeout(() => {
 								this.$refs.publish.close();
 							}, 1000);
-							uni.$u.toast(res.data.msg);
 							this.isSave = false
 						}).catch(err => {
 							this.isSave = false

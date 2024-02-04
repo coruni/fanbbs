@@ -169,6 +169,7 @@
 				},
 				editorCtx: null,
 				windowHeight: 0,
+				isSave: false,
 
 			}
 		},
@@ -241,10 +242,12 @@
 				// #endif
 			},
 			save() {
+				if (this.isSave) return;
 				if (this.article.title < 4) {
 					uni.$u.toast('标题太短')
 					return
 				}
+				this.isSave = true;
 				this.editorCtx.getContents({
 					success: res => {
 						this.article.text = res.html
@@ -265,18 +268,15 @@
 						}).then(res => {
 							if (res.data.code == 200) {
 								setTimeout(() => {
-									this.$refs.publish.close()
-									setTimeout(() => {
-										this.$Router.back(1)
-										uni.$u.toast(res.data.msg)
-									}, 800)
+									this.$Router.back(1)
 								}, 1500)
-							} else {
-								this.$refs.publish.close()
-								uni.$u.toast(res.data.msg)
 							}
+							setTimeout(() => {
+								this.$refs.publish.close()
+							}, 1000)
+							this.isSave = false;
 						}).catch(err => {
-							console.log(err)
+							this.isSave = false;
 						})
 					}
 				})
