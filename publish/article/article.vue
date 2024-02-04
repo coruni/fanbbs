@@ -650,7 +650,7 @@
 				})
 			},
 			save() {
-				if(isSave) return;
+				if(this.isSave) return;
 				if (this.article.title < 4) {
 					uni.$u.toast('标题太短')
 					return
