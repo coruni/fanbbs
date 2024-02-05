@@ -37,7 +37,7 @@
 			},
 			order: {
 				type: String,
-				default: 'likes desc,replyTime desc,text desc,views desc,created desc'
+				default: 'isCircleTop desc,likes desc,replyTime desc,text desc,views desc,created desc'
 			},
 			random:{
 				type: Boolean,

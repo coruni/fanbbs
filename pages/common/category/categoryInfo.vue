@@ -33,7 +33,8 @@
 							</view>
 						</u-row>
 						<view>
-							<u-button color="#85a3ff" style="height: 60rpx;" shape="circle" @click="follow(info.mid)">{{info.isFollow?'已关注':'关注'}}</u-button>
+							<u-button color="#85a3ff" style="height: 60rpx;" shape="circle"
+								@click="follow(info.mid)">{{info.isFollow?'已关注':'关注'}}</u-button>
 						</view>
 
 
@@ -59,8 +60,6 @@
 									</view>
 								</u-row>
 							</u-col>
-
-
 						</u-row>
 					</view>
 				</view>
@@ -75,19 +74,19 @@
 
 		<!-- #ifndef APP -->
 		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'">
-			<u-tabs :list="list" :current="tabsIndex" @change="tabsIndex = $event.index" style="margin: 0 15rpx;"
-				:lineColor="info.opt&& info.opt.underline?info.opt.underline:'#85a3ff'"></u-tabs>
+			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
+				active-color="#85a3ff" bar-animate-mode="worm"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<!-- #ifdef APP -->
 		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'" offsetTop="60">
-			<u-tabs :list="list" :current="tabsIndex" @change="tabsIndex = $event.index" style="margin: 0 15rpx;"
-				:lineColor="info.opt&& info.opt.underline?info.opt.underline:'#85a3ff'"></u-tabs>
+			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
+				active-color="#85a3ff" bar-animate-mode="worm"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<view :style="{background:info.opt && info.opt.primary?info.opt && info.opt.primary:'#fff'}">
-			<swiper :style="{height:windowHeight+'px'}" :current="tabsIndex"
-				@animationfinish="tabsIndex = $event.detail.current">
+			<swiper :style="{height:windowHeight+'px'}" :current="tabsIndex" @transition="swiperTransition"
+				@animationfinish="swiperAnimationfinish">
 				<swiper-item v-for="(item,index) in list" :key="index" style="overflow: auto;">
 					<articleItem :mid="id" :isScroll="isScroll" :order="item.order" :random="item.random" ref="article"
 						:border="info.opt&& info.opt.underline?info.opt&& info.opt.underline:'#f7f7f7'"></articleItem>
@@ -115,13 +114,13 @@
 				tabsIndex: 0,
 				list: [{
 						name: '热门',
-						order: 'likes desc,replyTime desc,text desc,views desc,created desc',
+						order: 'isCircleTop desc,likes desc,replyTime desc,text desc,views desc,created desc',
 						random: true,
 
 					},
 					{
 						name: '最新',
-						order: 'created desc',
+						order: 'isCircleTop desc,created desc',
 						random: false,
 					}
 				],
@@ -145,7 +144,6 @@
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
-						console.log(res)
 						this.info = res.data.data
 					}
 				})
@@ -175,7 +173,20 @@
 						this.info.isFollow = !this.info.isFollow
 					}
 				})
-			}
+			},
+			//tabs通知swiper切换
+			tabsChange(index) {
+				this.tabsIndex = index;
+			},
+			//swiper滑动中
+			swiperTransition(e) {
+				this.$refs.tabs.setDx(e.detail.dx);
+			},
+			//swiper滑动结束
+			swiperAnimationfinish(e) {
+				this.tabsIndex = e.detail.current;
+				this.$refs.tabs.unlockDx();
+			},
 		}
 	}
 </script>

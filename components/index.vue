@@ -14,14 +14,15 @@
 		<view style="margin: 30rpx;margin-top: 0;" v-if="$store.state.homepage.length>0 && swiper==0">
 			<u-grid col="5">
 				<u-grid-item v-for="(item,index) in $store.state.homepage" :key="index">
-					<view style="display: flex;flex-direction: column;align-items: center;" @tap.stop="homepageTap(item)">
+					<view style="display: flex;flex-direction: column;align-items: center;"
+						@tap.stop="homepageTap(item)">
 						<u-image :src="item.image" width="90rpx" height="90rpx" radius="10"></u-image>
 						<text style="margin-top: 20rpx;font-size: 28rpx;">{{item.name}}</text>
 					</view>
 				</u-grid-item>
 			</u-grid>
 		</view>
-		
+
 		<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement&&isSwiper">
 			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#85a3ff3c" color="#85a3ff" mode="closable"
 				customStyle="border-radius: 20rpx;"></u-notice-bar>
@@ -94,10 +95,10 @@
 		created() {
 			this.getSwiper()
 			// 获取宽度
-			
-			let systemInfo= uni.getSystemInfoSync()
+
+			let systemInfo = uni.getSystemInfoSync()
 			// 计算宽度 每行五个项目
-			this.width = (systemInfo.windowWidth - (this.gutter * 3)) / 5 -10 +'px'
+			this.width = (systemInfo.windowWidth - (this.gutter * 3)) / 5 - 10 + 'px'
 		},
 		methods: {
 			getData(page, limit) {
@@ -108,7 +109,7 @@
 						params: JSON.stringify({
 							mid: this.mid ? this.mid : '',
 						}),
-						order: 'istop desc, created desc',
+						order: this.mid ? 'isCircleTop desc,created desc' : 'istop desc, created desc',
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
@@ -168,11 +169,11 @@
 			},
 			homepageTap(data) {
 				// 判断类型前往不同页面
-				if(!data.type){
+				if (!data.type) {
 					this.$Router.push({
-						path:data.page,
+						path: data.page,
 					})
-				}else{
+				} else {
 					// #ifndef APP || MP
 					window.open(data.page)
 					// #endif
