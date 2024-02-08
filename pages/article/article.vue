@@ -682,7 +682,7 @@
 					}).replace(/\|</g, '<').replace(/>\|/g, '>').replace(/【(回复|付费)查看：([^】]+)】/g, (match, type,
 						content) => {
 						let html = ''
-
+				
 						html += `<a style="text-decoration:unset;color:#85a3ff;border:#85a3ff dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
 						隐藏内容，${type}后查看
 						</a>`
@@ -694,7 +694,6 @@
 						}
 						return html;
 					})
-
 				}
 
 			},

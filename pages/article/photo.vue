@@ -723,7 +723,7 @@
 					return html.replace(
 						/<img[^>]*?alt="src=([^"]+)\|poster=([^"]+)\|type=video"[^>]*?>/g, (match, src, poster) => {
 							return `<div style="border-radius:10px"><video src="${src}" poster="${poster}" object-fit muted width="100%" style="border-radius:10px" /></div>`
-						}).replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
+						}).replace(/_\|#([^_]+)_([^|]+)\|/g, (match, name, key) => {
 						const emoji = this.$emoji.data.find(e => e.name === name)
 						if (emoji) {
 							const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
@@ -735,9 +735,9 @@
 					}).replace(/\|</g, '<').replace(/>\|/g, '>').replace(/【(回复|付费)查看：([^】]+)】/g, (match, type,
 						content) => {
 						let html = ''
-
+				
 						html += `<a style="text-decoration:unset;color:#85a3ff;border:#85a3ff dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
-						${type}内容，${type}后查看
+						隐藏内容，${type}后查看
 						</a>`
 						if (type == "付费") {
 							html += `<div style="position:absolute;bottom:10px;right:0;border-radius:5px 0 5px 0;color:white;background:#a385ff;padding:0 8px;font-size:12px !important;display:flex">
@@ -747,9 +747,7 @@
 						}
 						return html;
 					})
-
 				}
-
 			},
 			like() {
 				this.$http.post('/article/like', {
