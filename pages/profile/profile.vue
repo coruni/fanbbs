@@ -78,18 +78,20 @@
 				<view>
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff">
-						<u-tabs :list="tabs" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold;"
-							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"></u-tabs>
+						<z-tabs ref="tabs" :list="tabs" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
+							active-color="#85a3ff" :active-style="{color:'#303133',fontWeight:'bold'}"
+							bar-animate-mode="worm"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
 					<u-sticky bgColor="#fff" offsetTop="60">
-						<u-tabs :list="tabs" lineColor="#85a3ff" activeStyle="color:#303133;font-weight:bold"
-							:current="tabsIndex" inactiveStyle="color:#999" @change="tabsIndex = $event.index"></u-tabs>
+						<z-tabs ref="tabs" :list="tabs" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
+							active-color="#85a3ff" :active-style="{color:'#303133',fontWeight:'bold'}"
+							bar-animate-mode="worm"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<swiper style="height: 100vh;" :current="tabsIndex"
-						@animationfinish="tabsIndex = $event.detail.current">
+						@transition="swiperTransition" @animationfinish="swiperAnimationfinish">
 						<swiper-item style="overflow: auto;">
 							<publish :isScroll="isScroll" :uid="id" ref="publish" v-if=""></publish>
 						</swiper-item>
@@ -182,7 +184,6 @@
 						id
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.info = res.data.data
 					}
@@ -204,7 +205,6 @@
 			},
 			scroll(data) {
 				const scrollTop = data.detail.scrollTop;
-				console.log(scrollTop, this.elementHeight)
 				this.opacity = scrollTop / 200;
 				if (scrollTop >= this.elementHeight) this.isScroll = true
 				else this.isScroll = false
@@ -215,7 +215,6 @@
 						id
 					}
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.userData = res.data.data
 					}
@@ -230,7 +229,7 @@
 					path: '/pages/notice/private',
 					query: {
 						id: data.uid,
-						nickname: data.screenName
+						nickname: data.screenName?data.screenName:data.name
 					}
 				})
 			},
@@ -249,6 +248,19 @@
 				})
 
 				this.$refs.follow.close()
+			},
+			//tabs通知swiper切换
+			tabsChange(index) {
+				this.tabsIndex = index;
+			},
+			//swiper滑动中
+			swiperTransition(e) {
+				this.$refs.tabs.setDx(e.detail.dx);
+			},
+			//swiper滑动结束
+			swiperAnimationfinish(e) {
+				this.tabsIndex = e.detail.current;
+				this.$refs.tabs.unlockDx();
 			},
 
 		}

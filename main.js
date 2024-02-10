@@ -1,6 +1,10 @@
 import moment from 'moment';
 import App from './App';
 import store from './store';
+import config from "./config/config.js";
+//引入websocket文件
+import wsRequest from './utils/websocket/websocket.js'
+
 // #ifndef VUE3
 import Vue from 'vue'
 import uView from '@/uni_modules/uview-ui'
@@ -51,3 +55,10 @@ Vue.prototype.$emoji = emoji
 
 import level from '@/config/level.js'
 Vue.prototype.$level = level
+
+if(store.state.hasLogin){
+	//开启websocket
+	let websocket = new wsRequest(config.websocket+`?token=${uni.getStorageSync('token')}`, 5000)
+	//挂载到全局
+	Vue.prototype.$socket = websocket
+}

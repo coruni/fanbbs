@@ -58,7 +58,7 @@
 			return {
 				nickname: null,
 				id: 0,
-				roomId: 0,
+				receive_id: 0,
 				messages: [],
 				editorCtx: null,
 				keyboardHeight: 0,
@@ -81,7 +81,7 @@
 		},
 		onLoad(params) {
 			this.nickname = params.nickname
-			this.id = params.id
+			this.receive_id = params.receive_id
 
 		},
 		onUnload() {
@@ -96,6 +96,8 @@
 					page,
 					limit: 30,
 					id: this.id,
+					receive_id: this.receive_id,
+					type: 0,
 					order: 'created asc'
 				}).then(res => {
 					if (res.data.code == 200) {
@@ -116,6 +118,7 @@
 						if (!res.text.length) return;
 						this.$http.post('/chat/sendMsg', {
 							id: this.id,
+							receive_id: this.receive_id,
 							type: 0,
 							text: res.html
 						}).then(ress => {
