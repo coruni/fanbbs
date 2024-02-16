@@ -12,7 +12,7 @@
 				<u-row align="center">
 					<u-row>
 						<text
-							:style="{color:data && data.userInfo&&data.userInfo.isVip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
+							:style="{color:data && data.userInfo&&data.userInfo.isVip?'#ff0800':'',fontSize:30+'rpx',fontWeight:600}">{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
 						<i v-if="data.userInfo.level" :class="`level icon-lv-${data.userInfo.level}`"
 							style="font-size: 50rpx; margin-left: 10rpx;"
 							:style="{ color: data.userInfo.level > 8 ? $level[Math.floor(data.userInfo.level/2)-1] : $level[data.userInfo.level-1] }">
@@ -34,7 +34,7 @@
 					@click="goSubComment(data)">
 					<block v-for="(item,index) in data.subComments.data" :key="index">
 						<u-row
-							customStyle="border-left:6rpx solid #85a3ff1e;padding-left:15rpx;flex-direction:column;padding-bottom:5rpx"
+							customStyle="border-left:6rpx solid #ff08001e;padding-left:15rpx;flex-direction:column;padding-bottom:5rpx"
 							align="top">
 							<u-row>
 								<u-row>
@@ -54,7 +54,7 @@
 					</block>
 					<view style="margin-top: 30rpx;">
 						<view
-							style="padding:8rpx 20rpx;font-size: 26rpx;background:#85a3ff1e;font;display: flex;align-items: center;width: 180rpx;border-radius: 500rpx;justify-content: space-around;">
+							style="padding:8rpx 20rpx;font-size: 26rpx;background:#ff08001e;font;display: flex;align-items: center;width: 180rpx;border-radius: 500rpx;justify-content: space-around;">
 							<text>{{data.subComments && data.subComments.count}}条评论</text>
 							<i class="ess icon-right_line"></i>
 						</view>

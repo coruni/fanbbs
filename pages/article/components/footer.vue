@@ -4,7 +4,7 @@
 
 			<view style="margin-top: 10rpx;background: #f7f7f7;border-radius: 20rpx;padding: 20rpx;">
 				<view style="margin-bottom: 10rpx;">
-					<i class="ess icon-download_line" style="color: #85a3ff;font-size: 34rpx;"></i>
+					<i class="ess icon-download_line" style="color: #ff0800;font-size: 34rpx;"></i>
 					<text style="font-weight: 600;margin-left: 10rpx;">资源下载</text>
 				</view>
 				<view style="display: flex;flex-direction: column;">
@@ -36,10 +36,10 @@
 					padding: 8rpx 20rpx ;
 					text-align: center;
 					font-size: 14px;
-					background:#85a3ff1e;
+					background:#ff08001e;
 					margin-right: 10rpx;
 					margin-top: 10rpx;
-					color: #85a3ff; ">
+					color: #ff0800; ">
 					<text>{{data.category.name}}</text>
 				</view>
 			</u-row>
@@ -47,8 +47,8 @@
 				<block v-for="(item,index) in data.tag" :key="index">
 					<view style="
 						font-size: 26rpx;
-						background:#85a3ff1e;
-						color: #85a3ff;
+						background:#ff08001e;
+						color: #ff0800;
 						padding:8rpx 14rpx;
 						border-radius: 500rpx;
 						margin-right: 10rpx;

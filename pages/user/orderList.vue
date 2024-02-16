@@ -2,7 +2,7 @@
 	<z-paging-swiper>
 		<template #top>
 			<u-navbar title="我的订单" autoBack placeholder></u-navbar>
-			<z-tabs :list="list" :current="tabIndex" :activeColor="'#85a3ff'" ref="tab"
+			<z-tabs :list="list" :current="tabIndex" :activeColor="'#ff0800'" ref="tab"
 				@change="tabIndex = $event"></z-tabs>
 		</template>
 		<swiper style="height: 100%;" :current="tabIndex"
@@ -22,7 +22,7 @@
 					<u-row>
 						<u-button plain shape="circle" style="margin-right: 10rpx;"
 							@click="$refs.payMent.close()">取消</u-button>
-						<u-button shape="circle" color="#85a3ff" style="margin-left: 10rpx;"
+						<u-button shape="circle" color="#ff0800" style="margin-left: 10rpx;"
 							@click="buy()">确定</u-button>
 					</u-row>
 				</view>
@@ -45,7 +45,7 @@
 						<u-input v-model="address.region" disabled :placeholder="address.region?address.region:'所在地区'"
 							@click="getLocaltion()">
 							<template slot="suffix">
-								<u-icon name="map" color="#85a3ff" size="20" @click="getLocaltion()"></u-icon>
+								<u-icon name="map" color="#ff0800" size="20" @click="getLocaltion()"></u-icon>
 							</template>
 						</u-input>
 					</u-form-item>
@@ -53,7 +53,7 @@
 						<u-textarea placeholder="镇/村/门牌号" v-model="address.detailAddress" height="40"></u-textarea>
 					</u-form-item>
 				</u-form>
-				<u-button color="#85a3ff" style="margin-top: 60rpx;" shape="circle"
+				<u-button color="#ff0800" style="margin-top: 60rpx;" shape="circle"
 					@click="saveAddress();showAddress=false">保存</u-button>
 			</view>
 		</u-popup>

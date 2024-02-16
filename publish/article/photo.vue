@@ -6,7 +6,7 @@
 			</view>
 			<view slot="right">
 				<view
-					style="display: flex;align-items: center;background: #85a3ff; border-radius: 50rpx;padding: 4rpx 16rpx;color: white;font-size: 28rpx;">
+					style="display: flex;align-items: center;background: #ff0800; border-radius: 50rpx;padding: 4rpx 16rpx;color: white;font-size: 28rpx;">
 					<view hover-class="button_hover" @click="save()">
 						<text>发布</text>
 					</view>
@@ -49,7 +49,7 @@
 								<u-row>
 									<block v-for="(item,index) in tags" key="index">
 										<view
-											style="border-radius: 50rpx; padding: 8rpx 14rpx;background: #85a3ff1e;color: #85a3ff;font-size: 26rpx; margin-right: 20rpx;">
+											style="border-radius: 50rpx; padding: 8rpx 14rpx;background: #ff08001e;color: #ff0800;font-size: 26rpx; margin-right: 20rpx;">
 											<text>{{item.name}}</text>
 										</view>
 									</block>
@@ -64,12 +64,12 @@
 		<!-- 组件 -->
 		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false"
 			width="300rpx">
-			<uv-loading-icon text="发布中..." mode="circle" color="#85a3ff"></uv-loading-icon>
+			<uv-loading-icon text="发布中..." mode="circle" color="#ff0800"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
 		<u-popup customStyle="border-radius:40rpx 40rpx 0 0;" :show="showCategory" @close="showCategory = false"
 			:closeable="true">
-			<view style="height: 70vh;padding:30rpx;background:#85a3ff0a">
+			<view style="height: 70vh;padding:30rpx;background:#ff08000a">
 				<view style="text-align: center;">选择板块</view>
 				<view style="margin-top: 30rpx;">
 					<scroll-view scroll-y style="height: 65vh;">
@@ -113,7 +113,7 @@
 						<block v-for="(item,index) in tags" :key="index">
 							<view @click="tagTap(item)" style="padding: 10rpx 0;">
 								<text
-									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#85a3ff':''}">{{item.name}}</text>
+									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#ff0800':''}">{{item.name}}</text>
 							</view>
 						</block>
 					</scroll-view>
@@ -123,7 +123,7 @@
 		<u-modal :show="showLoading" @close="showLoading=false;uploadErr.status = false;uploadErr.msg=null;"
 			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
 			:title="uploadErr.status?'上传错误':'上传中...'">
-			<u-line-progress :percentage="percentage" activeColor="#85a3ff" :showText="false"
+			<u-line-progress :percentage="percentage" activeColor="#ff0800" :showText="false"
 				v-if="!uploadErr.status"></u-line-progress>
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 		</u-modal>

@@ -12,8 +12,8 @@
 					<block v-for="(item,index) in data.tag" :key="index" v-if="index<4">
 						<view style="
 							font-size: 26rpx;
-							background:#85a3ff1e;
-							color: #85a3ff;
+							background:#ff08001e;
+							color: #ff0800;
 							padding:8rpx 14rpx;
 							border-radius: 500rpx;
 							margin-right: 20rpx;

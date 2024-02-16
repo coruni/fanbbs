@@ -13,11 +13,11 @@
 			</u-row>
 		</u-row>
 		<u-row justify="space-between"
-			style="background: #85a3ff0a;padding: 40rpx 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
+			style="background: #ff08000a;padding: 40rpx 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
 			<u-row @click="goProfile(data.authorId)" style="flex: 1;">
 				<view style="position: relative;display: inline-block;">
 					<u-avatar :src="data && data.authorInfo&& data.authorInfo.avatar" size="40"
-						customStyle="border:4rpx solid #85a3ff32"></u-avatar>
+						customStyle="border:4rpx solid #ff080032"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="data && data.authorInfo && data.authorInfo.opt  && data.authorInfo.opt.head_picture">
 					</image>
@@ -37,9 +37,9 @@
 			<view>
 				<u-button :plain="data && data.authorInfo&& !data.authorInfo.isFollow" shape="circle"
 					hover-class="button_hover"
-					:color="data && data.authorInfo&& data.authorInfo.isFollow?'#85a3ff0f':'#85a3ff'"
+					:color="data && data.authorInfo&& data.authorInfo.isFollow?'#ff08000f':'#ff0800'"
 					customStyle="width:160rpx;height:65rpx"
-					:style="{color:data && data.authorInfo&& data.authorInfo.isFollow?'black':'#85a3ff'}"
+					:style="{color:data && data.authorInfo&& data.authorInfo.isFollow?'black':'#ff0800'}"
 					:text="data && data.authorInfo&& data.authorInfo.isFollow?'已关注':'关注'"
 					@click="$emit('follow',data.authorId)"></u-button>
 			</view>

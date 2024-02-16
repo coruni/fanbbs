@@ -21,10 +21,14 @@
 					</u-row>
 				</u-navbar>
 			</template>
-			<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
-				style="width: 100%;height: 400rpx;transform: scale(1);" class="backCover" @click="chooseBackImg()"></image>
+			<view style="position: relative;">
+				<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
+					style="width: 100%;height: 400rpx;transform: scale(1);" class="backCover" @click="chooseBackImg()">
+				</image>
+				<view style="width: 100%;border-radius: 30rpx 30rpx 0 0;height: 40rpx;position: absolute;bottom: 0;background: white;"></view>
+			</view>
 			<view class="userPanel">
-				<view style="position: absolute;top: -80rpx;">
+				<view style="position: absolute;top: -100rpx;">
 					<u-avatar :src="userInfo && userInfo.avatar" size="80">
 					</u-avatar>
 					<image class="avatar_head" mode="aspectFill"
@@ -63,14 +67,14 @@
 						</u-row>
 					</view>
 					<view>
-						<u-button plain color="#85a3ff" shape="circle" customStyle="height:60rpx"
+						<u-button plain color="#ff0800" shape="circle" customStyle="height:60rpx"
 							@click="goPage('editUser')">
-							<u-icon name="edit-pen" color="#85a3ff"></u-icon>
+							<u-icon name="edit-pen" color="#ff0800"></u-icon>
 							<text>编辑</text>
 						</u-button>
 						<u-gap></u-gap>
 						<u-button :plain="!$store.state.tasks.isSign"
-							:color="$store.state.tasks.isSign?'#ffe085':'#85a3ff'" shape="circle"
+							:color="$store.state.tasks.isSign?'#ffe085':'#ff0800'" shape="circle"
 							customStyle="height:60rpx" @click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
 							<text>{{tasks && tasks.isSign?'已签到':'签到'}}</text>
@@ -96,12 +100,13 @@
 					</view>
 				</u-row>
 			</view>
+			
 			<view style="position: relative;top: 0rpx;" v-if="isMounted">
 				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff">
 						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-							active-color="#85a3ff" :active-style="{color:'#303133',fontWeight:'bold'}"
+							active-color="#ff0800" :active-style="{color:'#303133',fontWeight:'bold'}"
 							bar-animate-mode="worm"></z-tabs>
 
 					</u-sticky>
@@ -109,12 +114,12 @@
 					<!-- #ifdef APP -->
 					<u-sticky bgColor="#fff" offsetTop="64">
 						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-							active-color="#85a3ff" :active-style="{color:'#303133',fontWeight:'bold'}"
+							active-color="#ff0800" :active-style="{color:'#303133',fontWeight:'bold'}"
 							bar-animate-mode="worm"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
-					<swiper style="height: 100vh;" :current="tabsIndex"
-						@transition="swiperTransition" @animationfinish="swiperAnimationfinish" v-if="$store.state.hasLogin && isMounted">
+					<swiper style="height: 100vh;" :current="tabsIndex" @transition="swiperTransition"
+						@animationfinish="swiperAnimationfinish" v-if="$store.state.hasLogin && isMounted">
 						<swiper-item style="overflow: auto;">
 							<publish :isScroll="isScroll" :data="userInfo" ref="publish"
 								@articleMenu="showArticleMenu = true"></publish>
@@ -203,7 +208,7 @@
 					</view>
 				</view>
 				<view style="margin-top: 60rpx;">
-					<u-button color="#85a3ff" shape="circle" @click="showLevel = false">确定</u-button>
+					<u-button color="#ff0800" shape="circle" @click="showLevel = false">确定</u-button>
 				</view>
 			</view>
 		</u-popup>
@@ -374,14 +379,10 @@
 				],
 				tabsIndex: 0,
 				list: [{
-						name: '发布'
-					}, {
-						name: '评论'
-					},
-					{
-						name: '收藏'
-					}
-				],
+					name: '发布'
+				}, {
+					name: '评论'
+				}, ],
 				opacity: 0,
 				allHeight: 0,
 				isScroll: false,
@@ -570,7 +571,6 @@
 
 	.userPanel {
 		position: relative;
-		top: -60rpx;
 		background-color: #fff;
 		border-radius: 40rpx 40rpx 0 0;
 		padding: 0 40rpx 40rpx 40rpx;
@@ -578,15 +578,16 @@
 	}
 
 	.u-button::before {
-		background: #85a3ff;
+		background: #ff0800;
 	}
+
 	.backCover {
 		height: 100%;
 		background-size: cover;
 		background-repeat: no-repeat;
 		filter: blur(1px);
 	}
-	
+
 	.backCover::before {
 		content: '';
 		position: absolute;

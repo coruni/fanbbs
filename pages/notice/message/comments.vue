@@ -34,9 +34,9 @@
 					</view>
 					<u-row justify="space-between" customStyle="color:#999;font-size:26rpx">
 						<text>{{$u.timeFormat(item.created,'mm-dd')}}</text>
-						<u-row customStyle="color:#85a3ff">
+						<u-row customStyle="color:#ff0800">
 							<text>查看</text>
-							<u-icon name="arrow-right" size="14" color="#85a3ff"></u-icon>
+							<u-icon name="arrow-right" size="14" color="#ff0800"></u-icon>
 						</u-row>
 					</u-row>
 				</view>
@@ -102,8 +102,8 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	page {
-		background: #85a3ff0a;
+		background: #f9f9f9;
 	}
 </style>

@@ -23,7 +23,7 @@
 		</template>
 		<!-- 模拟首屏开始 -->
 		<z-tabs ref="tabs" :list="topTabbar" :scrollCount="1" :current="topTabIndex" @change="tabsChange"
-			active-color="#85a3ff" bar-animate-mode="worm"></z-tabs>
+			active-color="#ff0800" bar-animate-mode="worm"></z-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition"
 			@animationfinish="swiperAnimationfinish">
 			<swiper-item v-for="(page,pageIndex) in topTabbar" :key="pageIndex">
@@ -31,7 +31,7 @@
 					:isSwiper="!pageIndex" @edit="$emit('edit',$event)">
 				</articleIndex>
 				<water-fall-index v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex"
-					style="margin-bottom: 170rpx;background: #85a3ff0a;"></water-fall-index>
+					style="margin-bottom: 200rpx;background: #f9f9f9;"></water-fall-index>
 			</swiper-item>
 		</swiper>
 	</z-paging-swiper>

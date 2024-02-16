@@ -16,7 +16,7 @@
 						style="margin-bottom: 20rpx;transform: scaleY(-1)">
 						<u-avatar :src="item.userInfo.avatar"></u-avatar>
 						<view
-							style="background: #85a3ff32;padding:10rpx;margin-left: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
+							style="background: #ff080032;padding:10rpx;margin-left: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
 							<uv-parse :tagStyle="{img:'border-radius:10px'}" :content="item.text"
 								style="word-wrap: normal;flex-wrap: wrap; word-break: break-all;"></uv-parse>
 						</view>
@@ -24,7 +24,7 @@
 					<u-row v-if="item.sender_id == userInfo.uid" justify="end" align="top"
 						style="margin-bottom: 20rpx;transform: scaleY(-1);">
 						<view
-							style="background: #85a3ff32;padding:10rpx;margin-right: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
+							style="background: #ff080032;padding:10rpx;margin-right: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
 							<uv-parse :tagStyle="{img:'border-radius:10px'}" :content="item.text"
 								style="word-wrap: normal;flex-wrap: wrap; word-break: break-all;"></uv-parse>
 						</view>
@@ -38,9 +38,9 @@
 					<u-row align="bottom">
 						<editor id="editor" @ready="onEditorReady" :adjust-position="false" :show-img-size="false"
 							:show-img-resize="false" :show-img-toolbar="false"
-							style="background: #85a3ff32;height: auto;min-height: unset;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+							style="background: #ff080032;height: auto;min-height: unset;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 						</editor>
-						<u-button color="#85a3ff" style="width: 140rpx;height: 60rpx;margin-left: 20rpx;" shape="circle"
+						<u-button color="#ff0800" style="width: 140rpx;height: 60rpx;margin-left: 20rpx;" shape="circle"
 							@click="sendMessage()">发送</u-button>
 					</u-row>
 				</view>

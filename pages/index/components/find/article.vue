@@ -5,14 +5,14 @@
 			<u-row style="margin: 30rpx;">
 				<block v-for="(item,index) in users" :key="index">
 					<view
-						style="display: flex;flex-direction: column;align-items: center;border-radius: 20rpx;background-color: #85a3ff0a;padding: 20rpx;margin-right: 20rpx;flex-shrink: 0;width: 160rpx;">
+						style="display: flex;flex-direction: column;align-items: center;border-radius: 20rpx;background-color: #ff08000a;padding: 20rpx;margin-right: 20rpx;flex-shrink: 0;width: 160rpx;">
 						<view style="position: relative;">
 							<u-avatar :src="item.avatar"></u-avatar>
 						</view>
 						<view class="u-line-1">
 							<text style="margin-top: 20rpx;">{{item.screenName?item.screenName:item.name}}</text>
 						</view>
-						<u-button style="height: 60rpx;margin-top:20rpx" color="#85a3ff" shape="circle"
+						<u-button style="height: 60rpx;margin-top:20rpx" color="#ff0800" shape="circle"
 							@click="follow(item.uid,index)">关注</u-button>
 					</view>
 				</block>
@@ -21,13 +21,13 @@
 		</scroll-view>
 
 		<block v-for="(item,index) in article" :key="index" v-if="article">
-			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
 				<article-content :data="item"></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-			<u-gap bgColor="#85a3ff0a" height="6"></u-gap>
+			
 		</block>
 	</z-paging>
 </template>

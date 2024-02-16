@@ -26,7 +26,7 @@
 
 		<u-modal ref="uModal" :title="!isError.status?'上传中...':'上传错误'" :show="showLoading" :showConfirmButton="false"
 			:closeOnClickOverlay="isError.status" @close="showLoading= false;isError.status=false;isError.msg=null">
-			<u-loading-icon color="#85a3ff" mode="circle" :show="!isError.status"></u-loading-icon>
+			<u-loading-icon color="#ff0800" mode="circle" :show="!isError.status"></u-loading-icon>
 			<text v-if="isError.msg" style="font-size: 30rpx;text-align: center;">{{isError.msg}}</text>
 		</u-modal>
 	</view>

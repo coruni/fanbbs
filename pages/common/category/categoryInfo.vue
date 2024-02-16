@@ -33,7 +33,7 @@
 							</view>
 						</u-row>
 						<view>
-							<u-button color="#85a3ff" style="height: 60rpx;" shape="circle"
+							<u-button color="#ff0800" style="height: 60rpx;" shape="circle"
 								@click="follow(info.mid)">{{info.isFollow?'已关注':'关注'}}</u-button>
 						</view>
 
@@ -44,7 +44,7 @@
 							<u-col :span="8">
 								<u-row justify="space-between">
 									<view
-										style="background: #85a3ffa0;color: #fff;padding: 4rpx 20rpx;border-radius: 20rpx;">
+										style="background: #ff0800a0;color: #fff;padding: 4rpx 20rpx;border-radius: 20rpx;">
 										<i class="ess icon-ghost_line"></i>
 										<text style="margin-left: 20rpx;">{{info.follows}}</text>
 									</view>
@@ -75,13 +75,13 @@
 		<!-- #ifndef APP -->
 		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#85a3ff" bar-animate-mode="worm"></z-tabs>
+				active-color="#ff0800" bar-animate-mode="worm"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<!-- #ifdef APP -->
 		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'" offsetTop="60">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#85a3ff" bar-animate-mode="worm"></z-tabs>
+				active-color="#ff0800" bar-animate-mode="worm"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<view :style="{background:info.opt && info.opt.primary?info.opt && info.opt.primary:'#fff'}">

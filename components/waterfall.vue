@@ -85,9 +85,9 @@
 				content: [],
 				list1: [],
 				list2: [],
-				leftGap: 10,
-				rightGap: 10,
-				columnGap: 10,
+				leftGap: 6,
+				rightGap: 6,
+				columnGap: 6,
 				is_loaded: false
 			}
 		},

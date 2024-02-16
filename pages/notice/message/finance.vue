@@ -79,8 +79,8 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	page {
-		background: #85a3ff0a;
+		background: #f9f9f9;
 	}
 </style>

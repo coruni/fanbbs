@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<z-paging ref="paging" v-model="product" @query="getData" style="background: #85a3ff0a;margin-bottom: 100rpx;">
+		<z-paging ref="paging" v-model="product" @query="getData">
 			<template #top>
 				<u-navbar :title="appInfo && appInfo.currencyName+'商城'" bgColor="transparent" placeholder>
 					<view slot="left">
@@ -11,7 +11,7 @@
 					</view>
 				</u-navbar>
 			</template>
-			
+
 			<uv-waterfall ref="waterfall" v-model="product" :add-time="10" :left-gap="leftGap" :rightGap="rightGap"
 				:column-gap="columnGap" @changeList="changeList">
 				<!-- 第一列数据 -->
@@ -146,5 +146,9 @@
 	.search {
 		transform: translateY(10);
 		transition: 0.6s ease;
+	}
+
+	page {
+		background: #f9f9f9;
 	}
 </style>

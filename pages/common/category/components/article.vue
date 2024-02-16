@@ -10,7 +10,7 @@
 				<article-content :data="item" v-else></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-			<u-gap bgColor="#85a3ff0a" height="6"></u-gap>
+			<u-gap bgColor="#ff08000a" height="6"></u-gap>
 		</block>
 	</z-paging>
 </template>

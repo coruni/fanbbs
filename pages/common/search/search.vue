@@ -70,8 +70,8 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	page {
-		background: #85a3ff0a;
+		background: #f9f9f9;
 	}
 </style>

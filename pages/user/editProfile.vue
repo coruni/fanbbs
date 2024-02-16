@@ -17,12 +17,12 @@
 
 			</view>
 			<view style="margin-top: 50rpx; display: flex; justify-content: space-between;align-items: center;">
-				<view style="background: #85a3ff1e;border-radius: 20rpx;flex: 1;text-align: center;padding: 10rpx;"
+				<view style="background: #ff08001e;border-radius: 20rpx;flex: 1;text-align: center;padding: 10rpx;"
 					@click="choose(true)">
 					<text style="font-size: 28rpx;">修改头像</text>
 				</view>
 				<view @click="goHeadPicture()"
-					style="margin-left:20rpx;background: #85a3ff1e;border-radius: 20rpx;flex: 1;text-align: center;padding: 10rpx;">
+					style="margin-left:20rpx;background: #ff08001e;border-radius: 20rpx;flex: 1;text-align: center;padding: 10rpx;">
 					<text style="font-size: 28rpx;">修改头像框</text>
 				</view>
 			</view>
@@ -59,7 +59,7 @@
 		</view>
 		<view style="position: fixed;bottom: 0;width: 100%;">
 			<view style="margin: 30rpx;">
-				<u-button color="#85a3ff" text="保存" shape="circle" @click="save()"></u-button>
+				<u-button color="#ff0800" text="保存" shape="circle" @click="save()"></u-button>
 			</view>
 		</view>
 		<u-popup mode="bottom" round="10" :show="showSexChoose" @close="showSexChoose = false">
@@ -186,6 +186,6 @@
 
 <style lang="scss">
 	.button-hover {
-		background: #85a3ff0a;
+		background: #ff08000a;
 	}
 </style>

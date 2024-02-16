@@ -27,7 +27,7 @@
 							style="white-space: nowrap;overflow: hidden;overflow-y: unset;"></uv-parse>
 					</view>
 
-					<view style="background: #85a3ff0a;border-radius: 20rpx;margin-top: 10rpx;"
+					<view style="background: #f9f9f9;border-radius: 20rpx;margin-top: 10rpx;"
 						@tap.stop="item.article.type=='post'?goArticle(item):item.article.type=='photo'?goPhoto(item):goArticle(item)">
 						<u-row>
 							<image mode="aspectFill"

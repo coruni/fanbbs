@@ -25,7 +25,7 @@
 							style="white-space: nowrap;overflow: hidden;overflow-y: unset;"></uv-parse>
 					</view>
 			
-					<view style="background: #85a3ff0a;border-radius: 20rpx;margin-top: 10rpx;"
+					<view style="background: #ff08000a;border-radius: 20rpx;margin-top: 10rpx;"
 						@click="goArticle(item.article)">
 						<u-row>
 							<image mode="aspectFill"

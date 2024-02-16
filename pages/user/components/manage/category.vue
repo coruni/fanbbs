@@ -11,7 +11,7 @@
 						</view>
 					</view>
 					<view>
-						<u-button plain color="#85a3ff" size="mini" @click="$emit('edit',item)">编辑</u-button>
+						<u-button plain color="#ff0800" size="mini" @click="$emit('edit',item)">编辑</u-button>
 					</view>
 				</u-row>
 			</block>

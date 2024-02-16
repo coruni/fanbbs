@@ -11,21 +11,21 @@
 		<template #bottom>
 			<view style="background:white;padding:20rpx;
 					z-index:999;
-					border-top:#85a3ff1e solid 1rpx">
+					border-top:#f7f7f7 solid 1rpx">
 				<u-row justify="space-between">
 					<block v-for="(item,index) in tabbar" :key="index">
 						<u-row customStyle="flex-direction:column" v-if="index!=4">
 							<view style="position: relative;padding: 10rpx;" @tap.stop="tabbarTap(index)">
 								<i class="ess" :class="[item.icon]" style="font-size: 45rpx;"
-									:style="{color: item.active ? '#85a3ff' : ''}"></i>
-								<u-badge :isDot="true" bgColor="#85a3ffc4" :offset="[12,7]" absolute
+									:style="{color: item.active ? '#ff0800' : ''}"></i>
+								<u-badge :isDot="true" bgColor="#ff0800c4" :offset="[12,7]" absolute
 									customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
 									:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
 							</view>
 						</u-row>
 						<view v-else @tap.stop="tabbarTap(index)">
 							<u-avatar :src="$store.state.userInfo.avatar" size="28"
-								customStyle="border:4rpx solid #85a3ff"
+								customStyle="border:4rpx solid #ff0800"
 								:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
 						</view>
 					</block>
@@ -33,11 +33,6 @@
 			</view>
 
 		</template>
-		<!-- <u-tabbar :value="tabbarIndex" @change="tabbarTap" placeholder safeAreaInsetBottom activeColor="#85a3ff">
-			<u-tabbar-item :text="item.name" :icon="item.icon"
-				:dot="index==3&&$store.state.noticeNum.total!=0&&$store.state.hasLogin" v-for="(item,index) in tabbar"
-				:key="index"></u-tabbar-item>
-		</u-tabbar> -->
 
 		<!-- 组件开始 -->
 		<u-popup :show="showPublish" @close="showPublish = false" customStyle="border-radius:20rpx 20rpx 0 0">
@@ -50,7 +45,7 @@
 						flex-direction: column;
 						align-items: center;" @click="goPublish(item.path);showPublish=false">
 							<i class="ess" :class="item.icon" style="font-size: 40rpx;
-							background: #85a3ff4c;
+							background: #ff08004c;
 							border-radius: 50rpx;
 							display: inline-flex;
 							padding: 20rpx;"></i>
@@ -74,7 +69,7 @@
 					<text>分享至</text>
 				</view>
 				<view style="margin-top: 50rpx;">
-					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx" justify="space-around">
+					<u-row customStyle="border-bottom:1rpx solid #ff08000a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
 							<u-row align="center" customStyle="flex-direction:column"
 								@click="shareTap(item.provider,item.type,item.scene,data.title,filterHtml(data.text),'https://baidu.com',data.images[0])">
@@ -121,7 +116,7 @@
 	import find from './components/find.vue';
 	import user from './components/user.vue';
 	import notice from './components/notice.vue';
-	import shop from '../shop/index.vue';
+	
 	import category from './components/category.vue';
 	export default {
 		components: {
@@ -129,7 +124,6 @@
 			user,
 			find,
 			notice,
-			shop,
 			category,
 		},
 		data() {

@@ -97,7 +97,7 @@
 					<i class="ess icon-headphone_line" style="font-size: 40rpx;"></i>
 				</view>
 				<view>
-					<u-button shape="circle" style="width: 200rpx;" :color="info.paid?'#ccc':'#85a3ff'"
+					<u-button shape="circle" style="width: 200rpx;" :color="info.paid?'#ccc':'#ff0800'"
 						@click="!info.paid?$refs.payMent.open():''">{{info.paid?'该订单已支付':'立即支付'}}</u-button>
 				</view>
 			</u-row>
@@ -111,7 +111,7 @@
 					<u-row>
 						<u-button plain shape="circle" style="margin-right: 10rpx;"
 							@click="$refs.payMent.close()">取消</u-button>
-						<u-button shape="circle" color="#85a3ff" style="margin-left: 10rpx;"
+						<u-button shape="circle" color="#ff0800" style="margin-left: 10rpx;"
 							@click="buy()">确定</u-button>
 					</u-row>
 				</view>
@@ -134,7 +134,7 @@
 						<u-input v-model="address.region" disabled :placeholder="address.region?address.region:'所在地区'"
 							@click="getLocaltion()">
 							<template slot="suffix">
-								<u-icon name="map" color="#85a3ff" size="20" @click="getLocaltion()"></u-icon>
+								<u-icon name="map" color="#ff0800" size="20" @click="getLocaltion()"></u-icon>
 							</template>
 						</u-input>
 					</u-form-item>
@@ -142,7 +142,7 @@
 						<u-textarea placeholder="镇/村/门牌号" v-model="address.detailAddress" height="40"></u-textarea>
 					</u-form-item>
 				</u-form>
-				<u-button color="#85a3ff" style="margin-top: 60rpx;" shape="circle"
+				<u-button color="#ff0800" style="margin-top: 60rpx;" shape="circle"
 					@click="saveAddress();showAddress=false">保存</u-button>
 			</view>
 		</u-popup>

@@ -5,7 +5,7 @@
 				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
-				<u-button shape="circle" style="height: 50rpx;" color="#85a3ff" :throttleTime="1000"
+				<u-button shape="circle" style="height: 50rpx;" color="#ff0800" :throttleTime="1000"
 					@click="save()">发布</u-button>
 			</view>
 		</u-navbar>
@@ -18,7 +18,7 @@
 		</view>
 		<view style="position: absolute; bottom: 0; width: 100%;background: #fff;"
 			:style="{ transform: `translateY(${-keyboardHeight}px)`, transition: '0.3s ease' }">
-			<view style="border-top: #85a3ff0a solid 1rpx;padding: 30rpx;">
+			<view style="border-top: #ff08000a solid 1rpx;padding: 30rpx;">
 				<view>
 					<i class="ess icon-emoji_line" style="font-size: 50rpx;" @click="showItem('emoji')"></i>
 				</view>
@@ -38,7 +38,7 @@
 								</swiper-item>
 							</swiper>
 						</block>
-						<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#85a3ff"
+						<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#ff0800"
 							itemStyle="height: 26px;"
 							:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 							:inactiveStyle="{color: '#606266',transform: 'scale(1)'}"

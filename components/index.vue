@@ -1,12 +1,12 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
-		style="margin-bottom: 170rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" use-cache
+		style="margin-bottom: 200rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" use-cache
 		:cache-key="`articleList_${mid}`">
 		<view style="margin: 20rpx;position: relative;top: 0;" v-if="swiper==0">
 			<u-swiper height="200" :list="swiperList" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10"></u-swiper>
 			<view
-				style="font-size: 24rpx;background: #85a3ffa0;border-radius:20rpx 0rpx 20rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
+				style="font-size: 24rpx;background: #ff0800a0;border-radius:20rpx 0rpx 20rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
 				v-if="swiperList.length">
 				<text style="color: #fff;">{{swiperIndex+1}}/{{swiperList.length}}</text>
 			</view>
@@ -24,19 +24,18 @@
 		</view>
 
 		<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement&&isSwiper">
-			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#85a3ff3c" color="#85a3ff" mode="closable"
+			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#ff08003c" color="#ff0800" mode="closable"
 				customStyle="border-radius: 20rpx;"></u-notice-bar>
 		</view>
 		<block v-for="(item,index) in content" :key="index" v-if="content.length">
 			<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
-				style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+				style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
 				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
 				<article-content :data="item" v-else></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-			<u-gap bgColor="#85a3ff0a" height="6"></u-gap>
 		</block>
 	</z-paging>
 </template>

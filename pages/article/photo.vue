@@ -10,22 +10,22 @@
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
 							@click="goProfile(article.authorId)" v-show="showNavAvatar" v-if="article">
 							<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="28"
-								customStyle="border:4rpx solid #85a3ff32"></u-avatar>
+								customStyle="border:4rpx solid #ff080032"></u-avatar>
 							<text
 								style="font-weight: 600;font-size: 30rpx;margin-left: 20rpx;">{{article && article.authorInfo && article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
 						</view>
 					</view>
 					<view slot="right">
 						<view v-show="showNavAvatar"
-							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #85a3ff32;padding: 0rpx 16rpx;line-height: 1;">
+							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #ff080032;padding: 0rpx 16rpx;line-height: 1;">
 							<u-row customStyle="margin-right:20rpx;"
 								@click="article.authorInfo.isFollow?showFollow = true:follow(article.authorId)">
 								<i class="ess icon-add_line" style="font-size: 30rpx;font-weight: 600;"
-									:style="{color:article && article.authorInfo &&article.authorInfo.isFollow?'':'#85a3ff'}"
+									:style="{color:article && article.authorInfo &&article.authorInfo.isFollow?'':'#ff0800'}"
 									v-if="article && article.authorInfo &&!article.authorInfo.isFollow"></i>
 
 								<text style="font-size: 26rpx;margin-left: 10rpx;padding-right:20rpx;font-weight: 600;"
-									:style="{color:article && article.authorInfo && article.authorInfo.isFollow?'':'#85a3ff'}">{{article && article.authorInfo && article.authorInfo.isFollow?'已关注':'关注'}}</text>
+									:style="{color:article && article.authorInfo && article.authorInfo.isFollow?'':'#ff0800'}">{{article && article.authorInfo && article.authorInfo.isFollow?'已关注':'关注'}}</text>
 							</u-row>
 							<view>
 								<i class="ess icon-more_1_line" style="font-size: 60rpx;" @click="showMore = true"></i>
@@ -39,7 +39,7 @@
 			<view style="padding: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
 				<text style="font-size: 60rpx;">{{article.title}}</text>
 				<u-row align="top" justify="space-between"
-					style="margin-top: 30rpx;background: #85a3ff28;border-radius: 20rpx;box-shadow: 1rpx 1rpx 2rpx rgba(0, 0, 0, 0.06);">
+					style="margin-top: 30rpx;background: #f9f9f9;border-radius: 20rpx;box-shadow: 1rpx 1rpx 2rpx rgba(0, 0, 0, 0.06);height: 380rpx;">
 					<u-col :span="5.8">
 						<image :src="article.images[0]" mode="aspectFill"
 							style="border-radius: 20rpx;height: 380rpx;width: 260rpx; background: #f7f7f7;"></image>
@@ -52,7 +52,6 @@
 								class="ripple">
 								<u-row justify="space-between" class="u-line-1">
 									<text>{{article.category.name}}</text>
-									<text>23.33MiB</text>
 								</u-row>
 								<u-row justify="space-between">
 									<u-row>
@@ -66,14 +65,6 @@
 								</view>
 							</view>
 
-							<!-- 控件二 -->
-							<view style="margin-top: 30rpx;border-radius: 20rpx;border: 1rpx #999 solid;padding: 10rpx;"
-								class="ripple">
-								<u-row justify="space-between" class="u-line-1">
-									<i class="ess icon-triangle_fill"></i>
-									<text style="font-size: 26rpx;margin-left: 20rpx;">{{article.category.name}}</text>
-								</u-row>
-							</view>
 							<!-- 控件三 -->
 							<view style="margin-top: 30rpx;border-radius: 20rpx;border: 1rpx #999 solid;padding: 10rpx;"
 								class="ripple">
@@ -89,11 +80,25 @@
 				<!-- 按钮 -->
 				<view style="margin-top: 40rpx;">
 					<u-row>
-						<u-button color="#85a3ff3c" shape="circle" :hairline="false"
+						<u-button color="#ff08003c" shape="circle" :hairline="false"
 							style="color: black;margin-right: 10rpx;">下载</u-button>
-						<u-button color="#85a3ff" shape="circle" :hairline="false" style="margin-left: 10rpx;"
+						<u-button color="#ff0800" shape="circle" :hairline="false" style="margin-left: 10rpx;"
 							@click="goRead()">阅读</u-button>
 					</u-row>
+				</view>
+				
+				<!-- 图廊 -->
+				<view style="margin-top: 40rpx;">
+					<text style="font-weight: 600;">图廊</text>
+					<uv-scroll-list indicatorActiveColor="#ff0800">
+						<block v-for="(item,index) in article.images" :key="index" v-if="index<12">
+							<u-image :src="item" height="160" width="100" radius="8" style="margin-right: 20rpx;"></u-image>
+						</block>
+						<u-row style="text-orientation:mixed;writing-mode: vertical-lr" justify="center" @click="goRead()">
+							<text>阅读更多</text>
+							<i class="ess icon-down_small_fill" style="font-size: 40rpx;"></i>
+						</u-row>
+					</uv-scroll-list>
 				</view>
 				<!-- 交互控件 -->
 				<view style="margin-top: 60rpx;">
@@ -116,19 +121,12 @@
 			</view>
 
 			<!-- 标签 -->
-			<view style="margin: 30rpx;" v-if="article && article.tag.length">
-				<u-row style="flex-wrap: wrap;">
-					<block v-for="(item,index) in article.tag" :key="index">
-						<view
-							style="background: #85a3ff1e;padding: 8rpx 26rpx;border-radius: 50rpx;margin-right: 20rpx;">
-							<text>{{item.name}}</text>
-						</view>
-					</block>
-				</u-row>
+			<view style="margin: 30rpx;">
+				<articleFooter :data="article"></articleFooter>
 			</view>
 
 			<!-- 评论区 -->
-			<u-gap height="8" bgColor="#85a3ff0a"></u-gap>
+			<u-gap height="6" bgColor="#f9f9f9"></u-gap>
 			<!-- #ifdef APP -->
 			<u-sticky bgColor="#fff">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
@@ -149,7 +147,7 @@
 								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
 							</view>
 							<view
-								style="font-size: 30rpx;color:#85a3ff;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								style="font-size: 30rpx;color:#ff0800;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
 								<block v-for="(item,index) in orderList" :key="index">
 									<text @click.stop="orderTap(item.name);$refs.comments.reload()"
 										style="padding: 15rpx;">{{item.name}}</text>
@@ -179,7 +177,7 @@
 								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
 							</view>
 							<view
-								style="font-size: 30rpx;color:#85a3ff;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								style="font-size: 30rpx;color:#ff0800;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
 								<block v-for="(item,index) in orderList" :key="index">
 									<text @click.stop="orderTap(item.name);$refs.comments.reload()"
 										style="padding: 15rpx;">{{item.name}}</text>
@@ -202,7 +200,7 @@
 			</view>
 			<template #bottom>
 				<u-row
-					customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background: #85a3ff0a;margin:20rpx 30rpx 30rpx 30rpx"
+					customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background: #ff08000a;margin:20rpx 30rpx 30rpx 30rpx"
 					class="u-info" @click="showComment = true">
 					<u-icon name="edit-pen" size="20"></u-icon>
 					<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
@@ -216,7 +214,7 @@
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease',padding:30+'rpx'}">
 			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
 				:show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
-				style="background: #85a3ff0a;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+				style="background: #ff08000a;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="3">
@@ -227,7 +225,7 @@
 					</u-row>
 				</u-col>
 				<view>
-					<u-button shape="circle" color="#85a3ff" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx"
+					<u-button shape="circle" color="#ff0800" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx"
 						text="发送" @click="$u.throttle(reply(),2000,true) "></u-button>
 				</view>
 			</u-row>
@@ -256,7 +254,7 @@
 						</swiper-item>
 					</swiper>
 				</block>
-				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#85a3ff"
+				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#ff0800"
 					itemStyle="height: 24px;"
 					:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 					:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
@@ -289,14 +287,14 @@
 					<block v-for="(item,index) in rewardList" :key="index">
 						<u-button size="normal" customStyle="width:100rpx;height:60rpx;margin:0"
 							:plain="selectReward!=item" @click="selectReward = item" :text="item"
-							color="#85a3ff"></u-button>
+							color="#ff0800"></u-button>
 					</block>
 				</u-row>
-				<view style="margin-top: 20rpx;border-bottom: 0.5px solid #85a3ff;">
+				<view style="margin-top: 20rpx;border-bottom: 0.5px solid #ff0800;">
 					<u-input type="number" border="none" v-model="reward" placeholder="自定义投喂数量"></u-input>
 				</view>
 				<view style="margin-top: 40rpx;">
-					<u-button color="#85a3ff" shape="circle" customStyle="width:120rpx;height:60rpx"
+					<u-button color="#ff0800" shape="circle" customStyle="width:120rpx;height:60rpx"
 						@click="btnTap('reward',reward?reward:selectReward)">投喂</u-button>
 				</view>
 			</view>
@@ -311,7 +309,7 @@
 					<text>分享至</text>
 				</view>
 				<view style="margin-top: 50rpx;">
-					<u-row customStyle="border-bottom:1rpx solid #85a3ff0a;padding-bottom:30rpx" justify="space-around">
+					<u-row customStyle="border-bottom:1rpx solid #ff08000a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
 							<u-row align="center" customStyle="flex-direction:column"
 								@click="shareTap(item.provider,item.type,item.scene,article.title,filterHtml(article.text),'https://baidu.com',article.images[0])">
@@ -360,9 +358,9 @@
 						<text>是否确定删除？</text>
 					</view>
 					<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
-						<u-button plain color="#85a3ff" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+						<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
 							@click="showDelete = false">取消</u-button>
-						<u-button color="#85a3ff" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+						<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
 							@click="deleteArticle()">确定</u-button>
 					</u-row>
 				</view>
@@ -373,7 +371,7 @@
 			@close="showLoading=false;uploadErr.status = false;uploadErr.msg=null;"
 			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
 			:title="uploadErr.status?'上传错误':'上传中...'">
-			<u-line-progress :percentage="percentage" activeColor="#85a3ff" :showText="false"
+			<u-line-progress :percentage="percentage" activeColor="#ff0800" :showText="false"
 				v-if="!uploadErr.status"></u-line-progress>
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 			<view slot="confirmButton"></view>
@@ -386,9 +384,9 @@
 					<text>是否确定查看？</text>
 				</view>
 				<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
-					<u-button plain color="#85a3ff" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+					<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
 						@click="showPay = false">取消</u-button>
-					<u-button color="#85a3ff" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+					<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
 						@click="buyHide()">确定</u-button>
 				</u-row>
 			</view>
@@ -401,9 +399,9 @@
 					<text>是否取消关注？</text>
 				</view>
 				<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
-					<u-button plain color="#85a3ff" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+					<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
 						@click="showFollow = false">取消</u-button>
-					<u-button color="#85a3ff" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+					<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
 						@click="follow(article.authorId)">确定</u-button>
 				</u-row>
 			</view>
@@ -502,7 +500,7 @@
 						icon: 'icon-palette_line'
 					}
 				],
-				colors: ['#85A3ff', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],
+				colors: ['#ff0800', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],
 				share: [{
 						name: '微信',
 						icon: 'weixin-fill',
@@ -736,7 +734,7 @@
 						content) => {
 						let html = ''
 				
-						html += `<a style="text-decoration:unset;color:#85a3ff;border:#85a3ff dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
+						html += `<a style="text-decoration:unset;color:#ff0800;border:#ff0800 dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
 						隐藏内容，${type}后查看
 						</a>`
 						if (type == "付费") {

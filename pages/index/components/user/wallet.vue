@@ -5,12 +5,12 @@
 			<view style="margin: 30rpx;padding: 30rpx;background: #fff;border-radius: 20rpx;">
 				<u-row justify="space-between">
 					<view
-						style="background: #85a3ffa0;border-radius: 20rpx;padding: 30rpx;display: flex;align-items: center;width: 200rpx;">
+						style="background: #ff0800a0;border-radius: 20rpx;padding: 30rpx;display: flex;align-items: center;width: 200rpx;">
 						<i class="ess icon-yinhangka" style="font-size: 36rpx;color: white;"></i>
 						<text style="margin-left: 30rpx;color: #fff;">{{userInfo.assets}}</text>
 					</view>
 					<view>
-						<u-button color="#85a3ffa0" shape="circle" throttleTime="1000"
+						<u-button color="#ff0800a0" shape="circle" throttleTime="1000"
 							customStyle="height:60rpx;width:120rpx" @click="showPayment = true">充值</u-button>
 					</view>
 				</u-row>
@@ -50,7 +50,7 @@
 									</u-row>
 									<view style="display: flex;flex-direction: column;">
 										<u-row>
-											<text style="color: #85a3ff;">{{item.check}}</text>
+											<text style="color: #ff0800;">{{item.check}}</text>
 											<text>/{{item.times}}</text>
 										</u-row>
 
@@ -66,7 +66,7 @@
 							<view style="background: #fff;border-radius: 20rpx;padding: 30rpx;margin: 30rpx;">
 								<view style="display: flex;flex-direction: column;">
 									<u-row justify="space-between"
-										customStyle="padding-left: 20rpx; border-left: 6rpx #85a3ff1e solid;">
+										customStyle="padding-left: 20rpx; border-left: 6rpx #ff08001e solid;">
 										<view>
 											<text>{{item.subject}}</text>
 											<text style="margin-left: 20rpx;"
@@ -97,12 +97,12 @@
 							flex-direction: column;
 							padding: 30rpx;
 							
-							border: #85a3ff solid 2rpx; 
+							border: #ff0800 solid 2rpx; 
 							width: 80rpx;
 							margin: 30rpx;
 							border-radius: 20rpx;" @click="selectPackage = item"
-							:style="{background:selectPackage && selectPackage.id == item.id?'#85a3ff1e':''}">
-							<view style="color: #85a3ff;display: flex;justify-content: center;align-items: baseline;">
+							:style="{background:selectPackage && selectPackage.id == item.id?'#ff08001e':''}">
+							<view style="color: #ff0800;display: flex;justify-content: center;align-items: baseline;">
 								<text style="font-size: 26rpx;">￥</text>
 								<text style="font-size: 50rpx;">{{item.price}}</text>
 							</view>
@@ -123,7 +123,7 @@
 									</view>
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</u-row>
-								<u-radio :name="item.name" activeColor="#85a3ff"></u-radio>
+								<u-radio :name="item.name" activeColor="#ff0800"></u-radio>
 							</u-row>
 						</block>
 					</u-radio-group>
@@ -133,7 +133,7 @@
 					<i class="ess icon-right_line" style="font-size: 34rpx;"></i>
 				</u-row>
 				<view style="margin-top: 20rpx;">
-					<u-button color="#85a3ff" shape="circle"
+					<u-button color="#ff0800" shape="circle"
 						@click="selectPackage?goPay():$u.toast('你还有选择充值金额哦~')">充值</u-button>
 				</view>
 			</view>
@@ -145,7 +145,7 @@
 				</view>
 				<view style="position: fixed;bottom: 0;width: 100%;">
 					<view style="padding: 30rpx;">
-						<u-button color="#85a3ff" shape="circle" @click="cardPay()">充值</u-button>
+						<u-button color="#ff0800" shape="circle" @click="cardPay()">充值</u-button>
 					</view>
 				</view>
 
@@ -345,7 +345,7 @@
 
 <style>
 	page {
-		background: #85a3ff0a;
+		background: #ff08000a;
 	}
 
 	::v-deep .u-grid-item--hover-class {

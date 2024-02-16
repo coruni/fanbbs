@@ -5,7 +5,7 @@
 				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
-				<u-button color="#85a3ff" shape="circle" style="height: 60rpx;"
+				<u-button color="#ff0800" shape="circle" style="height: 60rpx;"
 					@click="update?updateProduct():save()">{{update?'更新':'发布'}}</u-button>
 			</view>
 		</u-navbar>
@@ -31,7 +31,7 @@
 						<u-input v-model="shop.price" placeholder="只能是整数" border="none"
 							style="background: #f7f7f7;padding: 8rpx 18rpx;border-radius: 50rpx;"></u-input>
 						<view style="margin-left: 20rpx;">
-							<u-button plain color="#85a3ff" style="height: 60rpx;" shape="circle"
+							<u-button plain color="#ff0800" style="height: 60rpx;" shape="circle"
 								@click="setPrice()">一键设置</u-button>
 						</view>
 					</u-form-item>
@@ -92,7 +92,7 @@
 								</u-swipe-action-item>
 								<view style="text-align: right;margin-top: 20rpx;">
 									<i class="ess icon-add_line" hover-class="hover"
-										style="color: white;background: #85a3ff;padding: 4rpx;border-radius: 50rpx;"
+										style="color: white;background: #ff0800;padding: 4rpx;border-radius: 50rpx;"
 										@click="specsAdd()"></i>
 								</view>
 							</view>
@@ -146,7 +146,7 @@
 						backgroundColor: 'red'
 					}
 				}],
-				colors: ['#85a3ff', '#5bd784', '#ffa600', '#0dd0f2', '#fb4f14', '#000000'],
+				colors: ['#ff0800', '#5bd784', '#ffa600', '#0dd0f2', '#fb4f14', '#000000'],
 			}
 		},
 		created() {

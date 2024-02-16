@@ -15,7 +15,7 @@
 											margin:30rpx;
 											border-bottom: 1rpx #f7f7f7 solid;">
 				<view style="position: relative;">
-					<u-avatar :src="data.userInfo.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"
+					<u-avatar :src="data.userInfo.avatar" size="30" customStyle="border:4rpx solid #ff080032"
 						@click="goProfile(data.userInfo.uid)"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="data.userInfo&&data.userInfo.opt&&data.userInfo.opt.head_picture">
@@ -30,7 +30,7 @@
 					<u-row>
 						<u-row>
 							<text
-								:style="{color:data.userInfo.isVip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
+								:style="{color:data.userInfo.isVip?'#ff0800':'',fontSize:30+'rpx',fontWeight:600}">{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
 							<i v-if="data.userInfo.level" :class="`level icon-lv-${data.userInfo.level}`"
 								style="font-size: 50rpx; margin-left: 10rpx;"
 								:style="{ color: data.userInfo.level > 8 ? $level[Math.floor(data.userInfo.level/2)-1] : $level[data.userInfo.level-1] }">
@@ -89,7 +89,7 @@
 								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
 							</view>
 							<view
-								style="font-size: 30rpx;color:#85a3ff;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								style="font-size: 30rpx;color:#ff0800;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
 								<block v-for="(item,index) in orderList" :key="index">
 									<text @click.stop="orderTap(item.name);$refs.paging.reload()"
 										style="padding: 15rpx;">{{item.name}}</text>
@@ -119,7 +119,7 @@
 								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
 							</view>
 							<view
-								style="font-size: 30rpx;color:#85a3ff;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+								style="font-size: 30rpx;color:#ff0800;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
 								<block v-for="(item,index) in orderList" :key="index">
 									<text @click.stop="orderTap(item.name);$refs.paging.reload()"
 										style="padding: 15rpx;">{{item.name}}</text>
@@ -138,7 +138,7 @@
 						<u-skeleton rows="2" avatar :loading="loading">
 							<u-row align="top">
 								<u-avatar :src="item.userInfo.avatar" size="24"
-									customStyle="border:4rpx solid #85a3ff32"
+									customStyle="border:4rpx solid #ff080032"
 									@click="goProfile(item.userInfo.uid)"></u-avatar>
 
 								<view style="
@@ -149,7 +149,7 @@
 									<u-row>
 										<u-row>
 											<text
-												:style="{color:item.isVip?'#85a3ff':'',fontSize:30+'rpx',fontWeight:600}">{{item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
+												:style="{color:item.isVip?'#ff0800':'',fontSize:30+'rpx',fontWeight:600}">{{item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
 											<i v-if="item.userInfo.level"
 												:class="`level icon-lv-${item.userInfo.level}`"
 												style="font-size: 50rpx; margin-left: 10rpx;"
@@ -171,7 +171,7 @@
 										v-if="item.parent != data.id&&item.userInfo.uid!=item.parentComment.userInfo.uid"
 										class="u-line-1" style="
 										padding-left:20rpx;
-										border-left: 6rpx #85a3ff1e solid;
+										border-left: 6rpx #ff08001e solid;
 										margin-top: 20rpx;
 										font-size: 28rpx;
 										color: #999;
@@ -211,7 +211,7 @@
 			</view>
 			<template #bottom>
 				<u-row customStyle="margin:20rpx;" justify="space-between">
-					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1;background: #85a3ff0a;"
+					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1;background: #ff08000a;"
 						class="u-info"
 						@click="commentCheck(false,data.id,data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name);">
 						<u-icon name="edit-pen" size="20"></u-icon>
@@ -227,7 +227,7 @@
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease',padding:30+'rpx'}">
 			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
 				:show-img-toolbar="false" @ready="onEditorReady" :placeholder="`回复${replyWho}`"
-				style="background: #85a3ff0a;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+				style="background: #ff08000a;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="3">
@@ -238,7 +238,7 @@
 					</u-row>
 				</u-col>
 				<view>
-					<u-button shape="circle" color="#85a3ff" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx"
+					<u-button shape="circle" color="#ff0800" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx"
 						text="发送" @click="$u.throttle(reply(),2000,true) "></u-button>
 				</view>
 			</u-row>
@@ -267,7 +267,7 @@
 						</swiper-item>
 					</swiper>
 				</block>
-				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#85a3ff"
+				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#ff0800"
 					itemStyle="height: 24px;"
 					:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 					:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
@@ -290,7 +290,7 @@
 		<uv-modal ref="upload" :zIndex="10076" @close="uploadErr.status = false;uploadErr.msg=null;"
 			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
 			:title="uploadErr.status?'上传错误':'上传中...'">
-			<u-line-progress :percentage="percentage" activeColor="#85a3ff" :showText="false"
+			<u-line-progress :percentage="percentage" activeColor="#ff0800" :showText="false"
 				v-if="!uploadErr.status"></u-line-progress>
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 			<view slot="confirmButton"></view>
@@ -331,7 +331,7 @@
 						icon: 'icon-palette_line'
 					}
 				],
-				colors: ['#85A3ff', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],
+				colors: ['#ff0800', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],
 				orderList: [{
 						name: '全部评论',
 						order: ''
