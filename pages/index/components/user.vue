@@ -22,7 +22,7 @@
 				</u-navbar>
 			</template>
 			<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
-				style="width: 100%;height: 400rpx;transform: scale(1);" @click="chooseBackImg()"></image>
+				style="width: 100%;height: 400rpx;transform: scale(1);" class="backCover" @click="chooseBackImg()"></image>
 			<view class="userPanel">
 				<view style="position: absolute;top: -80rpx;">
 					<u-avatar :src="userInfo && userInfo.avatar" size="80">
@@ -95,13 +95,6 @@
 						<text>评论</text>
 					</view>
 				</u-row>
-
-				<view style="margin-top: 40rpx;">
-					<view
-						style="background: #85a3ffc8;color: white;padding: 12rpx 30rpx 12rpx 30rpx;border-radius: 10rpx;">
-						<text>创作中心</text>
-					</view>
-				</view>
 			</view>
 			<view style="position: relative;top: 0rpx;" v-if="isMounted">
 				<view v-if="$store.state.hasLogin">
@@ -539,8 +532,8 @@
 				this.$http.post('/user/sign').then(res => {
 					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
-						this.getUserTasks()
 						this.tasks.isSign = true;
+						this.getUserTasks()
 					}
 				})
 			},
@@ -586,5 +579,21 @@
 
 	.u-button::before {
 		background: #85a3ff;
+	}
+	.backCover {
+		height: 100%;
+		background-size: cover;
+		background-repeat: no-repeat;
+		filter: blur(1px);
+	}
+	
+	.backCover::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
 	}
 </style>
