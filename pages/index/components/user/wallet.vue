@@ -268,7 +268,6 @@
 			},
 			getData() {
 				this.$http.post('/user/tasks').then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.task[0].check = res.data.data.isSign
 						this.task[1].check = res.data.data.likes
@@ -327,16 +326,16 @@
 					uni.$u.toast('卡密不可为空')
 					return;
 				}
-				this.$http.post('/pay/tokenPay', {
-					key: this.card
+				this.$http.post('/pay/chargeCard', {
+					card: this.card
 				}).then(res => {
-					if (res.data.code) {
-						uni.$u.toast(res.data.msg)
+					if (res.data.code==200) {
 						this.showCard = false;
 						this.showPayment = false;
 						this.card = null
 						this.getData()
 					}
+					uni.$u.toast(res.data.msg)
 
 				})
 			}
