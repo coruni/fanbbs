@@ -25,7 +25,9 @@
 				<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
 					style="width: 100%;height: 400rpx;transform: scale(1);" class="backCover" @click="chooseBackImg()">
 				</image>
-				<view style="width: 100%;border-radius: 30rpx 30rpx 0 0;height: 40rpx;position: absolute;bottom: 0;background: white;"></view>
+				<view
+					style="width: 100%;border-radius: 30rpx 30rpx 0 0;height: 40rpx;position: absolute;bottom: 0;background: white;">
+				</view>
 			</view>
 			<view class="userPanel">
 				<view style="position: absolute;top: -100rpx;">
@@ -100,7 +102,7 @@
 					</view>
 				</u-row>
 			</view>
-			
+
 			<view style="position: relative;top: 0rpx;" v-if="isMounted">
 				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->
@@ -595,6 +597,6 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
+		background-color: rgba(0, 0, 0, 0.2);
 	}
 </style>
