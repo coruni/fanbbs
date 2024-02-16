@@ -55,21 +55,22 @@
 						</u-button>
 					</view>
 				</u-row>
+				
 				<u-row justify="space-around" customStyle="margin-top:40rpx">
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.articles}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{info &&info.articles}}</text>
 						<text>帖子</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.follows}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{info &&info.follows}}</text>
 						<text>关注</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.fans}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{info &&info.fans}}</text>
 						<text>粉丝</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userData &&userData.comments}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{info &&info.comments}}</text>
 						<text>评论</text>
 					</view>
 				</u-row>
