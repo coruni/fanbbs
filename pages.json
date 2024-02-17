@@ -178,12 +178,13 @@
 			"name": "comments"
 		},
 		{
-			"path": "pages/index/components/user/wallet",
+			"path": "pages/user/wallet",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			},
-			"name": "wallet"
+			"name": "wallet",
+			"perm": "login"
 		},
 		{
 			"path": "publish/space/video",
@@ -218,7 +219,7 @@
 		},
 
 		{
-			"path": "pages/index/components/notice",
+			"path": "pages/notice/notice",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false

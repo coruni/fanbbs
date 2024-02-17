@@ -197,7 +197,7 @@
 			},
 			goNotice() {
 				this.$Router.push({
-					path: '/pages/index/components/notice',
+					path: '/pages/notice/notice',
 
 				})
 			}

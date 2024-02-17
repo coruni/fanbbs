@@ -115,15 +115,12 @@
 	import index from './components/index.vue';
 	import find from './components/find.vue';
 	import user from './components/user.vue';
-	import notice from './components/notice.vue';
-	
 	import category from './components/category.vue';
 	export default {
 		components: {
 			index,
 			user,
 			find,
-			notice,
 			category,
 		},
 		data() {

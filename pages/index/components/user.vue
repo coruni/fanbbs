@@ -438,13 +438,13 @@
 					},
 
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						this.$store.commit('setUser', res.data.data)
 					}
 
 				}).catch(err => {
-					console.log(err)
+					
 				})
 			},
 			getUserMeta() {
@@ -499,7 +499,6 @@
 				this.$http.post('/user/update', {
 					background: url
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 						this.getUserInfo()
 					}
