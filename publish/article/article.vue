@@ -191,7 +191,8 @@
 									color:#ff0800;
 									background: #ff08003c;
 									padding:4rpx 14rpx;
-									border-radius: 10rpx;">推荐</text>
+									border-radius: 10rpx;
+									margin-right: 20rpx;">推荐</text>
 								<u-row>
 									<u-avatar :src="item.imgurl" size="30" shape="square" v-if="item.imgurl"
 										mode="aspectFill"></u-avatar>
