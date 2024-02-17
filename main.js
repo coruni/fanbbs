@@ -58,7 +58,7 @@ Vue.prototype.$level = level
 
 if(store.state.hasLogin){
 	//开启websocket
-	let websocket = new wsRequest(config.websocket+`?token=${uni.getStorageSync('token')}`, 5000)
+	let websocket = new wsRequest(config.websocket+`?token=${uni.getStorageSync('token')}`, 3000)
 	//挂载到全局
 	Vue.prototype.$socket = websocket
 }

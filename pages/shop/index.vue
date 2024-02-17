@@ -2,8 +2,9 @@
 	<view>
 		<z-paging ref="paging" v-model="product" @query="getData">
 			<template #top>
-				<u-navbar :title="appInfo && appInfo.currencyName+'商城'" bgColor="transparent" placeholder>
-					<view slot="left">
+				<u-navbar :title="appInfo && appInfo.currencyName+'商城'" bgColor="transparent" placeholder autoBack>
+					<view slot="left" style="display:flex;align-items: center;">
+						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 					</view>
 					<view slot="right">
 						<i class="ess icon-search_3_line" style="font-size: 40rpx;"
@@ -86,9 +87,9 @@
 				product: [],
 				list1: [],
 				list2: [],
-				columnGap: 10,
-				leftGap: 10,
-				rightGap: 10
+				columnGap: 6,
+				leftGap: 6,
+				rightGap: 6
 
 			};
 		},
@@ -114,24 +115,22 @@
 					params: {
 						page,
 						limit,
-						params: JSON.stringify({
-							status: 1
-						})
 					}
 				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
-						this.$refs.paging.complete(res.data.data)
+					
+					if (res.data.code==200) {
+						this.$refs.paging.complete(res.data.data.data)
 					}
+				}).catch(err=>{
+					this.$refs.paging.complete(false)
 				})
 			},
 			changeList(e) {
 				this[e.name].push(e.value);
 			},
 			goProduct(data) {
-				console.log(data)
 				this.$Router.push({
-					path: '/pages/shop/product',
+					path: '/pages/shop/product_detail',
 					query: {
 						id: data.id
 					}

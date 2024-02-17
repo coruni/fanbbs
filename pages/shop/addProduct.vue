@@ -27,6 +27,25 @@
 			<view style="margin-top: 20rpx;">
 				<label>商品参数</label>
 				<u-form ref="form" labelPosition="top">
+					<text style="font-size: 28rpx;">商品主图</text>
+					<uv-scroll-list indicatorActiveColor="#ff0800">
+						<block v-for="(image,index) in shop.imgurl" :key="index">
+							<view style="position: relative;margin-right: 20rpx;border-radius: 16rpx;">
+								<u-image :src="image" height="130" width="100" radius="8" @click="previewImg(index)"></u-image>
+								<view @click="deleteImage(index)"
+									style="position: absolute;right: 0;top: 0;background: #ff0800;color: white;border-radius: 0 16rpx 0 16rpx;">
+									<i class="ess icon-close_line"></i>
+								</view>
+							</view>
+						</block>
+						<u-row style="height: 130px;width: 100px;border: #ccc solid 1rpx;border-radius: 16rpx;"
+							v-if="shop.imgurl.length<10" @click="choose('mainPic')">
+							<view style="text-align: center;flex:1">
+								<i class="ess icon-add_line" style="font-size: 50rpx;"></i>
+							</view>
+						</u-row>
+					</uv-scroll-list>
+
 					<u-form-item label="商品价格*" labelWidth="auto">
 						<u-input v-model="shop.price" placeholder="只能是整数" border="none"
 							style="background: #f7f7f7;padding: 8rpx 18rpx;border-radius: 50rpx;"></u-input>
@@ -37,6 +56,10 @@
 					</u-form-item>
 					<u-form-item label="库存" labelWidth="auto">
 						<u-input v-model="shop.num" placeholder="不填写则由产品规格中的数量决定" border="none"
+							style="background: #f7f7f7;padding: 8rpx 18rpx;border-radius: 50rpx;"></u-input>
+					</u-form-item>
+					<u-form-item label="运费" labelWidth="auto">
+						<u-input v-model="shop.freight" placeholder="不填写则为包邮" border="none"
 							style="background: #f7f7f7;padding: 8rpx 18rpx;border-radius: 50rpx;"></u-input>
 					</u-form-item>
 					<u-form-item>
@@ -123,9 +146,9 @@
 					text: null,
 					price: null,
 					num: 0,
-					images: [],
+					imgurl: [],
 					sort: '',
-					freight: null,
+					freight: 0,
 					specs: [{
 						id: 1,
 						name: '',
@@ -153,10 +176,9 @@
 			this.getCategory()
 		},
 		onLoad(params) {
-			this.update = params.update
-			if (params.update) {
-				this.getData(params.id)
-			}
+			if (params && params.update == 1) this.update = params.update;
+			if (params.update == 1) this.getData(params.id);
+
 		},
 		methods: {
 			getData(id) {
@@ -191,15 +213,13 @@
 					specs: JSON.stringify(this.shop.specs),
 					sort: this.shop.sort.id
 				}).then(res => {
-					console.log(res)
 					if (res.data.code == 200) {
 
 					}
 				})
 			},
 			getCategory() {
-				this.$http.get('/shop/typeList', {
-				}).then(res => {
+				this.$http.get('/shop/typeList', {}).then(res => {
 					if (res.data.code == 200) {
 						if (res.data.data.data.length > 0) {
 							this.shop.sort = res.data.data.data[0]
@@ -223,12 +243,12 @@
 					this.editorCtx = res.context
 				}).exec()
 				// #endif
-				if(this.update){
+				if (this.update) {
 					setTimeout(() => {
 						this.setContents()
 					}, 500)
 				}
-				
+
 			},
 			specsAdd() {
 				const lastSpec = this.shop.specs[this.shop.specs.length - 1];
@@ -242,7 +262,7 @@
 				});
 			},
 			swiperTap(event, index) {
-				console.log(index)
+
 				this.shop.specs.splice(index, 1);
 			},
 			setPrice(price) {
@@ -269,9 +289,9 @@
 						params.text = res.html
 						this.$http.post('/shop/add', {
 							...params,
-							specs:JSON.stringify(params.specs)
+							specs: JSON.stringify(params.specs),
+							images:JSON.stringify(params.imgurl)
 						}).then(res => {
-							console.log(res)
 							uni.hideLoading()
 							if (res.data.code) {
 								uni.$u.toast('发布完成')
@@ -321,17 +341,22 @@
 					}
 				})
 			},
-			async choose() {
+			async choose(type) {
 				uni.chooseImage({
 					count: 20,
 					success: async (res) => {
 						for (let i in res.tempFilePaths) {
 							let image = await this.upload(res.tempFilePaths[i]);
-							this.editorCtx.insertImage({
-								src: image,
-								alt: this.shop.title ? this.shop.title : 'IMAGE'
-							});
+							if (type == 'mainPic') {
+								this.shop.imgurl.push(image)
+							} else {
+								this.editorCtx.insertImage({
+									src: image,
+									alt: this.shop.title ? this.shop.title : 'IMAGE'
+								});
+							}
 						}
+						if (type == 'mainPic') return;
 						this.editorCtx.insertText({
 							text: '\n'
 						});
@@ -345,7 +370,7 @@
 						name: 'file',
 					}).then(res => {
 						console.log(res)
-						if (res.data.code) {
+						if (res.data.code==200) {
 							resolve(res.data.data.url)
 						} else {
 							uni.$u.toast(res.data.msg)
@@ -355,8 +380,14 @@
 					})
 				})
 			},
-			con(e) {
-				console.log(e)
+			deleteImage(index) {
+				this.shop.imgurl.splice(index, 1); // 删除对应索引的图片
+			},
+			previewImg(index){
+				uni.previewImage({
+					urls:this.shop.imgurl,
+					current:index
+				})
 			}
 
 		}

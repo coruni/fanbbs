@@ -16,7 +16,7 @@
 				:style="{backgroundImage:`url(${info.opt && info.opt.background?info.opt.background:'/static/login.jpg'})`}"
 				class="backCover">
 			</view>
-			<view style="position: absolute;top: 100rpx;width: 100%;">
+			<view style="position: absolute;top: 120rpx;width: 100%;">
 				<view style="margin: 30rpx;">
 					<u-row justify="space-between">
 						<u-row>
@@ -36,8 +36,6 @@
 							<u-button color="#ff0800" style="height: 60rpx;" shape="circle"
 								@click="follow(info.mid)">{{info.isFollow?'已关注':'关注'}}</u-button>
 						</view>
-
-
 					</u-row>
 					<view style="margin-top: 60rpx;">
 						<u-row justify="space-between">
@@ -75,21 +73,21 @@
 		<!-- #ifndef APP -->
 		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#ff0800" bar-animate-mode="worm"></z-tabs>
+				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent" :active-style="{fontWeight:600}"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<!-- #ifdef APP -->
 		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'" offsetTop="60">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#ff0800" bar-animate-mode="worm"></z-tabs>
+				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent" :active-style="{fontWeight:600}"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<view :style="{background:info.opt && info.opt.primary?info.opt && info.opt.primary:'#fff'}">
 			<swiper :style="{height:windowHeight+'px'}" :current="tabsIndex" @transition="swiperTransition"
 				@animationfinish="swiperAnimationfinish">
 				<swiper-item v-for="(item,index) in list" :key="index" style="overflow: auto;">
-					<articleItem :mid="id" :isScroll="isScroll" :order="item.order" :random="item.random" ref="article"
-						:border="info.opt&& info.opt.underline?info.opt&& info.opt.underline:'#f7f7f7'"></articleItem>
+					<articleItem :mid="id" :isScroll="isScroll" :order="item.order" :random="item.random" ref="article">
+					</articleItem>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -206,6 +204,6 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
+		background-color: rgba(0, 0, 0, 0.2);
 	}
 </style>

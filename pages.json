@@ -210,7 +210,7 @@
 			"name": "shop"
 		},
 		{
-			"path": "pages/shop/product",
+			"path": "pages/shop/product_detail",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
@@ -259,7 +259,7 @@
 			}
 		},
 		{
-			"path" : "pages/user/product",
+			"path" : "pages/shop/myProduct",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",

@@ -1,16 +1,19 @@
 <template>
 	<view>
 		<text style="font-size: 50rpx;font-weight: 600;word-break: break-all;">{{data &&data.title}}</text>
-		<u-row customStyle="color:#c0c4cc;font-size: 26rpx;" align="center">
+		<u-row customStyle="color:#c0c4cc;font-size: 26rpx;" align="center" justify="space-between">
 			<u-row>
-				<i class="ess icon-time_line"></i>
-				<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
+				<u-row>
+					<i class="ess icon-time_line"></i>
+					<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
+				</u-row>
+				<text style="margin:0 20rpx">·</text>
+				<u-row align="center">
+					<i class="ess icon-eye_2_line"></i>
+					<text>{{data.views}}</text>
+				</u-row>
 			</u-row>
-			<text style="margin:0 20rpx">·</text>
-			<u-row align="center">
-				<i class="ess icon-eye_2_line"></i>
-				<text>{{data.views}}</text>
-			</u-row>
+			<text @click="goCategory(data.category.mid)">{{data.category && data.category.name?data.category.name:'未分类'}}</text>
 		</u-row>
 		<u-row justify="space-between"
 			style="background: #ff08000a;padding: 40rpx 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
@@ -24,7 +27,8 @@
 				</view>
 				<view style="display: flex;flex-direction: column;margin-left:20rpx;font-size: 30rpx;width: 0;flex:1">
 					<u-row>
-						<text style="font-weight: 600;">{{data.authorInfo&& data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
+						<text
+							style="font-weight: 600;">{{data.authorInfo&& data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
 						<i v-if="data.authorInfo.level" :class="`level icon-lv-${data.authorInfo.level}`"
 							style="font-size: 50rpx; margin-left: 10rpx;"
 							:style="{ color: data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }">
@@ -64,6 +68,14 @@
 			goProfile(id) {
 				this.$Router.push({
 					path: '/pages/profile/profile',
+					query: {
+						id
+					}
+				})
+			},
+			goCategory(id) {
+				this.$Router.push({
+					path: '/pages/common/category/categoryInfo',
 					query: {
 						id
 					}

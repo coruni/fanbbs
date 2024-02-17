@@ -7,15 +7,19 @@
 					<i class="ess icon-left_line" style="font-size: 60rpx;" @click=""></i>
 				</view>
 				<view slot="center" style="margin: 0 20rpx;flex:1;margin-left:100rpx">
-					<uv-search :showAction="false" v-model="search" actionText="搜索" :animation="true"  @search="searchTap = true"></uv-search>
+					<uv-search :showAction="false" v-model="search" actionText="搜索" :animation="true"
+						@search="searchTap = true"></uv-search>
 				</view>
 			</u-navbar>
 			<view v-if="searchTap">
-				<u-tabs :list="tabs" :current="tabsIndex" @change="tabsIndex = $event.index"></u-tabs>
+				<z-tabs ref="tabs" :list="tabs" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
+					active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"
+					:active-style="{fontWeight:600}"></z-tabs>
+
 			</view>
 		</template>
-		<swiper style="height: 100%;" @animationfinish="tabsIndex = $event.detail.current" :current="tabsIndex"
-			v-if="searchTap">
+		<swiper style="height: 100%;" @transition="swiperTransition" @animationfinish="swiperAnimationfinish"
+			:current="tabsIndex" v-if="searchTap">
 			<swiper-item>
 				<allArticle ref="allarticle" :search="search">
 				</allArticle>
@@ -62,10 +66,22 @@
 			};
 		},
 		created() {
-			
+
 		},
 		methods: {
-			
+			//tabs通知swiper切换
+			tabsChange(index) {
+				this.tabsIndex = index;
+			},
+			//swiper滑动中
+			swiperTransition(e) {
+				this.$refs.tabs.setDx(e.detail.dx);
+			},
+			//swiper滑动结束
+			swiperAnimationfinish(e) {
+				this.tabsIndex = e.detail.current;
+				this.$refs.tabs.unlockDx();
+			},
 		}
 	}
 </script>

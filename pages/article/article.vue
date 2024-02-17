@@ -119,7 +119,7 @@
 			<template #bottom>
 				<u-row customStyle="padding:10rpx 20rpx;border-top:#f7f7f7 solid 1rpx" justify="space-between">
 					<u-col span="6">
-						<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background: #ff08000a;"
+						<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background: #f9f9f9;"
 							class="u-info" @click="showComment = true">
 							<u-icon name="edit-pen" size="20"></u-icon>
 							<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
@@ -160,7 +160,7 @@
 			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease',padding:30+'rpx'}">
 			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
 				:show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
-				style="background: #ff08000a;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+				style="background: #f9f9f9;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="3">
@@ -486,6 +486,7 @@
 				selectReward: 0,
 				keyboardHeight: 0,
 				headerHeight: 0,
+				isHideReply: false,
 			};
 		},
 		onLoad(params) {
@@ -641,24 +642,21 @@
 							text: this.commentText,
 							images: JSON.stringify(this.images)
 						}
-						console.log(params)
 						this.isReply = true
 						this.$http.post('/comments/add', {
 							...params
 						}).then(res => {
 							if (res.data.code == 200) {
-								uni.$u.toast('已发送~')
-								this.commentText = null
-								this.showComment = false
-								this.images = []
-								this.$refs.comments.reload()
-
-							} else {
-								uni.$u.toast(res.data.msg)
+								if (!this.isHideReply) this.getData();
+								this.isHideReply = true;
+								this.commentText = null;
+								this.showComment = false;
+								this.images = [];
+								this.$refs.comments.reload();
 							}
+							uni.$u.toast(res.data.msg);
 							this.isReply = false
 						}).catch(err => {
-							console.log(err)
 							this.isReply = false
 						})
 					}
@@ -682,7 +680,7 @@
 					}).replace(/\|</g, '<').replace(/>\|/g, '>').replace(/【(回复|付费)查看：([^】]+)】/g, (match, type,
 						content) => {
 						let html = ''
-				
+
 						html += `<a style="text-decoration:unset;color:#ff0800;border:#ff0800 dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
 						隐藏内容，${type}后查看
 						</a>`
@@ -713,10 +711,10 @@
 				}).then(res => {
 					if (res.data.code == 200) {
 						this.article.isMark = !this.article.isMark
-						if(this.article.isMark && this.article.marks){
-							this.article.marks +=1
-						}else{
-							this.article.marks -=1
+						if (this.article.isMark && this.article.marks) {
+							this.article.marks += 1
+						} else {
+							this.article.marks -= 1
 						}
 					}
 				})
@@ -868,12 +866,10 @@
 				this.$http.post('/article/buy', {
 					id: this.article.cid
 				}).then(res => {
-					if (res.data.code) {
+					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
 						this.showPay = false
-						setTimeout(() => {
-							this.getData()
-						}, 800)
+						this.getData()
 					}
 				})
 			},

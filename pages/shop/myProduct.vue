@@ -99,20 +99,16 @@
 						sort: this.select.id ? this.select.id : ''
 					})
 				}).then(res => {
-					console.log(res)
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
 				}).catch(err => {
 					this.$refs.paging.complete(false)
 				})
 			},
-			con(e) {
-				console.log(e)
-			},
 			goProduct(id) {
 				this.$Router.push({
-					path: '/pages/shop/product',
+					path: '/pages/shop/product_detail',
 					query: {
 						id
 					}

@@ -55,8 +55,8 @@
 						password: account.password
 					}
 				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
+					
+					if (res.data.code==200) {
 						this.setToken(res.data.data.token);
 						this.getUserInfo(res.data.data.uid);
 						this.getUserMeta()
@@ -85,7 +85,7 @@
 			},
 			getUserMeta() {
 				http.post('/user/userData').then(res => {
-					if (res.data.code) {
+					if (res.data.code==200) {
 						this.setUserMeta(res.data.data)
 					}
 				})

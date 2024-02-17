@@ -7,7 +7,6 @@
 			<view slot="right">
 				<i class="ess icon-share_3_line" style="font-size: 45rpx;"></i>
 			</view>
-
 		</u-navbar>
 		<view style="position: relative;top: 0;">
 			<u-swiper height="280" :list="info && info.imgurl" radius="0" circular @click="swiperTap"
@@ -79,7 +78,7 @@
 				<uv-parse :showImgMenu="false" :content="info.text"></uv-parse>
 			</view>
 		</view>
-		<view style="position: fixed;bottom: 0;width: 100%;background: #fff;">
+		<view style="position: fixed;bottom: 0;width: 100%;background: white;">
 			<view style="padding: 20rpx 30rpx;">
 				<u-button color="#ff0800" shape="circle" style="box-shadow: 0 0 4px 0 #ff0800;"
 					@click="showSpecs = true">购买</u-button>
@@ -176,7 +175,8 @@
 							</u-input>
 						</u-form-item>
 						<u-form-item :borderBottom="false" prop="detailAddress" label="详细地址" label-width="80">
-							<u-textarea placeholder="镇/村/门牌号" v-model="address && address.detailAddress" height="40"></u-textarea>
+							<u-textarea placeholder="镇/村/门牌号" v-model="address && address.detailAddress"
+								height="40"></u-textarea>
 						</u-form-item>
 					</u-form>
 					<u-button color="#ff0800" style="margin-top: 60rpx;" shape="circle"
@@ -249,7 +249,6 @@
 			};
 		},
 		onLoad(params) {
-			console.log(this.$store.state)
 			this.getData(params.id)
 		},
 		computed: {
@@ -260,16 +259,14 @@
 		},
 		methods: {
 			getData(id) {
-				this.$http.get('/shop/shopInfo', {
+				this.$http.get('/shop/info', {
 					params: {
-						key: id,
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+						id,
+
 					}
 				}).then(res => {
-					console.log(res)
-					if (res.statusCode == 200) {
-						this.info = res.data
-						console.log(this.info)
+					if (res.data.code == 200) {
+						this.info = res.data.data
 					}
 				})
 			},
@@ -280,10 +277,10 @@
 				})
 			},
 			genOrder() {
-				if(!this.selectSpecs.id){
-					uni.$u.toast('请选择商品规格') 
+				if (!this.selectSpecs.id) {
+					uni.$u.toast('请选择商品规格')
 					return;
-				} 
+				}
 				this.$http.post('/shop/genOrder', {
 					product: this.info.id,
 					specs: this.selectSpecs.id,

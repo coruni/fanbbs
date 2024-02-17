@@ -407,7 +407,6 @@
 
 		},
 		onLoad(params) {
-			console.log(params)
 			this.update = params.update
 			if (params.update) {
 				this.getContentInfo(params.id)
@@ -554,31 +553,11 @@
 			// 选择视频
 			chooseVideo() {
 				// 重置进度条
-				this.percentage = 30;
+				this.percentage = 0;
 				uni.chooseVideo({
 					compressed: false,
 					success: (res) => {
-						uni.getVideoInfo({
-							src: res.tempFilePath,
-							success: (res) => {
-								this.videoInfo.width = res.width
-								this.videoInfo.height = res.width
-								this.videoInfo.orientation = res.orientation
-								this.videoInfo.bitrate = res.bitrate
-							}
-						})
-						let ratio = Math.sqrt((1920 * 1080) / (this.videoInfo.width * this.videoInfo.height));
-						let resolution = ratio >= 1 ? 1 : ratio;
-						let bitrate = this.videoInfo.bitrate > 4 * 1024 ? 4 * 1024 : this.videoInfo.bitrate;
-						uni.compressVideo({
-							src: res.tempFilePath,
-							bitrate,
-							resolution,
-							quality: 'medium',
-							success: (res) => {
-								this.videoPath = res.tempFilePath
-							}
-						})
+						this.videoPath = res.tempFilePath
 					}
 				})
 			},
@@ -586,18 +565,14 @@
 				list,
 				duration
 			}) {
-				this.videoInfo.frame = list
+				this.videoInfo.poster = list[0]
 				console.log(list)
-
 				//开始上传
 				this.showLoading = true
 				let video = await this.uploadFile(this.videoPath, 'video')
 				if (video) {
 					this.videoInfo.url = video
-					setTimeout(() => {
-						this.showLoading = false
-						this.$refs.chooseFrame.open()
-					}, 200)
+					this.insertVideo()
 				}
 			},
 			preview(url, index) {
@@ -611,8 +586,12 @@
 						fileType: type, // 仅允许video/image/audio
 						filePath: url, //不支持多文件上传使用filePath
 						name: 'file',
+						getTask: (task,options) => {
+							task.onProgressUpdate((res)=>{
+								this.percentage = res.progress
+							})
+						}
 					}).then(res => {
-						console.log(res)
 						if (res.data.code == 200) {
 							resolve(res.data.data.url)
 						} else {
@@ -621,7 +600,6 @@
 							uni.hideLoading()
 						}
 					}).catch(err => {
-						console.log(err)
 						this.uploadErr.status = true
 						this.uploadErr.msg = err.data.msg
 					})
@@ -778,13 +756,9 @@
 				})
 			},
 			async insertVideo() {
-				uni.showLoading({
-					title: '插入中...',
-					mask: true
-				})
+				
 				let file = await this.formatImage(this.videoInfo.poster.base64);
-				let poster = await this.uploadFile(file, 'image');
-				console.log(poster)
+				let poster = await this.upload(file);
 				if (poster) {
 					this.editorCtx.insertImage({
 						src: poster,
@@ -801,8 +775,7 @@
 							this.editorCtx.insertText({
 								text: '\n\n'
 							})
-							uni.hideLoading()
-							this.$refs.chooseFrame.close()
+							this.showLoading = false
 						}
 					})
 				}
@@ -811,14 +784,7 @@
 			formatTool(type, value) {
 				this.editorCtx.format(type, value)
 			},
-			con() {
-				this.editorCtx.getContents({
-					success: res => {
-
-					}
-
-				})
-			},
+			
 			onEditorReady() {
 				// #ifdef MP-BAIDU
 				this.editorCtx = requireDynamicLib('editorLib').createEditorContext('editor');
@@ -942,7 +908,7 @@
 				});
 			},
 			insertDraft(data) {
-				console.log(data)
+				
 				this.article = data
 				this.draftId = data.draftId
 				this.editorCtx.setContents({
@@ -961,16 +927,15 @@
 	export default {
 		methods: {
 			async captures(videoPath) {
-				let duration = await this.getDuration(videoPath)
-				let list = []
-				for (let i = 0; i < 12; i++) {
-					const frame = await this.captureFrame(videoPath, duration / 1000 * (3 * i))
-					list.push(frame)
-				}
-				this.$ownerInstance.callMethod('captureList', {
-					list,
-					duration
-				})
+			    let duration = await this.getDuration(videoPath)
+			    let frameTime = duration > 5000 ? 5000 : 2000 // 判断视频时长是否大于5秒，选择截取时刻
+			    const frame = await this.captureFrame(videoPath, frameTime / 1000)
+			    let list = [frame]
+			    
+			    this.$ownerInstance.callMethod('captureList', {
+			        list,
+			        duration
+			    })
 			},
 			getDuration(videoPath) {
 				return new Promise(resolve => {
@@ -1039,7 +1004,8 @@
 	.ql-container ::v-deep img {
 		margin: 20rpx auto;
 		border-radius: 20rpx;
-		max-width: 80%;
+		width: 80%;
+		display: block;
 	}
 
 	.button_hover {

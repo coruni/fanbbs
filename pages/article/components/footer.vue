@@ -31,35 +31,21 @@
 			</view>
 		</view>
 		<u-row customStyle="margin-top: 20rpx;flex-wrap:wrap;">
-			<u-row v-if="data &&data.category && data.category.mid">
-				<view @click.stop="goCategory(data.category.mid)" style="border-radius: 10rpx;
-					padding: 8rpx 20rpx ;
-					text-align: center;
-					font-size: 14px;
+			<block v-for="(item,index) in data.tag" :key="index">
+				<view style="
+					font-size: 26rpx;
 					background:#ff08001e;
+					color: #ff0800;
+					padding:8rpx 14rpx;
+					border-radius: 500rpx;
 					margin-right: 10rpx;
 					margin-top: 10rpx;
-					color: #ff0800; ">
-					<text>{{data.category.name}}</text>
+					font-size: 26rpx;
+					">
+					<i class="ess icon-hashtag_line" style="font-size: 26rpx;"></i>
+					<text>{{item.name}}</text>
 				</view>
-			</u-row>
-			<view v-if="data.tag && data.tag.length>0" style="display: flex;">
-				<block v-for="(item,index) in data.tag" :key="index">
-					<view style="
-						font-size: 26rpx;
-						background:#ff08001e;
-						color: #ff0800;
-						padding:8rpx 14rpx;
-						border-radius: 500rpx;
-						margin-right: 10rpx;
-						margin-top: 10rpx;
-						font-size: 26rpx;
-						">
-						<i class="ess icon-hashtag_line" style="font-size: 26rpx;"></i>
-						<text>{{item.name}}</text>
-					</view>
-				</block>
-			</view>
+			</block>
 		</u-row>
 
 	</view>
@@ -85,7 +71,12 @@
 		},
 		methods: {
 			openUrl(url, name, data) {
+				// #ifdef APP
 				plus.runtime.openWeb(url)
+				// #endif
+				// #ifndef APP
+				window.open(url)
+				// #endif
 				if (data) {
 					this.copy(data, name)
 				}
@@ -103,14 +94,7 @@
 					}
 				})
 			},
-			goCategory(id) {
-				this.$Router.push({
-					path: '/pages/common/category/categoryInfo',
-					query: {
-						id
-					}
-				})
-			}
+			
 		}
 	}
 </script>

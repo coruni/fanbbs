@@ -3,14 +3,14 @@
 		:auto-clean-list-when-reload="false" :use-page-scroll="!scroll" :refresher-enabled="false">
 		<block v-for="(item,index) in article" :key="index">
 			<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
-				style="margin:30rpx 30rpx 0rpx 30rpx;padding-bottom: 10rpx;">
+				style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
 				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
 				<article-content :data="item" v-else></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-			<u-gap bgColor="#ff08000a" height="6"></u-gap>
+			
 		</block>
 	</z-paging>
 </template>
