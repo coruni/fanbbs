@@ -58,7 +58,7 @@
 			return {
 				nickname: null,
 				id: 0,
-				receive_id: 0,
+				receiver_id: 0,
 				messages: [],
 				editorCtx: null,
 				keyboardHeight: 0,
@@ -80,8 +80,9 @@
 			this.windowHeight = SystemInfo.windowHeight - SystemInfo.statusBarHeight
 		},
 		onLoad(params) {
+			if (params.id != null) this.id = params.id;
+			if (params.receiver_id != null) this.receiver_id = params.receiver_id;
 			this.nickname = params.nickname
-			this.receive_id = params.receive_id
 
 		},
 		onUnload() {
@@ -91,21 +92,44 @@
 			...mapState(['userInfo'])
 		},
 		methods: {
+			getChatId() {
+				return new Promise((resolve, reject) => {
+					this.$http.get('/chat/getChatId', {
+						params: {
+							receiver_id: this.receiver_id
+						}
+					}).then(res => {
+						if (res.data.code >= 200) {
+							this.id = res.data.data.id;
+							resolve(res.data.data.id);
+						}
+					}).catch(err => {
+						reject(err);
+					});
+				});
+			},
+
 			getData(page, limit) {
-				this.$http.post('/chat/chatRecord', {
-					page,
-					limit: 30,
-					id: this.id,
-					receive_id: this.receive_id,
-					type: 0,
-					order: 'created asc'
-				}).then(res => {
-					if (res.data.code == 200) {
-						this.$refs.paging.complete(res.data.data.data)
-					}
+				this.getChatId().then(chatId => {
+					this.$http.post('/chat/chatRecord', {
+						page,
+						limit: 30,
+						id: chatId,
+						type: 0,
+						order: 'created asc'
+					}).then(res => {
+						console.log(res)
+						if (res.data.code === 200) {
+							this.$refs.paging.complete(res.data.data.data);
+						}
+					}).catch(err => {
+
+						this.$refs.paging.complete(false);
+					});
 				}).catch(err => {
-					this.$refs.paging.complete(false)
-				})
+
+					this.$refs.paging.complete(false);
+				});
 			},
 			sendMessage() {
 				this.editorCtx.getContents({
@@ -118,11 +142,9 @@
 						if (!res.text.length) return;
 						this.$http.post('/chat/sendMsg', {
 							id: this.id,
-							receive_id: this.receive_id,
-							type: 0,
 							text: res.html
 						}).then(ress => {
-							if (ress.data.code) {
+							if (ress.data.code == 200) {
 								// 清空编辑器消息
 								this.editorCtx.clear()
 							}

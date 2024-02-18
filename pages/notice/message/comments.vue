@@ -104,6 +104,6 @@
 
 <style scoped>
 	page {
-		background: #f9f9f9;
+		background: #f7f7f7;
 	}
 </style>

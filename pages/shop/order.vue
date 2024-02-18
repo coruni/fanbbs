@@ -14,7 +14,7 @@
 					<u-icon name="map" size="20"></u-icon>
 					<view style="display: flex;flex-direction: column;padding: 0 10rpx;">
 						<u-row align="end">
-							<text style="font-weight: 600;">{{info.address&& info.address.contacts}}</text>
+							<text style="font-weight: 600;">{{info && info.address&& info.address.contacts}}</text>
 							<u-row align="baseline" style="margin-left: 20rpx;font-size: 28rpx;">
 								<i class="ess icon-cellphone_line"></i>
 								<text>{{info.address&& info.address.phone}}</text>
@@ -32,25 +32,27 @@
 			<view style="padding: 30rpx;background: white;border-radius: 20rpx;margin-top: 20rpx;">
 				<u-row style="margin-bottom: 20rpx;" justify="space-between">
 					<u-row>
-						<u-avatar :src="info.bossInfo.avatar" size="30"></u-avatar>
+						<u-avatar :src="info.bossInfo && info.bossInfo.avatar" size="30"></u-avatar>
 						<text style="margin-left: 20rpx;font-weight: 600;"
-							class="u-line-1">{{info.bossInfo.nickname}}</text>
+							class="u-line-1">{{info && info.bossInfo&& info.bossInfo.screenName?info.bossInfo.screenName:info&& info.bossInfo&& info.bossInfo.name}}</text>
 					</u-row>
 					<i class="ess icon-right_line"></i>
 				</u-row>
 				<u-row align="top">
-					<image :src="info.specs.image?info.specs.image:info.product_image[0]" mode="aspectFill"
-						style="width: 120rpx;height: 120rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
+					<image :src="info.specs && info.specs.image?info.specs.image:info && info.product_image[0]"
+						mode="aspectFill"
+						style="width: 120rpx;height: 120rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;"
+						v-if="info.product_image||info.product_image">
 					</image>
 					<view
 						style="display: flex;flex-direction: column;justify-content: center;margin-left: 20rpx;flex:1">
 						<text style="font-weight: 600;font-size: 32rpx;word-break: break-all;"
-							class="u-line-1">{{info.product_name}}</text>
+							class="u-line-1">{{info && info.product_name}}</text>
 						<u-row style="font-size: 28rpx;color: #999;" justify="space-between">
-							<text>已选：{{info.specs.name}}</text>
+							<text>已选：{{info.specs && info.specs.name}}</text>
 							<u-row style="color: red;">
 								<i class="ess icon-coin_line"></i>
-								<text>{{info.specs.price}}</text>
+								<text>{{info.specs && info.specs.price}}</text>
 							</u-row>
 						</u-row>
 					</view>
@@ -75,7 +77,7 @@
 			</view>
 
 			<!-- // 用户信息 -->
-			<view style="margin-top: 20rpx;background: white;padding: 30rpx;border-radius: 20rpx;">
+			<view style="margin-top: 20rpx;background: white;padding: 30rpx;border-radius: 20rpx;" v-if="!tracking">
 				<u-row justify="space-between">
 					<text>余额：</text>
 					<u-row>
@@ -83,14 +85,41 @@
 						<text>{{$store.state.userInfo.assets}}</text>
 					</u-row>
 				</u-row>
-
 			</view>
 			<!-- 更多好物 -->
-			<view style="margin-top: 40rpx;background: white;padding: 30rpx;border-radius: 20rpx;">
+			<view style="margin-top: 40rpx;background: white;padding: 30rpx;border-radius: 20rpx;" v-if="!tracking">
 				<text style="font-weight: 600;">好物推荐</text>
 			</view>
-
+			<!-- 发货 -->
+			<view style="margin-top: 40rpx;background: white;padding: 30rpx;border-radius: 20rpx;" v-if="tracking">
+				<text style="font-weight: 600;">商家发货</text>
+				<u-form>
+					<u-form-item label="价格" labelWidth="80px">
+						<u-input border="bottom" v-model="info.price" placeholder="请输入订单号"></u-input>
+					</u-form-item>
+					<u-form-item label="订单号" labelWidth="80px">
+						<u-input border="bottom" v-model="info.tracking_number" placeholder="请输入订单号"></u-input>
+					</u-form-item>
+					<u-form-item label="联系人" labelWidth="80px">
+						<u-input border="bottom" v-model="address.contacts" placeholder="请输入订单号"></u-input>
+					</u-form-item>
+					<u-form-item label="手机号" labelWidth="80px">
+						<u-input border="bottom" v-model="address.phone" placeholder="请输入订单号"></u-input>
+					</u-form-item>
+					<u-form-item label="修改地址" labelWidth="80px">
+						<u-input border="bottom" v-model="address.address" placeholder="请输入订单号"></u-input>
+					</u-form-item>
+				</u-form>
+				
+				<view style="margin-top: 30rpx;">
+					<u-row justify="space-between">
+						<u-button shape="circle" plain color="#ff0800" style="margin-right: 40rpx;" @click="isTracking(0)">保存订单</u-button>
+						<u-button shape="circle" @click="isTracking(info.isTracking?0:1)" :color="info.isTracking?'#ccc':'#ff0800'">{{info.isTracking?'已发货':'发货'}}</u-button>
+					</u-row>
+				</view>
+			</view>
 		</view>
+		<u-gap height="56"></u-gap>
 		<view style="position: fixed;bottom: 0;width: 100%;">
 			<u-row justify="space-between" style="background: white;padding: 15rpx 30rpx;">
 				<view>
@@ -157,6 +186,8 @@
 				info: {},
 				showPayment: false,
 				showAddress: false,
+				tracking: 0,
+				tracking_number: '',
 				address: {
 					contacts: '',
 					phone: '',
@@ -202,19 +233,20 @@
 			};
 		},
 		onLoad(params) {
-			this.id = params.id
-			this.getData(params.id)
+			this.id = params.id;
+			if (params.tracking != null) this.tracking = params.tracking;
+			this.getData();
 		},
 		created() {
 			this.getUserInfo()
 		},
 		methods: {
-			getData(id) {
+			getData() {
 				this.$http.post('/shop/order', {
-					id
+					id:this.id,
 				}).then(res => {
 					console.log(res)
-					if (res.data.code) {
+					if (res.data.code == 200) {
 						this.info = res.data.data
 						if (res.data.data.paid) this.showPayment = true;
 						this.address = res.data.data.address
@@ -224,12 +256,12 @@
 			getUserInfo() {
 				this.$http.get('/user/userInfo', {
 					params: {
-						key: this.$store.state.userInfo.uid,
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+						id: this.$store.state.userInfo.uid
 					}
 				}).then(res => {
-					if (res.data.code) {
-						console.log(res)
+					console.log(res)
+					if (res.data.code == 200) {
+
 						this.$store.commit('setUser', res.data.data)
 					}
 				})
@@ -265,7 +297,6 @@
 					type: 'gcj02',
 					geocode: true,
 					success: (res) => {
-						console.log(res)
 						this.address.region = res.address.province + res.address.city + res.address.district
 						this.address.province = res.address.province
 						this.address.city = res.address.city
@@ -276,6 +307,20 @@
 					}
 				})
 			},
+			isTracking(isTracking) {
+				this.$http.post('/shop/tracking', {
+					id:this.info.id,
+					tracking_number: this.info.tracking_number,
+					price:this.info.price,
+					address:JSON.stringify(this.address),
+					isTracking
+				}).then(res=>{
+					if(res.data.code==200){
+						uni.$u.toast(res.data.msg)
+					}
+					this.getData()
+				})
+			}
 		}
 	}
 </script>

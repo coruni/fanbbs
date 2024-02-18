@@ -1,7 +1,11 @@
 <template>
 	<z-paging-swiper>
 		<template #top>
-			<u-navbar title="我的订单" autoBack placeholder></u-navbar>
+			<u-navbar title="我的订单" autoBack placeholder>
+				<view slot="right">
+					<u-button style="height: 50rpx;" shape="circle" @click="goBusiness()">商家订单</u-button>
+				</view>
+			</u-navbar>
 			<z-tabs :list="list" :current="tabIndex" :activeColor="'#ff0800'" ref="tab"
 				@change="tabIndex = $event"></z-tabs>
 		</template>
@@ -10,7 +14,7 @@
 			@transition="$refs.tab.setDx($event.detail.dx)">
 			<swiper-item v-for="(item,index) in list" :key="index">
 				<listItem :data="item" @address="orderId = $event.id;address = $event.address;showAddress = true"
-					@buy="orderId = $event.id;$refs.payMent.open()" ref="page"></listItem>
+					@buy="orderId = $event.id;$refs.payMent.open()" ref="page" :type="type"></listItem>
 			</swiper-item>
 		</swiper>
 		<uv-modal :showConfirmButton="false" ref="payMent" title="提示" width="500rpx">
@@ -151,6 +155,7 @@
 					address: '',
 					region: ''
 				},
+				type: false,
 
 			};
 		},
@@ -179,7 +184,7 @@
 					address: JSON.stringify(address)
 				}).then(res => {
 
-					if (res.data.code) {
+					if (res.data.code == 200) {
 						this.$refs.page[this.tabIndex].reload()
 						this.orderId = 0;
 					}
@@ -190,7 +195,7 @@
 				this.$http.post('/shop/buy', {
 					id: this.orderId,
 				}).then(res => {
-					if (res.data.code) {
+					if (res.data.code == 200) {
 						uni.$u.toast('已下单，请等待商家配送')
 						this.showPayment = true;
 						this.orderId = 0;
@@ -200,6 +205,9 @@
 					this.$refs.payMent.close()
 				})
 			},
+			goBusiness(){
+				this.$Router.push({name:"business"})
+			}
 
 		}
 	}

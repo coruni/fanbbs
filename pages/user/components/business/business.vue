@@ -6,9 +6,9 @@
 				<view style="padding: 30rpx;background: white;border-radius: 20rpx;margin-bottom: 20rpx;">
 					<u-row style="margin-bottom: 20rpx;" justify="space-between">
 						<u-row>
-							<u-avatar size="30" :src="item.bossInfo.avatar"></u-avatar>
+							<u-avatar size="30" :src="item.buyerInfo.avatar"></u-avatar>
 							<text
-								style="font-weight: 600;margin-left: 20rpx;">{{item.bossInfo.screenName?item.bossInfo.screenName:item.bossInfo.name}}</text>
+								style="font-weight: 600;margin-left: 20rpx;">{{item.buyerInfo.screenName?item.buyerInfo.screenName:item.buyerInfo.name}}</text>
 						</u-row>
 						<text
 							style="color: #ff0800;">{{item.paid&&!item.isTracking?'待发货':item.paid &&item.isTracking?'待收货':'待支付'}}</text>
@@ -29,33 +29,23 @@
 							<text style="font-size: 30rpx;color: #999;">{{item.specs.name}}</text>
 						</view>
 					</u-row>
+					<view style="margin-top: 40rpx;">
+						<text>订单号：{{item.orders}}</text>
+					</view>
 					<!-- 底部控件 -->
 					<view style="margin-top: 60rpx;">
 						<u-row justify="space-between">
 							<text style="font-size: 28rpx;color: #999;">更多</text>
-							<view>
-								<u-row v-if="!item.paid">
-									<u-button shape="circle" plain style="height: 60rpx;"
-										@click="$emit('address',item)">修改地址</u-button>
-									<u-button shape="circle" color="#ff0800" style="height: 60rpx;margin-left: 20rpx;"
-										@click="$emit('buy',item)">继续支付</u-button>
+							<u-col :span="8">
+								<u-row v-if="item.paid" sty>
+									<u-button shape="circle" color="#ff0800" plain
+										style="height: 60rpx;margin-right: 20rpx;">联系买家</u-button>
+									<u-button shape="circle" :color="item.isTracking?'#ccc':'#ff0800'"
+										style="height: 60rpx;margin-left: 20rpx;"
+										@click="goOrderDetail(item.id)">{{item.isTracking?'已发货':'去发货'}}</u-button>
 								</u-row>
-								<u-row v-if="item.paid && item.isTracking">
-									<u-button shape="circle" plain style="height: 60rpx;">查看物流</u-button>
-									<u-button shape="circle" plain style="height: 60rpx;margin-left: 20rpx;"
-										@click="goPrivate(item.bossInfo)">联系卖家</u-button>
-									<u-button shape="circle" color="#ff0800"
-										style="height: 60rpx;margin-left: 20rpx;">确认收货</u-button>
-								</u-row>
-								<u-row v-if="item.paid && !item.isTracking">
-									<u-button shape="circle" plain style="height: 60rpx;"
-										@click="goPrivate(item.bossInfo)">联系卖家</u-button>
-									<u-button shape="circle" color="#ff0800"
-										style="height: 60rpx;margin-left: 20rpx;">再来一单</u-button>
-								</u-row>
-							</view>
+							</u-col>
 						</u-row>
-
 					</view>
 
 				</view>
@@ -66,21 +56,19 @@
 
 <script>
 	export default {
-		name: 'listItem',
+		name: 'businessItem',
 		props: {
 			data: {
 				type: Object,
 				default: null,
 			},
-			
+
 		},
-		
+
 		data() {
 			return {
 				list: [],
 				showPayment: false,
-				reType: false,
-
 			}
 		},
 		methods: {
@@ -93,27 +81,36 @@
 				this.$http.post('/shop/orderList', {
 					page,
 					limit,
+					type: 1,
 					params: JSON.stringify(searchParams),
 				}).then(res => {
-					
-					this.$refs.paging.complete(res.data.data.data)
+					console.log(res)
+					if (res.data.code == 200) {
+						this.$refs.paging.complete(res.data.data.data)
+					}
+				}).catch(err => {
+					this.$refs.paging.complete(false)
 				})
 			},
 			reload() {
 				this.$refs.paging.reload()
 			},
-			goPrivate(data) {
+			goOrderDetail(id) {
 				this.$Router.push({
-					path: '/pages/notice/private',
+					path: '/pages/shop/order',
 					query: {
-						id: data.uid,
-						nickname: data.screenName?data.screenName:data.name
+						id,
+						tracking: 1
 					}
 				})
-			},
+			}
+
 		}
 	}
 </script>
 
 <style>
+	page {
+		background: #f7f7f7;
+	}
 </style>

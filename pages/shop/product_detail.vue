@@ -58,9 +58,9 @@
 				<u-row justify="space-between" style="flex-wrap: nowrap;">
 					<u-col span="6">
 						<u-row>
-							<u-avatar :src="info.bossInfo&& info.bossInfo.avatar" size="36"></u-avatar>
+							<u-avatar :src="info && info.bossInfo && info.bossInfo.avatar" size="36"></u-avatar>
 							<text style="margin-left: 20rpx;font-weight: 600;font-size: 28rpx;"
-								class="u-line-1">{{info.bossInfo&&info.bossInfo.screenName}}</text>
+								class="u-line-1">{{info.bossInfo&&info.bossInfo.screenName?info.bossInfo.screenName:info.bossInfo && info.bossInfo.name}}</text>
 						</u-row>
 					</u-col>
 					<u-col span="6">
@@ -255,14 +255,15 @@
 			...mapState(['userInfo'])
 		},
 		created() {
-			this.address = this.$store.state.userInfo.address
+			if(this.$store.state.userInfo.address!=null){
+				this.address = this.$store.state.userInfo.address
+			}
 		},
 		methods: {
 			getData(id) {
 				this.$http.get('/shop/info', {
 					params: {
 						id,
-
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
@@ -317,13 +318,11 @@
 			saveAddress() {
 				let address = this.address
 				address.address = address.region + address.detailAddress
-				this.$http.post('/user/userEdit', {
-					params: JSON.stringify({
-						address: address
-					})
+				this.$http.post('/user/update', {
+					address:JSON.stringify(address)
 				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
+					
+					if (res.data.code==200) {
 						uni.$u.toast('已设置地址')
 					}
 				})

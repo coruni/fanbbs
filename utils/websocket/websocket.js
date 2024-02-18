@@ -7,15 +7,16 @@ class websocketUtil {
 		this.timeout= time //多少秒执行检测
 		this.heartbeatInterval= null //检测服务器端是否还活着
 		this.reconnectTimeOut= null //重连之后多久再次重连
-
+		
 		try {
 			return this.connectSocketInit()
 		} catch (e) {
-			console.log('catch');
+			console.log(e);
 			this.is_open_socket = false
 			this.reconnect();
 		}
 	}
+	
 
 	// 进入这个页面的时候创建websocket连接【整个页面随时使用】
 	connectSocketInit() {

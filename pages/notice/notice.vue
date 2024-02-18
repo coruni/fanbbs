@@ -1,13 +1,14 @@
 <template>
 	<view>
-		<z-paging @query="getData" v-model="messages" ref="paging" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" :auto-scroll-to-top-when-reload="false">
+		<z-paging @query="getData" v-model="messages" ref="paging" @onRefresh="onRefresh"
+			:auto-clean-list-when-reload="false" :auto-scroll-to-top-when-reload="false">
 			<template #top>
 				<u-navbar placeholder title="消息通知" autoBack>
 					<view slot="left">
 						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 					</view>
 				</u-navbar>
-				
+
 			</template>
 
 			<view style="margin: 30rpx;">
@@ -19,7 +20,8 @@
 						</view>
 						<text style="margin-left:20rpx">财务通知</text>
 					</u-row>
-					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="$store.state.noticeNum.finances"></i>
+					<i style="background: red;padding: 8rpx;border-radius: 10rpx;"
+						v-if="$store.state.noticeNum.finances"></i>
 				</u-row>
 				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('systems')">
 					<u-row>
@@ -29,7 +31,8 @@
 						</view>
 						<text style="margin-left:20rpx">系统通知</text>
 					</u-row>
-					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="$store.state.noticeNum.systems"></i>
+					<i style="background: red;padding: 8rpx;border-radius: 10rpx;"
+						v-if="$store.state.noticeNum.systems"></i>
 				</u-row>
 				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('comments')">
 					<u-row>
@@ -39,7 +42,8 @@
 						</view>
 						<text style="margin-left:20rpx">评论通知</text>
 					</u-row>
-					<i style="background: red;padding: 8rpx;border-radius: 10rpx;" v-if="$store.state.noticeNum.comments"></i>
+					<i style="background: red;padding: 8rpx;border-radius: 10rpx;"
+						v-if="$store.state.noticeNum.comments"></i>
 				</u-row>
 
 				<block v-for="(item, index) in messages" :key="index">
@@ -70,8 +74,7 @@
 			}
 		},
 		created() {
-			if (this.$store.state.hasLogin) {
-			}
+			if (this.$store.state.hasLogin) {}
 			uni.$on('login', data => {
 				this.$refs.paging.reload()
 			})
@@ -86,7 +89,7 @@
 						limit,
 					}
 				}).then(res => {
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
 				})
@@ -96,8 +99,8 @@
 					path: '/pages/notice/private',
 					query: {
 						id: data.id,
-						receive_id:data.userInfo.uid,
-						nickname: data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name
+						receiver_id: data.userInfo.uid,
+						nickname: data.userInfo.screenName ? data.userInfo.screenName : data.userInfo.name
 					}
 				})
 			},
@@ -110,10 +113,9 @@
 
 			},
 			getNoticeNum() {
-				this.$http.get('/user/noticeNum', {
-				}).then(res => {
-					if (res.data.code==200) {
-						this.$store.commit('setNoticeNum',res.data.data)
+				this.$http.get('/user/noticeNum', {}).then(res => {
+					if (res.data.code == 200) {
+						this.$store.commit('setNoticeNum', res.data.data)
 					}
 				})
 			},

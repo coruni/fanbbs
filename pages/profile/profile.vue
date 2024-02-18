@@ -229,7 +229,7 @@
 				this.$Router.push({
 					path: '/pages/notice/private',
 					query: {
-						id: data.uid,
+						receiver_id: data.uid,
 						nickname: data.screenName?data.screenName:data.name
 					}
 				})

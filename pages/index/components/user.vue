@@ -152,13 +152,7 @@
 				</view>
 			</block>
 			<!-- 管理面板 -->
-			<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;"
-				v-if="userInfo && userInfo.group =='administrator'">
-				<u-row customStyle="padding:30rpx" @click="goPage('manage')">
-					<i class="ess icon-settings_1_line" style="font-size: 40rpx;"></i>
-					<text style="margin-left:20rpx;font-weight: 600;">管理面板</text>
-				</u-row>
-			</view>
+			
 			<view style="position: fixed;bottom: 0; width: 70vw;">
 				<view style="margin: 20rpx;background: #fff;border-radius: 20rpx;padding: 20rpx;">
 					<u-row justify="space-between">
