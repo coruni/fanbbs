@@ -284,6 +284,35 @@
 				"enablePullDownRefresh" : false
 			},
 			"name":"business"
+		},
+		{
+			"path" : "pages/user/setting/setting",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"setting"
+		},
+		{
+			"path" : "pages/user/setting/account",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"account",
+			"perm":"login"
+		},
+		{
+			"path" : "pages/user/setting/destroy",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"destroy",
+			"perm":"login"
 		}
 	],
 	"globalStyle": {

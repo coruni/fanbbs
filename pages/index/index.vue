@@ -10,8 +10,7 @@
 		<!-- 底部导航栏 -->
 		<template #bottom>
 			<view style="background:white;padding:20rpx;
-					z-index:999;
-					border-top:#f7f7f7 solid 1rpx">
+					z-index:999;">
 				<u-row justify="space-between">
 					<block v-for="(item,index) in tabbar" :key="index">
 						<u-row customStyle="flex-direction:column" v-if="index!=4">
@@ -23,12 +22,11 @@
 									:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
 							</view>
 						</u-row>
-						<view v-else @tap.stop="tabbarTap(index)">
-							<u-avatar :src="$store.state.userInfo.avatar" size="28"
-								customStyle="border:4rpx solid #ff0800"
-								:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
-						</view>
 					</block>
+					<view @tap.stop="tabbarTap(4)">
+						<u-avatar :src="$store.state.userInfo.avatar" size="28" customStyle="border:4rpx solid #ff0800"
+							:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
+					</view>
 				</u-row>
 			</view>
 
@@ -218,13 +216,13 @@
 			}
 		},
 		created() {
-			
+
 		},
 		onReady() {},
 		methods: {
 			shareTap,
 			filterHtml,
-			
+
 			animationfinish(data) {
 				this.topTabIndex = data.detail.current
 			},

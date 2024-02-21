@@ -16,7 +16,7 @@
 						</u-row>
 					</view>
 					<u-row slot="right">
-						<i class="ess icon-settings_1_line" :style="{color:opacity>0.4? 'black':'white'}"
+						<i class="ess icon-menu_line" :style="{color:opacity>0.4? 'black':'white'}"
 							style="font-size: 44rpx;margin-right: 20rpx;" @click="showRightMenu =true"></i>
 					</u-row>
 				</u-navbar>
@@ -152,7 +152,6 @@
 				</view>
 			</block>
 			<!-- 管理面板 -->
-			
 			<view style="position: fixed;bottom: 0; width: 70vw;">
 				<view style="margin: 20rpx;background: #fff;border-radius: 20rpx;padding: 20rpx;">
 					<u-row justify="space-between">
@@ -166,10 +165,10 @@
 								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">反馈</text>
 						</u-row>
-						<u-row style="flex-direction: column;" justify="center">
-							<i class="ess icon-headphone_line"
+						<u-row style="flex-direction: column;" justify="center" @click="goPage('setting')">
+							<i class="ess icon-settings_1_line"
 								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
-							<text style="font-size: 26rpx;margin-top: 10rpx;">客服</text>
+							<text style="font-size: 26rpx;margin-top: 10rpx;">设置</text>
 						</u-row>
 					</u-row>
 				</view>
