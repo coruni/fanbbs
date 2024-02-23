@@ -227,7 +227,6 @@
 						</u-row>
 					</view>
 				</view>
-
 			</view>
 		</u-popup>
 
@@ -313,7 +312,7 @@
 						{
 							name: '兑换中心',
 							icon: 'icon-coin_2_line',
-							path: '',
+							path: 'exchange',
 						},
 						{
 							name: '商城',
@@ -360,10 +359,10 @@
 						path: 'shop',
 					},
 					{
-						name: '兑换中心',
+						name: '兑换中心',	
 						icon: 'heart',
 						description: '周边积分兑换',
-						path: '',
+						path: 'exchange',
 					},
 					{
 						name: '我的钱包',

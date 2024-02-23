@@ -85,7 +85,7 @@
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
-					<u-sticky bgColor="#fff" offsetTop="60">
+					<u-sticky bgColor="#fff" offsetTop="65">
 						<z-tabs ref="tabs" :list="tabs" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
 							active-color="#ff0800" :active-style="{color:'#303133',fontWeight:'bold'}"
 							bar-animate-mode="worm"></z-tabs>

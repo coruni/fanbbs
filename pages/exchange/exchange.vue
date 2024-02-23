@@ -1,17 +1,15 @@
 <template>
 	<z-paging ref="paging" v-model="product" @query="getData">
 		<template #top>
-			<u-navbar :title="appInfo && appInfo.currencyName+'商城'" bgColor="transparent" placeholder autoBack>
+			<u-navbar title="兑换中心" bgColor="transparent" placeholder autoBack>
 				<view slot="left" style="display:flex;align-items: center;">
 					<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 				</view>
 				<view slot="right">
-					<i class="ess icon-search_3_line" style="font-size: 40rpx;"
-						@click="showSearch= !showSearch"></i>
+					<i class="ess icon-search_3_line" style="font-size: 40rpx;" @click="showSearch= !showSearch"></i>
 				</view>
 			</u-navbar>
 		</template>
-	
 		<uv-waterfall ref="waterfall" v-model="product" :add-time="10" :left-gap="leftGap" :rightGap="rightGap"
 			:column-gap="columnGap" @changeList="changeList">
 			<!-- 第一列数据 -->
@@ -19,21 +17,23 @@
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
 					<view v-for="(item,index) in list1" :key="item.id" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
-						@click="goProduct(item)">
-						<image :src="item.imgurl&&item.imgurl[0]" mode="widthFix"
+						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;">
+
+						<image :src="item.detail.image" mode="widthFix"
 							:style="{width:item.width+'px',maxHeight:item.height>720?720:item.height+'px'}"
-							style="border-radius: 20rpx 20rpx 0 0 ;">
+							style="border-radius: 20rpx 20rpx 0 0 ;" v-if="item.detail.type">
 						</image>
+						<view style="text-align: center;padding: 30rpx;" v-else>
+							<view :style="{background:item.detail.background,color:item.detail.color}">
+								<text>{{item.detail.name}}</text>
+							</view>
+						</view>
 						<view style="margin: 20rpx;">
-							<text class="u-line-2">{{item.title}}</text>
+							<text class="u-line-2">{{item.name}}</text>
 							<view style="margin-top: 20rpx;display: flex;justify-content: space-between;">
 								<view style="display: flex;align-items: baseline;color: red;">
 									<i class="ess icon-coin_line" style="font-size: 26rpx;margin-right: 10rpx;"></i>
 									<text>{{item.price}}</text>
-								</view>
-								<view style="font-size: 26rpx;">
-									<text>剩余{{item.num}}件</text>
 								</view>
 							</view>
 						</view>
@@ -45,23 +45,24 @@
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
 					<view v-for="(item,index) in list2" :key="item.id" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
-						@click="goProduct(item)">
-						<image :src="item.imgurl && item.imgurl[0]" mode="widthFix"
+						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;">
+
+						<image :src="item.detail.image" mode="widthFix"
 							:style="{width:item.width+'px',maxHeight:item.height>720?720:item.height+'px'}"
-							style="border-radius: 20rpx 20rpx 0 0 ;">
+							style="border-radius: 20rpx 20rpx 0 0 ;" v-if="item.detail.type">
 						</image>
+						<view style="text-align: center;padding: 30rpx;" v-else>
+							<view :style="{background:item.detail.background,color:item.detail.color}">
+								<text>{{item.detail.name}}</text>
+							</view>
+						</view>
 						<view style="margin: 20rpx;">
-							<text class="u-line-2">{{item.title}}</text>
+							<text class="u-line-2">{{item.name}}</text>
 							<view style="margin-top: 20rpx;display: flex;justify-content: space-between;">
 								<view style="display: flex;align-items: baseline;color: red;">
 									<i class="ess icon-coin_line" style="font-size: 26rpx;margin-right: 10rpx;"></i>
 									<text>{{item.price}}</text>
 								</view>
-								<view style="font-size: 26rpx;">
-									<text>剩余{{item.num}}件</text>
-								</view>
-	
 							</view>
 						</view>
 					</view>
@@ -106,31 +107,23 @@
 
 		methods: {
 			getData(page, limit) {
-				this.$http.get('/shop/list', {
+				this.$http.get('/exchange/list', {
 					params: {
 						page,
 						limit,
 					}
 				}).then(res => {
-					
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
-				}).catch(err=>{
+				}).catch(err => {
 					this.$refs.paging.complete(false)
 				})
 			},
 			changeList(e) {
 				this[e.name].push(e.value);
 			},
-			goProduct(data) {
-				this.$Router.push({
-					path: '/pages/shop/product_detail',
-					query: {
-						id: data.id
-					}
-				})
-			}
+			
 		}
 
 	}
@@ -143,6 +136,6 @@
 	}
 
 	page {
-		background: #f9f9f9;
+		background: #f7f7f7;
 	}
 </style>

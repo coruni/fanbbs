@@ -30,23 +30,25 @@
 				</view>
 			</view>
 		</view>
-		<u-row customStyle="margin-top: 20rpx;flex-wrap:wrap;">
-			<block v-for="(item,index) in data.tag" :key="index">
-				<view style="
-					font-size: 26rpx;
-					background:#ff08001e;
-					color: #ff0800;
-					padding:8rpx 14rpx;
-					border-radius: 500rpx;
-					margin-right: 10rpx;
-					margin-top: 10rpx;
-					font-size: 26rpx;
-					">
-					<i class="ess icon-hashtag_line" style="font-size: 26rpx;"></i>
-					<text>{{item.name}}</text>
-				</view>
-			</block>
-		</u-row>
+		<view style="margin-top: 20rpx;">
+			<u-row style="flex-wrap:wrap;">
+				<block v-for="(item,index) in data.tag" :key="index">
+					<view style="
+						font-size: 26rpx;
+						background:#ff08001e;
+						color: #ff0800;
+						padding:8rpx 14rpx;
+						border-radius: 500rpx;
+						margin-right: 10rpx;
+						margin-top: 10rpx;
+						font-size: 26rpx;
+						">
+						<i class="ess icon-hashtag_line" style="font-size: 26rpx;"></i>
+						<text>{{item.name}}</text>
+					</view>
+				</block>
+			</u-row>
+		</view>
 
 	</view>
 </template>

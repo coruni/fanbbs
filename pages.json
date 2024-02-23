@@ -313,6 +313,15 @@
 			},
 			"name":"destroy",
 			"perm":"login"
+		},
+		{
+			"path" : "pages/exchange/exchange",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"exchange"
 		}
 	],
 	"globalStyle": {

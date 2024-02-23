@@ -77,7 +77,7 @@
 		</u-sticky>
 		<!-- #endif -->
 		<!-- #ifdef APP -->
-		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'" offsetTop="60">
+		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'" offsetTop="65">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
 				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent" :active-style="{fontWeight:600}"></z-tabs>
 		</u-sticky>
