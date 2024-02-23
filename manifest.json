@@ -1,9 +1,9 @@
 {
-    "name" : "Qo萝",
+    "name" : "不正常萝莉研究所",
     "appid" : "__UNI__GBA3B19B",
     "description" : "",
-    "versionName" : "1.3.1",
-    "versionCode" : 31,
+    "versionName" : "1.3.2",
+    "versionCode" : 32,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -18,9 +18,9 @@
             "mode" : "adjustResize"
         },
         "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
+            "alwaysShowBeforeRender" : false,
             "waiting" : true,
-            "autoclose" : true,
+            "autoclose" : false,
             "delay" : 0
         },
         "compatible" : {
@@ -135,6 +135,13 @@
                         "spotlight@3x" : "unpackage/res/icons/120x120.png"
                     }
                 }
+            },
+            "splashscreen" : {
+                "androidStyle" : "default",
+                "android" : {
+                    "xxhdpi" : "C:/Users/Amiya/Desktop/start.png"
+                },
+                "useOriginalMsgbox" : false
             }
         },
         "nvueCompiler" : "uni-app"

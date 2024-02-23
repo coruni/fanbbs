@@ -6,6 +6,12 @@ import {
 import store from './store';
 
 const router = createRouter({
+	APP: {
+		launchedHook: () => {
+			plus.navigator.closeSplashscreen();
+
+		}
+	},
 	platform: process.env.VUE_APP_PLATFORM,
 	routerErrorEach: ({
 		type,
