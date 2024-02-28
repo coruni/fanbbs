@@ -1,7 +1,6 @@
 <template>
 	<view style="margin-top: 10rpx;">
 		<view v-if="data.opt&&data.opt.files[0].link" style="margin-top: 20rpx;">
-
 			<view style="margin-top: 10rpx;background: #f7f7f7;border-radius: 20rpx;padding: 20rpx;">
 				<view style="margin-bottom: 10rpx;">
 					<i class="ess icon-download_line" style="color: #ff0800;font-size: 34rpx;"></i>
@@ -21,15 +20,22 @@
 									<u-button shape="circle" @click="copy(item.password,'提取码')">提取码</u-button>
 								</view>
 								<view>
-									<u-button shape="circle" style="margin-left: 10rpx;" @click="copy(item.unzipPass,'解压密码')">解压密码</u-button>
+									<u-button shape="circle" style="margin-left: 10rpx;"
+										@click="copy(item.unzipPass,'解压密码')">解压密码</u-button>
 								</view>
 							</u-row>
 						</u-row>
-						
+
 					</block>
 				</view>
 			</view>
 		</view>
+		<block v-if="data.isHide">
+			<view style="border-radius: 20rpx;border: #ff8800 1rpx dotted;text-align: center;padding: 30rpx;"
+				@click="$emit('hideFilesTap',true)">
+				<text style="color: #ff8800;">有隐藏的文件，请支付后查看</text>
+			</view>
+		</block>
 		<view style="margin-top: 20rpx;">
 			<u-row style="flex-wrap:wrap;">
 				<block v-for="(item,index) in data.tag" :key="index">
@@ -84,8 +90,8 @@
 				}
 			},
 			copy(data, name) {
-				if(!data){
-					uni.$u.toast(name+'暂时没有')
+				if (!data) {
+					uni.$u.toast(name + '暂时没有')
 					return;
 				}
 				uni.setClipboardData({
@@ -96,7 +102,7 @@
 					}
 				})
 			},
-			
+
 		}
 	}
 </script>

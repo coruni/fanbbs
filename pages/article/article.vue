@@ -41,7 +41,7 @@
 				</articleHeader>
 				<articleContent :data="article" :autoPreview="isScroll" @ready="loading = false" @hideTap="hideTap">
 				</articleContent>
-				<articleFooter :data="article"></articleFooter>
+				<articleFooter :data="article" @hideFilesTap="showPay = $event"></articleFooter>
 			</view>
 			<!-- 评论区 -->
 			<u-gap height="6" bgColor="#f9f9f9"></u-gap>
