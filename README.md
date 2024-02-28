@@ -1,4 +1,7 @@
 
+# 注意！！
+搭建教程不完整 请加入QQ群寻求帮助或帮助我们完善文档
+QQ群：869350741
 ## 感谢
 排名不分先后
 -  uni-simple-router [开发文档](https://v2.hhyang.cn/v2/start/quickstart.html)
