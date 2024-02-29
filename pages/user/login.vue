@@ -87,7 +87,7 @@
 			<u-row justify="center">
 				<u-row justify="space-between" customStyle="flex-basis:40%">
 					<block v-for="(item,index) in loginBtn" :key="index">
-						<u-row customStyle="flex-direction:column">
+						<u-row customStyle="flex-direction:column" @click="item.provider=='qq'?QQlogin():null">
 							<u-icon :name="item.icon" size="30" color="white"
 								:customStyle="{padding:10+'rpx',background:item.color,borderRadius:50+'rpx'}"></u-icon>
 							<text style="margin-top: 10rpx;">{{item.name}}</text>
@@ -365,12 +365,24 @@
 					})
 				}
 			},
-
-			start() {
+			async QQlogin() {
+				let data = await this.getQQLoginInfo()
 
 			},
-			end() {
-
+			getQQLoginInfo() {
+				return new Promise((resolve, reject) => {
+					uni.login({
+						provider: 'qq',
+						success: (res) => {
+							uni.getUserInfo({
+								provider:'qq',
+								success: (info) => {
+									console.log(info)
+								}
+							})
+						}
+					})
+				})
 			}
 
 		}

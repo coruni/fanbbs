@@ -239,27 +239,6 @@
 				v-if="!uploadErr.status"></u-line-progress>
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 		</u-modal>
-		<uv-modal ref="chooseFrame" :showConfirmButton="false" :showCancelButton="false"
-			@close="videoInfo.poster?'':videoInfo.poster = videoInfo.frame[0].url" title="选择视频封面"
-			:closeOnClickOverlay="true" :zIndex="50">
-			<view style="display: flex;flex-wrap: wrap;justify-content: center;flex: 1;">
-				<block v-for="(item,index) in videoInfo.frame" :key="index">
-					<view style="position: relative;top: 0;">
-						<image :src="item.url" mode="aspectFill" @click="preview(videoInfo.frame,index)"
-							style="width: 140rpx;height: 140rpx;margin: 10rpx;border-radius: 10rpx;"></image>
-						<view
-							style="position: absolute;bottom:22rpx;right:8rpx;background-color: #fff;height:40rpx;width: 40rpx;text-align: center;border-radius: 10rpx 0 10rpx 0;box-shadow: -2px -2px 2px #0000001e;"
-							@click="videoInfo.poster = item">
-							<u-icon name="checkmark" color="#ff0800" size="18"
-								v-show="videoInfo.poster&&videoInfo.poster.url == item.url"></u-icon>
-						</view>
-					</view>
-				</block>
-				<u-button text="添加视频" color="#ff0800" shape="circle" @click="insertVideo()"></u-button>
-			</view>
-
-			<view slot="confirmButton"></view>
-		</uv-modal>
 		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false"
 			width="300rpx">
 			<uv-loading-icon text="发布中..." mode="circle" color="#ff0800"></uv-loading-icon>
@@ -295,7 +274,22 @@
 						</block>
 					</view>
 				</scroll-view>
-
+			</view>
+		</u-popup>
+		<!-- 取消任务提示 -->
+		<u-popup :show="showCancelTask" :round="10" mode="center" @close="showCancelTask = false" customStyle="width:500rpx">
+			<view
+				style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 50rpx;">
+				<text style="font-size: 34rpx;">提示</text>
+				<view style="margin-top:30rpx">
+					<text>是否取消上传？</text>
+				</view>
+				<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+					<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+						@click="showCancelTask = false">取消</u-button>
+					<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+						@click="cancelTask()">确定</u-button>
+				</u-row>
 			</view>
 		</u-popup>
 	</view>
@@ -386,6 +380,8 @@
 				update: 0,
 				timer: null,
 				isSave: false,
+				uploadTask: null,
+				showCancelTask:false,
 			}
 		},
 		onReady() {
@@ -454,10 +450,15 @@
 			clearInterval(this.timer);
 		},
 		beforeRouteLeave(to, from, next) {
+			if (this.uploadTask) {
+				this.showCancelTask = true;
+				return;
+			}
 			if (this.showInsertImage || this.showCategory || this.showDraft) {
 				this.showInsertImage = false;
 				this.showCategory = false;
 				this.showDraft = false;
+
 				this.$refs.insertImage.close()
 				return
 			}
@@ -587,20 +588,24 @@
 						fileType: type, // 仅允许video/image/audio
 						filePath: url, //不支持多文件上传使用filePath
 						name: 'file',
-						getTask: (task,options) => {
-							task.onProgressUpdate((res)=>{
+						getTask: (task, options) => {
+							this.uploadTask = task
+							task.onProgressUpdate((res) => {
 								this.percentage = res.progress
 							})
 						}
 					}).then(res => {
 						if (res.data.code == 200) {
+							// 上传完成之后清除uploadTask;
 							resolve(res.data.data.url)
 						} else {
 							this.uploadErr.status = true
 							this.uploadErr.msg = res.data.msg
 							uni.hideLoading()
 						}
+						this.uploadTask = null;
 					}).catch(err => {
+						this.uploadTask = null;
 						this.uploadErr.status = true
 						this.uploadErr.msg = err.data.msg
 					})
@@ -628,7 +633,7 @@
 				})
 			},
 			save() {
-				if(this.isSave) return;
+				if (this.isSave) return;
 				if (this.article.title < 4) {
 					uni.$u.toast('标题太短')
 					this.isSave = false;
@@ -757,7 +762,7 @@
 				})
 			},
 			async insertVideo() {
-				
+
 				let file = await this.formatImage(this.videoInfo.poster.base64);
 				let poster = await this.upload(file);
 				if (poster) {
@@ -785,7 +790,7 @@
 			formatTool(type, value) {
 				this.editorCtx.format(type, value)
 			},
-			
+
 			onEditorReady() {
 				// #ifdef MP-BAIDU
 				this.editorCtx = requireDynamicLib('editorLib').createEditorContext('editor');
@@ -909,18 +914,27 @@
 				});
 			},
 			insertDraft(data) {
-				
 				this.article = data
 				this.draftId = data.draftId
 				this.editorCtx.setContents({
 					html: this.article.text,
-
 					success: (res) => {
 						this.showDraft = false
 
 					}
 				})
-			}
+			},
+			// 取消上传请求
+			cancelTask() {
+				if (this.uploadTask) {
+					this.uploadTask.abort()
+					this.uploadTask = null;
+					this.showCancelTask = false;
+					this.uploadErr.msg= '取消上传'
+					this.uploadErr.status = true
+				}
+			},
+
 		}
 	}
 </script>
@@ -928,15 +942,15 @@
 	export default {
 		methods: {
 			async captures(videoPath) {
-			    let duration = await this.getDuration(videoPath)
-			    let frameTime = duration > 5000 ? 5000 : 2000 // 判断视频时长是否大于5秒，选择截取时刻
-			    const frame = await this.captureFrame(videoPath, frameTime / 1000)
-			    let list = [frame]
-			    
-			    this.$ownerInstance.callMethod('captureList', {
-			        list,
-			        duration
-			    })
+				let duration = await this.getDuration(videoPath)
+				let frameTime = duration > 5000 ? 5000 : 2000 // 判断视频时长是否大于5秒，选择截取时刻
+				const frame = await this.captureFrame(videoPath, frameTime / 1000)
+				let list = [frame]
+
+				this.$ownerInstance.callMethod('captureList', {
+					list,
+					duration
+				})
 			},
 			getDuration(videoPath) {
 				return new Promise(resolve => {
@@ -986,7 +1000,6 @@
 								url: URL.createObjectURL(blob),
 							})
 						}
-
 					})
 				})
 			},
