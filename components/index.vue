@@ -3,12 +3,12 @@
 		style="margin-bottom: 200rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" use-cache
 		:cache-key="`articleList_${mid}`">
 		<view style="margin: 20rpx;position: relative;top: 0;" v-if="swiper==0">
-			<u-swiper height="200" :list="swiperList" keyName="image" circular @click="swiperTap"
+			<u-swiper height="200" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10"></u-swiper>
 			<view
 				style="font-size: 24rpx;background: #ff0800a0;border-radius:20rpx 0rpx 20rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
-				v-if="swiperList.length">
-				<text style="color: #fff;">{{swiperIndex+1}}/{{swiperList.length}}</text>
+				v-if="$store.state.swiper.length">
+				<text style="color: #fff;">{{swiperIndex+1}}/{{$store.state.swiper.length}}</text>
 			</view>
 		</view>
 		<view style="margin: 30rpx;margin-top: 0;" v-if="$store.state.homepage.length>0 && swiper==0">
@@ -83,7 +83,6 @@
 				swiperIndex: 0,
 				content: [],
 				is_loaded: false,
-				swiperList: [],
 				data: null,
 				showMenu: false,
 				gutter: 40,
@@ -135,7 +134,7 @@
 							...item
 						});
 					});
-					this.swiperList = list;
+					this.$store.commit('setSwiper',list)
 				})
 			},
 			swiperTap(index) {

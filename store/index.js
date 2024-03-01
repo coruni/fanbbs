@@ -14,7 +14,8 @@ const store = new Vuex.Store({
 		appInfo: {},
 		noticeNum: {},
 		homepage: [],
-		tasks: {}
+		tasks: {},
+		swiper:[],
 	},
 	mutations: {
 		setToken(state, payload) {
@@ -76,6 +77,13 @@ const store = new Vuex.Store({
 			uni.reLaunch({
 				url: '/pages/index/index'
 			})
+		},
+		setSwiper(state,payload){
+			uni.setStorage({
+				key:'swiper',
+				data:payload,
+			})
+			state.swiper = payload
 		}
 	}
 })

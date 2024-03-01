@@ -4,7 +4,15 @@
 			<view slot="left"></view>
 		</u-navbar>
 		<view style="margin: 30rpx;">
-			<u-swiper radius="10" height="180"></u-swiper>
+			<view style="position: relative;top: 0;">
+				<u-swiper height="200" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
+					@change="swiperIndex = $event.current" radius="10"></u-swiper>
+				<view
+					style="font-size: 24rpx;background: #ff0800a0;border-radius:20rpx 0rpx 20rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
+					v-if="$store.state.swiper.length">
+					<text style="color: #fff;">{{swiperIndex+1}}/{{$store.state.swiper.length}}</text>
+				</view>
+			</view>
 			<u-row justify="space-between" style="margin-top: 20rpx;">
 				<text style="font-weight: 600;">板块</text>
 				<u-row style="color: #999;font-size: 28rpx;" @click="goCategoryList()">
@@ -16,7 +24,9 @@
 				<block v-for="(item,index) in categories" :key="index">
 					<u-col :span="5.8" @click="goCategory(item.mid)" style="margin-top: 30rpx;">
 						<u-row align="top">
-							<image :src="item.imgurl" mode="aspectFill" style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;"></image>
+							<image :src="item.imgurl" mode="aspectFill"
+								style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
+							</image>
 							<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
 								<text class="u-line-1">{{item.name}}</text>
 								<text style="color: #999;font-size: 28rpx;" class="u-line-1">{{item.description}}</text>
@@ -27,7 +37,7 @@
 			</u-row>
 		</view>
 	</view>
-		
+
 </template>
 
 <script>
@@ -47,14 +57,14 @@
 			return {
 				categories: [],
 				tabHeight: 720,
+				swiperIndex: 0,
 			}
 		},
 
 		created() {
 			this.tabHeight = uni.getSystemInfoSync().windowHeight - 44 - 60
 			this.getData()
-			this.$nextTick(() => {
-			}, 1)
+			this.$nextTick(() => {}, 1)
 		},
 		methods: {
 			getData(page, limit) {
@@ -67,7 +77,7 @@
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
-						this.categories =res.data.data.data
+						this.categories = res.data.data.data
 					}
 				})
 			},
@@ -82,6 +92,15 @@
 			goCategoryList() {
 				this.$Router.push({
 					name: 'categoryList'
+				})
+			},
+			swiperTap(index) {
+				uni.setStorageSync(`article_${this.$store.state.swiper[index].cid}`, this.$store.state.swiper[index])
+				this.$Router.push({
+					path: '/pages/article/article',
+					query: {
+						id: this.$store.state.swiper[index].cid
+					}
 				})
 			},
 		}
