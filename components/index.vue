@@ -161,7 +161,26 @@
 					plus.runtime.openWeb(data.page)
 					// #endif
 				}
-			}
+			},
+			getSwiper() {
+				this.$http.get('/article/articleList', {
+					params: {
+						params: JSON.stringify({
+							isswiper: 1
+						})
+					}
+				}).then(res => {
+					const data = res.data.data.data
+					let list = [];
+					data.forEach(item => {
+						item.image = item.images[0]
+						list.push({
+							...item
+						});
+					});
+					this.$store.commit('setSwiper',list)
+				})
+			},
 		}
 	}
 </script>

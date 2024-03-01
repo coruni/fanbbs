@@ -867,10 +867,10 @@
 					id: this.article.cid
 				}).then(res => {
 					if (res.data.code == 200) {
-						uni.$u.toast(res.data.msg)
-						this.showPay = false
 						this.getData()
 					}
+					uni.$u.toast(res.data.msg)
+					this.showPay = false
 				})
 			},
 			deleteArticle() {

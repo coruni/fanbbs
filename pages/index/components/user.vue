@@ -454,15 +454,10 @@
 			},
 
 			goLogout() {
-				uni.showLoading({
-					mask: true,
-					title: '断开主程序中...'
+				this.$store.commit('logout');
+				this.$Router.replaceAll({
+					path:'/pages/index/index'
 				})
-				setTimeout(() => {
-					this.$store.commit('logout')
-					uni.hideLoading()
-				}, 1600)
-
 			},
 			goProfile() {
 				this.$Router.push({
