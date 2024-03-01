@@ -15,7 +15,7 @@
 					<block v-for="(item,index) in tabbar" :key="index">
 						<u-row customStyle="flex-direction:column" v-if="index!=4">
 							<view style="position: relative;padding: 10rpx;" @tap.stop="tabbarTap(index)">
-								<i class="ess" :class="[item.icon]" style="font-size: 45rpx;"
+								<i class="ess" :class="[item.icon]" style="font-size: 48rpx;"
 									:style="{color: item.active ? '#ff0800' : ''}"></i>
 								<u-badge :isDot="true" bgColor="#ff0800c4" :offset="[12,7]" absolute
 									customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
@@ -34,18 +34,19 @@
 
 		<!-- 组件开始 -->
 		<u-popup :show="showPublish" @close="showPublish = false" customStyle="border-radius:20rpx 20rpx 0 0">
-			<view style="margin: 20rpx;">
-				<text>发布文章</text>
+			<view style="margin: 30rpx;">
+				<text style="font-weight:600">发布文章</text>
 				<u-row justify="space-around" customStyle="margin-top:30rpx">
 					<block v-for="(item,index) in publish" :key="index">
 						<view style="
 						display: flex;
 						flex-direction: column;
 						align-items: center;" @click="goPublish(item.path);showPublish=false">
-							<i class="ess" :class="item.icon" style="font-size: 40rpx;
+							<i class="ess" :class="item.icon" style="font-size: 48rpx;
 							background: #ff08004c;
 							border-radius: 50rpx;
 							display: inline-flex;
+							color:white;
 							padding: 20rpx;"></i>
 							<text style="margin-top: 20rpx;">{{item.name}}</text>
 						</view>

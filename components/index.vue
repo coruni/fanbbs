@@ -1,5 +1,5 @@
 <template>
-	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
+	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false" cache-mode="always"
 		style="margin-bottom: 200rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" use-cache
 		:cache-key="`articleList_${mid}`">
 		<view style="margin: 20rpx;position: relative;top: 0;" v-if="swiper==0">
@@ -91,7 +91,6 @@
 			};
 		},
 		created() {
-			this.getSwiper()
 			// 获取宽度
 
 			let systemInfo = uni.getSystemInfoSync()
@@ -110,6 +109,7 @@
 						order: this.mid ? 'isCircleTop desc,created desc' : 'istop desc, created desc',
 					}
 				}).then(res => {
+					
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data);
 						this.is_loaded = true
@@ -118,31 +118,13 @@
 					this.$refs.paging.complete(false)
 				})
 			},
-			getSwiper() {
-				this.$http.get('/article/articleList', {
-					params: {
-						params: JSON.stringify({
-							isswiper: 1
-						})
-					}
-				}).then(res => {
-					const data = res.data.data.data
-					let list = [];
-					data.forEach(item => {
-						item.image = item.images[0]
-						list.push({
-							...item
-						});
-					});
-					this.$store.commit('setSwiper',list)
-				})
-			},
+			
 			swiperTap(index) {
-				uni.setStorageSync(`article_${this.swiperList[index].cid}`, this.swiperList[index])
+				uni.setStorageSync(`article_${this.$store.state.swiper[index].cid}`, this.$store.state.swiper[index])
 				this.$Router.push({
 					path: '/pages/article/article',
 					query: {
-						id: this.swiperList[index].cid
+						id: this.$store.state.swiper[index].cid
 					}
 				})
 			},

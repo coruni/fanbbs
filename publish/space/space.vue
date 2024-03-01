@@ -230,7 +230,7 @@
 									this.$Router.back(1)
 								}, 800)
 							}
-							console.log(res)
+							
 						}).catch(err => {
 							uni.hideLoading();
 							uni.$u.toast(res.data.msg)

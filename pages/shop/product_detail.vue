@@ -304,7 +304,7 @@
 					type: 'gcj02',
 					geocode: true,
 					success: (res) => {
-						console.log(res)
+						
 						this.address.region = res.address.province + res.address.city + res.address.district
 						this.address.province = res.address.province
 						this.address.city = res.address.city

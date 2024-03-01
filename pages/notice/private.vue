@@ -118,7 +118,7 @@
 						type: 0,
 						order: 'created asc'
 					}).then(res => {
-						console.log(res)
+						
 						if (res.data.code === 200) {
 							this.$refs.paging.complete(res.data.data.data);
 						}

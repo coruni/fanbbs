@@ -400,7 +400,7 @@
 				this.$http.get('/comments/list', {
 					params
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
@@ -474,7 +474,7 @@
 				this.$http.post('/comments/like', {
 					id: this.comments[index].id
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
 						this.comments[index].isLike = !this.comments[index].isLike

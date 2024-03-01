@@ -526,7 +526,7 @@
 						id: id ? id : this.cid,
 					},
 				}).then(res => {
-					console.log(res)
+					
 					if (res.statusCode == 200) {
 						this.article = res.data.data
 						this.article.text = res.data.data && this.replaceEmoji(res.data.data.text)
@@ -614,7 +614,7 @@
 				this.$http.get('/comments/list', {
 					params
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						this.$refs.comments.complete(res.data.data.data)
 					}

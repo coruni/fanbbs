@@ -662,7 +662,7 @@
 				this.$http.get('/comments/list', {
 					params
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						this.$refs.comments.complete(res.data.data.data)
 					}
@@ -695,7 +695,7 @@
 						this.$http.post('/comments/add', {
 							...params
 						}).then(res => {
-							console.log(res)
+							
 
 							if (res.data.code == 200) {
 								uni.$u.toast('已发送~')

@@ -166,7 +166,7 @@
 				this.$http.post('/category/follow', {
 					id
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						this.info.isFollow = !this.info.isFollow
 					}

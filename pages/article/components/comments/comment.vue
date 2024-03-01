@@ -137,7 +137,7 @@
 				this.$http.post('/comments/like', {
 					id: this.data.id
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						this.data.isLike = !this.data.isLike
 						this.data.likes += this.data.isLike ? 1 : -1;

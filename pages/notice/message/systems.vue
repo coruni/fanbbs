@@ -41,7 +41,7 @@
 					limit,
 					type: 'system'
 				}).then(res => {
-					console.log(res)
+					
 					this.$refs.paging.complete(res.data.data.data)
 					setTimeout(() => {
 						this.loading = false
@@ -72,7 +72,7 @@
 				this.$http.post('/user/clearNum', {
 					type: 'system'
 				}).then(res => {
-					console.log(res)
+					
 				})
 			}
 		}

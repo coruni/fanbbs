@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<z-paging @query="getData" ref="paging" v-model="article" :refresher-enabled="false">
-			<view style="margin: 30rpx;">
+			<view style="margin: 30rpx;background: #fff;padding: 30rpx;border-radius: 20rpx;">
 				<text>相关帖子</text>
 			</view>
 			<block v-for="(item,index) in article" :key="index">
@@ -21,7 +21,11 @@
 								mode="aspectFill"></image>
 						</u-row>
 						<u-row justify="space-between" style="margin-top: 20rpx;">
-							<u-avatar :src="item.authorInfo.avatar" size="24"></u-avatar>
+							<u-row>
+								<u-avatar :src="item.authorInfo.avatar" size="24"></u-avatar>
+								<text style="margin-left: 20rpx;font-size: 28rpx;">{{item.authorInfo.screenName?item.authorInfo.screenName:item.authorInfo.name}}</text>
+							</u-row>
+							
 							<u-icon name="eye-fill" size="16" labelColor="#eee" color="#eee"
 								:label="item.views"></u-icon>
 						</u-row>
@@ -85,7 +89,7 @@
 						searchKey: this.key,
 					}
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						this.isLoaded = true
 						this.$refs.paging.complete(res.data.data.data)

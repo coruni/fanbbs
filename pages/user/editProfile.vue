@@ -135,7 +135,7 @@
 					filePath: url,
 					name: 'file'
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code==200) {
 						if (isAvatar) this.info.avatar = res.data.data.url;
 						else this.info.userBg = res.data.data.url;
@@ -151,7 +151,7 @@
 					avatar: this.info.avatar,
 					background: this.info.userBg
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code) {
 						this.getUserInfo()
 					}
@@ -164,7 +164,7 @@
 						id: this.userInfo.uid,
 					}
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code==200) {
 						this.$store.commit('setUser', res.data.data)
 						uni.$u.toast('资料已更新')

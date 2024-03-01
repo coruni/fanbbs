@@ -487,7 +487,7 @@
 					filePath: url,
 					name: 'file'
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						this.save(res.data.data.url)
 					}

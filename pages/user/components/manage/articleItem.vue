@@ -51,7 +51,7 @@
 					}
 
 				}).then(res => {
-					console.log(res)
+					
 					this.$refs.paging.complete(res.data.data)
 				})
 			}

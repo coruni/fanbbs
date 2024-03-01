@@ -17,12 +17,16 @@
 				this.$store.commit('setUser', uni.getStorageSync('user'));
 				this.$store.commit('setUserMeta', uni.getStorageSync('userMeta'));
 				this.$store.commit('loginStatus');
-				this.getNoticeNum();
-				this.getUserTasks()
 			}
+			// 启动开始请求的数据
 			setTimeout(() => {
 				this.getAppData()
-			}, 200)
+				if(token){
+					this.getNoticeNum();
+					this.getUserTasks();
+				}
+				this.getSwiper();
+			}, 1)
 		},
 		onShow: function() {
 			// #ifdef APP
@@ -36,7 +40,6 @@
 		},
 		methods: {
 			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
-
 			getNoticeNum() {
 				if (!store.state.hasLogin) return;
 				http.get('/user/noticeNum', {}).then(res => {
@@ -45,9 +48,27 @@
 					}
 				})
 			},
+			getSwiper() {
+				this.$http.get('/article/articleList', {
+					params: {
+						params: JSON.stringify({
+							isswiper: 1
+						})
+					}
+				}).then(res => {
+					const data = res.data.data.data
+					let list = [];
+					data.forEach(item => {
+						item.image = item.images[0]
+						list.push({
+							...item
+						});
+					});
+					this.$store.commit('setSwiper',list)
+				})
+			},
 			login() {
 				let account = uni.getStorageSync('account')
-				console.log(account, '账号信息')
 				if (!account) return;
 				http.get('/user/login', {
 					params: {
@@ -55,7 +76,6 @@
 						password: account.password
 					}
 				}).then(res => {
-					
 					if (res.data.code==200) {
 						this.setToken(res.data.data.token);
 						this.getUserInfo(res.data.data.uid);
@@ -68,19 +88,23 @@
 						// 还是登陆错误就到登录页面登录
 					}
 				}).catch(err => {
-					console.log(err)
+					
 				})
 			},
 			getUserInfo(uid) {
-				http.get('/user/userInfo', {
+				if (!uni.getStorageSync('token')) return;
+				this.$http.get('/user/userInfo', {
 					params: {
-						id: uid
-					}
+						id: uid?uid:this.$store.state.userInfo.uid,
+					},
 				}).then(res => {
-					console.log(res)
-					if (res.data.code) {
-						this.setUser(res.data.data);
+					
+					if (res.data.code == 200) {
+						this.$store.commit('setUser', res.data.data)
 					}
+			
+				}).catch(err => {
+					
 				})
 			},
 			getUserMeta() {

@@ -245,7 +245,7 @@
 				this.$http.post('/shop/order', {
 					id:this.id,
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						this.info = res.data.data
 						if (res.data.data.paid) this.showPayment = true;
@@ -259,7 +259,7 @@
 						id: this.$store.state.userInfo.uid
 					}
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 
 						this.$store.commit('setUser', res.data.data)

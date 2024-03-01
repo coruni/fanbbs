@@ -369,7 +369,7 @@
 						filePath: image,
 						name: 'file',
 					}).then(res => {
-						console.log(res)
+						
 						if (res.data.code==200) {
 							resolve(res.data.data.url)
 						} else {

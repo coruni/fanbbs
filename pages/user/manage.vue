@@ -282,7 +282,7 @@
 						opt: JSON.stringify(this.editCategory.opt)
 					})
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code) {
 						uni.$u.toast('保存成功')
 						if (!upload) {
@@ -314,7 +314,7 @@
 						opt: JSON.stringify(this.editCategory.opt)
 					})
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code) {
 						uni.$u.toast('创建成功')
 						setTimeout(() => {
@@ -356,7 +356,7 @@
 					filePath: url,
 					name: 'file'
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code) {
 						if (isAvatar) this.editCategory.imgurl = res.data.data.url;
 						else this.editCategory.opt.background = res.data.data.url;
@@ -395,7 +395,7 @@
 						isMd: 1,
 					}
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data) {
 						this.contentInfo = res.data
 						this.$refs.showContent.open();
@@ -415,7 +415,7 @@
 					}),
 					postStatus: this.editArticle.status
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code) {
 						uni.$u.toast(res.data.msg)
 						setTimeout(() => {

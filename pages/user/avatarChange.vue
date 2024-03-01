@@ -89,7 +89,7 @@
 						avatar: url,
 					})
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code) {
 						this.getUserInfo()
 						uni.$u.toast('资料已更新')

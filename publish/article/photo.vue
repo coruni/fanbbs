@@ -205,7 +205,7 @@
 						}),
 					}
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						let data = res.data.data.data;
 						for (let i in data) {
@@ -337,7 +337,7 @@
 						filePath: image,
 						name: 'file',
 					}).then(res => {
-						console.log(res)
+						
 						if (res.data.code == 200) {
 							this.images.push(res.data.data.url)
 							resolve(res.data.data.url)

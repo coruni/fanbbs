@@ -61,18 +61,22 @@
 			<view style="padding-bottom: 20rpx;">
 				<u-row justify="space-between">
 					<u-row justify="space-between" customStyle="flex:1">
-						<i class="ess icon-pic_line" style="font-size: 40rpx;" @click="chooseImage()"></i>
-						<i class="ess icon-emoji_line" style="font-size: 40rpx;" @click="showItem('emoji')"></i>
-						<i class="ess icon-font_line" style="font-size: 40rpx;" @click="showItem('format')"></i>
-						<i class="ess icon-play_circle_line" style="font-size: 40rpx;" @click="chooseVideo()"></i>
-						<i class="ess icon-add_line" style="font-size: 40rpx;" @click="showItem('more')"></i>
+						<i class="ess icon-pic_line" style="font-size: 48rpx;" @click="chooseImage()"></i>
+						<i class="ess icon-emoji_line" style="font-size: 48rpx;"
+							:class="{'button-color':itemName=='emoji'}" @click="showItem('emoji')"></i>
+						<i class="ess icon-font_line" :class="{'button-color':itemName=='format'}"
+							style="font-size: 48rpx;" @click="showItem('format')"></i>
+						<i class="ess icon-play_circle_line" style="font-size: 48rpx;" @click="chooseVideo()"></i>
+						<i class="ess icon-folder_3_line" :class="{'button-color':itemName=='more'}"
+							style="font-size: 48rpx;" @click="showItem('more')"></i>
+						<i class="ess icon-add_line" style="font-size: 48rpx;" @click="showAddMore= true"></i>
 					</u-row>
-					<view style="margin-left: 140rpx;">
-						<i class="ess icon-settings_1_line" style="font-size: 40rpx;" @click="showItem('setting')"></i>
+					<view style="margin-left: 120rpx;">
+						<i class="ess icon-settings_1_line" style="font-size: 48rpx;" @click="showItem('setting')"></i>
 					</view>
 				</u-row>
 			</view>
-			<view v-if="showPanel" :style="{height:panelHeight+'px'}">
+			<view v-if="showPanel" :style="{height:panelHeight+'px'}" :class="{'showPanel':showPanel}">
 				<!-- 表情 -->
 				<view v-show="itemName =='emoji'" style="height: 100%;">
 					<block v-for="(one,oneIndex) in emojiData" :key="oneIndex">
@@ -222,10 +226,14 @@
 					<text style="font-weight: bold;">推荐话题</text>
 					<scroll-view scroll-y style="flex:1;height: 55vh;;overflow-y: scroll;">
 						<block v-for="(item,index) in tags" :key="index">
-							<view @click="tagTap(item)">
+							<u-row @click="tagTap(item)" style="margin-bottom: 20rpx;">
+								<image v-if="item.imgurl" :src="item.imgurl" mode="aspectFill"
+									style="width: 60rpx;height: 60rpx;background: #f7f7f7;margin-right: 20rpx;border-radius: 20rpx;">
+								</image>
 								<text
 									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#ff0800':''}">{{item.name}}</text>
-							</view>
+							</u-row>
+
 						</block>
 					</scroll-view>
 				</view>
@@ -244,12 +252,14 @@
 			<uv-loading-icon text="发布中..." mode="circle" color="#ff0800"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
+		<!-- 插入图片 -->
 		<uv-modal ref="insertImage" :showConfirmButton="false" title="插入图片" :zIndex="100"
-			@close="showInsertImage = false">
+			@close="showInsertImage = false" :show="showInsertImage">
 			<view style="display: flex;flex-direction: column;width: 100%;">
 				<view>
-					<u-input v-model="images" border="bottom" customStyle="padding:10rpx 0rpx"
-						placeholder="https://"></u-input>
+					<u-input v-model="images" border="none"
+						style="padding:20rpx;border-radius: 100rpx;background: #f7f7f7;"
+						placeholder="http(s)://"></u-input>
 				</view>
 				<view style="margin-top: 30rpx;">
 					<u-button shape="circle" color="#ff0800" @click="insertImages()">插入</u-button>
@@ -257,6 +267,24 @@
 			</view>
 			<view slot="confirmButton"></view>
 		</uv-modal>
+		<!-- 插入链接 -->
+		<uv-modal ref="insertLink" :showConfirmButton="false" @close="showInsertLink = false" title="插入链接" :zIndex="100"
+			:show="showInsertLink">
+			<view style="width: 100%;display: flex;flex-direction: column;">
+				<view>
+					<u-input v-model="link.link" placeholder="http(s)://" border="none"
+						style="padding:20rpx;border-radius: 100rpx;background: #f7f7f7;"></u-input>
+				</view>
+				<u-gap height="10"></u-gap>
+				<u-input v-model="link.text" placeholder="链接文本" border="none"
+					style="padding:20rpx;border-radius: 100rpx;background: #f7f7f7;"></u-input>
+				<view style="margin-top: 30rpx;">
+					<u-button shape="circle" color="#ff0800" @click="insertLink()">插入链接</u-button>
+				</view>
+			</view>
+			<view slot="confirmButton"></view>
+		</uv-modal>
+
 		<!-- 草稿箱 -->
 		<u-popup :show="showDraft" mode="bottom" round="20" @close="showDraft = false" :closeable="true">
 			<u-gap height="30"></u-gap>
@@ -277,7 +305,8 @@
 			</view>
 		</u-popup>
 		<!-- 取消任务提示 -->
-		<u-popup :show="showCancelTask" :round="10" mode="center" @close="showCancelTask = false" customStyle="width:500rpx">
+		<u-popup :show="showCancelTask" :round="10" mode="center" @close="showCancelTask = false"
+			customStyle="width:500rpx">
 			<view
 				style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 50rpx;">
 				<text style="font-size: 34rpx;">提示</text>
@@ -292,6 +321,11 @@
 				</u-row>
 			</view>
 		</u-popup>
+		<!-- actionSheet -->
+		<u-action-sheet @select="selectTap" :actions="actions" :show="showAddMore" title="添加更多" closeOnClickOverlay
+			@close="showAddMore = false" :closeOnClickAction="true" round="10">
+
+		</u-action-sheet>
 	</view>
 </template>
 
@@ -381,7 +415,27 @@
 				timer: null,
 				isSave: false,
 				uploadTask: null,
-				showCancelTask:false,
+				showCancelTask: false,
+				showAddMore: false,
+				showInsertLink: false,
+				actions: [{
+						name: '插入外部图片',
+						type: 'picture'
+					},
+					{
+						name: '插入外部视频',
+						type: 'video'
+					},
+					{
+						name: '插入链接',
+						type: 'link'
+					}
+
+				],
+				link: {
+					link: '',
+					text: '',
+				},
 			}
 		},
 		onReady() {
@@ -452,15 +506,22 @@
 		beforeRouteLeave(to, from, next) {
 			if (this.uploadTask) {
 				this.showCancelTask = true;
+				this.$Router.$lockStatus = false
 				return;
 			}
-			if (this.showInsertImage || this.showCategory || this.showDraft) {
+			if (this.showInsertImage || this.showCategory || this.showDraft || this.showTag || this.showPanel || this
+				.showAddMore ||this.showInsertLink) {
 				this.showInsertImage = false;
 				this.showCategory = false;
 				this.showDraft = false;
-
-				this.$refs.insertImage.close()
-				return
+				this.showTag = false;
+				this.showPanel = false;
+				this.showAddMore = false;
+				this.showInsertLink = false;
+				this.$refs.insertImage.close();
+				this.$refs.insertLink.close();
+				this.$Router.$lockStatus = false
+				return;
 			}
 			next()
 		},
@@ -480,7 +541,7 @@
 						})
 					}
 				}).then(res => {
-					console.log(res)
+					
 					if (res.data.code == 200) {
 						for (let i in res.data.data.data) {
 							if (res.data.data.data[i].mid == 1) this.article.category = res.data.data.data[i];
@@ -618,7 +679,7 @@
 						filePath: image,
 						name: 'file',
 					}).then(res => {
-						console.log(res)
+						
 						if (res.data.code == 200) {
 							resolve(res.data.data.url)
 						} else {
@@ -913,6 +974,21 @@
 					}
 				});
 			},
+			insertLink() {
+				if (!this.link.link) {
+					uni.$u.toast('链接不可为空')
+					return;
+				}
+				this.editorCtx.setContents({
+					html: `<a href='${this.link.link}'>${this.link.text?this.link.text:this.link.link}</a>`,
+					success: () => {
+						this.link.link = '';
+						this.link.text = '';
+						this.showInsertLink = false;
+						this.$refs.insertLink.close();
+					}
+				})
+			},
 			insertDraft(data) {
 				this.article = data
 				this.draftId = data.draftId
@@ -930,10 +1006,23 @@
 					this.uploadTask.abort()
 					this.uploadTask = null;
 					this.showCancelTask = false;
-					this.uploadErr.msg= '取消上传'
+					this.uploadErr.msg = '取消上传'
 					this.uploadErr.status = true
 				}
 			},
+			selectTap(object) {
+				switch (object.type) {
+					case 'picture':
+						this.showInsertImage = true;
+						this.$refs.insertImage.open();
+						break;
+					case 'link':
+						this.showInsertLink = true;
+						this.$refs.insertLink.open()
+					default:
+						break;
+				}
+			}
 
 		}
 	}
@@ -1014,6 +1103,19 @@
 		color: #999;
 		min-height: 0rpx;
 	}
+	.icon-download_2_line:before {
+	  content: "\e685";
+	}
+	
+	.ql-container ::v-deep a{
+		text-decoration: none;
+		color:$c-primary;
+		&::before{
+			content:'🔗';
+			margin-right: 5rpx;
+		}
+	}
+	
 
 	.ql-container ::v-deep img {
 		margin: 20rpx auto;
@@ -1031,5 +1133,14 @@
 		object-fit: cover;
 		width: 100%;
 		height: 200px;
+	}
+
+	.button-color {
+		color: $c-primary;
+		transition: all 0.5s ease-out;
+	}
+
+	.showPanel {
+		transition: all 0.5s ease-out;
 	}
 </style>

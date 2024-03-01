@@ -7,8 +7,12 @@
 					<i class="ess icon-left_line" style="font-size: 60rpx;" @click=""></i>
 				</view>
 				<view slot="center" style="margin: 0 20rpx;flex:1;margin-left:100rpx">
-					<uv-search :showAction="false" v-model="search" actionText="搜索" :animation="true"
-						@search="searchTap = true"></uv-search>
+					<u-row>
+						<uv-search :showAction="false" v-model="search" actionText="搜索" :animation="true"
+							@search="searchTap = true"></uv-search>
+							<text @tap.stop="search?searchTap = true:null" style="margin-left: 30rpx;font-size: 30rpx;">搜索</text>
+					</u-row>
+					
 				</view>
 			</u-navbar>
 			<view v-if="searchTap">
@@ -19,7 +23,7 @@
 			</view>
 		</template>
 		<swiper style="height: 100%;" @transition="swiperTransition" @animationfinish="swiperAnimationfinish"
-			:current="tabsIndex" v-if="searchTap">
+			:current="tabsIndex" v-show="searchTap">
 			<swiper-item>
 				<allArticle ref="allarticle" :search="search">
 				</allArticle>
@@ -86,8 +90,8 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	page {
-		background: #f9f9f9;
+		background: #f7f7f7;
 	}
 </style>
