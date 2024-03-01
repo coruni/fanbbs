@@ -75,11 +75,17 @@
 							<text>编辑</text>
 						</u-button>
 						<u-gap></u-gap>
-						<u-button :plain="!$store.state.tasks.isSign"
-							:color="$store.state.tasks.isSign?'#ffe085':'#ff0800'" shape="circle"
+						<u-button plain v-if="!$store.state.tasks.isSign"
+							color="#ff0800" shape="circle"
 							customStyle="height:60rpx" @click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
-							<text>{{tasks && tasks.isSign?'已签到':'签到'}}</text>
+							<text>签到</text>
+						</u-button>
+						<u-button v-if="$store.state.tasks.isSign"
+							color="#ffe085" shape="circle"
+							customStyle="height:60rpx" @click="checkUp()">
+							<i class="ess icon-leaf_line"></i>
+							<text>已签到</text>
 						</u-button>
 					</view>
 				</u-row>
