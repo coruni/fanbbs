@@ -2,12 +2,28 @@
 # 注意！！
 搭建教程不完整 请加入QQ群寻求帮助或帮助我们完善文档
 QQ群：869350741
-## 感谢
-排名不分先后
--  uni-simple-router [开发文档](https://v2.hhyang.cn/v2/start/quickstart.html)
--  uviewui [开发文档](https://uviewui.com/components/intro.html)
--  RuleApi [开发文档](https://github.com/buxia97/ruleapi)
 
+## 计划
+1. 补齐分享功能
+2. 修正签到功能
+3. 完善回复弹出面板
+4. 优化资源下载面板占位格式
+5. 完成发布视频
+6. 优化关注页面
+7. 修正置顶图标
+8. 完成浏览历史
+9. 修复订单地址为空
+10. 完成兑换中心
+10. 完成我的钱包
+11. 完成设置
+
+## 文档
+
+[API](https://apifox.com/apidoc/shared-2a64a041-feee-44d9-afd3-0599ce660494)
+
+[uviewui](https://uviewui.com/components/intro.html)
+
+[架设文档]()
 ## 开发规范
 请Fork一份源码到自己存储桶上，确保自己的代码规范美观，需要合并请合并到Dev分支
 QQ交流群：869350741 

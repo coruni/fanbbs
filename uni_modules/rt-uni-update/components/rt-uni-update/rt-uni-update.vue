@@ -23,9 +23,9 @@
 				<view><text class="fs24">正在下载，请稍后 ({{downloadedSize}}/{{packageFileSize}}M)</text></view>
 			</view>
 			<view style="display: flex;flex-direction: row;flex:1;margin-top: 40rpx;" v-if="updateBtn">
-				<u-button plain color="#ff0800" shape="circle" style="margin-right: 10rpx;"
-					@click="cancel">取消</u-button>
-				<u-button color="#ff0800" shape="circle" style="margin-left: 10rpx;" @click="confirm">升级</u-button>
+				<u-button plain color="#ff0800" shape="circle" style="margin-right: 20rpx;"
+					@click="cancel" v-if="cancleBtn">取消</u-button>
+				<u-button color="#ff0800" shape="circle" @click="confirm">升级</u-button>
 			</view>
 		</view>
 

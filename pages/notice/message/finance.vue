@@ -79,7 +79,7 @@
 	}
 </script>
 
-<style scoped>
+<style >
 	page {
 		background: #f7f7f7;
 	}

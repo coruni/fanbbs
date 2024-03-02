@@ -29,10 +29,13 @@
 					<u-row>
 						<text
 							style="font-weight: 600;">{{data.authorInfo&& data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
-						<i v-if="data.authorInfo.level" :class="`level icon-lv-${data.authorInfo.level}`"
-							style="font-size: 50rpx; margin-left: 10rpx;"
-							:style="{ color: data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }">
-						</i>
+						<text
+							:style="{border:`${data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1]} solid 2rpx`,background:data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }"
+							style="font-size: 18rpx;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx;color: white;"
+							v-if="data.authorInfo.level">
+							Lv.{{data.authorInfo.level}}
+						</text>
+						
 					</u-row>
 					<text class="u-info u-line-1"
 						style="font-size: 28rpx;">{{data && data.authorInfo && data.authorInfo.introduce}}</text>

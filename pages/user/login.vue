@@ -367,19 +367,14 @@
 			},
 			async QQlogin() {
 				let data = await this.getQQLoginInfo()
-
+				console.log(data)
 			},
 			getQQLoginInfo() {
 				return new Promise((resolve, reject) => {
 					uni.login({
 						provider: 'qq',
 						success: (res) => {
-							uni.getUserInfo({
-								provider:'qq',
-								success: (info) => {
-									console.log(info)
-								}
-							})
+							resolve(res)
 						}
 					})
 				})

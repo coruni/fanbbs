@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-loading-page :loading="loading"></u-loading-page>
-		<z-paging ref="paging" v-model="comments" @query="getData" :refresher-enabled="false" v-show="!loading">
+		<z-paging ref="paging" v-model="comments" @query="getData"  v-show="!loading">
 			<template #top>
 				<u-navbar bgColor="transparent" title="评论" placeholder autoBack>
 					<view slot="left">
@@ -13,9 +13,9 @@
 				<view style="margin:30rpx;background: #fff;border-radius: 20rpx;padding: 30rpx;"
 					@click="goArticle(item)">
 					<u-row customStyle="margin-bottom:20rpx">
-						<u-avatar :src="item.reply && item.reply.userInfo.avatar" size="24"></u-avatar>
+						<u-avatar :src="item.userInfo && item.userInfo.avatar" size="24"></u-avatar>
 						<text
-							style="margin-left:20rpx;font-weight: 600;">{{item.reply && item.reply.userInfo && item.reply.userInfo.screenName?item.reply && item.reply.userInfo && item.reply.userInfo.screenName:item.reply && item.reply.userInfo && item.reply.userInfo.name}}</text>
+							style="margin-left:20rpx;font-weight: 600;">{{item.userInfo && item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
 					</u-row>
 					<u-parse class="u-line-2" :content="formatEmoji(item.text)"
 						v-if="item.text !=item.article.title"></u-parse>
@@ -63,7 +63,7 @@
 					limit,
 					type: 'comment'
 				}).then(res => {
-					
+					console.log(res)
 					this.$refs.paging.complete(res.data.data.data)
 					setTimeout(() => {
 						this.loading = false
@@ -101,7 +101,7 @@
 	}
 </script>
 
-<style scoped>
+<style>
 	page {
 		background: #f7f7f7;
 	}
