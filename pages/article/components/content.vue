@@ -46,12 +46,11 @@
 			}
 		},
 		created() {
-			console.log(this.data)
 			// 如果没有加载出来就强制发送事件取消加载
 			// APP端报Not Found
 			setTimeout(() => {
 				this.$emit('ready', true)
-			}, 2000)
+			}, 1000)
 		},
 		onReady() {},
 		methods: {

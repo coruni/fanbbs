@@ -15,7 +15,8 @@ const store = new Vuex.Store({
 		noticeNum: {},
 		homepage: [],
 		tasks: {},
-		swiper:[],
+		swiper: [],
+		homeTabs: [],
 	},
 	mutations: {
 		setToken(state, payload) {
@@ -78,12 +79,19 @@ const store = new Vuex.Store({
 				url: '/pages/index/index'
 			})
 		},
-		setSwiper(state,payload){
+		setSwiper(state, payload) {
 			uni.setStorage({
-				key:'swiper',
-				data:payload,
+				key: 'swiper',
+				data: payload,
 			})
 			state.swiper = payload
+		},
+		setTabs(state, payload) {
+			uni.setStorage({
+				data: payload,
+				key: 'homeTabs'
+			})
+			state.homeTabs = payload
 		}
 	}
 })

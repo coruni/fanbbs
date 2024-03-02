@@ -13,10 +13,12 @@
 					<u-row>
 						<text
 							:style="{color:data && data.userInfo&&data.userInfo.isVip?'#ff0800':'',fontSize:30+'rpx',fontWeight:600}">{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
-						<i v-if="data.userInfo.level" :class="`level icon-lv-${data.userInfo.level}`"
-							style="font-size: 50rpx; margin-left: 10rpx;"
-							:style="{ color: data.userInfo.level > 8 ? $level[Math.floor(data.userInfo.level/2)-1] : $level[data.userInfo.level-1] }">
-						</i>
+						<text
+							:style="{border:`${data.userInfo.level > 8 ? $level[Math.floor(data.userInfo.level/2)-1] : $level[data.userInfo.level-1]} solid 2rpx`,background:data.userInfo.level > 8 ? $level[Math.floor(data.userInfo.level/2)-1] : $level[data.userInfo.level-1] }"
+							style="font-size: 18rpx;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx;color: white;"
+							v-if="data.userInfo.level">
+							Lv.{{data.userInfo.level}}
+						</text>
 					</u-row>
 
 					<text
@@ -137,7 +139,7 @@
 				this.$http.post('/comments/like', {
 					id: this.data.id
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.data.isLike = !this.data.isLike
 						this.data.likes += this.data.isLike ? 1 : -1;

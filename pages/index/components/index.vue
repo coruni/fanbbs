@@ -22,11 +22,11 @@
 			</u-navbar>
 		</template>
 		<!-- 模拟首屏开始 -->
-		<z-tabs ref="tabs" :list="topTabbar" :scrollCount="1" :current="topTabIndex" @change="tabsChange"
+		<z-tabs ref="tabs" :list="$store.state.homeTabs" :scrollCount="1" :current="topTabIndex" @change="tabsChange"
 			active-color="#ff0800" bar-animate-mode="worm" :active-style="{fontWeight:600}"></z-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition"
 			@animationfinish="swiperAnimationfinish">
-			<swiper-item v-for="(page,pageIndex) in topTabbar" :key="pageIndex">
+			<swiper-item v-for="(page,pageIndex) in $store.state.homeTabs" :key="pageIndex">
 				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.iswaterfall"
 					:isSwiper="!pageIndex" @edit="$emit('edit',$event)">
 				</articleIndex>

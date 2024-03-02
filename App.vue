@@ -21,7 +21,8 @@
 			// 启动开始请求的数据
 			setTimeout(() => {
 				this.getAppData()
-				if(token){
+				this.getHomeTabs()
+				if (token) {
 					this.getNoticeNum();
 					this.getUserTasks();
 				}
@@ -64,7 +65,7 @@
 							...item
 						});
 					});
-					this.$store.commit('setSwiper',list)
+					this.$store.commit('setSwiper', list)
 				})
 			},
 			login() {
@@ -76,7 +77,7 @@
 						password: account.password
 					}
 				}).then(res => {
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.setToken(res.data.data.token);
 						this.getUserInfo(res.data.data.uid);
 						this.getUserMeta()
@@ -88,28 +89,28 @@
 						// 还是登陆错误就到登录页面登录
 					}
 				}).catch(err => {
-					
+
 				})
 			},
 			getUserInfo(uid) {
 				if (!uni.getStorageSync('token')) return;
 				this.$http.get('/user/userInfo', {
 					params: {
-						id: uid?uid:this.$store.state.userInfo.uid,
+						id: uid ? uid : this.$store.state.userInfo.uid,
 					},
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.$store.commit('setUser', res.data.data)
 					}
-			
+
 				}).catch(err => {
-					
+
 				})
 			},
 			getUserMeta() {
 				http.post('/user/userData').then(res => {
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.setUserMeta(res.data.data)
 					}
 				})
@@ -145,17 +146,17 @@
 				}
 				plus.runtime.getProperty(plus.runtime.appid, (inf) => {
 					this.$http.get('/system/app', {}).then(res => {
-						if (res.data.code==200) {
-							data.describe = res.data.data.app.versionIntro
-							data.edition_url = platform == 'android' ? res.data.data.app.androidUrl : res.data
-								.data.app
-								.iosUrl
-							data.edition_force = res.data.data.app.forceUpdate
-							data.package_type = res.data.data.app.updateType
-							data.edition_number = res.data.data.app.versionCode
-							data.edition_name = res.data.data.app.version
-							data.edition_silence = res.data.data.app.silence
-							data.edition_issue = res.data.data.app.issue
+						if (res.data.code == 200) {
+
+							let app = res.data.data.app
+							data.describe = app.versionIntro
+							data.edition_url = platform == 'android' ? app.androidUrl : app.iosUrl
+							data.edition_force = app.forceUpdate
+							data.package_type = app.updateType
+							data.edition_number = app.versionCode
+							data.edition_name = app.version
+							data.edition_silence = app.silence
+							data.edition_issue = app.issue
 
 							// 判断版本号
 							if (Number(data.edition_number) > Number(inf.versionCode) && data
@@ -165,14 +166,13 @@
 									silenceUpdate(data.edition_url)
 								} else {
 									setTimeout(() => {
-										console.log('执行跳转')
 										this.$Router.push({
 											path: '/uni_modules/rt-uni-update/components/rt-uni-update/rt-uni-update',
 											query: {
 												obj: JSON.stringify(data)
 											}
 										})
-									}, 2000)
+									}, 500)
 
 								}
 							}
@@ -180,8 +180,27 @@
 					})
 
 				});
-
-			}
+			},
+			getHomeTabs() {
+				this.$http.get('/category/list', {
+					params: {
+						page: 1,
+						limit: 8,
+						params: JSON.stringify({
+							type: 'category',
+							isrecommend: 1,
+						})
+					}
+				}).then(res => {
+					if (res.data.code == 200) {
+						let topList = [{
+							name: '首页'
+						}]
+						topList = topList.concat(res.data.data.data)
+						this.$store.commit('setTabs',topList)
+					}
+				})
+			},
 		}
 	}
 </script>

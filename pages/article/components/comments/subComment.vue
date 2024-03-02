@@ -15,7 +15,7 @@
 											margin:30rpx;
 											border-bottom: 1rpx #f7f7f7 solid;">
 				<view style="position: relative;">
-					<u-avatar :src="data.userInfo.avatar" size="30" customStyle="border:4rpx solid #ff080032"
+					<u-avatar :src="data.userInfo.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"
 						@click="goProfile(data.userInfo.uid)"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="data.userInfo&&data.userInfo.opt&&data.userInfo.opt.head_picture">
@@ -138,7 +138,7 @@
 						<u-skeleton rows="2" avatar :loading="loading">
 							<u-row align="top">
 								<u-avatar :src="item.userInfo.avatar" size="24"
-									customStyle="border:4rpx solid #ff080032"
+									customStyle="border:4rpx solid #85a3ff32"
 									@click="goProfile(item.userInfo.uid)"></u-avatar>
 
 								<view style="
@@ -150,11 +150,12 @@
 										<u-row>
 											<text
 												:style="{color:item.isVip?'#ff0800':'',fontSize:30+'rpx',fontWeight:600}">{{item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
-											<i v-if="item.userInfo.level"
-												:class="`level icon-lv-${item.userInfo.level}`"
-												style="font-size: 50rpx; margin-left: 10rpx;"
-												:style="{ color: item.userInfo.level > 8 ? $level[Math.floor(item.userInfo.level/2)-1] : $level[item.userInfo.level-1] }">
-											</i>
+											<text
+												:style="{border:`${item.userInfo.level > 8 ? $level[Math.floor(item.userInfo.level/2)-1] : $level[item.userInfo.level-1]} solid 2rpx`,background:item.userInfo.level > 8 ? $level[Math.floor(item.userInfo.level/2)-1] : $level[item.userInfo.level-1] }"
+												style="font-size: 18rpx;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx;color: white;"
+												v-if="item.userInfo.level">
+												Lv.{{item.userInfo.level}}
+											</text>
 										</u-row>
 
 										<text
@@ -371,7 +372,7 @@
 		created() {
 
 			this.formatEmojiData()
-		}, 
+		},
 		onLoad(params) {
 			this.data = uni.getStorageSync('subComment_' + params.id)
 			uni.onKeyboardHeightChange(data => {
@@ -400,7 +401,7 @@
 				this.$http.get('/comments/list', {
 					params
 				}).then(res => {
-					
+
 					if (res.data.code) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
@@ -474,7 +475,7 @@
 				this.$http.post('/comments/like', {
 					id: this.comments[index].id
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
 						this.comments[index].isLike = !this.comments[index].isLike
@@ -542,7 +543,7 @@
 				if (userInfo.group == 'administrator' || userInfo.group == 'editor' || userInfo.isVip) {
 					perimission = true
 				}
-				
+
 				if (name == '图片') {
 					this.chooseImage()
 					return;

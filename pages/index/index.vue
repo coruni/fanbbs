@@ -10,7 +10,7 @@
 		<!-- 底部导航栏 -->
 		<template #bottom>
 			<view style="background:white;padding:20rpx;
-					z-index:999;">
+					z-index:999;border-top: #f7f7f7 2rpx solid;">
 				<u-row justify="space-between">
 					<block v-for="(item,index) in tabbar" :key="index">
 						<u-row customStyle="flex-direction:column" v-if="index!=4">

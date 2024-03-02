@@ -10,8 +10,7 @@
 				<view style="position: relative;">
 					<u-avatar :src="userInfo.avatar" mode="aspectFill" size="85">
 					</u-avatar>
-					<image class="avatar_head" mode="aspectFill"
-						:src="userInfo.opt&&userInfo.opt.head_picture">
+					<image class="avatar_head" mode="aspectFill" :src="userInfo.opt&&userInfo.opt.head_picture">
 					</image>
 				</view>
 
@@ -43,7 +42,8 @@
 				<u-text text="性别" bold color="#999"></u-text>
 				<view @tap.stop="showSexChoose = true">
 					<u-input type="idcard" v-model="info.sex" placeholder="选择性别"
-						customStyle="padding:10rpx 20rpx;border-radius:10rpx" :disabled="showSexChoose" disabledColor="none">
+						customStyle="padding:10rpx 20rpx;border-radius:10rpx" :disabled="showSexChoose"
+						disabledColor="none">
 						<view slot="suffix">
 							<u-icon name="arrow-right" color="#999" size="12"></u-icon>
 						</view>
@@ -111,7 +111,6 @@
 		},
 		created() {
 			this.info = this.userInfo
-			console.log(this.info)
 		},
 		methods: {
 			choose(isAvatar) {
@@ -135,8 +134,8 @@
 					filePath: url,
 					name: 'file'
 				}).then(res => {
-					
-					if (res.data.code==200) {
+
+					if (res.data.code == 200) {
 						if (isAvatar) this.info.avatar = res.data.data.url;
 						else this.info.userBg = res.data.data.url;
 						this.save()
@@ -151,7 +150,7 @@
 					avatar: this.info.avatar,
 					background: this.info.userBg
 				}).then(res => {
-					
+
 					if (res.data.code) {
 						this.getUserInfo()
 					}
@@ -164,8 +163,8 @@
 						id: this.userInfo.uid,
 					}
 				}).then(res => {
-					
-					if (res.data.code==200) {
+
+					if (res.data.code == 200) {
 						this.$store.commit('setUser', res.data.data)
 						uni.$u.toast('资料已更新')
 					}

@@ -54,10 +54,13 @@
 									v-if="userInfo && userInfo.experience && userInfo.nextLevel && userInfo.level">
 								</uv-line-progress>
 							</view>
-							<i @click="showLevel = true" v-if="userInfo.level"
-								:class="`level icon-lv-${userInfo.level}`" style="font-size: 50rpx; margin-left: 20rpx;"
-								:style="{ color: userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }">
-							</i>
+
+							<text
+								:style="{border:`${userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]} solid 2rpx`,background:userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }"
+								style="font-size: 18rpx;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx;color: white;"
+								v-if="userInfo.level" @click="showLevel = true">
+								Lv.{{userInfo.level}}
+							</text>
 						</u-row>
 						<u-row customStyle="font-size:28rpx">
 							<i class="ess icon-renwu" style="margin-right: 10rpx;"></i>
@@ -75,15 +78,13 @@
 							<text>编辑</text>
 						</u-button>
 						<u-gap></u-gap>
-						<u-button plain v-if="!$store.state.tasks.isSign"
-							color="#ff0800" shape="circle"
-							customStyle="height:60rpx" @click="checkUp()">
+						<u-button plain v-if="!tasks.isSign" color="#ff0800" shape="circle" customStyle="height:60rpx"
+							@click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
 							<text>签到</text>
 						</u-button>
-						<u-button v-if="$store.state.tasks.isSign"
-							color="#ffe085" shape="circle"
-							customStyle="height:60rpx" @click="checkUp()">
+						<u-button v-if="tasks.isSign" color="#ffe085" shape="circle" customStyle="height:60rpx"
+							@click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
 							<text>已签到</text>
 						</u-button>
@@ -365,7 +366,7 @@
 						path: 'shop',
 					},
 					{
-						name: '兑换中心',	
+						name: '兑换中心',
 						icon: 'heart',
 						description: '周边积分兑换',
 						path: 'exchange',
@@ -436,13 +437,13 @@
 					},
 
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.$store.commit('setUser', res.data.data)
 					}
 
 				}).catch(err => {
-					
+
 				})
 			},
 			getUserMeta() {
@@ -456,7 +457,7 @@
 			goLogout() {
 				this.$store.commit('logout');
 				this.$Router.replaceAll({
-					path:'/pages/index/index'
+					path: '/pages/index/index'
 				})
 			},
 			goProfile() {
@@ -482,7 +483,7 @@
 					filePath: url,
 					name: 'file'
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.save(res.data.data.url)
 					}
@@ -527,7 +528,6 @@
 				this.$http.post('/user/sign').then(res => {
 					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
-						this.tasks.isSign = true;
 						this.getUserTasks()
 					}
 				})

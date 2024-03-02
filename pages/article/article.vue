@@ -526,7 +526,7 @@
 						id: id ? id : this.cid,
 					},
 				}).then(res => {
-					
+
 					if (res.statusCode == 200) {
 						this.article = res.data.data
 						this.article.text = res.data.data && this.replaceEmoji(res.data.data.text)
@@ -614,7 +614,7 @@
 				this.$http.get('/comments/list', {
 					params
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.$refs.comments.complete(res.data.data.data)
 					}
@@ -706,18 +706,13 @@
 				})
 			},
 			mark() {
+				this.article.isMark = !this.article.isMark
+				if (this.article.isMark) this.article.marks += 1;
+				if (!this.article.isMark) this.article.marks = this.article.marks ? this.article.marks -
+					1 : 0;
 				this.$http.post('/article/mark', {
 					id: this.article.cid
-				}).then(res => {
-					if (res.data.code == 200) {
-						this.article.isMark = !this.article.isMark
-						if (this.article.isMark && this.article.marks) {
-							this.article.marks += 1
-						} else {
-							this.article.marks -= 1
-						}
-					}
-				})
+				}).then(res => {})
 			},
 			changTab(data) {
 				console.log(data)

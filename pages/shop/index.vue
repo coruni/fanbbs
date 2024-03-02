@@ -6,12 +6,11 @@
 					<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 				</view>
 				<view slot="right">
-					<i class="ess icon-search_3_line" style="font-size: 40rpx;"
-						@click="showSearch= !showSearch"></i>
+					<i class="ess icon-search_3_line" style="font-size: 40rpx;" @click="showSearch= !showSearch"></i>
 				</view>
 			</u-navbar>
 		</template>
-	
+
 		<uv-waterfall ref="waterfall" v-model="product" :add-time="10" :left-gap="leftGap" :rightGap="rightGap"
 			:column-gap="columnGap" @changeList="changeList">
 			<!-- 第一列数据 -->
@@ -61,7 +60,7 @@
 								<view style="font-size: 26rpx;">
 									<text>剩余{{item.num}}件</text>
 								</view>
-	
+
 							</view>
 						</view>
 					</view>
@@ -112,11 +111,11 @@
 						limit,
 					}
 				}).then(res => {
-					
-					if (res.data.code==200) {
+
+					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
-				}).catch(err=>{
+				}).catch(err => {
 					this.$refs.paging.complete(false)
 				})
 			},
@@ -136,13 +135,13 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+	page {
+		background: #f7f7f7;
+	}
+
 	.search {
 		transform: translateY(10);
 		transition: 0.6s ease;
-	}
-
-	page {
-		background: #f9f9f9;
 	}
 </style>
