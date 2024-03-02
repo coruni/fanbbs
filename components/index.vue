@@ -1,7 +1,7 @@
 <template>
-	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false" cache-mode="always"
-		style="margin-bottom: 190rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false" use-cache
-		:cache-key="`articleList_${mid}`">
+	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
+		cache-mode="always" style="margin-bottom: 190rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false"
+		use-cache :cache-key="`articleList_${mid}`">
 		<view style="margin: 20rpx;position: relative;top: 0;" v-if="swiper==0">
 			<u-swiper height="200" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10"></u-swiper>
@@ -106,10 +106,10 @@
 						params: JSON.stringify({
 							mid: this.mid ? this.mid : '',
 						}),
-						order: this.mid ? 'isCircleTop desc,created desc' : 'istop desc, created desc',
+						order: this.mid ? 'isCircleTop desc,istop desc,created desc' : 'istop desc, created desc',
 					}
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data);
 						this.is_loaded = true
@@ -118,7 +118,7 @@
 					this.$refs.paging.complete(false)
 				})
 			},
-			
+
 			swiperTap(index) {
 				uni.setStorageSync(`article_${this.$store.state.swiper[index].cid}`, this.$store.state.swiper[index])
 				this.$Router.push({
@@ -178,7 +178,7 @@
 							...item
 						});
 					});
-					this.$store.commit('setSwiper',list)
+					this.$store.commit('setSwiper', list)
 				})
 			},
 		}
