@@ -103,11 +103,9 @@
 						id: uid ? uid : this.$store.state.userInfo.uid,
 					},
 				}).then(res => {
-
 					if (res.data.code == 200) {
 						this.$store.commit('setUser', res.data.data)
 					}
-
 				}).catch(err => {
 
 				})

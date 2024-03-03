@@ -95,6 +95,7 @@
 				this.$http.post('/user/clearNum', {
 					type: 'comment'
 				}).then(res => {
+					console.log(res)
 				})
 			}
 		}

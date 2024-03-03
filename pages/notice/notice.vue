@@ -10,7 +10,6 @@
 				</u-navbar>
 
 			</template>
-
 			<view style="margin: 30rpx;">
 				<view style="display: flex;flex-direction: column">
 					<u-row justify="space-between" @click="goPath('finance')">
@@ -26,7 +25,7 @@
 					<u-row justify="space-between" @click="goPath('systems')">
 						<u-row>
 							<i class="ess icon-settings_1_line"
-								style="font-size: 45rpx;background: #ff8800;border-radius: 100rpx;color: white;padding: 25rpx;"></i>
+								style="font-size: 45rpx;background: #ffb300;border-radius: 100rpx;color: white;padding: 25rpx;"></i>
 							<text style="margin-left: 20rpx;">系统通知</text>
 						</u-row>
 						<i class="ess icon-round_fill" style="color: #ff0800;font-size: 18rpx;"

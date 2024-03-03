@@ -60,7 +60,6 @@
 				})
 			},
 			goArticle(data) {
-				console.log(data)
 				this.$Router.push({
 					path: '/pages/article/article',
 					query: {
@@ -72,6 +71,8 @@
 				this.$http.post('/user/clearNum', {
 					type: 'system'
 				}).then(res => {
+					
+				}).catch(err=>{
 					
 				})
 			}

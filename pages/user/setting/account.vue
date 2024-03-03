@@ -5,19 +5,19 @@
 				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
 			</view>
 		</u-navbar>
-		<u-row justify="space-between" style="padding: 15rpx 30rpx;" @click="showAddress = true">
+		<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="showAddress = true">
 			<text>管理收货地址</text>
 			<i class="ess icon-right_small_line" style="font-size: 50rpx;"></i>
 		</u-row>
-		<u-row justify="space-between" style="padding: 15rpx 30rpx;" @click="showChangePassword = true">
+		<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="showChangePassword = true">
 			<text>修改密码</text>
 			<i class="ess icon-right_small_line" style="font-size: 50rpx;"></i>
 		</u-row>
-		<u-row justify="space-between" style="padding: 15rpx 30rpx;">
+		<u-row justify="space-between" style="padding: 20rpx 30rpx;">
 			<text>第三方绑定</text>
 			<i class="ess icon-right_small_line" style="font-size: 50rpx;"></i>
 		</u-row>
-		<u-row justify="space-between" style="padding: 15rpx 30rpx;" @click="goPage('destroy')">
+		<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="goPage('destroy')">
 			<text>注销账号</text>
 			<i class="ess icon-right_small_line" style="font-size: 50rpx;"></i>
 		</u-row>
@@ -44,9 +44,9 @@
 
 				<view style="margin-top: 20rpx;">
 					<u-row justify="space-between">
-						<u-button plain shape="circle" style="height: 60rpx;margin-right: 15rpx;"
+						<u-button plain shape="circle" style="height: 60rpx;margin-right: 20rpx;"
 							@click="showChangePassword =false">取消</u-button>
-						<u-button color="#ff0800" shape="circle" style="height: 60rpx;margin-left: 15rpx;"
+						<u-button color="#ff0800" shape="circle" style="height: 60rpx;margin-left: 20rpx;"
 							@click="savePassword()">确定</u-button>
 					</u-row>
 
