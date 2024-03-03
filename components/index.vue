@@ -2,34 +2,30 @@
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
 		cache-mode="always" style="margin-bottom: 190rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false"
 		use-cache :cache-key="`articleList_${mid}`">
-		<view style="margin: 20rpx;position: relative;top: 0;" v-if="swiper==0">
+		<view class="swiper" v-if="swiper==0">
 			<u-swiper height="200" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10"></u-swiper>
-			<view
-				style="font-size: 24rpx;background: #ff0800a0;border-radius:20rpx 0rpx 20rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
-				v-if="$store.state.swiper.length">
+			<view class="postion" v-if="$store.state.swiper.length">
 				<text style="color: #fff;">{{swiperIndex+1}}/{{$store.state.swiper.length}}</text>
 			</view>
 		</view>
-		<view style="margin: 30rpx;margin-top: 0;" v-if="$store.state.homepage.length>0 && swiper==0">
+		<view class="homeItem" v-if="$store.state.homepage.length>0 && swiper==0">
 			<u-grid col="5">
 				<u-grid-item v-for="(item,index) in $store.state.homepage" :key="index">
-					<view style="display: flex;flex-direction: column;align-items: center;"
-						@tap.stop="homepageTap(item)">
+					<view class="block" @tap.stop="homepageTap(item)">
 						<u-image :src="item.image" width="90rpx" height="90rpx" radius="10"></u-image>
-						<text style="margin-top: 20rpx;font-size: 28rpx;">{{item.name}}</text>
+						<text style="">{{item.name}}</text>
 					</view>
 				</u-grid-item>
 			</u-grid>
 		</view>
-
 		<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement&&isSwiper">
 			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#ff08003c" color="#ff0800" mode="closable"
-				customStyle="border-radius: 20rpx;"></u-notice-bar>
+				style="border-radius: 20rpx;"></u-notice-bar>
 		</view>
 		<block v-for="(item,index) in content" :key="index" v-if="content.length">
 			<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
-				style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
+				class="article">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
 				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
@@ -107,6 +103,7 @@
 							mid: this.mid ? this.mid : '',
 						}),
 						order: this.mid ? 'isCircleTop desc,istop desc,created desc' : 'istop desc, created desc',
+
 					}
 				}).then(res => {
 
@@ -188,5 +185,41 @@
 <style lang="scss">
 	::v-deep .u-grid-item--hover-class {
 		opacity: 1 !important;
+	}
+
+	.swiper {
+		margin: 20rpx;
+		position: relative;
+		top: 0;
+
+		.postion {
+			font-size: 24rpx;
+			background: #ff0800a0;
+			border-radius: 20rpx 0rpx 20rpx 0;
+			padding: 6rpx 20rpx;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+		}
+	}
+
+	.homeItem {
+		margin-top: 0;
+	}
+
+	.block {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		text {
+			margin-top: 20rpx;
+			font-size: 28rpx;
+		}
+	}
+
+	.article {
+		margin: 30rpx 30rpx 12rpx 30rpx;
+		padding-bottom: 10rpx;
 	}
 </style>

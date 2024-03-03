@@ -1,24 +1,38 @@
 <template>
 	<z-paging @query="getData" ref="paging" v-model="article" style="margin-bottom: 100rpx;"
 		:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'">
-		<scroll-view scroll-x v-if="!article.length && !$store.state.hasLogin">
-			<u-row style="margin: 30rpx;">
-				<block v-for="(item,index) in users" :key="index">
-					<view
-						style="display: flex;flex-direction: column;align-items: center;border-radius: 20rpx;background-color: #ff08000a;padding: 20rpx;margin-right: 20rpx;flex-shrink: 0;width: 160rpx;">
-						<view style="position: relative;">
-							<u-avatar :src="item.avatar"></u-avatar>
+		<view style="display: flex;flex-direction: column;margin: 30rpx;" v-show="!$store.state.hasLogin">
+			<text style="font-weight: 600;">推荐关注</text>
+			<scroll-view scroll-x style="margin-top: 30rpx;">
+				<u-row>
+					<block v-for="(item,index) in users" :key="index">
+						<view
+							style="display: flex;flex-direction: column;align-items: center;border-radius: 20rpx;background-color: #ff08000a;padding: 20rpx;margin-right: 20rpx;flex-shrink: 0;width: 160rpx;">
+							<view style="position: relative;">
+								<u-avatar :src="item.avatar"></u-avatar>
+							</view>
+							<view class="u-line-1">
+								<text style="margin-top: 20rpx;">{{item.screenName?item.screenName:item.name}}</text>
+							</view>
+							<u-button style="height: 60rpx;margin-top:20rpx" color="#ff0800" shape="circle"
+								@click="follow(item.uid,index)">关注</u-button>
 						</view>
-						<view class="u-line-1">
-							<text style="margin-top: 20rpx;">{{item.screenName?item.screenName:item.name}}</text>
-						</view>
-						<u-button style="height: 60rpx;margin-top:20rpx" color="#ff0800" shape="circle"
-							@click="follow(item.uid,index)">关注</u-button>
-					</view>
-				</block>
-			</u-row>
+					</block>
+				</u-row>
+			</scroll-view>
+		</view>
 
-		</scroll-view>
+		<view style="
+		border: #ff0800 1rpx solid;
+		border-radius: 20rpx;
+		padding: 30rpx;
+		margin: 30rpx;
+		margin-top: 0;
+		text-align: center;
+		color: #ff0800;
+		" v-show="!$store.state.hasLogin" @click="goLogin()">
+			<text>登录查看关注的帖子</text>
+		</view>
 
 		<block v-for="(item,index) in article" :key="index" v-if="article">
 			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
@@ -27,7 +41,7 @@
 				<article-content :data="item"></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-			
+
 		</block>
 	</z-paging>
 </template>
@@ -68,16 +82,14 @@
 				let params = {
 					page,
 					limit,
+					order: 'likes desc,created desc,views desc',
+					random: 1
 				}
-				if (!this.$store.state.hasLogin) {
-					this.$refs.paging.complete(false)
-					return;
-				}
-				this.$http.get('/article/follow', {
+
+				this.$http.get(this.$store.state.hasLogin ? '/article/follow' : '/article/articleList', {
 					params
 				}).then(res => {
-					let list = [];
-					
+					console.log(res)
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
@@ -133,6 +145,12 @@
 					id
 				}).then(res => {
 					this.users[index].isFollow = !this.users[index].isFollow
+				})
+			},
+
+			goLogin() {
+				this.$Router.push({
+					name: 'login'
 				})
 			}
 		}

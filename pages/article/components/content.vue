@@ -73,11 +73,14 @@
 				this.$http.post('/article/buyHide', {
 					cid: this.article.cid
 				}).then(res => {
-					
+
 				})
 			},
 			linkTap(data) {
-				this.$emit('hideTap', data['data-type'])
+				if (data['data-type'] == '付费' || data.data - type == '回复') {
+					this.$emit('hideTap', data['data-type'])
+				}
+
 			}
 		}
 	}

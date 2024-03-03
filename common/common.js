@@ -24,8 +24,19 @@ export function shareTap(provider, type, scene, title, summary, href, imageUrl) 
 			uni.$u.toast('分享成功')
 		}
 	})
-
 }
+
+export function shareWithSystem(summary, imageUrl, href) {
+	uni.shareWithSystem({
+		summary,
+		imageUrl,
+		href,
+		success: (res) => {
+			console.log(res, '分享成功')
+		}
+	})
+}
+
 
 export function filterHtml(text) {
 	var text = text.replace(/<\/?[^>]*>/g, ''); //去除HTML Tag

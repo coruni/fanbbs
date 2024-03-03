@@ -78,12 +78,12 @@
 							<text>编辑</text>
 						</u-button>
 						<u-gap></u-gap>
-						<u-button plain v-if="!tasks.isSign" color="#ff0800" shape="circle" customStyle="height:60rpx"
+						<u-button plain v-if="!$store.state.tasks.isSign" color="#ff0800" shape="circle" customStyle="height:60rpx"
 							@click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
 							<text>签到</text>
 						</u-button>
-						<u-button v-if="tasks.isSign" color="#ffe085" shape="circle" customStyle="height:60rpx"
+						<u-button v-if="$store.state.tasks.isSign" color="#ffe085" shape="circle" customStyle="height:60rpx"
 							@click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
 							<text>已签到</text>
@@ -579,7 +579,6 @@
 		height: 100%;
 		background-size: cover;
 		background-repeat: no-repeat;
-		filter: blur(1px);
 	}
 
 	.backCover::before {
@@ -590,5 +589,9 @@
 		width: 100%;
 		height: 100%;
 		background-color: rgba(0, 0, 0, 0.2);
+	}
+	.btn{
+		border-radius: 50rpx;
+		height: 60rpx;
 	}
 </style>

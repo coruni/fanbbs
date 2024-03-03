@@ -1,15 +1,13 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto="false" :auto-clean-list-when-reload="false"
-		:auto-scroll-to-top-when-reload="false" use-cache
-		:cache-key="`home_index_waterfall-${mid}`">
+		:auto-scroll-to-top-when-reload="false" use-cache :cache-key="`home_index_waterfall-${mid}`">
 		<uv-waterfall ref="waterfall" v-model="content" :add-time="10" :left-gap="leftGap" :rightGap="rightGap"
 			:column-gap="columnGap" @changeList="changeList">
 			<!-- 第一列数据 -->
 			<template v-slot:list1>
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
-					<view v-for="(item,index) in list1" :key="item.cid" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
+					<view v-for="(item,index) in list1" :key="item.cid" :style="[imageStyle(item)]" class="waterfall"
 						@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
 						<image
 							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
@@ -26,12 +24,10 @@
 			<template v-slot:list2>
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
-					<view v-for="(item,index) in list2" :key="item.cid" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
+					<view v-for="(item,index) in list2" :key="item.cid" :style="[imageStyle(item)]" class="waterfall"
 						@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
-						<image
-							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
-							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
+						<image :src="item.images.length?item.images[0]:'@/static/login.jpg'" mode="widthFix"
+							:style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
 						</image>
 						<view style="margin: 20rpx;">
 							<text class="u-line-2">{{item.title}}</text>
@@ -45,7 +41,6 @@
 </template>
 
 <script>
-	
 	import articleFooter from '@/components/article/footer.vue';
 	export default {
 		name: 'waterFall',
@@ -152,5 +147,11 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	.waterfall {
+		background: #fff;
+		margin-top: 20rpx;
+		border-radius: 20rpx;
+		overflow: hidden;
+	}
 </style>

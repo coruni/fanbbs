@@ -11,7 +11,8 @@
 			"path": "pages/profile/profile",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white"
 			}
 
 		}, {
@@ -30,7 +31,8 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
-			}
+			},
+			"name":"login"
 		},
 		{
 			"path": "pages/common/category/category",
