@@ -271,14 +271,16 @@
 							<i class="ess icon-alert_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">举报</text>
 						</u-row>
-						<u-row customStyle="margin-bottom: 30rpx;">
+						<u-row customStyle="margin-bottom: 30rpx;" @click="copyLink()">
 							<i class="ess icon-flash_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">复制链接</text>
 						</u-row>
+						<!-- #ifdef APP -->
 						<u-row customStyle="margin-bottom: 30rpx;">
 							<i class="ess icon-share_forward_line" style="font-size: 40rpx;"></i>
-							<text style="margin-left:20rpx">通过系统分享</text>
+							<text style="margin-left:20rpx" @click="shareWithSystem()">通过系统分享</text>
 						</u-row>
+						<!-- #endif -->
 						<view
 							v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.group =='administrator'">
 							<u-row customStyle="margin-bottom: 30rpx;" @click="goEdit()">
@@ -882,6 +884,22 @@
 			},
 			colorTap(color) {
 				this.editorCtx.format('color', color)
+			},
+			shareWithSystem() {
+				let data = this.article
+				shareWithSystem(data.title, `${this.$config.h5}/#/pages/article/article?id=${data.cid}`).then(() => {
+					this.showMoreMenu = false;
+				})
+			},
+			copyLink() {
+				let data = this.article
+				uni.setClipboardData({
+					data: `${this.$config.h5}/#/pages/article/article?id=${data.cid}`,
+					success: () => {
+						uni.$u.toast('复制成功')
+						this.showMoreMenu = false
+					}
+				})
 			}
 		}
 	}

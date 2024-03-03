@@ -86,15 +86,17 @@
 							@click="goRead()">阅读</u-button>
 					</u-row>
 				</view>
-				
+
 				<!-- 图廊 -->
 				<view style="margin-top: 40rpx;">
 					<text style="font-weight: 600;">图廊</text>
 					<uv-scroll-list indicatorActiveColor="#ff0800">
 						<block v-for="(item,index) in article.images" :key="index" v-if="index<12">
-							<u-image :src="item" height="160" width="100" radius="8" style="margin-right: 20rpx;"></u-image>
+							<u-image :src="item" height="160" width="100" radius="8"
+								style="margin-right: 20rpx;"></u-image>
 						</block>
-						<u-row style="text-orientation:mixed;writing-mode: vertical-lr" justify="center" @click="goRead()">
+						<u-row style="text-orientation:mixed;writing-mode: vertical-lr" justify="center"
+							@click="goRead()">
 							<text>阅读更多</text>
 							<i class="ess icon-down_small_fill" style="font-size: 40rpx;"></i>
 						</u-row>
@@ -303,7 +305,6 @@
 
 		<!-- 分享 -->
 		<u-popup mode="bottom" round="10" :show="showMore" @close="showMore =false" :closeable="true">
-
 			<view style="padding: 30rpx;">
 				<view style="text-align: center;color: #999;">
 					<text>分享至</text>
@@ -325,14 +326,16 @@
 							<i class="ess icon-alert_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">举报</text>
 						</u-row>
-						<u-row customStyle="margin-bottom: 30rpx;">
+						<u-row customStyle="margin-bottom: 30rpx;" @click="copyLink()">
 							<i class="ess icon-flash_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">复制链接</text>
 						</u-row>
+						<!-- #ifdef APP -->
 						<u-row customStyle="margin-bottom: 30rpx;">
 							<i class="ess icon-share_forward_line" style="font-size: 40rpx;"></i>
-							<text style="margin-left:20rpx">通过系统分享</text>
+							<text style="margin-left:20rpx" @click="shareWithSystem()">通过系统分享</text>
 						</u-row>
+						<!-- #endif -->
 						<view
 							v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.group =='administrator'">
 							<u-row customStyle="margin-bottom: 30rpx;" @click="goEdit()">
@@ -662,7 +665,7 @@
 				this.$http.get('/comments/list', {
 					params
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.$refs.comments.complete(res.data.data.data)
 					}
@@ -695,7 +698,7 @@
 						this.$http.post('/comments/add', {
 							...params
 						}).then(res => {
-							
+
 
 							if (res.data.code == 200) {
 								uni.$u.toast('已发送~')
@@ -733,7 +736,7 @@
 					}).replace(/\|</g, '<').replace(/>\|/g, '>').replace(/【(回复|付费)查看：([^】]+)】/g, (match, type,
 						content) => {
 						let html = ''
-				
+
 						html += `<a style="text-decoration:unset;color:#ff0800;border:#ff0800 dashed 1px;border-radius:10px;text-align:center;margin:10px 0;display:flex;flex:1;padding:20px;justify-content:center" data-type="${type}">
 						隐藏内容，${type}后查看
 						</a>`
@@ -763,10 +766,10 @@
 				}).then(res => {
 					if (res.data.code == 200) {
 						this.article.isMark = !this.article.isMark
-						if(this.article.isMark && this.article.marks){
-							this.article.marks +=1
-						}else{
-							this.article.marks -=1
+						if (this.article.isMark && this.article.marks) {
+							this.article.marks += 1
+						} else {
+							this.article.marks -= 1
 						}
 					}
 				})
@@ -889,17 +892,15 @@
 			},
 
 			goEdit() {
-				this.showMore = false
 				if (this.article.type == 'post') {
-					setTimeout(() => {
-						this.$Router.push({
-							path: '/publish/article/article',
-							query: {
-								update: 1,
-								id: this.article.cid
-							}
-						})
-					}, 500)
+					this.$Router.push({
+						path: '/publish/article/article',
+						query: {
+							update: 1,
+							id: this.article.cid
+						}
+					})
+					this.showMore = false
 				}
 
 			},
@@ -949,6 +950,22 @@
 			},
 			colorTap(color) {
 				this.editorCtx.format('color', color)
+			},
+			shareWithSystem() {
+				let data = this.article
+				shareWithSystem(data.title, `${this.$config.h5}/#/pages/article/article?id=${data.cid}`).then(() => {
+					this.showMore = false;
+				})
+			},
+			copyLink() {
+				let data = this.article
+				uni.setClipboardData({
+					data: `${this.$config.h5}/#/pages/article/article?id=${data.cid}`,
+					success: () => {
+						uni.$u.toast('复制成功')
+						this.showMore = false
+					}
+				})
 			}
 		}
 	}

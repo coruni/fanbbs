@@ -12,53 +12,55 @@
 			</template>
 
 			<view style="margin: 30rpx;">
-				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('finance')">
-					<u-row>
-						<view
-							style="background: #8c68f8;border-radius: 500rpx;padding: 20rpx;box-shadow: 0 0 8px 0 #8c68f8;">
-							<u-icon name="rmb-circle" size="24" color="white"></u-icon>
-						</view>
-						<text style="margin-left:20rpx">财务通知</text>
+				<view style="display: flex;flex-direction: column">
+					<u-row justify="space-between" @click="goPath('finance')">
+						<u-row>
+							<i class="ess icon-bill_line"
+								style="font-size: 45rpx;background: #fb7299;border-radius: 100rpx;color: white;padding: 25rpx;"></i>
+							<text style="margin-left: 20rpx;">财务通知</text>
+						</u-row>
+						<i class="ess icon-round_fill" style="color: #ff0800;font-size: 18rpx;"
+							v-if="$store.state.noticeNum.systems"></i>
 					</u-row>
-					<i style="background: red;padding: 8rpx;border-radius: 10rpx;"
-						v-if="$store.state.noticeNum.finances"></i>
-				</u-row>
-				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('systems')">
-					<u-row>
-						<view
-							style="background: #f8d568;border-radius: 500rpx;padding: 20rpx;box-shadow: 0 0 8px 0 #f8d568;">
-							<u-icon name="bell" size="24" color="white"></u-icon>
-						</view>
-						<text style="margin-left:20rpx">系统通知</text>
+					<u-gap height="10"></u-gap>
+					<u-row justify="space-between" @click="goPath('systems')">
+						<u-row>
+							<i class="ess icon-settings_1_line"
+								style="font-size: 45rpx;background: #ff8800;border-radius: 100rpx;color: white;padding: 25rpx;"></i>
+							<text style="margin-left: 20rpx;">系统通知</text>
+						</u-row>
+						<i class="ess icon-round_fill" style="color: #ff0800;font-size: 18rpx;"
+							v-if="$store.state.noticeNum.systems"></i>
 					</u-row>
-					<i style="background: red;padding: 8rpx;border-radius: 10rpx;"
-						v-if="$store.state.noticeNum.systems"></i>
-				</u-row>
-				<u-row customStyle="margin-bottom:60rpx" justify="space-between" @click="goPath('comments')">
-					<u-row>
-						<view
-							style="background: #68d4f8;border-radius: 500rpx;padding: 20rpx;box-shadow: 0 0 8px 0 #68d4f8;">
-							<u-icon name="chat" size="24" color="white"></u-icon>
-						</view>
-						<text style="margin-left:20rpx">评论通知</text>
-					</u-row>
-					<i style="background: red;padding: 8rpx;border-radius: 10rpx;"
-						v-if="$store.state.noticeNum.comments"></i>
-				</u-row>
+					<u-gap height="10"></u-gap>
+					<u-row justify="space-between" @click="goPath('comments')">
+						<u-row>
+							<i class="ess icon-message_1_line"
+								style="font-size: 45rpx;background: #00ccff;border-radius: 100rpx;color: white;padding: 25rpx;"></i>
+							<text style="margin-left: 20rpx;">评论通知</text>
+						</u-row>
 
-				<block v-for="(item, index) in messages" :key="index">
-					<u-row align="top" @click="goPrivate(item)" customStyle="margin-bottom:20rpx">
-						<u-avatar :src="item.userInfo.avatar"></u-avatar>
-						<u-row style="flex-direction: column;margin-left: 20rpx;flex: 1;" align="top">
-							<text>{{item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
-							<u-row justify="space-between" style="flex:1;width: 100%;font-size: 26rpx;">
-								<text class="u-line-1">{{item.lastMsg && item.lastMsg.text}}</text>
-								<text style="font-size: 26rpx;flex-shrink: 0;"
-									v-if="item.lastMsg">{{$u.timeFrom(item.lastTime,'hh:MM')}}</text>
+						<i class="ess icon-round_fill" style="color: #ff0800;font-size: 18rpx;"
+							v-if="$store.state.noticeNum.comments"></i>
+					</u-row>
+				</view>
+
+				<view style="margin-top: 20rpx;">
+					<block v-for="(item, index) in messages" :key="index">
+						<u-row align="top" @click="goPrivate(item)" customStyle="margin-bottom:20rpx">
+							<u-avatar :src="item.userInfo.avatar"></u-avatar>
+							<u-row style="flex-direction: column;margin-left: 20rpx;flex: 1;" align="top">
+								<text>{{item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
+								<u-row justify="space-between" style="flex:1;width: 100%;font-size: 26rpx;">
+									<text class="u-line-1">{{item.lastMsg && item.lastMsg.text}}</text>
+									<text style="font-size: 26rpx;flex-shrink: 0;"
+										v-if="item.lastMsg">{{$u.timeFrom(item.lastTime,'hh:MM')}}</text>
+								</u-row>
 							</u-row>
 						</u-row>
-					</u-row>
-				</block>
+					</block>
+				</view>
+
 			</view>
 		</z-paging>
 	</view>
