@@ -1,31 +1,29 @@
 <template>
-	<view>
-		<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
-			style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" use-cache
-			:cache-key="`user_publish`">
-			<block v-for="(item,index) in article">
-				<view style="margin: 30rpx;"  @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
-					<u-row justify="space-between" customStyle="margin-bottom:20rpx">
-						<u-row align="bottom">
-							<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
-							<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
-							<view v-if="item.category" style="color: #999;font-size: 26rpx;">
-								<text style="margin: 0 10rpx;">·</text>
-								<text>{{item.category.name}}</text>
-							</view>
-						</u-row>
-						<i class="ess icon-more_1_line" style="font-size: 60rpx;"
-							@click.stop="$emit('articleMenu',data)"></i>
+	<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
+		style="margin-bottom: 60rpx;" :auto-hide-loading-after-first-loaded="false"
+		:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" use-cache
+		:cache-key="`user_publish`">
+		<block v-for="(item,index) in article" :key="index">
+			<view style="margin: 30rpx;"  @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
+				<u-row justify="space-between" customStyle="margin-bottom:20rpx">
+					<u-row align="bottom">
+						<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
+						<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
+						<view v-if="item.category" style="color: #999;font-size: 26rpx;">
+							<text style="margin: 0 10rpx;">·</text>
+							<text>{{item.category.name}}</text>
+						</view>
 					</u-row>
-					<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
-					<article-content :data="item" v-else></article-content>
-					<articleFooter :data="item"></articleFooter>
-				</view>
-				<view style="border-bottom:1rpx #f7f7f7 solid"></view>
-			</block>
-		</z-paging>
-	</view>
+					<i class="ess icon-more_1_line" style="font-size: 60rpx;"
+						@click.stop="sendEmit('articleMenu',item)"></i>
+				</u-row>
+				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
+				<article-content :data="item" v-else></article-content>
+				<articleFooter :data="item"></articleFooter>
+			</view>
+			<view style="border-bottom:1rpx #f7f7f7 solid"></view>
+		</block>
+	</z-paging>
 </template>
 
 <script>
@@ -97,6 +95,10 @@
 			reload() {
 				this.$refs.paging.reload();
 			},
+			sendEmit(event,data){
+				this.$emit(event,data)
+			}
+			
 		}
 	}
 </script>

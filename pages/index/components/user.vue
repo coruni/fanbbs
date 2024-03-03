@@ -78,13 +78,13 @@
 							<text>编辑</text>
 						</u-button>
 						<u-gap></u-gap>
-						<u-button plain v-if="!$store.state.tasks.isSign" color="#ff0800" shape="circle" customStyle="height:60rpx"
-							@click="checkUp()">
+						<u-button plain v-if="!$store.state.tasks.isSign" color="#ff0800" shape="circle"
+							customStyle="height:60rpx" @click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
 							<text>签到</text>
 						</u-button>
-						<u-button v-if="$store.state.tasks.isSign" color="#ffe085" shape="circle" customStyle="height:60rpx"
-							@click="checkUp()">
+						<u-button v-if="$store.state.tasks.isSign" color="#ffe085" shape="circle"
+							customStyle="height:60rpx" @click="checkUp()">
 							<i class="ess icon-leaf_line"></i>
 							<text>已签到</text>
 						</u-button>
@@ -131,7 +131,7 @@
 						@animationfinish="swiperAnimationfinish" v-if="$store.state.hasLogin && isMounted">
 						<swiper-item style="overflow: auto;">
 							<publish :isScroll="isScroll" :data="userInfo" ref="publish"
-								@articleMenu="showArticleMenu = true"></publish>
+								@articleMenu="showArticleMenu = true;edit = $event"></publish>
 						</swiper-item>
 						<swiper-item style="overflow: auto;">
 							<comment :isScroll="isScroll" :data="userInfo" ref="comment"></comment>
@@ -222,21 +222,38 @@
 				<view style="display: flex;
 				flex-direction: column;">
 					<view style="margin-bottom:30rpx">
-						<u-row>
+						<u-row @click="goEdit()">
 							<i class="ess icon-edit_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">编辑</text>
 						</u-row>
 					</view>
 					<view style="margin-bottom:30rpx">
-						<u-row style="color: red;">
+						<u-row style="color: red;" @click="showDelete = true">
 							<i class="ess icon-delete_2_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">删除</text>
 						</u-row>
 					</view>
 				</view>
 			</view>
-		</u-popup>
 
+			<!-- 删除弹出框 -->
+			<u-popup :show="showDelete" :round="10" mode="center" @close="showDelete = false"
+				customStyle="width:500rpx">
+				<view
+					style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 50rpx;">
+					<text style="font-size: 34rpx;">提示</text>
+					<view style="margin-top:30rpx">
+						<text>是否确定删除？</text>
+					</view>
+					<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+						<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+							@click="showDelete = false">取消</u-button>
+						<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+							@click="deleteArticle()">确定</u-button>
+					</u-row>
+				</view>
+			</u-popup>
+		</u-popup>
 	</view>
 </template>
 
@@ -388,7 +405,9 @@
 				allHeight: 0,
 				isScroll: false,
 				showArticleMenu: false,
-				tasks: {}
+				tasks: {},
+				edit: {},
+				showDelete: false,
 			}
 		},
 		computed: {
@@ -540,6 +559,30 @@
 					}
 				})
 			},
+			goEdit() {
+				let data = this.edit
+				this.$Router.push({
+					path: data.type == 'post' ? '/publish/article/article' : '',
+					query: {
+						update: 1,
+						id: this.edit.cid
+					}
+				})
+				this.showArticleMenu = false;
+			},
+			deleteArticle() {
+				let data = this.edit
+				this.$http.post('/article/delete', {
+					id: data.cid
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.showDelete = false
+						this.$refs.publish.reload()
+						this.showArticleMenu = false
+					}
+					uni.$u.toast(res.data.msg)
+				})
+			},
 		}
 	}
 </script>
@@ -590,7 +633,8 @@
 		height: 100%;
 		background-color: rgba(0, 0, 0, 0.2);
 	}
-	.btn{
+
+	.btn {
 		border-radius: 50rpx;
 		height: 60rpx;
 	}

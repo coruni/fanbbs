@@ -844,7 +844,6 @@
 						})
 					}, 500)
 				}
-
 			},
 			preview(urls, current) {
 				uni.previewImage({

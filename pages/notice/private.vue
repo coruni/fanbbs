@@ -143,8 +143,8 @@
 						this.$http.post('/chat/sendMsg', {
 							id: this.id,
 							text: res.html
-						}).then(ress => {
-							if (ress.data.code == 200) {
+						}).then(res => {
+							if (res.data.code == 200) {
 								// 清空编辑器消息
 								this.editorCtx.clear()
 							}
