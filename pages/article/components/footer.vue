@@ -8,24 +8,26 @@
 				</view>
 				<view style="display: flex;flex-direction: column;">
 					<block v-for="(item,index) in data.opt.files">
-						<u-row>
-							<u-button shape="circle" @click="openUrl(item.link)">
-								<u-row>
-									<i class="ess icon-download_3_line"></i>
-									<text>{{item.name?item.name:`资源${index+1}`}}</text>
+						<view style="margin-bottom: 20rpx;">
+							<u-row>
+								<u-button shape="circle" @click="openUrl(item.link)">
+									<u-row>
+										<i class="ess icon-download_3_line"></i>
+										<text>{{item.name?item.name:`资源${index+1}`}}</text>
+									</u-row>
+								</u-button>
+								<u-row style="margin-left: 20rpx;">
+									<view v-if="item.password">
+										<u-button shape="circle" @click="copy(item.password,'提取码')">提取码</u-button>
+									</view>
+									<view v-if="item.unzipPass">
+										<u-button shape="circle" style="margin-left: 10rpx;"
+											@click="copy(item.unzipPass,'解压码')">解密码</u-button>
+									</view>
 								</u-row>
-							</u-button>
-							<u-row style="margin-left: 20rpx;">
-								<view>
-									<u-button shape="circle" @click="copy(item.password,'提取码')">提取码</u-button>
-								</view>
-								<view>
-									<u-button shape="circle" style="margin-left: 10rpx;"
-										@click="copy(item.unzipPass,'解压密码')">解压密码</u-button>
-								</view>
 							</u-row>
-						</u-row>
-
+						</view>
+						
 					</block>
 				</view>
 			</view>
