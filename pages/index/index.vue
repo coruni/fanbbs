@@ -87,14 +87,17 @@
 							<i class="ess icon-alert_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">举报</text>
 						</u-row>
-						<u-row customStyle="margin-bottom: 30rpx;">
+						<u-row customStyle="margin-bottom: 30rpx;" @click="copyLink()">
 							<i class="ess icon-flash_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">复制链接</text>
 						</u-row>
+						<!-- #ifdef APP -->
 						<u-row customStyle="margin-bottom: 30rpx;">
 							<i class="ess icon-share_forward_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx" @click="shareWithSystem()">通过系统分享</text>
 						</u-row>
+						<!-- #endif -->
+
 					</view>
 				</view>
 			</view>
@@ -106,9 +109,8 @@
 
 <script>
 	import {
-		shareTap
-	} from '@/common/common.js';
-	import {
+		shareTap,
+		shareWithSystem,
 		filterHtml
 	} from '@/common/common.js';
 	import index from './components/index.vue';
@@ -256,9 +258,21 @@
 				})
 				this.$Router.$lockStatus = false
 			},
-			shareWithSystem(){
-				let data =this.data
-				this.$common.shareWithSystem(filterHtml(data.text))
+			shareWithSystem() {
+				let data = this.data
+				shareWithSystem(data.title, `${this.$config.h5}/#/pages/article/article?id=${data.cid}`).then(() => {
+					this.showMoreMenu = false;
+				})
+			},
+			copyLink() {
+				let data = this.data
+				uni.setClipboardData({
+					data: `${this.$config.h5}/#/pages/article/article?id=${data.cid}`,
+					success: () => {
+						uni.$u.toast('复制成功')
+						this.showMoreMenu = false
+					}
+				})
 			}
 		}
 	}

@@ -10,22 +10,26 @@
 	import store from './store';
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
 			let token = uni.getStorageSync('token')
 			if (token) {
 				this.$store.commit('setToken', uni.getStorageSync('token'));
 				this.$store.commit('setUser', uni.getStorageSync('user'));
 				this.$store.commit('setUserMeta', uni.getStorageSync('userMeta'));
 				this.$store.commit('loginStatus');
+				setTimeout(() => {
+					this.getNoticeNum();
+					this.getUserTasks();
+				}, 1)
 			}
+			// 从缓存从获取数据
+			this.$store.commit('setSwiper', uni.getStorageSync('swiper'))
+			this.$store.commit('setTabs', uni.getStorageSync('homeTabs'))
+			this.$store.commit('setHomepage', uni.getStorageSync('appHomepage'))
+			this.$store.commit('setHistory', uni.getStorageSync('history'))
 			// 启动开始请求的数据
 			setTimeout(() => {
 				this.getAppData()
 				this.getHomeTabs()
-				if (token) {
-					this.getNoticeNum();
-					this.getUserTasks();
-				}
 				this.getSwiper();
 			}, 1)
 		},
@@ -197,7 +201,7 @@
 							name: '首页'
 						}]
 						topList = topList.concat(res.data.data.data)
-						this.$store.commit('setTabs',topList)
+						this.$store.commit('setTabs', topList)
 					}
 				})
 			},

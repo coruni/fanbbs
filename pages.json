@@ -324,6 +324,15 @@
 				"enablePullDownRefresh" : false
 			},
 			"name":"exchange"
+		},
+		{
+			"path" : "pages/user/history",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"history"
 		}
 	],
 	"globalStyle": {

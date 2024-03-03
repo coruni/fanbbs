@@ -526,10 +526,10 @@
 						id: id ? id : this.cid,
 					},
 				}).then(res => {
-
 					if (res.statusCode == 200) {
 						this.article = res.data.data
 						this.article.text = res.data.data && this.replaceEmoji(res.data.data.text)
+						this.$store.commit('setHistory', res.data.data)
 					}
 				})
 			},

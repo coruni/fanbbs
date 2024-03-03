@@ -1,3 +1,4 @@
+let systemInfo = uni.getSystemInfoSync()
 export function shareTap(provider, type, scene, title, summary, href, imageUrl) {
 	console.log(provider, type)
 	// type
@@ -26,15 +27,19 @@ export function shareTap(provider, type, scene, title, summary, href, imageUrl) 
 	})
 }
 
-export function shareWithSystem(summary, imageUrl, href) {
-	uni.shareWithSystem({
-		summary,
-		imageUrl,
-		href,
-		success: (res) => {
-			console.log(res, '分享成功')
-		}
+export function shareWithSystem(summary, href) {
+	return new Promise((resolve, reject) => {
+		uni.shareWithSystem({
+			summary: `${summary} ——来自${systemInfo.appName}`,
+			href,
+			success: () => {
+				console.log("调用了分享")
+				resolve(true)
+				
+			},
+		})
 	})
+
 }
 
 

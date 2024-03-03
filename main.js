@@ -56,6 +56,7 @@ Vue.prototype.$emoji = emoji
 
 import level from '@/config/level.js'
 Vue.prototype.$level = level
+Vue.prototype.$config = config
 
 if(store.state.hasLogin){
 	//开启websocket

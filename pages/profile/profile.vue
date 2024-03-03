@@ -55,7 +55,7 @@
 						</u-button>
 					</view>
 				</u-row>
-				
+
 				<u-row justify="space-around" customStyle="margin-top:40rpx">
 					<view class="userMate">
 						<text style="font-size: 34rpx;font-weight: 600;">{{info &&info.articles}}</text>
@@ -91,8 +91,8 @@
 							bar-animate-mode="worm"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
-					<swiper style="height: 100vh;" :current="tabsIndex"
-						@transition="swiperTransition" @animationfinish="swiperAnimationfinish">
+					<swiper style="height: 100vh;" :current="tabsIndex" @transition="swiperTransition"
+						@animationfinish="swiperAnimationfinish">
 						<swiper-item style="overflow: auto;">
 							<publish :isScroll="isScroll" :uid="id" ref="publish" v-if=""></publish>
 						</swiper-item>
@@ -191,8 +191,17 @@
 				})
 			},
 			onRefresh() {
+				this.$refs.publish.reload()
+				// #ifdef APP
+				plus.navigator.setStatusBarStyle("dark");
+				// #endif
+
 				setTimeout(() => {
 					this.$refs.paging.complete();
+					// #ifdef APP
+					plus.navigator.setStatusBarStyle("light");
+					// #endif
+
 				}, 1000)
 
 			},
@@ -207,6 +216,14 @@
 			scroll(data) {
 				const scrollTop = data.detail.scrollTop;
 				this.opacity = scrollTop / 200;
+				// #ifdef APP
+				if (this.opacity > 0) {
+					plus.navigator.setStatusBarStyle("dark");
+				} else {
+					plus.navigator.setStatusBarStyle("light");
+				}
+				// #endif
+
 				if (scrollTop >= this.elementHeight) this.isScroll = true
 				else this.isScroll = false
 			},
@@ -230,7 +247,7 @@
 					path: '/pages/notice/private',
 					query: {
 						receiver_id: data.uid,
-						nickname: data.screenName?data.screenName:data.name
+						nickname: data.screenName ? data.screenName : data.name
 					}
 				})
 			},
@@ -289,12 +306,13 @@
 	.u-button::before {
 		background: #ff0800;
 	}
+
 	.backCover {
 		height: 100%;
 		background-size: cover;
 		background-repeat: no-repeat;
 	}
-	
+
 	.backCover::before {
 		content: '';
 		position: absolute;

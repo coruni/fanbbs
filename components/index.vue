@@ -2,10 +2,7 @@
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
 		cache-mode="always" style="margin-bottom: 190rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false"
 		use-cache :cache-key="`articleList_${mid}`">
-		<view class="
-		margin: 20rpx;
-		position: relative;
-		top: 0;" v-if="swiper==0">
+		<view style="margin: 30rpx;position: relative;top: 0;" v-if="swiper==0">
 			<u-swiper height="200" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10"></u-swiper>
 			<view style="

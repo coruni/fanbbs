@@ -314,7 +314,7 @@
 						{
 							name: '浏览历史',
 							icon: 'icon-time_line',
-							path: '',
+							path: 'history',
 						}
 					],
 					all: [{
@@ -363,37 +363,6 @@
 						icon: 'kefu-ermai'
 					},
 
-				],
-				scrollList: [{
-						name: '创作中心',
-						icon: 'heart',
-						description: '作品收益管理',
-						path: '',
-					},
-					{
-						name: '我的小摊',
-						icon: 'heart',
-						description: '我所创作的作品',
-						path: '',
-					},
-					{
-						name: '商城',
-						icon: 'heart',
-						description: '虚拟商品列表',
-						path: 'shop',
-					},
-					{
-						name: '兑换中心',
-						icon: 'heart',
-						description: '周边积分兑换',
-						path: 'exchange',
-					},
-					{
-						name: '我的钱包',
-						icon: 'heart',
-						description: '我的钱包',
-						path: '',
-					},
 				],
 				tabsIndex: 0,
 				list: [{

@@ -1,13 +1,17 @@
 <template>
 	<view style="margin-top: 10rpx;">
 		<!-- 标题 -->
-		<u-row justify="space-between">
+		<u-row>
+			<view v-if="data.istop||data.isCircleTop" style="flex-shrink: 0;margin-right: 20rpx;">
+				<text style="font-size: 26rpx;
+					border:#ff8800 solid 2rpx;
+					color: #fff;
+					background: #ff8800;
+					padding: 4rpx 16rpx;
+					border-radius: 10rpx;">置顶</text>
+			</view>
 			<text style="font-weight: 600;word-break: break-all;word-wrap: break-word;"
 				class="u-line-2">{{data.title}}</text>
-			<view v-if="data.istop||data.isCircleTop" style="flex-shrink: 0;">
-				<u-icon name="arrow-up-fill" color="#a899e6" labelColor="#a899e6" size="14" label="置顶" label-size="14"
-					customStyle="background: #85a3ff1e;padding:4rpx;border-radius:10rpx"></u-icon>
-			</view>
 		</u-row>
 
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"

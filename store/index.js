@@ -17,6 +17,7 @@ const store = new Vuex.Store({
 		tasks: {},
 		swiper: [],
 		homeTabs: [],
+		history: [],
 	},
 	mutations: {
 		setToken(state, payload) {
@@ -92,6 +93,35 @@ const store = new Vuex.Store({
 				key: 'homeTabs'
 			})
 			state.homeTabs = payload
+		},
+		setHistory(state, payload) {
+			// 获取缓存 再拼接
+			let data = uni.getStorageSync('history') || [];
+			
+			let index = data.findIndex(item => item.cid === payload.cid);
+			 if (index !== -1) {
+			    // 如果存在相同 id 的数据，删除旧数据，存入新数据
+			    data.splice(index, 1, payload);
+			  } else {
+			    // 如果不存在相同 id 的数据，直接添加新数据到数组开头
+			    data.unshift(payload);
+			  }
+			state.history = data;
+			uni.setStorage({
+				data: data,
+				key: 'history'
+			})
+		},
+		clearHistory(state) {
+			return new Promise((resolve, reject) => {
+				state.history = [];
+				uni.removeStorage({
+					key: 'history',
+					success: () => {
+						uni.$u.toast('已清除全部历史记录')
+					}
+				})
+			})
 		}
 	}
 })
