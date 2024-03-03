@@ -93,7 +93,7 @@
 						</u-row>
 						<u-row customStyle="margin-bottom: 30rpx;">
 							<i class="ess icon-share_forward_line" style="font-size: 40rpx;"></i>
-							<text style="margin-left:20rpx">通过系统分享</text>
+							<text style="margin-left:20rpx" @click="shareWithSystem()">通过系统分享</text>
 						</u-row>
 					</view>
 				</view>
@@ -255,6 +255,10 @@
 					name: path
 				})
 				this.$Router.$lockStatus = false
+			},
+			shareWithSystem(){
+				let data =this.data
+				this.$common.shareWithSystem(filterHtml(data.text))
 			}
 		}
 	}

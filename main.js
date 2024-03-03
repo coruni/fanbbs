@@ -2,6 +2,7 @@ import moment from 'moment';
 import App from './App';
 import store from './store';
 import config from "./config/config.js";
+
 //引入websocket文件
 import wsRequest from './utils/websocket/websocket.js'
 
@@ -62,3 +63,6 @@ if(store.state.hasLogin){
 	//挂载到全局
 	Vue.prototype.$socket = websocket
 }
+// 引入全局函数
+import common from "./common/common.js"
+Vue.prototype.$common = common
