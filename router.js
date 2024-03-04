@@ -11,7 +11,7 @@ const router = createRouter({
 		launchedHook: (view) => {
 			setTimeout(() => {
 				plus.navigator.closeSplashscreen();
-			}, 2400)
+			}, 1800)
 
 		}
 	},

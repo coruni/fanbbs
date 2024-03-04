@@ -17,11 +17,6 @@
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
-		<!-- 三张图片以上才显示 -->
-		<view id="album" style="width: 100%;" v-if="data.images.length>=3">
-			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
-				singleMode="scaleToFill" :multipleSize="elWidth" v-if="data.images.length"></uv-album>
-		</view>
 		<!-- 一张图片 -->
 		<view v-if="data.images.length==1">
 			<!-- <u-image :src="data.images[0]" :mode="mode" width="100%" radius="10" height="200"></u-image> -->
@@ -30,6 +25,12 @@
 				@click.stop="picPreview(data.images,0)">
 			</image>
 		</view>
+		<!-- 三张图片以上才显示 -->
+		<view id="album" style="width: 100%;" v-if="data.images.length>=3">
+			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
+				singleMode="scaleToFill" :multipleSize="elWidth" v-if="data.images.length"></uv-album>
+		</view>
+
 		<!-- 两张图片 -->
 		<view v-if="data.images.length==2">
 			<u-row justify="space-between">
@@ -85,6 +86,7 @@
 			}
 		},
 		created() {
+			this.getImageInfo()
 			// 直接计算图片大小
 			if (this.data.images.length >= 3) {
 				if (uni.getStorageSync('albumWidth') > 0) {
@@ -94,7 +96,7 @@
 					this.getAlbumWidth();
 				}, 200)
 			}
-			this.getImageInfo()
+			
 		},
 		methods: {
 			getImageInfo() {

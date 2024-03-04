@@ -30,7 +30,8 @@
 			"path": "pages/user/login",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white"
 			},
 			"name":"login"
 		},
