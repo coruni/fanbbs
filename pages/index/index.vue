@@ -22,7 +22,7 @@
 						</u-row>
 					</block>
 					<view @tap.stop="tabbarTap(4)">
-						<u-avatar :src="$store.state.userInfo.avatar" size="24"
+						<u-avatar :src="$store.state.userInfo.avatar" size="26"
 							customStyle="border:4rpx solid #85a3ff32"
 							:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
 					</view>

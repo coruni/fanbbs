@@ -8,61 +8,72 @@
 				<view style="background: white;padding: 20rpx;border-radius: 20rpx 20rpx 0 0;"></view>
 			</view>
 		</view>
-		<view style="margin: 40rpx;margin-top: 20rpx;" v-show="!isForget">
+		<view style="margin: 40rpx;margin-top: 0;" v-show="!isForget">
 			<u-text :text="isLogin?'用户登录':'用户注册'" size="17" bold></u-text>
+			<u-gap height="10"></u-gap>
 			<!-- 登录用 -->
 			<view v-show="isLogin">
-				<u--input placeholder="邮箱/账号" prefixIcon="email" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="account">
-				</u--input>
+				<uv-input placeholder="邮箱/账号" class="input" border="none" v-model="account">
+					<view slot="prefix">
+						<i class="ess mgc_user_1_line"></i>
+					</view>
+				</uv-input>
 				<u-gap></u-gap>
-				<u--input placeholder="密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
-				</u--input>
+				<uv-input placeholder="密码" type="password" class="input" border="none" v-model="password">
+					<view slot="prefix">
+						<i class="ess mgc_lock_line"></i>
+					</view>
+				</uv-input>
 			</view>
 			<!-- 注册用 -->
 			<view v-show="!isLogin">
-				<u--input placeholder="用户名" prefixIcon="arrow-up" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="username">
-				</u--input>
+				<uv-input placeholder="用户名" class="input" border="none" v-model="username">
+					<view slot="prefix">
+						<i class="ess mgc_user_1_line"></i>
+					</view>
+				</uv-input>
 				<u-gap></u-gap>
-				<u--input placeholder="密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
-				</u--input>
+				<uv-input placeholder="密码" type="password" border="none" class="input" v-model="password">
+					<view slot="prefix">
+						<i class="ess mgc_lock_line"></i>
+					</view>
+				</uv-input>
 				<u-gap></u-gap>
-				<u--input placeholder="确认密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password2">
-				</u--input>
+				<uv-input placeholder="确认密码" type="password" class="input" border="nont" v-model="password2">
+					<view slot="prefix">
+						<i class="ess mgc_lock_line"></i>
+					</view>
+				</uv-input>
 				<u-gap></u-gap>
-				<u--input placeholder="邮箱" prefixIcon="email" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="bottom" v-model="email">
-				</u--input>
+				<uv-input placeholder="邮箱" class="input" border="none" v-model="email">
+					<view slot="prefix">
+						<i class="ess mgc_mail_line"></i>
+					</view>
+					<view slot="suffix" v-if="config && config.isEmail">
+						<u-code ref="uCode" @change="codeChange" seconds="120"></u-code>
+						<u-button @tap="getCode" plain color="#ff0800" size="mini">{{tips}}</u-button>
+					</view>
+				</uv-input>
 				<u-gap></u-gap>
-				<view v-if="config && config.isEmail">
-					<u-row customStyle="border-bottom:1rpx solid #dadbde">
-						<u--input placeholder="验证码" type="number" prefixIcon="fingerprint"
-							prefixIconStyle="font-size:40rpx" customStyle="padding:15rpx 0 0 0" border="none"
-							v-model="code">
-						</u--input>
-						<view>
-							<u-code ref="uCode" @change="codeChange" seconds="120"></u-code>
-							<u-button @tap="getCode" plain color="#ff0800" size="mini">{{tips}}</u-button>
+				<u-row>
+					<uv-input v-if="config && config.isEmail" placeholder="验证码" type="number" class="input"
+						border="none" v-model="code">
+						<view slot="prefix">
+							<i class="ess mgc_safe_lock_line"></i>
 						</view>
-					</u-row>
-				</view>
-				<view v-if="config.isInvite">
-					<u-gap></u-gap>
-					<u--input placeholder="邀请码" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
-						customStyle="padding:15rpx 0 0 0" border="bottom" v-model="inviteCode">
-					</u--input>
-				</view>
+					</uv-input>
+					<view v-if="config &&config.isEmail && config.isInvite" style="margin: 0 15rpx"></view>
+					<uv-input v-if="config.isInvite" :placeholder="`邀请码(${config.isInvite?'必填':'选填'})`" class="input"
+						border="none" v-model="inviteCode">
+					</uv-input>
+				</u-row>
 			</view>
 			<u-row justify="space-between"
-				customStyle="margin-top:20rpx;font-weight:bold;font-size:30rpx;color:#414141">
+				customStyle="margin-top:40rpx;font-weight:bold;font-size:30rpx;color:#414141">
 				<text @click="isLogin=!isLogin">{{isLogin?'注册':'登录'}}</text>
 				<text @click="isForget=true">忘记密码？</text>
 			</u-row>
-			<view style="margin-top:20rpx">
+			<view style="margin-top:40rpx">
 				<u-row>
 					<u-checkbox-group>
 						<u-checkbox @change="accept=!accept" v-model="accept" activeColor="#ff0800" size="15"
@@ -95,26 +106,30 @@
 				</u-row>
 			</u-row>
 		</view>
-		<view style="margin: 40rpx;margin-top: 20rpx;" v-show="isForget">
+		<view style="margin: 40rpx;margin-top: 0rpx;" v-show="isForget">
 			<u-text text="找回密码" size="17" bold></u-text>
-			<u--input placeholder="用户名" prefixIcon="email" prefixIconStyle="font-size:40rpx"
-				customStyle="padding:15rpx 0 0 0" border="bottom" v-model="account">
-			</u--input>
+			<u-gap height="10"></u-gap>
+			<uv-input placeholder="邮箱/用户名" class="input" border="none" v-model="account">
+				<view slot="prefix">
+					<i class="ess mgc_user_1_line"></i>
+				</view>
+			</uv-input>
 			<u-gap></u-gap>
-			<u--input placeholder="修改密码" type="password" prefixIcon="lock" prefixIconStyle="font-size:40rpx"
-				customStyle="padding:15rpx 0 0 0" border="bottom" v-model="password">
-			</u--input>
+			<uv-input placeholder="密码" type="password" class="input" border="none" v-model="password">
+				<view slot="prefix">
+					<i class="ess mgc_lock_line"></i>
+				</view>
+			</uv-input>
 			<u-gap></u-gap>
-			<u-row customStyle="border-bottom:1rpx solid #dadbde">
-				<u--input placeholder="验证码" type="number" prefixIcon="fingerprint" prefixIconStyle="font-size:40rpx"
-					customStyle="padding:15rpx 0 0 0" border="none" v-model="code">
-				</u--input>
-				<view>
+			<uv-input placeholder="验证码" type="number" class="input" border="none" v-model="code">
+				<view slot="prefix">
+					<i class="ess mgc_safe_lock_line"></i>
+				</view>
+				<view slot="suffix" v-if="config && config.isEmail">
 					<u-code ref="uCode1" @change="codeChange" seconds="120"></u-code>
 					<u-button @tap="getAllCode" plain color="#ff0800" size="mini">{{tips}}</u-button>
 				</view>
-
-			</u-row>
+			</uv-input>
 
 			<u-row justify="space-between"
 				customStyle="margin-top:20rpx;font-weight:bold;font-size:30rpx;color:#414141">
@@ -302,28 +317,45 @@
 			},
 			register() {
 				if (!this.username.length) {
-					uni.$u.toast('用户名为空')
+					uni.$u.toast('请填写用户名！');
 					return;
 				}
+
+				if (!/^[a-zA-Z0-9]+$/.test(this.username)) {
+					uni.$u.toast('用户名只能包含字母和数字！');
+					return;
+				}
+
 				if (!this.email.length) {
-					uni.$u.toast('请填写邮箱')
+					uni.$u.toast('请填写邮箱！');
+					return;
+				}
+
+				if (!/\S+@\S+\.\S+/.test(this.email)) {
+					uni.$u.toast('请输入正确的邮箱格式！');
 					return;
 				}
 				if (this.password.length < 8) {
-					uni.$u.toast('密码强度不合格')
+					uni.$u.toast('密码强度不合格！')
 					return;
 				}
 
 				if (!this.config.isEmail && this.password != this.password2) {
-					uni.$u.toast('两次密码不相同')
+					uni.$u.toast('密码不一致！')
 					return;
 				}
+				
+				if (!/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/.test(this.password)) {
+				    uni.$u.toast('密码只能包含字母、数字和特殊字符！');
+				    return;
+				}
+				
 				if (this.config.isEmail && this.code.length < 6) {
-					uni.$u.toast('验证码错误')
+					uni.$u.toast('请填写验证码！')
 					return;
 				}
 				if (this.config.isInvite && !this.inviteCode.length) {
-					uni.$u.toast('邀请码不可为空')
+					uni.$u.toast('请填写邀请码！')
 					return;
 				}
 				this.$http.get('/user/register', {
@@ -384,5 +416,9 @@
 </script>
 
 <style lang="scss">
-
+	.input {
+		padding: 15rpx !important;
+		border-radius: 10rpx;
+		background: #f7f7f7;
+	}
 </style>
