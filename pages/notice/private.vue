@@ -5,7 +5,7 @@
 			<template #top>
 				<u-navbar placeholder autoBack :title="nickname">
 					<view slot="left">
-						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+						<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 					</view>
 				</u-navbar>
 			</template>

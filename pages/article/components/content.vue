@@ -11,7 +11,7 @@
 				justify-content: center;
 				align-items: center;
 				color: #999;">
-				<i class="ess icon-lock_line" style="font-size: 45rpx;"></i>
+				<i class="ess mgc_lock_line" style="font-size: 45rpx;"></i>
 				<text>该板块内容仅限会员可见</text>
 			</view>
 		</block>

@@ -5,7 +5,7 @@
 			<u-transition mode="slide-down" :show="showPayment">
 				<view
 					style="padding: 30rpx;border-radius: 20rpx;background: #00cccc;margin-bottom: 20rpx;color: white;">
-					<i class="ess icon-check_2_line"></i>
+					<i class="ess mgc_check_2_line"></i>
 					<text style="margin-left: 20rpx;">该订单已支付完成</text>
 				</view>
 			</u-transition>
@@ -16,7 +16,7 @@
 						<u-row align="end">
 							<text style="font-weight: 600;">{{info && info.address&& info.address.contacts}}</text>
 							<u-row align="baseline" style="margin-left: 20rpx;font-size: 28rpx;">
-								<i class="ess icon-cellphone_line"></i>
+								<i class="ess mgc_cellphone_line"></i>
 								<text>{{info.address&& info.address.phone}}</text>
 							</u-row>
 						</u-row>
@@ -36,7 +36,7 @@
 						<text style="margin-left: 20rpx;font-weight: 600;"
 							class="u-line-1">{{info && info.bossInfo&& info.bossInfo.screenName?info.bossInfo.screenName:info&& info.bossInfo&& info.bossInfo.name}}</text>
 					</u-row>
-					<i class="ess icon-right_line"></i>
+					<i class="ess mgc_right_line"></i>
 				</u-row>
 				<u-row align="top">
 					<image :src="info.specs && info.specs.image?info.specs.image:info && info.product_image[0]"
@@ -51,7 +51,7 @@
 						<u-row style="font-size: 28rpx;color: #999;" justify="space-between">
 							<text>已选：{{info.specs && info.specs.name}}</text>
 							<u-row style="color: red;">
-								<i class="ess icon-coin_line"></i>
+								<i class="ess mgc_coin_line"></i>
 								<text>{{info.specs && info.specs.price}}</text>
 							</u-row>
 						</u-row>
@@ -61,14 +61,14 @@
 					<u-row justify="space-between">
 						<text>运费：</text>
 						<u-row style="color: red;">
-							<i class="ess icon-coin_line"></i>
+							<i class="ess mgc_coin_line"></i>
 							<text>{{info.freight}}</text>
 						</u-row>
 					</u-row>
 					<u-row justify="space-between">
 						<text>总计：</text>
 						<u-row style="color: red;">
-							<i class="ess icon-coin_line"></i>
+							<i class="ess mgc_coin_line"></i>
 							<text>{{info.price}}</text>
 						</u-row>
 					</u-row>
@@ -81,7 +81,7 @@
 				<u-row justify="space-between">
 					<text>余额：</text>
 					<u-row>
-						<i class="ess icon-coin_line"></i>
+						<i class="ess mgc_coin_line"></i>
 						<text>{{$store.state.userInfo.assets}}</text>
 					</u-row>
 				</u-row>
@@ -123,7 +123,7 @@
 		<view style="position: fixed;bottom: 0;width: 100%;">
 			<u-row justify="space-between" style="background: white;padding: 15rpx 30rpx;">
 				<view>
-					<i class="ess icon-headphone_line" style="font-size: 40rpx;"></i>
+					<i class="ess mgc_headphone_line" style="font-size: 40rpx;"></i>
 				</view>
 				<view>
 					<u-button shape="circle" style="width: 200rpx;" :color="info.paid?'#ccc':'#ff0800'"

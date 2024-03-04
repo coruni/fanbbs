@@ -4,9 +4,9 @@
 			<template #top>
 				<u-navbar title="我的小摊" autoBack placeholder>
 					<view slot="left" style="display:flex;align-items: center;">
-						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+						<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 					</view>
-					<i class="ess icon-add_line" slot="right" style="font-size: 40rpx;" @click="goEdit()"></i>
+					<i class="ess mgc_add_line" slot="right" style="font-size: 40rpx;" @click="goEdit()"></i>
 				</u-navbar>
 				<view style="padding: 20rpx;background: white;">
 					<u-row>

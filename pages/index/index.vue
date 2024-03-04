@@ -82,16 +82,16 @@
 					flex-direction: column;
 					margin-top: 50rpx;">
 						<u-row customStyle="margin-bottom:30rpx">
-							<i class="ess icon-alert_line" style="font-size: 40rpx;"></i>
+							<i class="ess mgc_alert_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">举报</text>
 						</u-row>
 						<u-row customStyle="margin-bottom: 30rpx;" @click="copyLink()">
-							<i class="ess icon-flash_line" style="font-size: 40rpx;"></i>
+							<i class="ess mgc_flash_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">复制链接</text>
 						</u-row>
 						<!-- #ifdef APP -->
 						<u-row customStyle="margin-bottom: 30rpx;">
-							<i class="ess icon-share_forward_line" style="font-size: 40rpx;"></i>
+							<i class="ess mgc_share_forward_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx" @click="shareWithSystem()">通过系统分享</text>
 						</u-row>
 						<!-- #endif -->
@@ -138,19 +138,19 @@
 				publish: [{
 						name: '帖子',
 						type: 'article',
-						icon: 'icon-quill_pen_line',
+						icon: 'mgc_quill_pen_line',
 						path: 'articlePublish'
 					},
 					{
 						name: '图片',
 						type: 'picture',
-						icon: 'icon-pic_line',
+						icon: 'mgc_pic_line',
 						path: 'photo'
 					},
 					{
 						name: '视频',
 						type: 'video',
-						icon: 'icon-play_circle_line',
+						icon: 'mgc_play_circle_line',
 						path: 'video'
 					},
 				],
@@ -185,28 +185,28 @@
 						active: true,
 						type: 'home',
 						count: 0,
-						icon: 'icon-home_2_line',
-						cur: 'icon-home_2_fill'
+						icon: 'mgc_home_2_line',
+						cur: 'mgc_home_2_fill'
 					},
 					{
 						name: '动态',
 						active: false,
 						type: 'find',
 						count: 0,
-						icon: 'icon-send_line1',
-						cur: 'icon-send_fill'
+						icon: 'mgc_send_line',
+						cur: 'mgc_send_fill'
 					},
 					{
 						type: 'midbutton',
-						icon: 'icon-add_line'
+						icon: 'mgc_add_line'
 					},
 					{
 						name: '板块',
 						active: false,
 						type: 'shop',
 						count: 0,
-						icon: 'icon-three_circles_line',
-						cur: 'icon-three_circles_fill'
+						icon: 'mgc_three_circles_line',
+						cur: 'mgc_three_circles_fill'
 					},
 				],
 				lineBg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAOCAYAAABdC15GAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFxSURBVHgBzZNRTsJAEIb/WTW+lpiY+FZPIDew3ABP4GJ8hxsI9zBpOYHeQDwBPQI+mRiRvpLojtPdYhCorQqF/6GdbGd2vvwzBXZcNAt4oj1ANeUoAT5iqkUjbEFLHNmhD1YPEvpZ3ghkGlVDCkc94/BmHMq998I5ONiY1ZBfpKAyuOtgAc5yOEDmYEWNh32BHF91sGHZHmwW4azciN9aQwnz3SJEgOmte+R2tdLprTYoa50mvuomlLpD4Y3oQZnov6D2RzCqI93bWOHaEmAGqQUyRBlZR1WfarcD/EJ2z8DtzDGvsMCwpm8XOCfDUsVOCYhiqRxI/CTQo4UOvjzO7Pow18vfywneuUHHUUxLn55lLw5JFpZ8bEUcY8oXdOLWiHLTxvoGpLqoUmy6dBT15o/ox3znpoycAmxUsiJTbs1cmxeVKp+0zmFIS7bGWiVghC7Vwse8jFKAX9eljh4ggKLLv7uaQvG9/F59Oo2SouxPu7OTCxN/s8wAAAAASUVORK5CYII='

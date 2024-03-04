@@ -4,12 +4,12 @@
 		<u-row customStyle="color:#c0c4cc;font-size: 26rpx;" align="center" justify="space-between">
 			<u-row>
 				<u-row>
-					<i class="ess icon-time_line"></i>
+					<i class="ess mgc_time_line"></i>
 					<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
 				</u-row>
 				<text style="margin:0 20rpx">·</text>
 				<u-row align="center">
-					<i class="ess icon-eye_2_line"></i>
+					<i class="ess mgc_eye_2_line"></i>
 					<text>{{data.views}}</text>
 				</u-row>
 			</u-row>

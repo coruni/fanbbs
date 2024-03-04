@@ -2,7 +2,7 @@
 	<view>
 		<u-navbar placeholder autoBack id="navbar">
 			<view slot="left">
-				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="center">
 				<text>{{update?'更新帖子':'发布帖子'}}</text>
@@ -61,18 +61,18 @@
 			<view style="padding-bottom: 20rpx;">
 				<u-row justify="space-between">
 					<u-row justify="space-between" customStyle="flex:1">
-						<i class="ess icon-pic_line" style="font-size: 48rpx;" @click="chooseImage()"></i>
-						<i class="ess icon-emoji_line" style="font-size: 48rpx;"
+						<i class="ess mgc_pic_line" style="font-size: 48rpx;" @click="chooseImage()"></i>
+						<i class="ess mgc_emoji_line" style="font-size: 48rpx;"
 							:class="{'button-color':itemName=='emoji'}" @click="showItem('emoji')"></i>
-						<i class="ess icon-font_line" :class="{'button-color':itemName=='format'}"
+						<i class="ess mgc_font_line" :class="{'button-color':itemName=='format'}"
 							style="font-size: 48rpx;" @click="showItem('format')"></i>
-						<i class="ess icon-play_circle_line" style="font-size: 48rpx;" @click="chooseVideo()"></i>
-						<i class="ess icon-folder_3_line" :class="{'button-color':itemName=='more'}"
+						<i class="ess mgc_play_circle_line" style="font-size: 48rpx;" @click="chooseVideo()"></i>
+						<i class="ess mgc_folder_3_line" :class="{'button-color':itemName=='more'}"
 							style="font-size: 48rpx;" @click="showItem('more')"></i>
-						<i class="ess icon-add_line" style="font-size: 48rpx;" @click="showAddMore= true"></i>
+						<i class="ess mgc_add_line" style="font-size: 48rpx;" @click="showAddMore= true"></i>
 					</u-row>
 					<view style="margin-left: 120rpx;">
-						<i class="ess icon-settings_1_line" style="font-size: 48rpx;" @click="showItem('setting')"></i>
+						<i class="ess mgc_settings_1_line" style="font-size: 48rpx;" @click="showItem('setting')"></i>
 					</view>
 				</u-row>
 			</view>
@@ -120,9 +120,9 @@
 					<u-row justify="space-between" style="padding-bottom: 10rpx;">
 						<text style="font-weight: bold;">添加文件</text>
 						<u-row>
-							<i class="ess icon-pic_line" style="font-size: 40rpx;"
+							<i class="ess mgc_pic_line" style="font-size: 40rpx;"
 								@click="$refs.insertImage.open();showInsertImage = true"></i>
-							<i class="ess icon-play_circle_line" style="font-size: 40rpx;margin-left: 30rpx;"></i>
+							<i class="ess mgc_play_circle_line" style="font-size: 40rpx;margin-left: 30rpx;"></i>
 						</u-row>
 					</u-row>
 					<block v-for="(item,index) in article.opt.files" :key="index">
@@ -1103,7 +1103,7 @@
 		color: #999;
 		min-height: 0rpx;
 	}
-	.icon-download_2_line:before {
+	.mgc_download_2_line:before {
 	  content: "\e685";
 	}
 	

@@ -2,7 +2,7 @@
 	<view>
 		<uv-navbar autoBack placeholder>
 			<view slot="left">
-				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
 				<view
@@ -29,7 +29,7 @@
 							<text>{{article.category.name}}</text>
 						</view>
 					</u-row>
-					<i class="ess icon-right_line"></i>
+					<i class="ess mgc_right_line"></i>
 				</u-row>
 			</u-row>
 		</view>
@@ -39,7 +39,7 @@
 		</view>
 		<view id="toolbar" style="margin: 30rpx;">
 			<u-row justify="space-between">
-				<i class="ess icon-pic_2_line" style="font-size: 40rpx;" @click="chooseImage()"></i>
+				<i class="ess mgc_pic_2_line" style="font-size: 40rpx;" @click="chooseImage()"></i>
 				<!-- 标签 -->
 				<u-col :span="10">
 					<u-row justify="space-between" @click="showTag = true">
@@ -56,7 +56,7 @@
 								</u-row>
 							</scroll-view>
 						</u-row>
-						<i class="ess icon-right_line"></i>
+						<i class="ess mgc_right_line"></i>
 					</u-row>
 				</u-col>
 			</u-row>
@@ -69,7 +69,7 @@
 		</uv-modal>
 		<u-popup customStyle="border-radius:40rpx 40rpx 0 0;" :show="showCategory" @close="showCategory = false"
 			:closeable="true">
-			<view style="height: 70vh;padding:30rpx;background:#ff08000a">
+			<view style="height: 70vh;padding:30rpx;background:#fff;border-radius:40rpx 40rpx 0 0;">
 				<view style="text-align: center;">选择板块</view>
 				<view style="margin-top: 30rpx;">
 					<scroll-view scroll-y style="height: 65vh;">
@@ -205,7 +205,7 @@
 						}),
 					}
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						let data = res.data.data.data;
 						for (let i in data) {
@@ -337,7 +337,7 @@
 						filePath: image,
 						name: 'file',
 					}).then(res => {
-						
+
 						if (res.data.code == 200) {
 							this.images.push(res.data.data.url)
 							resolve(res.data.data.url)

@@ -58,7 +58,7 @@
 						<view
 							style="padding:8rpx 20rpx;font-size: 26rpx;background:#ff08001e;font;display: flex;align-items: center;width: 180rpx;border-radius: 500rpx;justify-content: space-around;">
 							<text>{{data.subComments && data.subComments.count}}条评论</text>
-							<i class="ess icon-right_line"></i>
+							<i class="ess mgc_right_line"></i>
 						</view>
 
 					</view>
@@ -69,11 +69,11 @@
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
 						<u-row customStyle="flex-basis:30%" justify="space-between">
 							<u-row @click="reply(data)">
-								<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
+								<i class="ess mgc_chat_4_line" style="font-size: 40rpx;"></i>
 								<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
 							</u-row>
 							<u-row @click="like()" :style="{color:data.isLike?'#ffa385':''}">
-								<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
+								<i class="ess mgc_thumb_up_2_line" style="font-size: 40rpx;"></i>
 								<text
 									style="font-size: 28rpx;margin-left: 10rpx;">{{data && data.likes?data.likes:''}}</text>
 							</u-row>

@@ -2,7 +2,7 @@
 	<view>
 		<u-navbar placeholder bgColor="#3c4151" autoBack :title="data.title" :titleStyle="{color:'#fff'}">
 			<view slot="left">
-				<i class="ess icon-close_line" style="font-size: 50rpx;color: white;"></i>
+				<i class="ess mgc_close_line" style="font-size: 50rpx;color: white;"></i>
 			</view>
 		</u-navbar>
 		<view @touchend="touchEnd" @touchmove="touchMove">

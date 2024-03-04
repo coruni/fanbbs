@@ -3,7 +3,7 @@
 		<view v-if="data.opt&&data.opt.files[0].link" style="margin-top: 20rpx;">
 			<view style="margin-top: 10rpx;background: #f7f7f7;border-radius: 20rpx;padding: 20rpx;">
 				<view style="margin-bottom: 10rpx;">
-					<i class="ess icon-download_line" style="color: #ff0800;font-size: 34rpx;"></i>
+					<i class="ess mgc_download_line" style="color: #ff0800;font-size: 34rpx;"></i>
 					<text style="font-weight: 600;margin-left: 10rpx;">资源下载</text>
 				</view>
 				<view style="display: flex;flex-direction: column;">
@@ -12,7 +12,7 @@
 							<u-row>
 								<u-button shape="circle" @click="openUrl(item.link)">
 									<u-row>
-										<i class="ess icon-download_3_line"></i>
+										<i class="ess mgc_download_3_line"></i>
 										<text>{{item.name?item.name:`资源${index+1}`}}</text>
 									</u-row>
 								</u-button>
@@ -51,7 +51,7 @@
 						margin-top: 10rpx;
 						font-size: 26rpx;
 						">
-						<i class="ess icon-hashtag_line" style="font-size: 26rpx;"></i>
+						<i class="ess mgc_hashtag_line" style="font-size: 26rpx;"></i>
 						<text>{{item.name}}</text>
 					</view>
 				</block>

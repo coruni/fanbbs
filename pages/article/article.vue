@@ -6,7 +6,7 @@
 			<template #top>
 				<u-navbar placeholder fixed style="z-index: 10;">
 					<view slot="left" style="display:flex;align-items: center;">
-						<i class="ess icon-left_line" style="font-size: 60rpx;" @click="$Router.back(1)"></i>
+						<i class="ess mgc_left_line" style="font-size: 60rpx;" @click="$Router.back(1)"></i>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
 							@click="goProfile(article.authorId)" v-show="showNavAvatar" v-if="article">
 							<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="28"
@@ -20,7 +20,7 @@
 							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #ff080032;padding: 0rpx 16rpx;line-height: 1;">
 							<u-row customStyle="margin-right:20rpx;"
 								@click="article.authorInfo.isFollow?showFollow = true:follow(article.authorId)">
-								<i class="ess icon-add_line" style="font-size: 30rpx;font-weight: 600;"
+								<i class="ess mgc_add_line" style="font-size: 30rpx;font-weight: 600;"
 									:style="{color:article && article.authorInfo &&article.authorInfo.isFollow?'':'#ff0800'}"
 									v-if="article && article.authorInfo &&!article.authorInfo.isFollow"></i>
 
@@ -28,10 +28,10 @@
 									:style="{color:article && article.authorInfo && article.authorInfo.isFollow?'':'#ff0800'}">{{article && article.authorInfo && article.authorInfo.isFollow?'已关注':'关注'}}</text>
 							</u-row>
 							<view>
-								<i class="ess icon-more_1_line" style="font-size: 60rpx;" @click="showMore = true"></i>
+								<i class="ess mgc_more_1_line" style="font-size: 60rpx;" @click="showMore = true"></i>
 							</view>
 						</view>
-						<i class="ess icon-more_1_line" style="font-size: 60rpx;" @click="showMore = true"
+						<i class="ess mgc_more_1_line" style="font-size: 60rpx;" @click="showMore = true"
 							v-show="!showNavAvatar"></i>
 					</view>
 				</u-navbar>
@@ -53,7 +53,7 @@
 							<text
 								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
-								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
+								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 
 						</view>
 					</u-row>
@@ -84,7 +84,7 @@
 							<text
 								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
-								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
+								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 						</view>
 					</u-row>
 					<u-transition :show="showOrderList"
@@ -129,12 +129,12 @@
 						<u-row customStyle="margin-left:20rpx;flex:1" justify="space-around">
 							<!-- <view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$refs.reward.open()">
-								<i class="ess icon-copper_coin_line" style="font-size: 44rpx;"></i>
+								<i class="ess mgc_copper_coin_line" style="font-size: 44rpx;"></i>
 								<u-text text="发电" size="12" color="#999"></u-text>
 							</view> -->
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$u.throttle(mark(),1000,true)">
-								<i class="ess icon-star_line" style="font-size: 44rpx;"
+								<i class="ess mgc_star_line" style="font-size: 44rpx;"
 									:style="{color:article && article.isMark?'#ff0800':''}"
 									:class="{'animate__animated animate__pulse':article && article.isMark}"></i>
 
@@ -143,7 +143,7 @@
 
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$u.throttle(like(),1000,true)">
-								<i class="ess icon-thumb_up_2_line" style="font-size: 44rpx;"
+								<i class="ess mgc_thumb_up_2_line" style="font-size: 44rpx;"
 									:style="{color:article && article.isLike?'#ff0800':''}"
 									:class="{'animate__animated animate__pulse':article && article.isLike}"></i>
 								<text style="font-size: 24rpx;color: #999;">{{article && article.likes}}</text>
@@ -216,7 +216,7 @@
 							</block>
 						</u-row>
 					</u-col>
-					<i class="ess icon-eraser_line" style="font-size: 40rpx;" @tap.stop="editorCtx.removeFormat()"></i>
+					<i class="ess mgc_eraser_line" style="font-size: 40rpx;" @tap.stop="editorCtx.removeFormat()"></i>
 				</u-row>
 			</block>
 		</u-popup>
@@ -268,27 +268,27 @@
 					</u-row>
 					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
 						<u-row customStyle="margin-bottom:30rpx">
-							<i class="ess icon-alert_line" style="font-size: 40rpx;"></i>
+							<i class="ess mgc_alert_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">举报</text>
 						</u-row>
 						<u-row customStyle="margin-bottom: 30rpx;" @click="copyLink()">
-							<i class="ess icon-flash_line" style="font-size: 40rpx;"></i>
+							<i class="ess mgc_flash_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">复制链接</text>
 						</u-row>
 						<!-- #ifdef APP -->
 						<u-row customStyle="margin-bottom: 30rpx;">
-							<i class="ess icon-share_forward_line" style="font-size: 40rpx;"></i>
+							<i class="ess mgc_share_forward_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx" @click="shareWithSystem()">通过系统分享</text>
 						</u-row>
 						<!-- #endif -->
 						<view
 							v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.group =='administrator'">
 							<u-row customStyle="margin-bottom: 30rpx;" @click="goEdit()">
-								<i class="ess icon-edit_line" style="font-size: 40rpx;"></i>
+								<i class="ess mgc_edit_line" style="font-size: 40rpx;"></i>
 								<text style="margin-left:20rpx">编辑</text>
 							</u-row>
 							<u-row customStyle="margin-bottom: 30rpx;color:red" @click="showDelete = true">
-								<i class="ess icon-delete_2_line" style="font-size: 40rpx;"></i>
+								<i class="ess mgc_delete_2_line" style="font-size: 40rpx;"></i>
 								<text style="margin-left:20rpx">删除</text>
 							</u-row>
 
@@ -437,14 +437,14 @@
 				],
 				cBtn: [{
 						name: '表情',
-						icon: 'icon-emoji_line',
+						icon: 'mgc_emoji_line',
 					}, {
 						name: '图片',
-						icon: 'icon-pic_line',
+						icon: 'mgc_pic_line',
 					},
 					{
 						name: '颜色',
-						icon: 'icon-palette_line'
+						icon: 'mgc_palette_line'
 					}
 				],
 				colors: ['#ff0800', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],
@@ -687,7 +687,7 @@
 						</a>`
 						if (type == "付费") {
 							html += `<div style="position:absolute;bottom:10px;right:0;border-radius:5px 0 5px 0;color:white;background:#a385ff;padding:0 8px;font-size:12px !important;display:flex">
-							<div><i class="ess icon-coin_line" style="font-size:12px"></div>
+							<div><i class="ess mgc_coin_line" style="font-size:12px"></div>
 							<p style="font-size:12px;margin-left:2px">${this.article.price>0?this.article.price:'免费'}</p>
 							</div>`
 						}

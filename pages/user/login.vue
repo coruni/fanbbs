@@ -5,8 +5,7 @@
 		<view style="position: relative;top: 0;">
 			<image src="/static/login.jpg" mode="aspectFill" style="width: 100%;height: 400rpx;"></image>
 			<view style="width: 100%;position: absolute;bottom: 0;">
-				<view style="background: white;padding: 20rpx;border-radius: 20rpx 20rpx 0 0;">
-				</view>
+				<view style="background: white;padding: 20rpx;border-radius: 20rpx 20rpx 0 0;"></view>
 			</view>
 		</view>
 		<view style="margin: 40rpx;margin-top: 20rpx;" v-show="!isForget">

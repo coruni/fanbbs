@@ -22,7 +22,7 @@
 							<u-row justify="space-between">
 								<text style="font-weight: 600;" class="u-line-1">{{item.product_name}}</text>
 								<u-row style="color: red;">
-									<i class="ess icon-coin_line"></i>
+									<i class="ess mgc_coin_line"></i>
 									<text>{{item.price}}</text>
 								</u-row>
 							</u-row>

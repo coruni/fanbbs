@@ -2,24 +2,24 @@
 	<view>
 		<u-navbar title="账号与安全" placeholder autoBack>
 			<view slot="left">
-				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 		</u-navbar>
 		<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="showAddress = true">
 			<text>管理收货地址</text>
-			<i class="ess icon-right_small_line" style="font-size: 50rpx;"></i>
+			<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 		</u-row>
 		<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="showChangePassword = true">
 			<text>修改密码</text>
-			<i class="ess icon-right_small_line" style="font-size: 50rpx;"></i>
+			<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 		</u-row>
 		<u-row justify="space-between" style="padding: 20rpx 30rpx;">
 			<text>第三方绑定</text>
-			<i class="ess icon-right_small_line" style="font-size: 50rpx;"></i>
+			<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 		</u-row>
 		<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="goPage('destroy')">
 			<text>注销账号</text>
-			<i class="ess icon-right_small_line" style="font-size: 50rpx;"></i>
+			<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 		</u-row>
 
 		<!-- popup组件 -->

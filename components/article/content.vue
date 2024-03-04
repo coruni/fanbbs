@@ -59,7 +59,7 @@
 					margin-bottom: 10rpx;
 					font-size: 24rpx;
 					">
-					<i class="ess icon-hashtag_line" style="font-size: 26rpx;"></i>
+					<i class="ess mgc_hashtag_line" style="font-size: 26rpx;"></i>
 					<text>{{item.name}}</text>
 				</view>
 			</block>

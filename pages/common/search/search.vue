@@ -4,7 +4,7 @@
 			<u-navbar placeholder autoBack style="position: relative;z-index: 10075;" bgColor="transparent">
 				<!-- 用slot占位取消返回图标 -->
 				<view slot="left">
-					<i class="ess icon-left_line" style="font-size: 60rpx;" @click=""></i>
+					<i class="ess mgc_left_line" style="font-size: 60rpx;" @click=""></i>
 				</view>
 				<view slot="center" style="margin: 0 20rpx;flex:1;margin-left:100rpx">
 					<u-row>

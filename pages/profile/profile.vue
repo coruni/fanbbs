@@ -5,7 +5,7 @@
 				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`" id="navbar">
 					<view slot="left">
 						<u-row>
-							<i class="ess icon-left_line" style="font-size: 60rpx;"
+							<i class="ess mgc_left_line" style="font-size: 60rpx;"
 								:style="{color:opacity>0.4? 'black':'white'}" @click="$Router.back(1)"></i>
 							<u-row customStyle="margin-left:20rpx" v-show="opacity>=1"
 								@click="$refs.paging.scrollToTop()">
@@ -37,11 +37,11 @@
 						<!-- 占位结束 -->
 						<text style="font-weight: 600;font-size: 34rpx;">{{info.screenName}}</text>
 						<u-row customStyle="font-size:28rpx">
-							<i class="ess icon-renwu" style="margin-right: 10rpx;"></i>
+							<i class="ess mgc_renwu" style="margin-right: 10rpx;"></i>
 							<text>通行证ID：{{info.uid}}</text>
 						</u-row>
 						<u-row customStyle="font-size:28rpx;color: #999;">
-							<i class="ess icon-ziliao" style="margin-right: 10rpx;"></i>
+							<i class="ess mgc_ziliao" style="margin-right: 10rpx;"></i>
 							<text>{{info.introduce?info.introduce:'系统默认签名~'}}</text>
 						</u-row>
 					</view>

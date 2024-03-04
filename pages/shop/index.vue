@@ -3,10 +3,10 @@
 		<template #top>
 			<u-navbar :title="appInfo && appInfo.currencyName+'商城'" bgColor="transparent" placeholder autoBack>
 				<view slot="left" style="display:flex;align-items: center;">
-					<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+					<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 				</view>
 				<view slot="right">
-					<i class="ess icon-search_3_line" style="font-size: 40rpx;" @click="showSearch= !showSearch"></i>
+					<i class="ess mgc_search_3_line" style="font-size: 40rpx;" @click="showSearch= !showSearch"></i>
 				</view>
 			</u-navbar>
 		</template>
@@ -28,7 +28,7 @@
 							<text class="u-line-2">{{item.title}}</text>
 							<view style="margin-top: 20rpx;display: flex;justify-content: space-between;">
 								<view style="display: flex;align-items: baseline;color: red;">
-									<i class="ess icon-coin_line" style="font-size: 26rpx;margin-right: 10rpx;"></i>
+									<i class="ess mgc_coin_line" style="font-size: 26rpx;margin-right: 10rpx;"></i>
 									<text>{{item.price}}</text>
 								</view>
 								<view style="font-size: 26rpx;">
@@ -54,7 +54,7 @@
 							<text class="u-line-2">{{item.title}}</text>
 							<view style="margin-top: 20rpx;display: flex;justify-content: space-between;">
 								<view style="display: flex;align-items: baseline;color: red;">
-									<i class="ess icon-coin_line" style="font-size: 26rpx;margin-right: 10rpx;"></i>
+									<i class="ess mgc_coin_line" style="font-size: 26rpx;margin-right: 10rpx;"></i>
 									<text>{{item.price}}</text>
 								</view>
 								<view style="font-size: 26rpx;">

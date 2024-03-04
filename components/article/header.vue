@@ -32,7 +32,7 @@
 						shape="circle" plain customStyle="font-size:28rpx;height:55rpx;background:tran" @click="$emit('follow',true)">关注</u-button>
 				</view>
 				<view>
-					<i class="ess icon-more_1_line" style="font-size: 60rpx;margin-left: 10rpx;" @click.stop="$emit('menuTap',data)"></i>
+					<i class="ess mgc_more_1_line" style="font-size: 60rpx;margin-left: 10rpx;" @click.stop="$emit('menuTap',data)"></i>
 				</view>
 			</view>
 		</u-row>

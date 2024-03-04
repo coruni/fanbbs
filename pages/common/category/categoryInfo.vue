@@ -5,7 +5,7 @@
 				:bgColor="info.opt&& info.opt.primary?$u.colorToRgba(info.opt && info.opt.primary,opacity):$u.colorToRgba('#fff',opacity)"
 				fixed>
 				<view slot="left">
-					<i class="ess icon-left_line" style="font-size: 60rpx;"
+					<i class="ess mgc_left_line" style="font-size: 60rpx;"
 						:style="{color:opacity>=0.5?'black':'white'}"></i>
 				</view>
 			</u-navbar>
@@ -43,17 +43,17 @@
 								<u-row justify="space-between">
 									<view
 										style="background: #ff0800a0;color: #fff;padding: 4rpx 20rpx;border-radius: 20rpx;">
-										<i class="ess icon-ghost_line"></i>
+										<i class="ess mgc_ghost_line"></i>
 										<text style="margin-left: 20rpx;">{{info.follows}}</text>
 									</view>
 									<view
 										style="background: #ffe085a0;color: #fff;padding: 4rpx 20rpx;border-radius: 20rpx;">
-										<i class="ess icon-quill_pen_line"></i>
+										<i class="ess mgc_quill_pen_line"></i>
 										<text style="margin-left: 20rpx;">{{info.count}}</text>
 									</view>
 									<view
 										style="background: #ff85a3a0;color: #fff;padding: 4rpx 20rpx;border-radius: 20rpx;">
-										<i class="ess icon-ghost_line"></i>
+										<i class="ess mgc_ghost_line"></i>
 										<text style="margin-left: 20rpx;">{{info.follows}}</text>
 									</view>
 								</u-row>

@@ -17,7 +17,7 @@
 				<text style="font-weight: 600;">板块</text>
 				<u-row style="color: #999;font-size: 28rpx;" @click="goCategoryList()">
 					<text>全部</text>
-					<i class="ess icon-right_line" style="font-size: 40rpx;"></i>
+					<i class="ess mgc_right_line" style="font-size: 40rpx;"></i>
 				</u-row>
 			</u-row>
 			<u-row justify="space-between" style="flex-wrap: wrap;">

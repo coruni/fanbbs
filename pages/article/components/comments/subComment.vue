@@ -6,7 +6,7 @@
 			<template #top>
 				<u-navbar autoBack placeholder style="z-index: 10;">
 					<view slot="left">
-						<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+						<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 					</view>
 				</u-navbar>
 			</template>
@@ -31,7 +31,7 @@
 						<u-row>
 							<text
 								:style="{color:data.userInfo.isVip?'#ff0800':'',fontSize:30+'rpx',fontWeight:600}">{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
-							<i v-if="data.userInfo.level" :class="`level icon-lv-${data.userInfo.level}`"
+							<i v-if="data.userInfo.level" :class="`level mgc_lv-${data.userInfo.level}`"
 								style="font-size: 50rpx; margin-left: 10rpx;"
 								:style="{ color: data.userInfo.level > 8 ? $level[Math.floor(data.userInfo.level/2)-1] : $level[data.userInfo.level-1] }">
 							</i>
@@ -58,11 +58,11 @@
 						<u-row customStyle="flex-basis:30%" justify="space-between">
 							<u-row
 								@click="commentCheck(false,data.id,data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name)">
-								<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
+								<i class="ess mgc_chat_4_line" style="font-size: 40rpx;"></i>
 								<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
 							</u-row>
 							<u-row>
-								<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
+								<i class="ess mgc_thumb_up_2_line" style="font-size: 40rpx;"></i>
 								<text style="font-size: 28rpx;margin-left: 10rpx;"></text>
 							</u-row>
 						</u-row>
@@ -78,7 +78,7 @@
 							<text
 								style="margin-right: 10rpx;font-size:30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
-								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
+								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 						</view>
 					</u-row>
 					<u-transition :show="showOrderList"
@@ -108,7 +108,7 @@
 							<text
 								style="margin-right: 10rpx;font-size:30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
-								:class="showOrderList?'icon-up_small_fill':'icon-down_small_fill'"></i>
+								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 						</view>
 					</u-row>
 					<u-transition :show="showOrderList"
@@ -192,11 +192,11 @@
 											<u-row customStyle="flex-basis:30%" justify="space-between">
 												<u-row
 													@click="commentCheck(true,item.id,item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name)">
-													<i class="ess icon-chat_4_line" style="font-size: 40rpx;"></i>
+													<i class="ess mgc_chat_4_line" style="font-size: 40rpx;"></i>
 													<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
 												</u-row>
 												<u-row @click="like(index)" :style="{color:item.isLike?'#ffa385':''}">
-													<i class="ess icon-thumb_up_2_line" style="font-size: 40rpx;"></i>
+													<i class="ess mgc_thumb_up_2_line" style="font-size: 40rpx;"></i>
 													<text
 														style="font-size: 28rpx;margin-left: 10rpx;">{{item && item.likes?item.likes:''}}</text>
 												</u-row>
@@ -284,7 +284,7 @@
 							</block>
 						</u-row>
 					</u-col>
-					<i class="ess icon-eraser_line" style="font-size: 40rpx;" @tap.stop="editorCtx.removeFormat()"></i>
+					<i class="ess mgc_eraser_line" style="font-size: 40rpx;" @tap.stop="editorCtx.removeFormat()"></i>
 				</u-row>
 			</block>
 		</u-popup>
@@ -322,14 +322,14 @@
 				emojiIndex: 0,
 				cBtn: [{
 						name: '表情',
-						icon: 'icon-emoji_line',
+						icon: 'mgc_emoji_line',
 					}, {
 						name: '图片',
-						icon: 'icon-pic_line',
+						icon: 'mgc_pic_line',
 					},
 					{
 						name: '颜色',
-						icon: 'icon-palette_line'
+						icon: 'mgc_palette_line'
 					}
 				],
 				colors: ['#ff0800', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],

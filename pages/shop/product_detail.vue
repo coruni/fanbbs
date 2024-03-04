@@ -2,10 +2,10 @@
 	<view>
 		<u-navbar title="商品详情" placeholder autoBack>
 			<view slot="left">
-				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
-				<i class="ess icon-share_3_line" style="font-size: 45rpx;"></i>
+				<i class="ess mgc_share_3_line" style="font-size: 45rpx;"></i>
 			</view>
 		</u-navbar>
 		<view style="position: relative;top: 0;">
@@ -19,7 +19,7 @@
 		</view>
 		<view style="margin: 30rpx;">
 			<view style="display: flex;align-items: baseline;color: red;">
-				<i class="ess icon-coin_line" style="font-size: 26rpx;margin-right: 10rpx;"></i>
+				<i class="ess mgc_coin_line" style="font-size: 26rpx;margin-right: 10rpx;"></i>
 				<text style="font-size: 40rpx;">{{info.price}}</text>
 			</view>
 			<text style="font-weight: 600;">{{info.title}}</text>
@@ -95,7 +95,7 @@
 					<view style="display: flex;flex-direction: column;margin-left: 20rpx;">
 						<text>已选：{{selectSpecs && selectSpecs.name}}</text>
 						<u-row align="baseline" style="color: red;">
-							<i class="ess icon-coin_line"></i>
+							<i class="ess mgc_coin_line"></i>
 							<text style="margin-left: 10rpx;">{{selectSpecs&&selectSpecs.price}}</text>
 						</u-row>
 					</view>
@@ -111,14 +111,14 @@
 								display: flex;
 								align-items: baseline;
 								flex-shrink: 0;">
-								<i class="ess icon-home_1_line"></i>
+								<i class="ess mgc_home_1_line"></i>
 								<text style="margin-left: 10rpx;">配送至：</text>
 							</view>
 							<view style="padding-left: 20rpx;">
 								<text>{{$store.state.userInfo.address?$store.state.userInfo.address.address:'你还没有设置地址，点击设置'}}</text>
 							</view>
 						</u-row>
-						<i class="ess icon-right_line"></i>
+						<i class="ess mgc_right_line"></i>
 					</u-row>
 				</view>
 

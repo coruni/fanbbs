@@ -2,7 +2,7 @@
 	<view>
 		<u-navbar title="注销账号" placeholder autoBack>
 			<view slot="left">
-				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 		</u-navbar>
 		<view style="padding: 30rpx;">

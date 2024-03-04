@@ -6,7 +6,7 @@
 				<u-row justify="space-between">
 					<view
 						style="background: #ff0800a0;border-radius: 20rpx;padding: 30rpx;display: flex;align-items: center;width: 200rpx;">
-						<i class="ess icon-yinhangka" style="font-size: 36rpx;color: white;"></i>
+						<i class="ess mgc_yinhangka" style="font-size: 36rpx;color: white;"></i>
 						<text style="margin-left: 30rpx;color: #fff;">{{userInfo.assets}}</text>
 					</view>
 					<view>
@@ -130,7 +130,7 @@
 				</view>
 				<u-row justify="space-between" @click="showCard = true">
 					<text>使用卡密</text>
-					<i class="ess icon-right_line" style="font-size: 34rpx;"></i>
+					<i class="ess mgc_right_line" style="font-size: 34rpx;"></i>
 				</u-row>
 				<view style="margin-top: 20rpx;">
 					<u-button color="#ff0800" shape="circle"

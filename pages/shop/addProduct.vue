@@ -2,7 +2,7 @@
 	<view>
 		<u-navbar title="发布商品" placeholder autoBack>
 			<view slot="left">
-				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
 				<u-button color="#ff0800" shape="circle" style="height: 60rpx;"
@@ -16,7 +16,7 @@
 				<editor id="editor" @ready="" placeholder="请输入商品介绍" @ready="onEditorReady" @statuschange="con"></editor>
 				<view style="margin-top: 20rpx;">
 					<u-row>
-						<i class="ess icon-pic_2_line" style="font-size: 35rpx;" @click="choose()"></i>
+						<i class="ess mgc_pic_2_line" style="font-size: 35rpx;" @click="choose()"></i>
 						<block v-for="(color,index) in colors" :key="index">
 							<text :style="{background:color}"
 								style="margin-left: 20rpx;padding: 15rpx;border-radius: 50rpx;"></text>
@@ -34,14 +34,14 @@
 								<u-image :src="image" height="130" width="100" radius="8" @click="previewImg(index)"></u-image>
 								<view @click="deleteImage(index)"
 									style="position: absolute;right: 0;top: 0;background: #ff0800;color: white;border-radius: 0 16rpx 0 16rpx;">
-									<i class="ess icon-close_line"></i>
+									<i class="ess mgc_close_line"></i>
 								</view>
 							</view>
 						</block>
 						<u-row style="height: 130px;width: 100px;border: #ccc solid 1rpx;border-radius: 16rpx;"
 							v-if="shop.imgurl.length<10" @click="choose('mainPic')">
 							<view style="text-align: center;flex:1">
-								<i class="ess icon-add_line" style="font-size: 50rpx;"></i>
+								<i class="ess mgc_add_line" style="font-size: 50rpx;"></i>
 							</view>
 						</u-row>
 					</uv-scroll-list>
@@ -65,7 +65,7 @@
 					<u-form-item>
 						<u-row justify="space-between" style="flex:1" @click="showCategory = true">
 							<text style="font-size: 28rpx;">分类：{{shop.sort.name}}</text>
-							<i class="ess icon-right_line"></i>
+							<i class="ess mgc_right_line"></i>
 						</u-row>
 					</u-form-item>
 					<u-form-item label="商品规格*" labelWidth="auto">
@@ -114,7 +114,7 @@
 									</view>
 								</u-swipe-action-item>
 								<view style="text-align: right;margin-top: 20rpx;">
-									<i class="ess icon-add_line" hover-class="hover"
+									<i class="ess mgc_add_line" hover-class="hover"
 										style="color: white;background: #ff0800;padding: 4rpx;border-radius: 50rpx;"
 										@click="specsAdd()"></i>
 								</view>
@@ -126,7 +126,7 @@
 		</view>
 		<view style="font-size: 26rpx;color: #999;margin: 30rpx;">
 			<u-row align="top">
-				<i class="ess icon-warning_line"></i>
+				<i class="ess mgc_warning_line"></i>
 				<text style="margin-left: 10rpx;">商城物品定价为积分且积分数量只能是整数，暂不支持小数点。积分比例请根据充值比例定义防止出现盈亏问题</text>
 			</u-row>
 

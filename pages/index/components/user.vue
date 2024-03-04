@@ -16,7 +16,7 @@
 						</u-row>
 					</view>
 					<u-row slot="right">
-						<i class="ess icon-menu_line" :style="{color:opacity>0.4? 'black':'white'}"
+						<i class="ess mgc_menu_line" :style="{color:opacity>0.4? 'black':'white'}"
 							style="font-size: 44rpx;margin-right: 20rpx;" @click="showRightMenu =true"></i>
 					</u-row>
 				</u-navbar>
@@ -63,11 +63,11 @@
 							</text>
 						</u-row>
 						<u-row customStyle="font-size:28rpx">
-							<i class="ess icon-renwu" style="margin-right: 10rpx;"></i>
+							<i class="ess mgc_renwu" style="margin-right: 10rpx;"></i>
 							<text>通行证ID：{{userInfo && userInfo.uid}}</text>
 						</u-row>
 						<u-row customStyle="font-size:28rpx;color: #999;">
-							<i class="ess icon-ziliao" style="margin-right: 10rpx;"></i>
+							<i class="ess mgc_ziliao" style="margin-right: 10rpx;"></i>
 							<text>{{userInfo && userInfo.introduce?userInfo.introduce:'系统默认签名~'}}</text>
 						</u-row>
 					</view>
@@ -80,12 +80,12 @@
 						<u-gap></u-gap>
 						<u-button plain v-if="!$store.state.tasks.isSign" color="#ff0800" shape="circle"
 							customStyle="height:60rpx" @click="checkUp()">
-							<i class="ess icon-leaf_line"></i>
+							<i class="ess mgc_leaf_line"></i>
 							<text>签到</text>
 						</u-button>
 						<u-button v-if="$store.state.tasks.isSign" color="#ffe085" shape="circle"
 							customStyle="height:60rpx" @click="checkUp()">
-							<i class="ess icon-leaf_line"></i>
+							<i class="ess mgc_leaf_line"></i>
 							<text>已签到</text>
 						</u-button>
 					</view>
@@ -163,17 +163,17 @@
 				<view style="margin: 20rpx;background: #fff;border-radius: 20rpx;padding: 20rpx;">
 					<u-row justify="space-between">
 						<u-row style="flex-direction: column;" justify="center" @click="goLogout()">
-							<i class="ess icon-flash_line"
+							<i class="ess mgc_flash_line"
 								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;color: red;"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">退出</text>
 						</u-row>
 						<u-row style="flex-direction: column;" justify="center">
-							<i class="ess icon-clipboard_line"
+							<i class="ess mgc_clipboard_line"
 								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">反馈</text>
 						</u-row>
 						<u-row style="flex-direction: column;" justify="center" @click="goPage('setting')">
-							<i class="ess icon-settings_1_line"
+							<i class="ess mgc_settings_1_line"
 								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">设置</text>
 						</u-row>
@@ -195,7 +195,7 @@
 				<view style="display: flex;flex-direction: column;font-size: 28rpx;">
 					<u-row>
 						<text>当前等级：</text>
-						<i @click="showLevel = true" v-if="userInfo.level" :class="`level icon-lv-${userInfo.level}`"
+						<i @click="showLevel = true" v-if="userInfo.level" :class="`level mgc_lv-${userInfo.level}`"
 							style="font-size: 50rpx; margin-left: 20rpx;"
 							:style="{ color: userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }">
 						</i>
@@ -223,13 +223,13 @@
 				flex-direction: column;">
 					<view style="margin-bottom:30rpx">
 						<u-row @click="goEdit()">
-							<i class="ess icon-edit_line" style="font-size: 40rpx;"></i>
+							<i class="ess mgc_edit_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">编辑</text>
 						</u-row>
 					</view>
 					<view style="margin-bottom:30rpx">
 						<u-row style="color: red;" @click="showDelete = true">
-							<i class="ess icon-delete_2_line" style="font-size: 40rpx;"></i>
+							<i class="ess mgc_delete_2_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">删除</text>
 						</u-row>
 					</view>
@@ -303,44 +303,44 @@
 				rightMenuItem: {
 					personl: [{
 							name: '个人信息',
-							icon: 'icon-quill_pen_line',
+							icon: 'mgc_quill_pen_line',
 							path: 'editUser'
 						},
 						{
 							name: '我的收藏',
-							icon: 'icon-star_line',
+							icon: 'mgc_star_line',
 							path: 'collect'
 						},
 						{
 							name: '浏览历史',
-							icon: 'icon-time_line',
+							icon: 'mgc_time_line',
 							path: 'history',
 						}
 					],
 					all: [{
 							name: '我的订单',
-							icon: 'icon-bill_line',
+							icon: 'mgc_bill_line',
 							path: 'orderList',
 						},
 						{
 							name: '我的小摊',
-							icon: 'icon-shopping_cart_2_line',
+							icon: 'mgc_shopping_cart_2_line',
 							path: 'myProduct',
 						}
 					],
 					blance: [{
 							name: '我的钱包',
-							icon: 'icon-wallet_3_line',
+							icon: 'mgc_wallet_3_line',
 							path: 'wallet',
 						},
 						{
 							name: '兑换中心',
-							icon: 'icon-coin_2_line',
+							icon: 'mgc_coin_2_line',
 							path: 'exchange',
 						},
 						{
 							name: '商城',
-							icon: 'icon-shopping_bag_3_line',
+							icon: 'mgc_shopping_bag_3_line',
 							path: 'shop',
 						}
 					]

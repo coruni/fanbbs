@@ -2,7 +2,7 @@
 	<view>
 		<u-navbar placeholder title="管理面板" autoBack>
 			<view slot="left">
-				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 		</u-navbar>
 		<view style="margin: 30rpx;">

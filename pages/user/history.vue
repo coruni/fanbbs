@@ -2,10 +2,10 @@
 	<view>
 		<u-navbar title="浏览历史" placeholder autoBack>
 			<view slot="left">
-				<i class="ess icon-left_line" style="font-size: 60rpx;"></i>
+				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
-				<i class="ess icon-delete_2_line" style="font-size: 45rpx;" @click="clearHistory()"></i>
+				<i class="ess mgc_delete_2_line" style="font-size: 45rpx;" @click="clearHistory()"></i>
 			</view>
 		</u-navbar>
 		<block v-for="(item,index) in $store.state.history" :key="index">
@@ -86,19 +86,22 @@
 				})
 			},
 			replaceEmoji(html) {
-				return html.replace(
-					/<img[^>]*?alt="src=([^"]+)\|poster=([^"]+)\|type=video"[^>]*?>/g, (match, src, poster) => {
-						return `<div style="border-radius:10px"><video src="${src}" poster="${poster}" muted width="100%" style="border-radius:10px" /></div>`
-					}).replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
-					const emoji = this.$emoji.data.find(e => e.name === name)
-					if (emoji) {
-						const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
-						return `<img src="${src}" style="width:80rpx;height:80rpx">`
-					}
-					// 如果没有找到,直接返回空字符串
-					// 即删除整个匹配文本
-					return ''
-				}).replace(/\|</g, '<').replace(/>\|/g, '>')
+				if(html){
+					return html.replace(
+						/<img[^>]*?alt="src=([^"]+)\|poster=([^"]+)\|type=video"[^>]*?>/g, (match, src, poster) => {
+							return `<div style="border-radius:10px"><video src="${src}" poster="${poster}" muted width="100%" style="border-radius:10px" /></div>`
+						}).replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
+						const emoji = this.$emoji.data.find(e => e.name === name)
+						if (emoji) {
+							const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
+							return `<img src="${src}" style="width:80rpx;height:80rpx">`
+						}
+						// 如果没有找到,直接返回空字符串
+						// 即删除整个匹配文本
+						return ''
+					}).replace(/\|</g, '<').replace(/>\|/g, '>')
+				}
+				
 			},
 		}
 	}

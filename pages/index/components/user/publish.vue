@@ -14,7 +14,7 @@
 							<text>{{item.category.name}}</text>
 						</view>
 					</u-row>
-					<i class="ess icon-more_1_line" style="font-size: 60rpx;"
+					<i class="ess mgc_more_1_line" style="font-size: 60rpx;"
 						@click.stop="sendEmit('articleMenu',item)"></i>
 				</u-row>
 				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
