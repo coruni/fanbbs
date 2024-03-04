@@ -16,11 +16,11 @@
 			<text @click="goCategory(data.category.mid)">{{data.category && data.category.name?data.category.name:'未分类'}}</text>
 		</u-row>
 		<u-row justify="space-between"
-			style="background: #ff08000a;padding: 40rpx 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
+			style="background: #85a3ff0a;padding: 40rpx 35rpx;border-radius: 20rpx;margin-top: 20rpx;">
 			<u-row @click="goProfile(data.authorId)" style="flex: 1;">
 				<view style="position: relative;display: inline-block;">
 					<u-avatar :src="data && data.authorInfo&& data.authorInfo.avatar" size="40"
-						customStyle="border:4rpx solid #ff080032"></u-avatar>
+						customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="data && data.authorInfo && data.authorInfo.opt  && data.authorInfo.opt.head_picture">
 					</image>

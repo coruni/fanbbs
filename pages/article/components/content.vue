@@ -2,11 +2,24 @@
 	<view style="margin-top:20rpx;">
 		<!-- 内容 overflow:unset防止抖动-->
 		<!-- <u-parse>组件错误更换为uv-parse -->
+		<block v-if="data &&!data.showText">
+			<view style="background: #f7f7f7;
+				border-radius: 20rpx;
+				padding: 30rpx;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				color: #999;">
+				<i class="ess icon-lock_line" style="font-size: 45rpx;"></i>
+				<text>该板块内容仅限会员可见</text>
+			</view>
+		</block>
 		<uv-parse :ImgCache="true"
 			:tag-style="{img:!isPreview?'border-radius:20rpx':'',video:'border-radius:20rpx !improtant',uniVideo:'border-radius:20rpx !improtant'}"
 			style="overflow: unset;white-space: normal;word-break: break-all" :show-img-menu="!isScroll"
 			:content="data.text" img-cache lazyLoad selectable @ready="htmlReady()" @linktap="linkTap"
-			v-if="data"></uv-parse>
+			v-if="data && data.showText"></uv-parse>
 	</view>
 </template>
 

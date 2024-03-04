@@ -1,6 +1,6 @@
 const config = {
 	// API接口，必须是HTTPS开头
-	"api": "https://appapi.moec.cc",
+	"api": "http://localhost",
 	// 版本号，禁止私自修改，后果自负
 	"version": "1.0.0",
 	// H5网页（用于分享）

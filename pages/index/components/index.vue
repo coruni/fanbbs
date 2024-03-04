@@ -22,7 +22,7 @@
 			</u-navbar>
 		</template>
 		<!-- 模拟首屏开始 -->
-		<z-tabs ref="tabs" :list="$store.state.homeTabs" :scrollCount="1" :current="topTabIndex" @change="tabsChange"
+		<z-tabs ref="tabs" :list="$store.state.homeTabs" :scrollCount="0" :current="topTabIndex" @change="tabsChange"
 			active-color="#ff0800" bar-animate-mode="worm" :active-style="{fontWeight:600}"></z-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition"
 			@animationfinish="swiperAnimationfinish">
@@ -110,11 +110,6 @@
 			}
 		},
 		created() {
-			if (uni.getStorageSync('topList').length > 1) {
-				this.topTabbar = uni.getStorageSync('topList')
-			}
-			this.getCategory()
-
 		},
 		computed: {
 			...mapState(['userInfo'])
@@ -129,28 +124,6 @@
 			next()
 		},
 		methods: {
-			getCategory() {
-				this.$http.get('/category/list', {
-					params: {
-						page: 1,
-						limit: 8,
-						params: JSON.stringify({
-							type: 'category',
-							isrecommend: 1,
-						})
-					}
-				}).then(res => {
-					if (res.statusCode == 200) {
-						let topList = [{
-							name: '首页'
-						}]
-						topList = topList.concat(res.data.data.data)
-						this.topTabbar = topList
-						// 缓存 
-						uni.setStorageSync('topList', topList)
-					}
-				})
-			},
 			//tabs通知swiper切换
 			tabsChange(index) {
 				this.topTabIndex = index;

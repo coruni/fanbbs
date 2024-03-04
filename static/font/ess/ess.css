@@ -13,6 +13,210 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-planet_fill:before {
+  content: "\e705";
+}
+
+.icon-align_arrow_left_line:before {
+  content: "\e706";
+}
+
+.icon-square_arrow_down_line:before {
+  content: "\e707";
+}
+
+.icon-square_arrow_right_fill:before {
+  content: "\e6d5";
+}
+
+.icon-square_arrow_up_fill:before {
+  content: "\e6d6";
+}
+
+.icon-square_arrow_left_line:before {
+  content: "\e6d7";
+}
+
+.icon-three_circles_fill:before {
+  content: "\e6d8";
+}
+
+.icon-square_arrow_up_line:before {
+  content: "\e6d9";
+}
+
+.icon-ticket_line1:before {
+  content: "\e6da";
+}
+
+.icon-three_circles_line:before {
+  content: "\e6db";
+}
+
+.icon-square_arrow_right_line:before {
+  content: "\e6dc";
+}
+
+.icon-unlock_fill:before {
+  content: "\e6dd";
+}
+
+.icon-unlock_line:before {
+  content: "\e6de";
+}
+
+.icon-align_arrow_down_line:before {
+  content: "\e6df";
+}
+
+.icon-align_arrow_right_fill:before {
+  content: "\e6e0";
+}
+
+.icon-align_arrow_right_line:before {
+  content: "\e6e1";
+}
+
+.icon-wechat_pay_line1:before {
+  content: "\e6e2";
+}
+
+.icon-align_arrow_up_line:before {
+  content: "\e6e3";
+}
+
+.icon-align_arrow_up_fill:before {
+  content: "\e6e4";
+}
+
+.icon-wechat_pay_fill:before {
+  content: "\e6e5";
+}
+
+.icon-wechat_fill:before {
+  content: "\e6e6";
+}
+
+.icon-align_arrow_left_fill:before {
+  content: "\e6e7";
+}
+
+.icon-flag_1_line1:before {
+  content: "\e6e8";
+}
+
+.icon-align_arrow_down_fill:before {
+  content: "\e6e9";
+}
+
+.icon-bold_line:before {
+  content: "\e6ea";
+}
+
+.icon-card_pay_line:before {
+  content: "\e6eb";
+}
+
+.icon-wechat_line1:before {
+  content: "\e6ec";
+}
+
+.icon-alipay_line:before {
+  content: "\e6ed";
+}
+
+.icon-italic_line1:before {
+  content: "\e6ee";
+}
+
+.icon-flag_3_line1:before {
+  content: "\e6ef";
+}
+
+.icon-flag_2_line1:before {
+  content: "\e6f0";
+}
+
+.icon-cursor_3_fill:before {
+  content: "\e6f1";
+}
+
+.icon-fullscreen_2_line1:before {
+  content: "\e6f2";
+}
+
+.icon-cursor_3_line:before {
+  content: "\e6f3";
+}
+
+.icon-lock_fill:before {
+  content: "\e6f4";
+}
+
+.icon-alipay_fill:before {
+  content: "\e6f5";
+}
+
+.icon-fullscreen_2_fill:before {
+  content: "\e6f6";
+}
+
+.icon-fullscreen_exit_2_fill:before {
+  content: "\e6f7";
+}
+
+.icon-fullscreen_exit_2_line1:before {
+  content: "\e6f8";
+}
+
+.icon-italic_fill:before {
+  content: "\e6f9";
+}
+
+.icon-send_line1:before {
+  content: "\e6fa";
+}
+
+.icon-bold_fill:before {
+  content: "\e6fb";
+}
+
+.icon-planet_line:before {
+  content: "\e6fc";
+}
+
+.icon-send_plane_line:before {
+  content: "\e6fd";
+}
+
+.icon-square_arrow_down_fill:before {
+  content: "\e6fe";
+}
+
+.icon-qq_line1:before {
+  content: "\e6ff";
+}
+
+.icon-square_arrow_left_fill:before {
+  content: "\e700";
+}
+
+.icon-send_fill:before {
+  content: "\e701";
+}
+
+.icon-lock_line:before {
+  content: "\e702";
+}
+
+.icon-send_plane_fill:before {
+  content: "\e703";
+}
+
+.icon-qq_fill:before {
+  content: "\e704";
+}
+
 .icon-sun_2_fill:before {
   content: "\e6c8";
 }

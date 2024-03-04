@@ -189,22 +189,6 @@
 			"perm": "login"
 		},
 		{
-			"path": "publish/space/video",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			},
-			"name": "video"
-		},
-		{
-			"path": "publish/space/space",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			},
-			"name": "space"
-		},
-		{
 			"path": "pages/shop/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -275,7 +259,8 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+				"enablePullDownRefresh" : false,
+				"navigationBarTextStyle": "white"
 			}
 		},
 		{
@@ -333,6 +318,15 @@
 				"enablePullDownRefresh" : false
 			},
 			"name":"history"
+		},
+		{
+			"path" : "publish/article/video",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"video"
 		}
 	],
 	"globalStyle": {

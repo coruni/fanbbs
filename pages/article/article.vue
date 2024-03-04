@@ -127,11 +127,11 @@
 					</u-col>
 					<u-col span="5">
 						<u-row customStyle="margin-left:20rpx;flex:1" justify="space-around">
-							<view style="display: flex; flex-direction: column;align-items: center;"
+							<!-- <view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$refs.reward.open()">
 								<i class="ess icon-copper_coin_line" style="font-size: 44rpx;"></i>
 								<u-text text="发电" size="12" color="#999"></u-text>
-							</view>
+							</view> -->
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$u.throttle(mark(),1000,true)">
 								<i class="ess icon-star_line" style="font-size: 44rpx;"
@@ -360,10 +360,9 @@
 
 <script>
 	import {
-		shareTap
-	} from '@/common/common.js';
-	import {
-		filterHtml
+		shareTap,
+		filterHtml,
+		shareWithSystem
 	} from '@/common/common.js';
 	import articleHeader from '@/pages/article/components/header.vue';
 	import articleContent from '@/pages/article/components/content.vue';
