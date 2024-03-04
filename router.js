@@ -7,11 +7,12 @@ import store from './store';
 
 const router = createRouter({
 	APP: {
+		registerLoadingPage: false,
 		launchedHook: (view) => {
-			 view.hide();
-			setTimeout(()=>{
+			setTimeout(() => {
 				plus.navigator.closeSplashscreen();
-			},2600)
+			}, 2400)
+
 		}
 	},
 	platform: process.env.VUE_APP_PLATFORM,

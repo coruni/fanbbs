@@ -24,7 +24,7 @@
 					display: flex;
 					flex-direction: column;
 					align-items: center;" @tap.stop="homepageTap(item)">
-						<u-image :src="item.image" width="90rpx" height="90rpx" radius="10"></u-image>
+						<image mode="aspectFill" :src="item.image" style="width: 90rpx;height: 90rpx;border-radius: 20rpx;"></u-image>
 						<text style="
 						margin-top: 20rpx;
 						font-size: 28rpx;
