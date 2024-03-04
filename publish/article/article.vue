@@ -258,7 +258,7 @@
 			<view style="display: flex;flex-direction: column;width: 100%;">
 				<view>
 					<u-input v-model="images" border="none"
-						style="padding:20rpx;border-radius: 100rpx;background: #f7f7f7;"
+						style="padding:15rpx;border-radius: 10rpx;background: #f7f7f7;"
 						placeholder="http(s)://"></u-input>
 				</view>
 				<view style="margin-top: 30rpx;">
@@ -273,13 +273,31 @@
 			<view style="width: 100%;display: flex;flex-direction: column;">
 				<view>
 					<u-input v-model="link.link" placeholder="http(s)://" border="none"
-						style="padding:20rpx;border-radius: 100rpx;background: #f7f7f7;"></u-input>
+						style="padding:15rpx;border-radius: 10rpx;background: #f7f7f7;"></u-input>
 				</view>
 				<u-gap height="10"></u-gap>
 				<u-input v-model="link.text" placeholder="链接文本" border="none"
-					style="padding:20rpx;border-radius: 100rpx;background: #f7f7f7;"></u-input>
+					style="padding:15rpx;border-radius: 10rpx;background: #f7f7f7;"></u-input>
 				<view style="margin-top: 30rpx;">
 					<u-button shape="circle" color="#ff0800" @click="insertLink()">插入链接</u-button>
+				</view>
+			</view>
+			<view slot="confirmButton"></view>
+		</uv-modal>
+
+		<!-- 插入视频 -->
+		<uv-modal ref="insertVideo" :showConfirmButton="false" @close="showInsertVideo = false" title="插入视频"
+			:zIndex="100" :show="showInsertVideo">
+			<view style="width: 100%;display: flex;flex-direction: column;">
+				<view>
+					<u-input v-model="video.link" placeholder="http(s)://....mp4" border="none"
+						style="padding:15rpx;border-radius: 10rpx;background: #f7f7f7;"></u-input>
+				</view>
+				<u-gap height="10"></u-gap>
+				<u-input v-model="video.poster" placeholder="封面链接" border="none"
+					style="padding:15rpx;border-radius: 10rpx;background: #f7f7f7;"></u-input>
+				<view style="margin-top: 30rpx;">
+					<u-button shape="circle" color="#ff0800" @click="insertVideo(false)">插入视频</u-button>
 				</view>
 			</view>
 			<view slot="confirmButton"></view>
@@ -418,6 +436,7 @@
 				showCancelTask: false,
 				showAddMore: false,
 				showInsertLink: false,
+				showInsertVideo: false,
 				actions: [{
 						name: '插入外部图片',
 						type: 'picture'
@@ -436,6 +455,10 @@
 					link: '',
 					text: '',
 				},
+				video: {
+					link: '',
+					poster: ''
+				}
 			}
 		},
 		onReady() {
@@ -510,7 +533,7 @@
 				return;
 			}
 			if (this.showInsertImage || this.showCategory || this.showDraft || this.showTag || this.showPanel || this
-				.showAddMore ||this.showInsertLink) {
+				.showAddMore || this.showInsertLink) {
 				this.showInsertImage = false;
 				this.showCategory = false;
 				this.showDraft = false;
@@ -541,7 +564,7 @@
 						})
 					}
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						for (let i in res.data.data.data) {
 							if (res.data.data.data[i].mid == 1) this.article.category = res.data.data.data[i];
@@ -629,13 +652,12 @@
 				duration
 			}) {
 				this.videoInfo.poster = list[0]
-				console.log(list)
 				//开始上传
 				this.showLoading = true
 				let video = await this.uploadFile(this.videoPath, 'video')
 				if (video) {
 					this.videoInfo.url = video
-					this.insertVideo()
+					this.insertVideo(true)
 				}
 			},
 			preview(url, index) {
@@ -679,7 +701,7 @@
 						filePath: image,
 						name: 'file',
 					}).then(res => {
-						
+
 						if (res.data.code == 200) {
 							resolve(res.data.data.url)
 						} else {
@@ -822,27 +844,40 @@
 					})
 				})
 			},
-			async insertVideo() {
-
-				let file = await this.formatImage(this.videoInfo.poster.base64);
-				let poster = await this.upload(file);
+			async insertVideo(type) {
+				let file;
+				let poster;
+				let url;
+				if (type) {
+					file = await this.formatImage(this.videoInfo.poster.base64);
+					poster = await this.upload(file);
+					url = this.videoInfo.url
+				} else {
+					poster = this.video.poster;
+					url = this.video.link;
+				}
 				if (poster) {
 					this.editorCtx.insertImage({
 						src: poster,
-						alt: `src=${this.videoInfo.url}|poster=${poster}|type=video`,
+						alt: `src=${url}|poster=${poster}|type=video`,
 						width: '100%',
 						height: '200px',
 						extClass: 'imageCover',
 						data: {
 							type: 'video',
 							poster: poster,
-							src: this.videoInfo.url,
+							src: url,
 						},
 						success: (res) => {
 							this.editorCtx.insertText({
 								text: '\n\n'
 							})
 							this.showLoading = false
+							if (!type) {
+								this.video.link = '';
+								this.video.poster = ';'
+							}
+
 						}
 					})
 				}
@@ -1019,6 +1054,10 @@
 					case 'link':
 						this.showInsertLink = true;
 						this.$refs.insertLink.open()
+						break;
+					case 'video':
+						this.showInsertVideo = true;
+						this.$refs.insertVideo.open();
 					default:
 						break;
 				}
@@ -1103,19 +1142,21 @@
 		color: #999;
 		min-height: 0rpx;
 	}
+
 	.mgc_download_2_line:before {
-	  content: "\e685";
+		content: "\e685";
 	}
-	
-	.ql-container ::v-deep a{
+
+	.ql-container ::v-deep a {
 		text-decoration: none;
-		color:$c-primary;
-		&::before{
-			content:'🔗';
+		color: $c-primary;
+
+		&::before {
+			content: '🔗';
 			margin-right: 5rpx;
 		}
 	}
-	
+
 
 	.ql-container ::v-deep img {
 		margin: 20rpx auto;
