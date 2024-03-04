@@ -163,7 +163,7 @@
 				style="background: #f9f9f9;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
-				<u-col span="3">
+				<u-col span="4">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
 							<i class="ess" :class="item.icon" style="font-size: 44rpx;" @click="cBtnTap(item.name)"></i>
@@ -171,8 +171,11 @@
 					</u-row>
 				</u-col>
 				<view>
-					<u-button shape="circle" color="#ff0800" customStyle="padding:4rpx,6rpx;height:50rpx;width:120rpx"
-						text="发送" @click="$u.throttle(reply(),2000,true) "></u-button>
+					<u-button shape="circle" color="#ff0800" customStyle="padding:4rpx,6rpx;height:50rpx;"
+						@click="$u.throttle(reply(),2000,true) ">
+						<i class="ess mgc_send_line" style="font-size: 40rpx;"></i>
+						<text>发送</text>
+					</u-button>
 				</view>
 			</u-row>
 			<uv-scroll-list :indicator="false" v-if="images.length" style="margin-top: 20rpx;">
@@ -545,6 +548,7 @@
 					return;
 				}
 				if (name == '颜色' && !perimission) {
+					uni.$u.toast('颜色评论仅会员可用');
 					return
 				}
 				if (name == this.showComemntBtn) this.showComemntBtn = null;

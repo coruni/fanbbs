@@ -46,7 +46,7 @@
 						<u-row>
 							<view style="position: relative;top: 0;">
 								<text
-									style="font-weight: 600;font-size: 34rpx;">{{userInfo && userInfo.screenName?userInfo.screenName:userInfo.name}}</text>
+									style="font-weight: 600;font-size: 34rpx;" :class="{'vipname':userInfo&& userInfo.isVip}">{{userInfo && userInfo.screenName?userInfo.screenName:userInfo.name}}</text>
 								<uv-line-progress :height="4"
 									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
 									:percentage="100-((userInfo.nextLevel - userInfo.experience) / userInfo.nextExp) * 100"

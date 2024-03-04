@@ -54,7 +54,7 @@
 						<u-button @tap="getCode" plain color="#ff0800" size="mini">{{tips}}</u-button>
 					</view>
 				</uv-input>
-				<u-gap></u-gap>
+				<u-gap v-if="config && config.isEmail || config && config.isInvite"></u-gap>
 				<u-row>
 					<uv-input v-if="config && config.isEmail" placeholder="验证码" type="number" class="input"
 						border="none" v-model="code">
@@ -88,11 +88,13 @@
 				</u-row>
 			</view>
 
-			<view style="margin-top: 20rpx;">
+			<view style="margin-top: 60rpx;">
 				<u-button :text="isLogin?'登录':'注册'" shape="circle" :hairline="false" color="#ff0800" size="normal"
-					loading-size="10" customStyle="width:300rpx; height:70rpx;box-shadow:0 0 9rpx 0 #ff0800"
+					loading-size="10" customStyle="width:300rpx; height:80rpx;box-shadow:0 0 9rpx 0 #ff0800"
 					@click="isLogin?login():register()"></u-button>
 			</view>
+			<!-- 仅APP显示 -->
+			<!-- #ifdef APP -->
 			<u-gap height="60"></u-gap>
 			<u-row justify="center">
 				<u-row justify="space-between" customStyle="flex-basis:40%">
@@ -105,6 +107,8 @@
 					</block>
 				</u-row>
 			</u-row>
+			<!-- #endif -->
+			
 		</view>
 		<view style="margin: 40rpx;margin-top: 0rpx;" v-show="isForget">
 			<u-text text="找回密码" size="17" bold></u-text>
@@ -132,7 +136,7 @@
 			</uv-input>
 
 			<u-row justify="space-between"
-				customStyle="margin-top:20rpx;font-weight:bold;font-size:30rpx;color:#414141">
+				customStyle="margin-top:40rpx;font-weight:bold;font-size:30rpx;color:#414141">
 				<text @click="isForget=false">返回登录</text>
 			</u-row>
 			<view style="margin-top:20rpx">
@@ -253,21 +257,21 @@
 						uni.$u.toast('已重置密码，即将自动登录')
 						setTimeout(() => {
 							this.login()
-						}, 2000)
+						}, 1600)
 					}
 				})
 			},
 			login() {
 				if (!this.account.length) {
-					uni.$u.toast('请填写账号')
+					uni.$u.toast('请填写账号！')
 					return
 				}
 				if (!this.password.length) {
-					uni.$u.toast('请填写密码')
+					uni.$u.toast('请填写密码！')
 					return
 				}
 				if (!this.accept) {
-					uni.$u.toast('请同意协议')
+					uni.$u.toast('请同意协议！')
 					return
 				}
 				this.$http.get('/user/login', {
@@ -344,12 +348,12 @@
 					uni.$u.toast('密码不一致！')
 					return;
 				}
-				
+
 				if (!/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/.test(this.password)) {
-				    uni.$u.toast('密码只能包含字母、数字和特殊字符！');
-				    return;
+					uni.$u.toast('密码只能包含字母、数字和特殊字符！');
+					return;
 				}
-				
+
 				if (this.config.isEmail && this.code.length < 6) {
 					uni.$u.toast('请填写验证码！')
 					return;

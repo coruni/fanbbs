@@ -12,7 +12,7 @@
 				<view style="display: flex;flex-direction: column;margin-left:20rpx;">
 					<u-row>
 						<text style="font-size: 30rpx;font-weight: 600;"
-							:class="{'vipname':data&& data.authorInfo && data.authorInfo.isvip}">{{data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
+							:class="{'vipname':data&& data.authorInfo && data.authorInfo.isVip}">{{data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
 						<text
 							:style="{border:`${data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1]} solid 2rpx`,background:data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }"
 							style="font-size: 18rpx;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx;color: white;"
@@ -28,11 +28,13 @@
 			</u-row>
 			<view style="display: flex;align-items: center;">
 				<view @click.stop="follow(data.authorInfo.uid)">
-					<u-button v-if="!isfollow && data && data.authorInfo.uid !== userInfo.uid" plain color="#ff0800" size="mini"
-						shape="circle" plain customStyle="font-size:28rpx;height:55rpx;background:tran" @click="$emit('follow',true)">关注</u-button>
+					<u-button v-if="!isfollow && data && data.authorInfo.uid !== userInfo.uid" plain color="#ff0800"
+						size="mini" shape="circle" plain customStyle="font-size:28rpx;height:55rpx;background:tran"
+						@click="$emit('follow',true)">关注</u-button>
 				</view>
 				<view>
-					<i class="ess mgc_more_1_line" style="font-size: 60rpx;margin-left: 10rpx;" @click.stop="$emit('menuTap',data)"></i>
+					<i class="ess mgc_more_1_line" style="font-size: 60rpx;margin-left: 10rpx;"
+						@click.stop="$emit('menuTap',data)"></i>
 				</view>
 			</view>
 		</u-row>
@@ -84,7 +86,7 @@
 				this.$http.post('/user/follow', {
 					id
 				}).then(res => {
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
 						this.isfollow = !this.isfollow
 					}
@@ -98,7 +100,8 @@
 	.u-button::before {
 		background: $c-primary;
 	}
-	.u-button--plain{
+
+	.u-button--plain {
 		background: transparent;
 	}
 </style>

@@ -258,4 +258,7 @@
 		background: $c-primary;
 		color: white;
 	}
+	.vipname{
+		color: #ff8800;
+	}
 </style>

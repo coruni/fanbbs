@@ -10,7 +10,7 @@
 							<u-row customStyle="margin-left:20rpx" v-show="opacity>=1"
 								@click="$refs.paging.scrollToTop()">
 								<u-avatar :src="info.avatar" size="26"></u-avatar>
-								<text style="margin-left:20rpx">{{info.screenName}}</text>
+								<text style="margin-left:20rpx;font-weight: 600;" :class="{'vipname':info&& info.isVip}">{{info.screenName?info.screenName:info.name}}</text>
 							</u-row>
 						</u-row>
 					</view>
@@ -31,11 +31,19 @@
 				</view>
 
 				<u-row justify="space-between" align="top" customStyle="padding-top:20rpx">
-					<view>
-						<!-- 占位脱离文档流头像 -->
-						<u-gap height="40"></u-gap>
-						<!-- 占位结束 -->
-						<text style="font-weight: 600;font-size: 34rpx;">{{info.screenName}}</text>
+					<view style="margin-top: 80rpx;">
+
+						<u-row>
+							<text style="font-weight: 600;font-size: 34rpx;"
+								:class="{'vipname':info&& info.isVip}">{{info.screenName?info.screenName:info.name}}</text>
+							<text
+								:style="{border:`${info.level > 8 ? $level[Math.floor(info.level/2)-1] : $level[info.level-1]} solid 2rpx`,background:info.level > 8 ? $level[Math.floor(info.level/2)-1] : $level[info.level-1] }"
+								style="font-size: 18rpx;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx;color: white;"
+								v-if="info.level">
+								Lv.{{info.level}}
+							</text>
+						</u-row>
+
 						<u-row customStyle="font-size:28rpx">
 							<i class="ess mgc_renwu" style="margin-right: 10rpx;"></i>
 							<text>通行证ID：{{info.uid}}</text>
