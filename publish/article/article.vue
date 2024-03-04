@@ -458,7 +458,8 @@
 				video: {
 					link: '',
 					poster: ''
-				}
+				},
+				saveBack: false,
 			}
 		},
 		onReady() {
@@ -485,7 +486,6 @@
 			if (params.update) {
 				this.getContentInfo(params.id)
 			}
-
 			if (!params.update) {
 				this.timer = setInterval(() => {
 					this.editorCtx.getContents({
@@ -527,6 +527,10 @@
 			clearInterval(this.timer);
 		},
 		beforeRouteLeave(to, from, next) {
+			if (this.saveBack) {
+				next();
+				return;
+			}
 			if (this.uploadTask) {
 				this.showCancelTask = true;
 				this.$Router.$lockStatus = false
@@ -749,14 +753,18 @@
 							discount: this.article.discount,
 						}).then(res => {
 							if (res.data.code == 200) {
+								this.saveBack = true
+								// 关闭弹窗再弹出成功对话框
 								setTimeout(() => {
-									this.$Router.back(1);
-								}, 1500);
+									this.$refs.publish.close();
+									setTimeout(() => {
+										uni.$u.toast(res.data.msg)
+										setTimeout(() => {
+											this.$Router.back(1);
+										}, 1500);
+									}, 1000)
+								}, 1000);
 							}
-							setTimeout(() => {
-								this.$refs.publish.close();
-							}, 1000);
-							uni.$u.toast(res.data.msg)
 							this.isSave = false
 						}).catch(err => {
 							this.isSave = false
@@ -982,10 +990,10 @@
 							opt: JSON.stringify(this.article.opt)
 						}).then(res => {
 							if (res.data.code == 200) {
-
+								this.saveBack =true
 								setTimeout(() => {
 									this.$Router.back(1)
-								}, 500)
+								}, 1000)
 							}
 							uni.$u.toast(res.data.msg)
 						})

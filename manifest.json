@@ -19,7 +19,7 @@
         },
         "splashscreen" : {
             "alwaysShowBeforeRender" : false,
-            "waiting" : true,
+            "waiting" : false,
             "autoclose" : false,
             "delay" : 0
         },
