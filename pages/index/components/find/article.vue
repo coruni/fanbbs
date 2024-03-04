@@ -1,7 +1,7 @@
 <template>
 	<z-paging @query="getData" ref="paging" v-model="article" style="margin-bottom: 100rpx;"
 		:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'">
-		<view style="display: flex;flex-direction: column;margin: 30rpx;" v-show="!$store.state.hasLogin">
+		<view style="display: flex;flex-direction: column;margin: 30rpx;" v-show="!$store.state.hasLogin ||!article.length">
 			<text style="font-weight: 600;">推荐关注</text>
 			<scroll-view scroll-x style="margin-top: 30rpx;">
 				<u-row>
@@ -21,7 +21,6 @@
 				</u-row>
 			</scroll-view>
 		</view>
-
 		<view style="
 		border: #ff0800 1rpx solid;
 		border-radius: 20rpx;

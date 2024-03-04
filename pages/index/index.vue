@@ -15,21 +15,19 @@
 					<block v-for="(item,index) in tabbar" :key="index">
 						<u-row customStyle="flex-direction:column" v-if="index!=4">
 							<view style="position: relative;padding: 10rpx;" @tap.stop="tabbarTap(index)">
-								<i class="ess" :class="[item.icon]" style="font-size: 48rpx;"
-									:style="{color: item.active ? '#ff0800' : ''}"></i>
-								<u-badge :isDot="true" bgColor="#ff0800c4" :offset="[12,7]" absolute
-									customStyle="z-index: 1;" v-if="item.active&&item.type!='midbutton'"
-									:class="{'animate__animated animate__heartBeat':item.active}"></u-badge>
+								<i class="ess"
+									:class="[item.active && index === 2 ? [item.cur, 'btn-active', 'middle-active'] : item.active ? [item.cur, 'btn-active'] : item.icon]"
+									style="font-size: 48rpx;"></i>
 							</view>
 						</u-row>
 					</block>
 					<view @tap.stop="tabbarTap(4)">
-						<u-avatar :src="$store.state.userInfo.avatar" size="28" customStyle="border:4rpx solid #ff0800"
+						<u-avatar :src="$store.state.userInfo.avatar" size="24"
+							customStyle="border:4rpx solid #85a3ff32"
 							:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
 					</view>
 				</u-row>
 			</view>
-
 		</template>
 
 		<!-- 组件开始 -->
@@ -187,32 +185,28 @@
 						active: true,
 						type: 'home',
 						count: 0,
-						icon: 'icon-home_3_line'
+						icon: 'icon-home_2_line',
+						cur: 'icon-home_2_fill'
 					},
 					{
 						name: '动态',
 						active: false,
 						type: 'find',
 						count: 0,
-						icon: 'icon-sun_2_line'
+						icon: 'icon-send_line1',
+						cur: 'icon-send_fill'
 					},
 					{
 						type: 'midbutton',
 						icon: 'icon-add_line'
 					},
 					{
-						name: '商城',
+						name: '板块',
 						active: false,
 						type: 'shop',
 						count: 0,
-						icon: 'icon-anniversary_line'
-					},
-					{
-						name: '我的',
-						active: false,
-						type: 'mine',
-						count: 0,
-						icon: 'account'
+						icon: 'icon-three_circles_line',
+						cur: 'icon-three_circles_fill'
 					},
 				],
 				lineBg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAOCAYAAABdC15GAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFxSURBVHgBzZNRTsJAEIb/WTW+lpiY+FZPIDew3ABP4GJ8hxsI9zBpOYHeQDwBPQI+mRiRvpLojtPdYhCorQqF/6GdbGd2vvwzBXZcNAt4oj1ANeUoAT5iqkUjbEFLHNmhD1YPEvpZ3ghkGlVDCkc94/BmHMq998I5ONiY1ZBfpKAyuOtgAc5yOEDmYEWNh32BHF91sGHZHmwW4azciN9aQwnz3SJEgOmte+R2tdLprTYoa50mvuomlLpD4Y3oQZnov6D2RzCqI93bWOHaEmAGqQUyRBlZR1WfarcD/EJ2z8DtzDGvsMCwpm8XOCfDUsVOCYhiqRxI/CTQo4UOvjzO7Pow18vfywneuUHHUUxLn55lLw5JFpZ8bEUcY8oXdOLWiHLTxvoGpLqoUmy6dBT15o/ox3znpoycAmxUsiJTbs1cmxeVKp+0zmFIS7bGWiVghC7Vwse8jFKAX9eljh4ggKLLv7uaQvG9/F59Oo2SouxPu7OTCxN/s8wAAAAASUVORK5CYII='
@@ -277,8 +271,14 @@
 		}
 	}
 </script>
-<style>
+<style lang="scss">
 	.swiper {
 		height: 100%;
+	}
+
+	.btn-active {
+		color: #ff0800a0;
+		/* 设置颜色 */
+		transition: all ease-out 0.2s;
 	}
 </style>
