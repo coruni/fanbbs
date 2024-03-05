@@ -9,22 +9,19 @@
 		<!-- 间隔 -->
 		<!-- 底部导航栏 -->
 		<template #bottom>
-			<view style="background:white;padding:20rpx;
-					z-index:999;border-top: #f7f7f7 2rpx solid;">
+			<view class="bottom-tabbar">
 				<u-row justify="space-between">
 					<block v-for="(item,index) in tabbar" :key="index">
-						<u-row customStyle="flex-direction:column" v-if="index!=4">
-							<view style="position: relative;padding: 10rpx;" @tap.stop="tabbarTap(index)">
-								<i class="ess"
-									:class="[item.active && index === 2 ? [item.cur, 'btn-active', 'middle-active'] : item.active ? [item.cur, 'btn-active'] : item.icon]"
-									style="font-size: 48rpx;"></i>
-							</view>
+						<u-row style="flex-direction:column" v-if="index!=4" @click="tabbarTap(index)">
+							<i class="ess" :class="item.active ? [item.cur, 'btn-active'] : item.icon"
+								style="font-size: 45rpx;"></i>
+							<text style="font-size: 28rpx;margin-top: 6rpx;"
+								:class="{'btn-active':item.active}">{{item.name}}</text>
 						</u-row>
 					</block>
-					<view @tap.stop="tabbarTap(4)">
-						<u-avatar :src="$store.state.userInfo.avatar" size="26"
-							customStyle="border:4rpx solid #85a3ff32"
-							:class="{'animate__animated animate__pulse':tabbarIndex==4}"></u-avatar>
+					<view class="tabbar-avatar" @tap.stop="tabbarTap(4)">
+						<u-avatar :src="$store.state.userInfo.avatar" size="30" class="avatar"
+							:class="{'animate__animated animate__rotateIn avatar_active':tabbarIndex==4}"></u-avatar>
 					</view>
 				</u-row>
 			</view>
@@ -185,8 +182,8 @@
 						active: true,
 						type: 'home',
 						count: 0,
-						icon: 'mgc_home_2_line',
-						cur: 'mgc_home_2_fill'
+						icon: 'mgc_home_3_line',
+						cur: 'mgc_home_3_fill'
 					},
 					{
 						name: '动态',
@@ -280,5 +277,29 @@
 		color: #ff0800a0;
 		/* 设置颜色 */
 		transition: all ease-out 0.2s;
+	}
+
+	.bottom-tabbar {
+		background: white;
+		padding: 11rpx 30rpx;
+		z-index: 999;
+		border-top: #f7f7f7 2rpx solid;
+	}
+
+	.tabbar-avatar {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		justify-content: center;
+		font-size: 28rpx;
+	}
+
+
+	.avatar {
+		transition: all 0.2s ease;
+		border: 4rpx solid #85a3ff32;
+		&_active {
+			border: 4rpx solid #ff0800a0 !important;
+		}
 	}
 </style>

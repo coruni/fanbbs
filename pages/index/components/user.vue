@@ -183,7 +183,7 @@
 		</u-popup>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
 			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false" is-limit-move
-			is-lock-ratio :width="1280" :height="720" :min-width="1280" :min-height="720" :max-width="1920"
+			is-lock-ratio :width="1280" :height="720" :scaleRatio="2" :min-width="1280" :min-height="720" :max-width="1920"
 			:max-height="720" style="z-index: 99999;" />
 
 		<!-- 等级弹窗 -->

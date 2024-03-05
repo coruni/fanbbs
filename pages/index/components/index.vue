@@ -31,7 +31,7 @@
 					:isSwiper="!pageIndex" @edit="$emit('edit',$event)">
 				</articleIndex>
 				<water-fall-index v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex"
-					style="margin-bottom: 200rpx;background: #f9f9f9;"></water-fall-index>
+					style="margin-bottom: 190rpx;background: #f9f9f9;"></water-fall-index>
 			</swiper-item>
 		</swiper>
 	</z-paging-swiper>

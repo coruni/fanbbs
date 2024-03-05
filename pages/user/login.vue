@@ -108,7 +108,7 @@
 				</u-row>
 			</u-row>
 			<!-- #endif -->
-			
+
 		</view>
 		<view style="margin: 40rpx;margin-top: 0rpx;" v-show="isForget">
 			<u-text text="找回密码" size="17" bold></u-text>
@@ -281,25 +281,30 @@
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
-						this.setToken(res.data.data.token);
-						this.getUserInfo(res.data.data.uid);
-						this.getUserMeta()
-						uni.$emit('login', true)
-						this.$store.commit('loginStatus')
-						//保存账号密码 用于持久登录
-						let account = {
-							name: this.account,
-							password: this.password
-						}
-						uni.setStorageSync('account', account)
-						setTimeout(() => {
-							this.$Router.back(1)
-						}, 2000)
+						this.saveUser(res.data.data, true)
 					}
 					uni.$u.toast(res.data.msg)
 				}).catch(err => {
 					console.log(err)
 				})
+			},
+			saveUser(data, type) {
+				this.setToken(data.token);
+				this.getUserInfo(data.uid);
+				this.getUserMeta()
+				uni.$emit('login', true)
+				this.$store.commit('loginStatus')
+				//保存账号密码 用于持久登录
+				if (type) {
+					let account = {
+						name: this.account,
+						password: this.password
+					}
+					uni.setStorageSync('account', account)
+				}
+				setTimeout(() => {
+					this.$Router.back(1)
+				}, 1600)
 			},
 			getUserInfo(uid) {
 				this.$http.get('/user/userInfo', {
@@ -402,7 +407,21 @@
 			},
 			async QQlogin() {
 				let data = await this.getQQLoginInfo()
-				console.log(data)
+				this.$http.get('/user/OAuth', {
+					params: {
+						provider: 'qq',
+						access_token: data.authResult.access_token,
+						openid: data.authResult.openid
+					}
+
+
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.saveUser(res.data.data, false)
+					}
+				}).catch(err => {
+					console.log(err)
+				})
 			},
 			getQQLoginInfo() {
 				return new Promise((resolve, reject) => {
