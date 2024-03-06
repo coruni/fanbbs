@@ -764,6 +764,8 @@
 										}, 1500);
 									}, 1000)
 								}, 1000);
+							}else{
+								this.$refs.publish.close()
 							}
 							this.isSave = false
 						}).catch(err => {

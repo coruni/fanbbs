@@ -65,8 +65,7 @@
 				<view style="margin-top: 50rpx;">
 					<u-row customStyle="border-bottom:1rpx solid #ff08000a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
-							<u-row align="center" customStyle="flex-direction:column"
-								@click="shareTap(item.provider,item.type,item.scene,data.title,filterHtml(data.text),'https://baidu.com',data.images[0])">
+							<u-row align="center" customStyle="flex-direction:column" @click="shareWithApi(item,data)">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
 									<u-icon :name="item.icon" color="white" size="24"></u-icon>
 								</view>
@@ -255,6 +254,10 @@
 					this.showMoreMenu = false;
 				})
 			},
+			shareWithApi(data, article) {
+				shareTap(data.provider, data.type, data.scene, article.title, filterHtml(article.text),
+					`${this.$config.h5}/#/pages/article/photo?id=${article.cid}`, article.images[0])
+			},
 			copyLink() {
 				let data = this.data
 				uni.setClipboardData({
@@ -298,6 +301,7 @@
 	.avatar {
 		transition: all 0.2s ease;
 		border: 4rpx solid #85a3ff32;
+
 		&_active {
 			border: 4rpx solid #ff0800a0 !important;
 		}

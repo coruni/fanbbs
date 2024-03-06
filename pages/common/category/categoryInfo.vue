@@ -2,8 +2,7 @@
 	<z-paging refresher-only @onRefresh="onRefresh" ref="paging" @scroll="onScroll">
 		<template #top>
 			<u-navbar autoBack
-				:bgColor="info.opt&& info.opt.primary?$u.colorToRgba(info.opt && info.opt.primary,opacity):$u.colorToRgba('#fff',opacity)"
-				fixed>
+				:bgColor="info.opt&& info.opt.primary?$u.colorToRgba(info.opt && info.opt.primary,opacity):$u.colorToRgba('#fff',opacity)">
 				<view slot="left">
 					<i class="ess mgc_left_line" style="font-size: 60rpx;"
 						:style="{color:opacity>=0.5?'black':'white'}"></i>
@@ -19,24 +18,21 @@
 			<view style="position: absolute;top: 120rpx;width: 100%;">
 				<view style="margin: 30rpx;">
 					<u-row justify="space-between">
-						<u-row>
-							<u-image :src="info.imgurl" width="60" height="60" radius="15"
-								style="border-radius: 20rpx;"></u-image>
-							<view style="display: flex;
-								flex-direction: column;
-								margin-left: 20rpx;
-								color: white;
-								justify-content: space-between;
-								">
+						<u-row style="flex: 1;">
+							<image :src="info.imgurl"
+								style="border-radius: 20rpx;width: 120rpx;height: 120rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
+							</image>
+							<view style="display: flex;flex-direction: column;margin-left: 20rpx;color: white;">
 								<text>{{info.name}}</text>
-								<text style="font-size: 26rpx;">{{info.description}}</text>
+								<text style="font-size: 26rpx;" class="u-line-2">{{info.description}}</text>
 							</view>
 						</u-row>
-						<view>
+						<view style="flex-shrink: 0;">
 							<u-button color="#ff0800" style="height: 60rpx;" shape="circle"
 								@click="follow(info.mid)">{{info.isFollow?'已关注':'关注'}}</u-button>
 						</view>
 					</u-row>
+
 					<view style="margin-top: 60rpx;">
 						<u-row justify="space-between">
 							<u-col :span="8">
@@ -73,13 +69,15 @@
 		<!-- #ifndef APP -->
 		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent" :active-style="{fontWeight:600}"></z-tabs>
+				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"
+				:active-style="{fontWeight:600}"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<!-- #ifdef APP -->
 		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'" offsetTop="65">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent" :active-style="{fontWeight:600}"></z-tabs>
+				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"
+				:active-style="{fontWeight:600}"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<view :style="{background:info.opt && info.opt.primary?info.opt && info.opt.primary:'#fff'}">
@@ -166,7 +164,7 @@
 				this.$http.post('/category/follow', {
 					id
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.info.isFollow = !this.info.isFollow
 					}

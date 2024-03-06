@@ -260,8 +260,7 @@
 				<view style="margin-top: 50rpx;">
 					<u-row customStyle="border-bottom:1rpx solid #ff08000a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
-							<u-row align="center" customStyle="flex-direction:column"
-								@click="shareTap(item.provider,item.type,item.scene,article.title,filterHtml(article.text),'https://baidu.com',article.images[0])">
+							<u-row align="center" customStyle="flex-direction:column" @click="shareWithApi(item)">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
 									<u-icon :name="item.icon" color="white" size="24"></u-icon>
 								</view>
@@ -496,7 +495,6 @@
 		onLoad(params) {
 			// GetStorage 获取存储本地的文章简略信息
 			this.cid = params.id
-			this.author = uni.getStorageSync(`article_${params.id}`)
 			this.getData(params.id)
 			uni.onKeyboardHeightChange(data => {
 				this.keyboardHeight = data.height
@@ -720,7 +718,7 @@
 				}).then(res => {})
 			},
 			changTab(data) {
-				console.log(data)
+
 				this.commentTabIndex = data.index
 
 			},
@@ -893,6 +891,10 @@
 				shareWithSystem(data.title, `${this.$config.h5}/#/pages/article/article?id=${data.cid}`).then(() => {
 					this.showMoreMenu = false;
 				})
+			},
+			shareWithApi(data) {
+				shareTap(data.provider, data.type, data.scene, this.article.title, filterHtml(this.article.text),
+					`${this.$config.h5}/#/pages/article/article?id=${this.article.cid}`, this.article.images[0])
 			},
 			copyLink() {
 				let data = this.article

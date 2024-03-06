@@ -81,22 +81,25 @@
 		},
 		data() {
 			return {
-				elWidth: uni.getStorageSync('albumWidth') ? (uni.getStorageSync('albumWidth') - 12) / 3 : 100,
+				elWidth: 0,
 				mode: 'aspectFill'
 			}
 		},
-		created() {
+		async mounted() {
 			this.getImageInfo()
 			// 直接计算图片大小
 			if (this.data.images.length >= 3) {
-				if (uni.getStorageSync('albumWidth') > 0) {
-					this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
-				}
-				this.$nextTick(() => {
-					this.getAlbumWidth();
-				}, 200)
+				// if (uni.getStorageSync('albumWidth') > 0) {
+				// 	this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
+				// }
+				// this.$nextTick(() => {
+				// 	this.getAlbumWidth();
+				// }, 1)
+
+				let data = await this.getAlbumWidth()
+				if (data.width != 0) this.elWidth = (data.width - 12) / 3
 			}
-			
+
 		},
 		methods: {
 			getImageInfo() {
@@ -115,18 +118,23 @@
 
 			},
 			getAlbumWidth() {
-				uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
-					if (data.width == 0) {
-						// 如果宽度为0，直接使用本地存储的宽度 笨办法
-						if (uni.getStorageSync('albumWidth')) {
-							this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
-						}
-					} else {
-						// 如果宽度不为0，保存宽度到 elWidth
-						this.elWidth = (data.width - 12) / 3;
-						uni.setStorageSync('albumWidth', data.width)
-					}
-				}).exec();
+				return new Promise((resolve, reject) => {
+					uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
+						// if (data.width == 0) {
+						// 	// 如果宽度为0，直接使用本地存储的宽度 笨办法
+						// 	if (uni.getStorageSync('albumWidth')) {
+						// 		this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
+						// 	}
+						// } else {
+						// 	// 如果宽度不为0，保存宽度到 elWidth
+						// 	this.elWidth = (data.width - 12) / 3;
+						// 	uni.setStorageSync('albumWidth', data.width)
+						// }
+						// console.log(data)
+						resolve(data)
+					}).exec();
+				})
+
 			},
 			replaceEmoji(html) {
 				return html.replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {

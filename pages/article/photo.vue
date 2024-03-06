@@ -313,7 +313,7 @@
 					<u-row customStyle="border-bottom:1rpx solid #ff08000a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
 							<u-row align="center" customStyle="flex-direction:column"
-								@click="shareTap(item.provider,item.type,item.scene,article.title,filterHtml(article.text),'https://baidu.com',article.images[0])">
+								@click="shareWithApi(item)">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
 									<u-icon :name="item.icon" color="white" size="24"></u-icon>
 								</view>
@@ -956,6 +956,10 @@
 				shareWithSystem(data.title, `${this.$config.h5}/#/pages/article/article?id=${data.cid}`).then(() => {
 					this.showMore = false;
 				})
+			},
+			shareWithApi(data) {
+				shareTap(data.provider, data.type, data.scene, this.article.title, filterHtml(this.article.text),
+					`${this.$config.h5}/#/pages/article/photo?id=${this.article.cid}`, this.article.images[0])
 			},
 			copyLink() {
 				let data = this.article
