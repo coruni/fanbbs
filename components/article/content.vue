@@ -81,7 +81,7 @@
 		},
 		data() {
 			return {
-				elWidth: 0,
+				elWidth: uni.getStorageSync('albumWidth') ? uni.getStorageSync('albumWidth') : 100,
 				mode: 'aspectFill'
 			}
 		},
@@ -89,13 +89,13 @@
 			this.getImageInfo()
 			// 直接计算图片大小
 			if (this.data.images.length >= 3) {
+				this.elWidth = uni.getStorageSync('albumWidth')
 				// if (uni.getStorageSync('albumWidth') > 0) {
 				// 	this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
 				// }
 				// this.$nextTick(() => {
 				// 	this.getAlbumWidth();
 				// }, 1)
-
 				let data = await this.getAlbumWidth()
 				if (data.width != 0) this.elWidth = (data.width - 12) / 3
 			}
@@ -118,19 +118,13 @@
 
 			},
 			getAlbumWidth() {
+				let elWidth = uni.getStorageSync('albumWidth');
 				return new Promise((resolve, reject) => {
 					uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
-						// if (data.width == 0) {
-						// 	// 如果宽度为0，直接使用本地存储的宽度 笨办法
-						// 	if (uni.getStorageSync('albumWidth')) {
-						// 		this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
-						// 	}
-						// } else {
-						// 	// 如果宽度不为0，保存宽度到 elWidth
-						// 	this.elWidth = (data.width - 12) / 3;
-						// 	uni.setStorageSync('albumWidth', data.width)
-						// }
-						// console.log(data)
+
+						if (data.width) uni.setStorageSync('albumWidth', (data.width - 12) / 3);
+						if (data.width == 0 && !elWidth) this.getAlbumWidth();
+						if (data.width == 0 && elWidth) this.elWidth = elWidth;
 						resolve(data)
 					}).exec();
 				})

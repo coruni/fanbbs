@@ -10,6 +10,7 @@
 	import store from './store';
 	export default {
 		onLaunch: function() {
+			
 			let token = uni.getStorageSync('token')
 			if (token) {
 				this.$store.commit('setToken', uni.getStorageSync('token'));
