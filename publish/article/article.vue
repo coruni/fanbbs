@@ -835,6 +835,7 @@
 					alt: name + '_' + key + '_' + 'emoji',
 					width: '50px',
 					height: '50px',
+					extClass:'emoji',
 					data: {
 						name: name,
 						emoji: emoji,
@@ -927,8 +928,7 @@
 			getContentInfo(id) {
 				this.$http.get('/article/info', {
 					params: {
-						id,
-						token: this.$store.state.hasLogin ? uni.getStorageSync('token') : ''
+						id
 					},
 
 				}).then(res => {
@@ -1174,6 +1174,11 @@
 		width: 80%;
 		display: block;
 	}
+	
+	.ql-container ::v-deep img.emoji{
+		display: inline-block;
+		width: 50px;
+	}
 
 	.button_hover {
 		opacity: 0.5;
@@ -1194,4 +1199,5 @@
 	.showPanel {
 		transition: all 0.5s ease-out;
 	}
+	
 </style>
