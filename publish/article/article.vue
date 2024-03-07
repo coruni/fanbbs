@@ -764,7 +764,7 @@
 										}, 1500);
 									}, 1000)
 								}, 1000);
-							}else{
+							} else {
 								this.$refs.publish.close()
 							}
 							this.isSave = false
@@ -835,7 +835,7 @@
 					alt: name + '_' + key + '_' + 'emoji',
 					width: '50px',
 					height: '50px',
-					extClass:'emoji',
+					extClass: 'emoji',
 					data: {
 						name: name,
 						emoji: emoji,
@@ -992,7 +992,7 @@
 							opt: JSON.stringify(this.article.opt)
 						}).then(res => {
 							if (res.data.code == 200) {
-								this.saveBack =true
+								this.saveBack = true
 								setTimeout(() => {
 									this.$Router.back(1)
 								}, 1000)
@@ -1024,15 +1024,23 @@
 					uni.$u.toast('链接不可为空')
 					return;
 				}
-				this.editorCtx.setContents({
-					html: `<a href='${this.link.link}'>${this.link.text?this.link.text:this.link.link}</a>`,
-					success: () => {
-						this.link.link = '';
-						this.link.text = '';
-						this.showInsertLink = false;
-						this.$refs.insertLink.close();
+				this.editorCtx.getContents({
+					success: (res) => {
+						let html = res.html;
+						html +=
+							`<a href='${this.link.link}'>${this.link.text?this.link.text:this.link.link}</a>`;
+						this.editorCtx.setContents({
+							html,
+							success: () => {
+								this.link.link = '';
+								this.link.text = '';
+								this.showInsertLink = false;
+								this.$refs.insertLink.close();
+							}
+						})
 					}
 				})
+
 			},
 			insertDraft(data) {
 				this.article = data
@@ -1174,8 +1182,8 @@
 		width: 80%;
 		display: block;
 	}
-	
-	.ql-container ::v-deep img.emoji{
+
+	.ql-container ::v-deep img.emoji {
 		display: inline-block;
 		width: 50px;
 	}
@@ -1199,5 +1207,4 @@
 	.showPanel {
 		transition: all 0.5s ease-out;
 	}
-	
 </style>

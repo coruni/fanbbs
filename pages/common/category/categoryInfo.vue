@@ -19,8 +19,8 @@
 				<view style="margin: 30rpx;">
 					<u-row justify="space-between">
 						<u-row style="flex: 1;">
-							<image :src="info.imgurl"
-								style="border-radius: 20rpx;width: 120rpx;height: 120rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
+							<image :src="info.imgurl" mode="aspectFill"
+								 style="border-radius: 20rpx;width: 120rpx;height: 120rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
 							</image>
 							<view style="display: flex;flex-direction: column;margin-left: 20rpx;color: white;">
 								<text>{{info.name}}</text>

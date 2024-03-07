@@ -21,7 +21,7 @@
 				</u-navbar>
 			</template>
 			<image :src="info && info.userBg?info.userBg:info.avatar" mode="aspectFill"
-				style="width: 100%;height: 400rpx;transform: scale(1);" class="backCover"></image>
+				style="width: 100%;height: 500rpx;transform: scale(1);" class="backCover"></image>
 			<view class="userPanel" id="profile">
 				<view style="position: absolute;top: -80rpx;">
 					<u-avatar :src="info.avatar" size="80">
@@ -328,6 +328,6 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba(0, 0, 0, 0.2);
+		background-color: rgba(0, 0, 0, 0.1);
 	}
 </style>

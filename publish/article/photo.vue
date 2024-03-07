@@ -39,7 +39,7 @@
 		</view>
 		<view id="toolbar" style="margin: 30rpx;">
 			<u-row justify="space-between">
-				<i class="ess mgc_pic_2_line" style="font-size: 40rpx;" @click="chooseImage()"></i>
+				<i class="ess mgc_pic_2_line" style="font-size: 45rpx;" @click="chooseImage()"></i>
 				<!-- 标签 -->
 				<u-col :span="10">
 					<u-row justify="space-between" @click="showTag = true">
@@ -78,8 +78,8 @@
 								<u-col :span="5.8">
 									<u-row style="padding: 20rpx;" align="top"
 										@click="article.category = item;showCategory = false">
-										<image :src="item.imgurl"
-											style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
+										<image :src="item.imgurl" mode="aspectFill"
+ 											style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
 										</image>
 										<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
 											<text style="font-weight: 600;" class="u-line-1">{{item.name}}</text>

@@ -23,7 +23,7 @@
 			</template>
 			<view style="position: relative;">
 				<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
-					style="width: 100%;height: 400rpx;transform: scale(1);" class="backCover" @click="chooseBackImg()">
+					style="width: 100%;height: 500rpx;transform: scale(1);" class="backCover" @click="chooseBackImg()">
 				</image>
 				<view
 					style="width: 100%;border-radius: 30rpx 30rpx 0 0;height: 40rpx;position: absolute;bottom: 0;background: white;">
@@ -600,7 +600,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba(0, 0, 0, 0.2);
+		background-color: rgba(0, 0, 0, 0.1);
 	}
 
 	.btn {

@@ -250,18 +250,21 @@
 			},
 			shareWithSystem() {
 				let data = this.data
-				shareWithSystem(data.title, `${this.$config.h5}/#/pages/article/article?id=${data.cid}`).then(() => {
-					this.showMoreMenu = false;
-				})
+				shareWithSystem(data.title,
+						`${this.$config.h5}/#/pages/article/${article.type=='post'?'article':'photo'}?id=${data.cid}`)
+					.then(() => {
+						this.showMoreMenu = false;
+					})
 			},
 			shareWithApi(data, article) {
 				shareTap(data.provider, data.type, data.scene, article.title, filterHtml(article.text),
-					`${this.$config.h5}/#/pages/article/photo?id=${article.cid}`, article.images[0])
+					`${this.$config.h5}/#/pages/article/${article.type=='post'?'article':'photo'}?id=${article.cid}`,
+					article.images[0])
 			},
 			copyLink() {
 				let data = this.data
 				uni.setClipboardData({
-					data: `${this.$config.h5}/#/pages/article/article?id=${data.cid}`,
+					data: `${this.$config.h5}/#/pages/article/${article.type=='post'?'article':'photo'}?id=${data.cid}`,
 					success: () => {
 						uni.$u.toast('复制成功')
 						this.showMoreMenu = false

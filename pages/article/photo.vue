@@ -312,8 +312,7 @@
 				<view style="margin-top: 50rpx;">
 					<u-row customStyle="border-bottom:1rpx solid #ff08000a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
-							<u-row align="center" customStyle="flex-direction:column"
-								@click="shareWithApi(item)">
+							<u-row align="center" customStyle="flex-direction:column" @click="shareWithApi(item)">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
 									<u-icon :name="item.icon" color="white" size="24"></u-icon>
 								</view>
@@ -761,18 +760,13 @@
 				})
 			},
 			mark() {
+				this.article.isMark = !this.article.isMark
+				if (this.article.isMark) this.article.marks += 1;
+				if (!this.article.isMark) this.article.marks = this.article.marks ? this.article.marks -
+					1 : 0;
 				this.$http.post('/article/mark', {
 					id: this.article.cid
-				}).then(res => {
-					if (res.data.code == 200) {
-						this.article.isMark = !this.article.isMark
-						if (this.article.isMark && this.article.marks) {
-							this.article.marks += 1
-						} else {
-							this.article.marks -= 1
-						}
-					}
-				})
+				}).then(res => {})
 			},
 			changTab(data) {
 				console.log(data)
@@ -964,7 +958,7 @@
 			copyLink() {
 				let data = this.article
 				uni.setClipboardData({
-					data: `${this.$config.h5}/#/pages/article/article?id=${data.cid}`,
+					data: `${this.$config.h5}/#/pages/article/photo?id=${data.cid}`,
 					success: () => {
 						uni.$u.toast('复制成功')
 						this.showMore = false
