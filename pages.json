@@ -328,6 +328,14 @@
 				"enablePullDownRefresh" : false
 			},
 			"name":"video"
+		},
+		{
+			"path" : "pagesA/lottery/lottery",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {
