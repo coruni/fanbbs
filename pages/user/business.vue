@@ -1,6 +1,6 @@
 <template>
 	<z-paging-swiper>
-		<u-navbar autoBack title="商家订单" placeholder>
+		<u-navbar autoBack title="商家订单" placeholder bgColor="transparent">
 		</u-navbar>
 		<z-tabs :list="list" :current="tabIndex" :activeColor="'#ff0800'" ref="tab"
 			@change="tabIndex = $event"></z-tabs>

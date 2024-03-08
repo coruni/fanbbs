@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-loading-page :loading="loading"></u-loading-page>
-		<z-paging ref="paging" v-model="comments" @query="getData"  v-show="!loading">
+		<z-paging ref="paging" v-model="comments" @query="getData" v-show="!loading">
 			<template #top>
 				<u-navbar bgColor="transparent" title="评论" placeholder autoBack>
 					<view slot="left">
@@ -10,8 +10,7 @@
 				</u-navbar>
 			</template>
 			<block v-for="(item,index) in comments">
-				<view style="margin:30rpx;background: #fff;border-radius: 20rpx;padding: 30rpx;"
-					@click="goArticle(item)">
+				<view class="notice-message" @click="goArticle(item)">
 					<u-row customStyle="margin-bottom:20rpx">
 						<u-avatar :src="item.userInfo && item.userInfo.avatar" size="24"></u-avatar>
 						<text
@@ -71,7 +70,7 @@
 				})
 			},
 			formatEmoji(html) {
-				if(html==null) return html;
+				if (html == null) return html;
 				return html.replace(/\[([^\]]+)_([^\]]+)\]/g, (match, name, key) => {
 					const emoji = this.$emoji.data.find(e => e.name === name);
 					if (emoji) {
@@ -105,5 +104,12 @@
 <style>
 	page {
 		background: #f7f7f7;
+	}
+
+	.notice-message {
+		margin: 30rpx;
+		background: #fff;
+		border-radius: 20rpx;
+		padding: 30rpx;
 	}
 </style>

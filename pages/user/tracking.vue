@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="物流进度" placeholder autoBack></u-navbar>
+		<u-navbar title="物流进度" placeholder autoBack bgColor="transparent"></u-navbar>
 		
 	</view>
 </template>

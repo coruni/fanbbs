@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uv-navbar autoBack placeholder>
+		<uv-navbar autoBack placeholder bgColor="transparent">
 			<view slot="left">
 				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
@@ -19,9 +19,7 @@
 					<u-input maxlength="30" :adjustPosition="false" border="bottom" v-model="article.title"
 						placeholder="请输入标题(必须)" customStyle="padding: 0;"></u-input>
 				</u-col>
-				<u-row justify="space-between"
-					style="border-radius: 50rpx;background: #f7f7f7;flex-shrink: 0;padding: 10rpx;flex:1;margin-left: 20rpx;"
-					@click="showCategory = true">
+				<u-row justify="space-between" class="category" @click="showCategory = true">
 					<u-row>
 						<image :src="article.category.imgurl" mode="aspectFill"
 							style="border-radius: 50rpx;width: 50rpx;height: 50rpx;"></image>
@@ -33,7 +31,7 @@
 				</u-row>
 			</u-row>
 		</view>
-		<view style="margin: 30rpx;;background: #f7f7f7;border-radius: 20rpx;padding: 30rpx;">
+		<view style="margin: 30rpx;border-radius: 20rpx;">
 			<editor id="editor" :adjust-position="false" placeholder="内容写在顶部,其余位置不要写,请上传图片" @ready="onEditorReady"
 				:style="`height:${editorHeight -keyboardHeight-toolbarHeight-180}px;`"></editor>
 		</view>
@@ -69,7 +67,7 @@
 		</uv-modal>
 		<u-popup customStyle="border-radius:40rpx 40rpx 0 0;" :show="showCategory" @close="showCategory = false"
 			:closeable="true">
-			<view style="height: 70vh;padding:30rpx;background:#fff;border-radius:40rpx 40rpx 0 0;">
+			<view style="height: 70vh;padding:30rpx;border-radius:40rpx 40rpx 0 0;">
 				<view style="text-align: center;">选择板块</view>
 				<view style="margin-top: 30rpx;">
 					<scroll-view scroll-y style="height: 65vh;">
@@ -79,7 +77,7 @@
 									<u-row style="padding: 20rpx;" align="top"
 										@click="article.category = item;showCategory = false">
 										<image :src="item.imgurl" mode="aspectFill"
- 											style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
+											style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
 										</image>
 										<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
 											<text style="font-weight: 600;" class="u-line-1">{{item.name}}</text>
@@ -356,6 +354,17 @@
 </script>
 
 <style lang="scss">
+	@media (prefers-color-scheme: dark) {
+		#editor {
+			border-radius: 20rpx;
+			padding: 30rpx;
+		}
+
+		.category {
+			background: #525252 !important;
+		}
+	}
+
 	.ql-container ::v-deep .ql-blank::before {
 		font-style: normal;
 		color: #999;
@@ -378,5 +387,14 @@
 		object-fit: cover;
 		width: 100%;
 		height: 200px;
+	}
+
+	.category {
+		border-radius: 50rpx;
+		flex-shrink: 0;
+		background: #f7f7f7;
+		padding: 10rpx;
+		flex: 1;
+		margin-left: 20rpx;
 	}
 </style>

@@ -10,7 +10,7 @@
 				</u-navbar>
 			</template>
 			<block v-for="(item,index) in systems">
-				<view style="margin: 30rpx;padding: 30rpx;border-radius: 20rpx; background: #fff;">
+				<view class="notice-message">
 					<view class="u-line-1">
 						<text style="font-size: 32rpx;font-weight: 600;">系统通知</text>
 					</view>
@@ -41,7 +41,7 @@
 					limit,
 					type: 'system'
 				}).then(res => {
-					
+
 					this.$refs.paging.complete(res.data.data.data)
 					setTimeout(() => {
 						this.loading = false
@@ -71,17 +71,24 @@
 				this.$http.post('/user/clearNum', {
 					type: 'system'
 				}).then(res => {
-					
-				}).catch(err=>{
-					
+
+				}).catch(err => {
+
 				})
 			}
 		}
 	}
 </script>
 
-<style >
+<style>
 	page {
 		background: #f7f7f7;
+	}
+
+	.notice-message {
+		margin: 30rpx;
+		padding: 30rpx;
+		border-radius: 20rpx;
+		background: #fff;
 	}
 </style>

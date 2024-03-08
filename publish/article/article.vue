@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar placeholder autoBack id="navbar">
+		<u-navbar placeholder autoBack id="navbar" bgColor="transparent">
 			<view slot="left">
 				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
@@ -22,16 +22,16 @@
 			</view>
 		</u-navbar>
 		<view style="padding:20rpx 30rpx 0rpx 30rpx;" id="inputTitle">
-			<u-input v-model="article.title" placeholder="标题 (必填)" border="none"
-				customStyle="padding-bottom:10rpx;border-bottom:2rpx solid #f1f1f1"></u-input>
+			<u-input v-model="article.title" placeholder="标题 (必填)" border="none"></u-input>
 		</view>
+		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
 		<!--  -->
 		<editor :adjust-position="false" placeholder="灵感迸发" id="editor" @ready="onEditorReady"
 			style="width: 100%;padding:10rpx 30rpx 10rpx 30rpx;"
-			:style="{height:editorHeight - keyboardHeight - toolbarHeight - 4 -(showPanel?panelHeight:0) +'px',minHeight:0+'px'}"
+			:style="{height:editorHeight - keyboardHeight - toolbarHeight - 11 -(showPanel?panelHeight:0) +'px',minHeight:0+'px'}"
 			@statuschange="statuschange">
 		</editor>
-		<view id="toolbar" style="background: #fff;padding: 10rpx 30rpx; 0rpx 30rpx">
+		<view id="toolbar" class="bottom-tabbar">
 			<u-row justify="space-between" @click="showCategory = true">
 				<text>选择发布位置</text>
 				<u-row>
@@ -49,8 +49,7 @@
 						style="overflow: hidden;overflow-x: scroll;white-space: nowrap;margin-left: 20rpx;">
 						<u-row>
 							<block v-for="(item,index) in tags" :key="index">
-								<view
-									style="margin-right: 20rpx;background: #f7f7f7;padding:4rpx 20rpx;border-radius: 10rpx;">
+								<view class="bottom-tabbar-tag">
 									{{item.name}}
 								</view>
 							</block>
@@ -1206,5 +1205,17 @@
 
 	.showPanel {
 		transition: all 0.5s ease-out;
+	}
+
+	.bottom-tabbar {
+		background: #fff;
+		padding: 10rpx 30rpx;
+
+		&-tag {
+			margin-right: 20rpx;
+			background: #f7f7f7;
+			padding: 4rpx 20rpx;
+			border-radius: 10rpx;
+		}
 	}
 </style>

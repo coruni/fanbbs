@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="确认订单" autoBack placeholder></u-navbar>
+		<u-navbar title="确认订单" autoBack placeholder bgColor="transparent"></u-navbar>
 		<view style="margin: 20rpx;" v-if="info">
 			<u-transition mode="slide-down" :show="showPayment">
 				<view

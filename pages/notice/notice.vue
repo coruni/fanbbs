@@ -3,7 +3,7 @@
 		<z-paging @query="getData" v-model="messages" ref="paging" @onRefresh="onRefresh"
 			:auto-clean-list-when-reload="false" :auto-scroll-to-top-when-reload="false">
 			<template #top>
-				<u-navbar placeholder title="消息通知" autoBack>
+				<u-navbar placeholder title="消息通知" autoBack bgColor="transparent">
 					<view slot="left">
 						<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 					</view>

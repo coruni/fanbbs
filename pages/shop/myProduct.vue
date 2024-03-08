@@ -2,7 +2,7 @@
 	<view>
 		<z-paging @query="getList" ref="paging" v-model="data">
 			<template #top>
-				<u-navbar title="我的小摊" autoBack placeholder>
+				<u-navbar title="我的小摊" autoBack placeholder bgColor="transparent">
 					<view slot="left" style="display:flex;align-items: center;">
 						<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 					</view>

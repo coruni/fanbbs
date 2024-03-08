@@ -1,7 +1,7 @@
 <template>
 	<z-paging-swiper>
 		<template #top>
-			<u-navbar title="我的订单" autoBack placeholder>
+			<u-navbar title="我的订单" autoBack placeholder bgColor="transparent">
 				<view slot="right">
 					<u-button style="height: 50rpx;" shape="circle" @click="goBusiness()">商家订单</u-button>
 				</view>

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar placeholder title="板块列表">
+		<u-navbar placeholder title="板块列表" bgColor="transparent">
 			<view slot="left"></view>
 		</u-navbar>
 		<view style="margin: 30rpx;">

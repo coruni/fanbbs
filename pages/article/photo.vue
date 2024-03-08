@@ -4,7 +4,7 @@
 			:auto-clean-list-when-reload="false" v-show="!loading" @scroll="onScroll" @onRefresh="onRefresh"
 			cache-mode="always" use-cache :cache-key="`article_mid-${cid}`">
 			<template #top>
-				<u-navbar placeholder fixed style="z-index: 10;">
+				<u-navbar placeholder fixed style="z-index: 10;" bgColor="transparent">
 					<view slot="left" style="display:flex;align-items: center;">
 						<i class="ess mgc_left_line" style="font-size: 60rpx;" @click="$Router.back(1)"></i>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
@@ -38,8 +38,7 @@
 			</template>
 			<view style="padding: 10rpx 30rpx 30rpx 30rpx;" v-if="article" @touchend="touchEnd" @touchmove="touchMove">
 				<text style="font-size: 60rpx;">{{article.title}}</text>
-				<u-row align="top" justify="space-between"
-					style="margin-top: 30rpx;background: #f9f9f9;border-radius: 20rpx;box-shadow: 1rpx 1rpx 2rpx rgba(0, 0, 0, 0.06);height: 380rpx;">
+				<u-row align="top" justify="space-between" class="album-content">
 					<u-col :span="5.8">
 						<image :src="article.images[0]" mode="aspectFill"
 							style="border-radius: 20rpx;height: 380rpx;width: 260rpx; background: #f7f7f7;"></image>
@@ -47,9 +46,7 @@
 					<u-col :span="5">
 						<view
 							style="display: flex;flex-direction: column;align-items: flex-end; justify-content: flex-start;padding: 20rpx 30rpx;flex:1">
-							<view
-								style="background: #fff;padding: 20rpx;border-radius: 20rpx;font-size: 26rpx;width: 100%;"
-								class="ripple">
+							<view class="ripple album-content-info">
 								<u-row justify="space-between" class="u-line-1">
 									<text>{{article.category.name}}</text>
 								</u-row>
@@ -69,7 +66,7 @@
 							<view style="margin-top: 30rpx;border-radius: 20rpx;border: 1rpx #999 solid;padding: 10rpx;"
 								class="ripple">
 								<u-row justify="space-between">
-									<i class="ess mgc_user_2_line"></i>
+									<u-avatar :src="article.authorInfo.avatar" size="20"></u-avatar>
 									<text
 										style="font-size: 26rpx;margin-left: 20rpx;">{{article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
 								</u-row>
@@ -128,9 +125,9 @@
 			</view>
 
 			<!-- 评论区 -->
-			<u-gap height="6" bgColor="#f9f9f9"></u-gap>
+			<u-gap height="6" class="article-gap" bgColor="#f7f7f7"></u-gap>
 			<!-- #ifdef APP -->
-			<u-sticky bgColor="#fff">
+			<u-sticky>
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
@@ -138,7 +135,6 @@
 								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
-
 						</view>
 					</u-row>
 					<u-transition :show="showOrderList"
@@ -161,7 +157,7 @@
 			</u-sticky>
 			<!-- #endif -->
 			<!-- #ifndef APP -->
-			<u-sticky bgColor="#fff" offsetTop="-44">
+			<u-sticky offsetTop="-44">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
@@ -201,9 +197,7 @@
 				</block>
 			</view>
 			<template #bottom>
-				<u-row
-					customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background: #f9f9f9;margin:20rpx 30rpx 30rpx 30rpx"
-					class="u-info" @click="showComment = true">
+				<u-row class="u-info comment-box" @click="showComment = true">
 					<u-icon name="edit-pen" size="20"></u-icon>
 					<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
 				</u-row>
@@ -219,7 +213,7 @@
 				style="background: #f9f9f9;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
 			</editor>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
-				<u-col span="3">
+				<u-col span="4">
 					<u-row justify="space-between">
 						<block v-for="(item,index) in cBtn" :key="index">
 							<i class="ess" :class="item.icon" style="font-size: 44rpx;" @click="cBtnTap(item.name)"></i>
@@ -978,6 +972,29 @@
 
 	.ripple {
 		.button-ripple()
+	}
+
+	.comment-box {
+		padding: 14rpx 14rpx;
+		border-radius: 50rpx;
+		background: #f9f9f9;
+		margin: 20rpx 30rpx 30rpx 30rpx
+	}
+
+	.album-content {
+		margin-top: 30rpx;
+		background: #f9f9f9;
+		border-radius: 20rpx;
+		box-shadow: 1rpx 1rpx 2rpx rgba(0, 0, 0, 0.06);
+		height: 380rpx;
+	}
+
+	.album-content-info {
+		background: #fff;
+		padding: 20rpx;
+		border-radius: 20rpx;
+		font-size: 26rpx;
+		width: 100%;
 	}
 
 	.button-ripple() {

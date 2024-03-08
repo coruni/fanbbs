@@ -41,7 +41,7 @@
 						<text>{{item.article.category.name}}</text>
 					</view>
 				</view>
-				<view style="border-bottom: 1rpx #f7f7f7 solid;"></view>
+				<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
 			</block>
 		</z-paging>
 	</view>

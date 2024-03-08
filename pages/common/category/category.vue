@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar autoBack placeholder title="板块列表">
+		<u-navbar autoBack placeholder title="板块列表" bgColor="transparent">
 			<view slot="left">
 				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>

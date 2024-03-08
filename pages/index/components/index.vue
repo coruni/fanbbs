@@ -2,7 +2,7 @@
 	<z-paging-swiper>
 		<!-- 头部搜索框 -->
 		<template #top>
-			<u-navbar placeholder>
+			<u-navbar placeholder bgColor="transparent">
 				<!-- 用slot占位取消返回图标 -->
 				<view slot="left"></view>
 				<view slot="center" style="flex: 1;margin: 0 20rpx;">
@@ -10,7 +10,7 @@
 						<u-avatar :src="userInfo.avatar" size="30" customStyle="margin-right:20rpx"
 							@click="avatarTap()"></u-avatar>
 						<uv-search :showAction="false" placeholder="看你想看" :disabled="true" :animation="true"
-							@click="goSearch()"></uv-search>
+							@click="goSearch()" class="search"></uv-search>
 						<view style="position: relative;top: 0;">
 							<i class="ess mgc_notification_line" style="margin-left:20rpx;font-size: 40rpx;"
 								@tap.stop="goNotice()"></i>
@@ -23,7 +23,7 @@
 		</template>
 		<!-- 模拟首屏开始 -->
 		<z-tabs ref="tabs" :list="$store.state.homeTabs" :scrollCount="0" :current="topTabIndex" @change="tabsChange"
-			active-color="#ff0800" bar-animate-mode="worm" :active-style="{fontWeight:600}"></z-tabs>
+			active-color="#ff0800" bar-animate-mode="worm" :active-style="{fontWeight:600}" bgColor="transparent"></z-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition"
 			@animationfinish="swiperAnimationfinish">
 			<swiper-item v-for="(page,pageIndex) in $store.state.homeTabs" :key="pageIndex">
@@ -31,7 +31,7 @@
 					:isSwiper="!pageIndex" @edit="$emit('edit',$event)">
 				</articleIndex>
 				<water-fall-index v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex"
-					style="margin-bottom: 190rpx;background: #f9f9f9;"></water-fall-index>
+					style="margin-bottom: 190rpx;" class="waterfall-home"></water-fall-index>
 			</swiper-item>
 		</swiper>
 	</z-paging-swiper>
@@ -146,7 +146,6 @@
 					item.active = i === index;
 					this.tabbarIndex = index
 				});
-				console.log(index);
 			},
 			goCategoryList() {
 				this.$Router.push({
@@ -182,4 +181,5 @@
 	.swiper {
 		height: 100%;
 	}
+	
 </style>

@@ -85,3 +85,21 @@ uni.$zp = {
 		//...
 	}
 }
+
+
+// 适配深色模式
+uni.setNavStyle = () => {
+	const theme = uni.getSystemInfoSync().theme
+	// App端
+	// #ifdef APP-PLUS
+	plus.navigator.setStatusBarStyle(theme === 'dark' ? 'light' : 'dark') // 只支持dark和light
+	// #endif
+
+	// 小程序端
+	// #ifdef MP-WEIXIN
+	uni.setNavigationBarColor({
+		frontColor: theme === 'dark' ? '#fff' : '#000',
+		backgroundColor: theme === 'dark' ? '#000' : '#fff'
+	})
+	// #endif
+}

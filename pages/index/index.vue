@@ -212,6 +212,13 @@
 
 		},
 		onReady() {},
+		onLoad() {
+			uni.setNavStyle()
+			// 用户切换主题，动态修改状态栏颜色
+			uni.onThemeChange(() => {
+				uni.setNavStyle()
+			})
+		},
 		methods: {
 			shareTap,
 			filterHtml,

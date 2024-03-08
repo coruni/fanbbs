@@ -1,7 +1,8 @@
 <template>
 	<z-paging @query="getData" ref="paging" v-model="article" style="margin-bottom: 100rpx;"
 		:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'">
-		<view style="display: flex;flex-direction: column;margin: 30rpx;" v-show="!$store.state.hasLogin ||!article.length">
+		<view style="display: flex;flex-direction: column;margin: 30rpx;"
+			v-show="!$store.state.hasLogin ||!article.length">
 			<text style="font-weight: 600;">推荐关注</text>
 			<scroll-view scroll-x style="margin-top: 30rpx;">
 				<u-row>
@@ -34,13 +35,15 @@
 		</view>
 
 		<block v-for="(item,index) in article" :key="index" v-if="article">
-			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
+			<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
+				class="article">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
-				<article-content :data="item"></article-content>
+				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
+				<article-content :data="item" v-else></article-content>
 				<article-footer :data="item"></article-footer>
 			</view>
-
+			<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
 		</block>
 	</z-paging>
 </template>
@@ -49,6 +52,7 @@
 	import articleHeader from '@/components/article/header.vue';
 	import articleContent from '@/components/article/content.vue';
 	import articleFooter from '@/components/article/footer.vue';
+	import articlePhoto from '@/components/article/photo.vue';
 	export default {
 		components: {
 			articleHeader,
@@ -119,6 +123,14 @@
 					}
 				})
 			},
+			goPhoto(data) {
+				this.$Router.push({
+					path: '/pages/article/photo',
+					query: {
+						id: data.cid
+					}
+				})
+			},
 
 
 			reload() {
@@ -155,5 +167,9 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	.article {
+		margin: 30rpx 30rpx 12rpx 30rpx;
+		padding-bottom: 10rpx;
+	}
 </style>

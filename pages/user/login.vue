@@ -5,7 +5,7 @@
 		<view style="position: relative;top: 0;">
 			<image src="/static/login.jpg" mode="aspectFill" style="width: 100%;height: 400rpx;"></image>
 			<view style="width: 100%;position: absolute;bottom: 0;">
-				<view style="background: white;padding: 20rpx;border-radius: 20rpx 20rpx 0 0;"></view>
+				<view class="top-header"></view>
 			</view>
 		</view>
 		<view style="margin: 40rpx;margin-top: 0;" v-show="!isForget">
@@ -70,8 +70,8 @@
 			</view>
 			<u-row justify="space-between"
 				customStyle="margin-top:40rpx;font-weight:bold;font-size:30rpx;color:#414141">
-				<text @click="isLogin=!isLogin">{{isLogin?'注册':'登录'}}</text>
-				<text @click="isForget=true">忘记密码？</text>
+				<text @click="isLogin=!isLogin" class="login-text">{{isLogin?'注册':'登录'}}</text>
+				<text @click="isForget=true" class="login-text">忘记密码？</text>
 			</u-row>
 			<view style="margin-top:40rpx">
 				<u-row>
@@ -137,7 +137,7 @@
 
 			<u-row justify="space-between"
 				customStyle="margin-top:40rpx;font-weight:bold;font-size:30rpx;color:#414141">
-				<text @click="isForget=false">返回登录</text>
+				<text @click="isForget=false" class="login-text">返回登录</text>
 			</u-row>
 			<view style="margin-top:20rpx">
 				<u-row>
@@ -443,5 +443,11 @@
 		padding: 15rpx !important;
 		border-radius: 10rpx;
 		background: #f7f7f7;
+	}
+
+	.top-header {
+		background: white;
+		padding: 20rpx;
+		border-radius: 20rpx 20rpx 0 0;
 	}
 </style>

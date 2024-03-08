@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="账号与安全" placeholder autoBack>
+		<u-navbar title="账号与安全" placeholder autoBack bgColor="transparent">
 			<view slot="left">
 				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>

@@ -17,8 +17,7 @@
 			<template v-slot:list1>
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
-					<view v-for="(item,index) in list1" :key="item.id" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
+					<view v-for="(item,index) in list1" :key="item.id" :style="[imageStyle(item)]" class="waterfall"
 						@click="goProduct(item)">
 						<image :src="item.imgurl&&item.imgurl[0]" mode="widthFix"
 							:style="{width:item.width+'px',maxHeight:item.height>720?720:item.height+'px'}"
@@ -43,8 +42,7 @@
 			<template v-slot:list2>
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
-					<view v-for="(item,index) in list2" :key="item.id" :style="[imageStyle(item)]"
-						style="background: #fff;margin-top: 20rpx;border-radius: 20rpx;overflow: hidden;"
+					<view v-for="(item,index) in list2" :key="item.id" :style="[imageStyle(item)]" class="waterfall"
 						@click="goProduct(item)">
 						<image :src="item.imgurl && item.imgurl[0]" mode="widthFix"
 							:style="{width:item.width+'px',maxHeight:item.height>720?720:item.height+'px'}"
@@ -143,5 +141,12 @@
 	.search {
 		transform: translateY(10);
 		transition: 0.6s ease;
+	}
+
+	.waterfall {
+		background: #fff;
+		margin-top: 20rpx;
+		border-radius: 20rpx;
+		overflow: hidden;
 	}
 </style>

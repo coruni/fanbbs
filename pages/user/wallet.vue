@@ -2,7 +2,7 @@
 	<z-paging-swiper>
 		<view style="flex: 1;display: flex;flex-direction: column;" :style="{height:pageHeight+'px'}">
 			<u-navbar placeholder title="钱包" autoBack bgColor="transparent"></u-navbar>
-			<view style="margin: 30rpx;padding: 30rpx;background: #fff;border-radius: 20rpx;">
+			<view class="panel">
 				<u-row justify="space-between">
 					<view
 						style="background: #ff0800a0;border-radius: 20rpx;padding: 30rpx;display: flex;align-items: center;width: 200rpx;">
@@ -39,8 +39,7 @@
 						</view>
 						<view>
 							<block v-for="(item,index) in task" :key="index">
-								<view
-									style="font-size: 28rpx;margin: 30rpx 0;background: #fff; border-radius: 20rpx;padding:30rpx;display: flex;justify-content: space-between;">
+								<view class="task-panel">
 									<u-row>
 										<u-icon :name="item.icon" size="22"></u-icon>
 										<view style="display: flex;flex-direction: column;margin-left: 30rpx;">
@@ -63,16 +62,15 @@
 				<swiper-item>
 					<z-paging @query="getLog" v-model="logs" ref="paging">
 						<block v-for="(item,index) in logs" :key="index">
-							<view style="background: #fff;border-radius: 20rpx;padding: 30rpx;margin: 30rpx;">
+							<view class="task-panel">
 								<view style="display: flex;flex-direction: column;">
 									<u-row justify="space-between"
-										customStyle="padding-left: 20rpx; border-left: 6rpx #ff08001e solid;">
+										customStyle="padding-left: 20rpx; border-left: 6rpx #ff08001e solid;width:100%">
 										<view>
 											<text>{{item.subject}}</text>
 											<text style="margin-left: 20rpx;"
 												:style="{color:item.totalAmount>0?'red':'green'}">{{item.totalAmount>0?'+'+item.totalAmount:item.totalAmount}}</text>
 										</view>
-
 										<text
 											style="color: #999;font-size: 28rpx;">{{$u.timeFormat(item.created,'mm-dd')}}</text>
 									</u-row>
@@ -84,7 +82,6 @@
 			</swiper>
 			<!-- 组件 -->
 			<!-- 充值 -->
-
 		</view>
 		<u-popup round="10" :show="showPayment" @close="showPayment = false;selectPackage =payPackage[0]">
 			<view style="padding: 30rpx;">
@@ -329,7 +326,7 @@
 				this.$http.post('/pay/chargeCard', {
 					card: this.card
 				}).then(res => {
-					if (res.data.code==200) {
+					if (res.data.code == 200) {
 						this.showCard = false;
 						this.showPayment = false;
 						this.card = null
@@ -346,6 +343,32 @@
 <style>
 	page {
 		background: #ff08000a;
+	}
+
+	@media (prefers-color-scheme: dark) {
+
+		.panel,
+		.task-panel {
+			background: #545454 !important;
+		}
+
+	}
+
+	.panel {
+		margin: 30rpx;
+		padding: 30rpx;
+		background: #fff;
+		border-radius: 20rpx;
+	}
+
+	.task-panel {
+		font-size: 28rpx;
+		margin: 30rpx 0;
+		background: #fff;
+		border-radius: 20rpx;
+		padding: 30rpx;
+		display: flex;
+		justify-content: space-between;
 	}
 
 	::v-deep .u-grid-item--hover-class {

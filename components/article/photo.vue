@@ -1,10 +1,9 @@
 <template>
 	<view style="margin-top: 20rpx;">
-		<u-row style="background: #f7f7f7;border-radius: 20rpx;" align="top">
+		<u-row style="photo-top" align="top">
 			<image :src="data.images && data.images[0]" mode="aspectFill"
 				style="height: 200rpx;width: 160rpx; border-radius: 20rpx 0 0 20rpx;"></image>
-			<view
-				style="padding: 30rpx; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;flex: 1;height: 140rpx;">
+			<view class="photo-content">
 				<view>
 					<text>{{data.title}}</text>
 				</view>
@@ -47,5 +46,27 @@
 </script>
 
 <style lang="scss">
+	@media (prefers-color-scheme: dark) {
+		.photo-content {
+			background: #525252 !important;
+			border-radius: 0 20rpx 20rpx 0;
+		}
+	}
 
+	.photo {
+		&-top {
+			background: #f7f7f7;
+			border-radius: 20rpx;
+		}
+
+		&-content {
+			padding: 30rpx;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: flex-start;
+			flex: 1;
+			height: 140rpx;
+		}
+	}
 </style>

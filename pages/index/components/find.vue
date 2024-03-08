@@ -1,11 +1,11 @@
 <template>
 	<z-paging-swiper>
 		<template #top>
-			<u-navbar placeholder>
+			<u-navbar placeholder bgColor="transparent">
 				<view slot="left"></view>
 				<view slot="center" style="flex:1" v-if="isMounted">
 					<z-tabs ref="tabs" :list="list" :scrollCount="2" :current="tabsIndex"
-						@change="tabsChange" active-color="#ff0800" bar-animate-mode="worm"></z-tabs>
+						@change="tabsChange" active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"></z-tabs>
 				</view>
 			</u-navbar>
 		</template>

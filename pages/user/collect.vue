@@ -1,24 +1,22 @@
 <template>
-	<view>
-		<z-paging ref="paging" @query="getData" v-model="article">
-			<template #top>
-				<u-navbar title="我的收藏" placeholder autoBack>
-					<view slot="left">
-						<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
-					</view>
-				</u-navbar>
-			</template>
-			<block v-for="(item,index) in article" :key="index">
-				<view style="margin: 30rpx;" @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
-					<article-header :data="item"></article-header>
-					<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
-					<article-content :data="item" v-else></article-content>
-					<article-footer :data="item"></article-footer>
+	<z-paging ref="paging" @query="getData" v-model="article">
+		<template #top>
+			<u-navbar title="我的收藏" placeholder autoBack bgColor="transparent">
+				<view slot="left">
+					<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 				</view>
-				<view style="border-bottom: 1rpx solid #f7f7f7;"></view>
-			</block>
-		</z-paging>
-	</view>
+			</u-navbar>
+		</template>
+		<block v-for="(item,index) in article" :key="index">
+			<view style="margin: 30rpx;" @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
+				<article-header :data="item"></article-header>
+				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
+				<article-content :data="item" v-else></article-content>
+				<article-footer :data="item"></article-footer>
+			</view>
+			<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
+		</block>
+	</z-paging>
 </template>
 
 <script>

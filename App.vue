@@ -10,7 +10,9 @@
 	import store from './store';
 	export default {
 		onLaunch: function() {
-			
+			// #ifdef APP-PLUS
+			plus.nativeUI.setUIStyle('auto')
+			// #endif
 			let token = uni.getStorageSync('token')
 			if (token) {
 				this.$store.commit('setToken', uni.getStorageSync('token'));
@@ -43,6 +45,9 @@
 		},
 		onHide: function() {
 			console.log('App Hide')
+		},
+		onThemeChange() {
+
 		},
 		methods: {
 			...mapMutations(['setToken', 'setUser', 'setUserMeta']),
@@ -227,6 +232,126 @@
 		font-family: 'moe';
 	}
 
+	@media (prefers-color-scheme: dark) {
+
+		html,
+		body {
+			background: #292929 !important;
+		}
+		.u-loading-page{
+			background: #292929 !important;
+		}
+		.waterfall {
+			background: #525252 !important;
+
+			&-home {
+				background: #292929 !important;
+			}
+		}
+
+		.bottom-tabbar {
+			background: #292929 !important;
+			border-top: #242424 2rpx solid !important;
+
+			&-tag {
+				background: #525252 !important;
+			}
+		}
+
+		.u-popup__content {
+			background: #292929 !important;
+		}
+
+		.u-navbar__content__title {
+			color: white !important;
+		}
+
+		.u-text__value {
+			color: white !important;
+		}
+
+		.top-header {
+			background: #292929 !important;
+		}
+
+		.login-text {
+			color: white;
+		}
+
+		.input {
+			background: #525252 !important;
+			border: none !important;
+		}
+
+		.uni-input-input,
+		.uni-textarea-textarea {
+			color: white !important;
+		}
+
+		.uv-search {
+			background: #525252 !important;
+			border-radius: 100px;
+
+			&__content {
+				background: #525252 !important;
+
+				&__input {
+					background: #525252 !important;
+					color: white !important;
+				}
+			}
+		}
+
+		.u-textarea__count {
+			background: transparent !important;
+		}
+
+		.search {
+			&-item {
+				background: #525252 !important;
+			}
+
+			&-header {
+				background: #525252 !important;
+			}
+		}
+
+		.photo {
+			&-background {
+				background: #525252 !important;
+			}
+		}
+
+		.article-gap {
+			background: #191919 !important;
+		}
+
+		#editor {
+			background: #525252 !important;
+			color: white;
+		}
+
+		.ql-container ::v-deep .ql-blank::before {
+			color: white;
+		}
+
+		.comment {
+			&-box {
+				background: #525252 !important;
+			}
+		}
+
+		.download-content,
+		.notice-message,
+		.album-content {
+			background: #525252 !important;
+		}
+
+		.album-content-info {
+			background: #494949 !important;
+		}
+	}
+
 	.avatar_head {
 		position: absolute;
 		display: block;
@@ -259,7 +384,8 @@
 		background: $c-primary;
 		color: white;
 	}
-	.vipname{
+
+	.vipname {
 		color: #ff8800;
 	}
 </style>

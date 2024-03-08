@@ -4,16 +4,14 @@
 			:auto-clean-list-when-reload="false" cache-mode="always" use-cache
 			:cache-key="`article_mid_sub-${data.id}`">
 			<template #top>
-				<u-navbar autoBack placeholder style="z-index: 10;">
+				<u-navbar autoBack placeholder style="z-index: 10;" bgColor="transparent">
 					<view slot="left">
 						<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 					</view>
 				</u-navbar>
 			</template>
 
-			<u-row align="top" customStyle="
-											margin:30rpx;
-											border-bottom: 1rpx #f7f7f7 solid;">
+			<u-row align="top" customStyle="margin:30rpx;">
 				<view style="position: relative;">
 					<u-avatar :src="data.userInfo.avatar" size="30" customStyle="border:4rpx solid #85a3ff32"
 						@click="goProfile(data.userInfo.uid)"></u-avatar>
@@ -46,7 +44,7 @@
 							margin-left:20rpx" v-if="data.userInfo.uid == data.article.authorId">作者</text>
 					</u-row>
 					<view style="margin-top:10rpx;word-break: break-word;">
-						<uv-parse :previewImg="false" selectable :showImgMenu="false"
+						<uv-parse selectable :previewImg="false" selectable :showImgMenu="false"
 							:content="formatEmoji(data.text)"></uv-parse>
 					</view>
 					<u-swiper :list="data.images" v-if="data.images && data.images.length" :autoplay="false" indicator
@@ -69,10 +67,11 @@
 					</u-row>
 				</view>
 			</u-row>
+			<u-gap height="6" class="article-gap" bgColor="#f7f7f7"></u-gap>
 
 			<!-- #ifdef APP -->
-			<u-sticky bgColor="#fff">
-				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
+			<u-sticky>
+				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text
@@ -101,7 +100,7 @@
 			</u-sticky>
 			<!-- #endif -->
 			<!-- #ifndef APP -->
-			<u-sticky bgColor="#fff" offsetTop="-44">
+			<u-sticky offsetTop="-44">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
@@ -211,15 +210,15 @@
 				</block>
 			</view>
 			<template #bottom>
-				<u-row customStyle="margin:20rpx;" justify="space-between">
-					<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;flex:1;background: #f9f9f9;"
-						class="u-info"
+				<view style="margin: 30rpx;">
+					<u-row class="u-info comment-box"
 						@click="commentCheck(false,data.id,data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name);">
 						<u-icon name="edit-pen" size="20"></u-icon>
 						<text
 							style="margin-left:10rpx;font-size: 28rpx;">回复{{data.userInfo.screenName?data.userInfo.screenName:data.userInfo.name}}</text>
 					</u-row>
-				</u-row>
+				</view>
+
 			</template>
 
 		</z-paging>
@@ -657,5 +656,12 @@
 		min-height: 60rpx;
 		height: 60rpx;
 		font-style: normal;
+	}
+
+	.comment-box {
+		padding: 14rpx 14rpx;
+		border-radius: 50rpx;
+		flex: 1;
+		background: #f9f9f9;
 	}
 </style>

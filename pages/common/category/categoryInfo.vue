@@ -2,10 +2,10 @@
 	<z-paging refresher-only @onRefresh="onRefresh" ref="paging" @scroll="onScroll">
 		<template #top>
 			<u-navbar autoBack
-				:bgColor="info.opt&& info.opt.primary?$u.colorToRgba(info.opt && info.opt.primary,opacity):$u.colorToRgba('#fff',opacity)">
+				:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : (info.opt && info.opt.primary ? $u.colorToRgba(info.opt.primary, opacity) : '')">
 				<view slot="left">
-					<i class="ess mgc_left_line" style="font-size: 60rpx;"
-						:style="{color:opacity>=0.5?'black':'white'}"></i>
+				    <i class="ess mgc_left_line" style="font-size: 60rpx;"
+				        :style="{color: opacity >= 0.5 ? (theme === '#292929' ? '#fff' : 'black') : 'white'}"></i>
 				</view>
 			</u-navbar>
 		</template>
@@ -20,7 +20,7 @@
 					<u-row justify="space-between">
 						<u-row style="flex: 1;">
 							<image :src="info.imgurl" mode="aspectFill"
-								 style="border-radius: 20rpx;width: 120rpx;height: 120rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
+								style="border-radius: 20rpx;width: 120rpx;height: 120rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
 							</image>
 							<view style="display: flex;flex-direction: column;margin-left: 20rpx;color: white;">
 								<text>{{info.name}}</text>
@@ -57,33 +57,33 @@
 						</u-row>
 					</view>
 				</view>
-
 			</view>
-			<view style="position: absolute;bottom: 0;width: 100%;">
-				<view style="width: 100%;height: 22rpx;border-radius: 20rpx 20rpx 0 0;"
-					:style="{background:info.opt && info.opt.primary?info.opt.primary:'#fff'}">
+			<view style="position: absolute; bottom: 0; width: 100%;">
+				<view style="width: 100%; height: 22rpx; border-radius: 20rpx 20rpx 0 0;"
+					:style="{background: theme === '#292929' ? theme : (info.opt && info.opt.primary ? info.opt.primary : '#fff')}">
 				</view>
 			</view>
 		</view>
-
 		<!-- #ifndef APP -->
-		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'">
+		<u-sticky :bgColor="theme === '#292929' ? theme : (info.opt && info.opt.primary ? info.opt.primary : '#fff')">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"
-				:active-style="{fontWeight:600}"></z-tabs>
+				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent" :active-style="{fontWeight:600}">
+			</z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<!-- #ifdef APP -->
-		<u-sticky :bgColor="info.opt&& info.opt.primary?info.opt && info.opt.primary:'#fff'" offsetTop="65">
+		<u-sticky :bgColor="theme === '#292929' ? theme : (info.opt && info.opt.primary ? info.opt.primary : '#fff')"
+			offsetTop="65">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
 				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"
 				:active-style="{fontWeight:600}"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->
-		<view :style="{background:info.opt && info.opt.primary?info.opt && info.opt.primary:'#fff'}">
-			<swiper :style="{height:windowHeight+'px'}" :current="tabsIndex" @transition="swiperTransition"
+		<view
+			:style="{background: theme === '#292929' ? theme : (info.opt && info.opt.primary ? info.opt.primary : '#fff')}">
+			<swiper :style="{height: windowHeight + 'px'}" :current="tabsIndex" @transition="swiperTransition"
 				@animationfinish="swiperAnimationfinish">
-				<swiper-item v-for="(item,index) in list" :key="index" style="overflow: auto;">
+				<swiper-item v-for="(item, index) in list" :key="index" style="overflow: auto;">
 					<articleItem :mid="id" :isScroll="isScroll" :order="item.order" :random="item.random" ref="article">
 					</articleItem>
 				</swiper-item>
@@ -118,8 +118,10 @@
 						name: '最新',
 						order: 'isCircleTop desc,created desc',
 						random: false,
+
 					}
 				],
+				theme: '#ffffff',
 				windowHeight: 0,
 			};
 		},
@@ -127,10 +129,9 @@
 			this.id = params.id
 			this.getData(params.id)
 			this.platform = uni.getSystemInfoSync().uniPlatform
-		},
-
-		created() {
 			this.windowHeight = uni.getSystemInfoSync().windowHeight
+			if (uni.getSystemInfoSync().theme == 'dark') this.theme = '#292929'
+
 		},
 		methods: {
 			getData(id) {
@@ -188,6 +189,9 @@
 </script>
 
 <style lang="scss">
+	@media (prefers-color-scheme: dark) {
+	}
+
 	.backCover {
 		height: 100%;
 		background-size: cover;

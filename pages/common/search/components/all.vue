@@ -1,40 +1,39 @@
 <template>
-	<view>
-		<z-paging @query="getData" ref="paging" v-model="article" :refresher-enabled="false">
-			<view style="margin: 30rpx;background: #fff;padding: 30rpx;border-radius: 20rpx;">
-				<text>相关帖子</text>
-			</view>
-			<block v-for="(item,index) in article" :key="index">
-				<view style="margin: 30rpx;padding: 30rpx;background:#fff;border-radius: 20rpx;"
-					@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
-					<view style="display: flex;flex-direction: column;">
-						<u-row justify="space-between" align="top">
-							<view class="u-line-2" style="display: flex;flex-direction: column;">
-								<text style="font-size: 36rpx;font-weight: 600;">{{item.title}}</text>
-								<uv-parse :showImgMenu="false" class="u-line-1"
-									style="overflow-y: unset;overflow: hidden;"
-									:content="replaceEmoji(item.text)"></uv-parse>
-							</view>
-							<image v-if="item.images&&item.images[0]"
-								:src="item.images&& item.images[0]?item.images[0]:'/static/login.jpg'"
-								style="width: 260rpx;height: 160rpx; border-radius: 20rpx;flex-shrink: 0;"
-								mode="aspectFill"></image>
+	<z-paging @query="getData" ref="paging" v-model="article" :refresher-enabled="false">
+		<view class="search-header">
+			<text>相关帖子</text>
+		</view>
+		<block v-for="(item,index) in article" :key="index">
+			<view class="search-item"
+				@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
+				<view style="display: flex;flex-direction: column;">
+					<u-row justify="space-between" align="top">
+						<view class="u-line-2" style="display: flex;flex-direction: column;">
+							<text style="font-size: 36rpx;font-weight: 600;">{{item.title}}</text>
+							<uv-parse :showImgMenu="false" class="u-line-1"
+								style="overflow-y: unset;overflow: hidden;"
+								:content="replaceEmoji(item.text)"></uv-parse>
+						</view>
+						<image v-if="item.images&&item.images[0]"
+							:src="item.images&& item.images[0]?item.images[0]:'/static/login.jpg'"
+							style="width: 260rpx;height: 160rpx; border-radius: 20rpx;flex-shrink: 0;"
+							mode="aspectFill"></image>
+					</u-row>
+					<u-row justify="space-between" style="margin-top: 20rpx;">
+						<u-row>
+							<u-avatar :src="item.authorInfo.avatar" size="24"></u-avatar>
+							<text
+								style="margin-left: 20rpx;font-size: 28rpx;">{{item.authorInfo.screenName?item.authorInfo.screenName:item.authorInfo.name}}</text>
 						</u-row>
-						<u-row justify="space-between" style="margin-top: 20rpx;">
-							<u-row>
-								<u-avatar :src="item.authorInfo.avatar" size="24"></u-avatar>
-								<text style="margin-left: 20rpx;font-size: 28rpx;">{{item.authorInfo.screenName?item.authorInfo.screenName:item.authorInfo.name}}</text>
-							</u-row>
-							
-							<u-icon name="eye-fill" size="16" labelColor="#eee" color="#eee"
-								:label="item.views"></u-icon>
-						</u-row>
-					</view>
+	
+						<u-icon name="eye-fill" size="16" labelColor="#eee" color="#eee"
+							:label="item.views"></u-icon>
+					</u-row>
 				</view>
-			</block>
-			<template #loadingMoreNoMore></template>
-		</z-paging>
-	</view>
+			</view>
+		</block>
+		<template #loadingMoreNoMore></template>
+	</z-paging>
 </template>
 
 <script>
@@ -89,7 +88,7 @@
 						searchKey: this.key,
 					}
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.isLoaded = true
 						this.$refs.paging.complete(res.data.data.data)
@@ -135,5 +134,21 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	.search {
+		&-header {
+			margin: 30rpx;
+			background: #fff;
+			padding: 30rpx;
+			border-radius: 20rpx;
+		}
+
+		&-item {
+			margin: 30rpx;
+			padding: 30rpx;
+			background: #fff;
+			border-radius: 20rpx
+		}
+
+	}
 </style>

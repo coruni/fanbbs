@@ -10,7 +10,7 @@
 				</u-navbar>
 			</template>
 			<block v-for="(item,index) in finances">
-				<view style="margin: 30rpx;padding: 30rpx;border-radius: 20rpx; background: #fff;">
+				<view class="notice-message">
 					<view class="u-line-1">
 						<text style="font-size: 32rpx;font-weight: 600;">财务通知</text>
 					</view>
@@ -41,7 +41,7 @@
 					limit,
 					type: 'finance'
 				}).then(res => {
-					
+
 					this.$refs.paging.complete(res.data.data.data)
 					setTimeout(() => {
 						this.loading = false
@@ -72,15 +72,22 @@
 				this.$http.post('/user/clearNum', {
 					type: 'finance'
 				}).then(res => {
-					
+
 				})
 			}
 		}
 	}
 </script>
 
-<style >
+<style>
 	page {
 		background: #f7f7f7;
+	}
+
+	.notice-message {
+		margin: 30rpx;
+		padding: 30rpx;
+		border-radius: 20rpx;
+		background: #fff;
 	}
 </style>

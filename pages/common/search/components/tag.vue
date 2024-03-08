@@ -1,20 +1,18 @@
 <template>
-	<view>
-		<z-paging @query="getData()" v-model="tags" ref="paging" :refresher-enabled="false">
-			<block v-for="(item,index) in tags">
-				<view style="margin:30rpx;padding: 30rpx;background: #fff;border-radius: 20rpx;">
-					<u-row>
-						<u--image :src="item.imgurl && item.imgurl?item.imgurl:'/static/login.jpg'" mode="aspectFill"
-							height="50px" width="50px" radius="10"></u--image>
-						<view style="margin-left:20rpx">
-							<text>{{item.name}}</text>
-						</view>
-					</u-row>
-				</view>
-			</block>
-			<template #loadingMoreNoMore></template>
-		</z-paging>
-	</view>
+	<z-paging @query="getData()" v-model="tags" ref="paging" :refresher-enabled="false">
+		<block v-for="(item,index) in tags">
+			<view class="search-item">
+				<u-row>
+					<u--image :src="item.imgurl && item.imgurl?item.imgurl:'/static/login.jpg'" mode="aspectFill"
+						height="50px" width="50px" radius="10"></u--image>
+					<view style="margin-left:20rpx">
+						<text>{{item.name}}</text>
+					</view>
+				</u-row>
+			</view>
+		</block>
+		<template #loadingMoreNoMore></template>
+	</z-paging>
 </template>
 
 <script>
@@ -56,7 +54,7 @@
 
 					}
 				}).then(res => {
-					
+
 					if (res.data.code) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
@@ -67,4 +65,10 @@
 </script>
 
 <style>
+	.search-item {
+		margin: 30rpx;
+		padding: 30rpx;
+		background: #fff;
+		border-radius: 20rpx
+	}
 </style>

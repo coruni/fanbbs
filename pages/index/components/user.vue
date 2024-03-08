@@ -4,10 +4,12 @@
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false"
 			v-if="$store.state.hasLogin&&isMounted" style="margin-bottom: 50rpx;">
 			<template #top>
-				<u-navbar :bgColor="`rgba(255,255,255,${opacity})`">
+				<u-navbar
+					:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : $u.colorToRgba('#fff', opacity)">
 					<view slot="left">
 						<u-row>
-							<u-icon name="scan" size="26" :color="opacity>0.4? 'black':'white'"></u-icon>
+							<u-icon name="scan" size="26"
+								:color="opacity>0.4? (theme === '#292929' ? '#fff' : 'black') : 'white'"></u-icon>
 							<u-row customStyle="margin-left:20rpx" v-show="opacity>=1"
 								@click="$refs.paging.scrollToTop()">
 								<u-avatar :src="userInfo && userInfo.avatar" size="26"></u-avatar>
@@ -16,8 +18,10 @@
 						</u-row>
 					</view>
 					<u-row slot="right">
-						<i class="ess mgc_menu_line" :style="{color:opacity>0.4? 'black':'white'}"
-							style="font-size: 44rpx;margin-right: 20rpx;" @click="showRightMenu =true"></i>
+						<i class="ess mgc_menu_line"
+							:style="{color: opacity > 0.4 ? (theme === '#292929' ? '#fff' : 'black') : 'white'}"
+							style="font-size: 44rpx; margin-right: 20rpx;" @click="showRightMenu = true">
+						</i>
 					</u-row>
 				</u-navbar>
 			</template>
@@ -25,9 +29,7 @@
 				<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
 					style="width: 100%;height: 500rpx;transform: scale(1);" class="backCover" @click="chooseBackImg()">
 				</image>
-				<view
-					style="width: 100%;border-radius: 30rpx 30rpx 0 0;height: 40rpx;position: absolute;bottom: 0;background: white;">
-				</view>
+				<view class="top-header"></view>
 			</view>
 			<view class="userPanel">
 				<view style="position: absolute;top: -100rpx;">
@@ -45,8 +47,8 @@
 						<!-- 占位结束 -->
 						<u-row>
 							<view style="position: relative;top: 0;">
-								<text
-									style="font-weight: 600;font-size: 34rpx;" :class="{'vipname':userInfo&& userInfo.isVip}">{{userInfo && userInfo.screenName?userInfo.screenName:userInfo.name}}</text>
+								<text style="font-weight: 600;font-size: 34rpx;"
+									:class="{'vipname':userInfo&& userInfo.isVip}">{{userInfo && userInfo.screenName?userInfo.screenName:userInfo.name}}</text>
 								<uv-line-progress :height="4"
 									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
 									:percentage="100-((userInfo.nextLevel - userInfo.experience) / userInfo.nextExp) * 100"
@@ -109,22 +111,21 @@
 					</view>
 				</u-row>
 			</view>
-
+			<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
 			<view style="position: relative;top: 0rpx;" v-if="isMounted">
 				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->
-					<u-sticky bgColor="#fff">
+					<u-sticky>
 						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-							active-color="#ff0800" :active-style="{color:'#303133',fontWeight:'bold'}"
-							bar-animate-mode="worm"></z-tabs>
-
+							active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
+							class="tabs-dark"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
-					<u-sticky bgColor="#fff" offsetTop="64">
+					<u-sticky offsetTop="64">
 						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-							active-color="#ff0800" :active-style="{color:'#303133',fontWeight:'bold'}"
-							bar-animate-mode="worm"></z-tabs>
+							active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
+							class="tabs-dark"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<swiper style="height: 100vh;" :current="tabsIndex" @transition="swiperTransition"
@@ -149,7 +150,7 @@
 			customStyle="width:70vw">
 			<u-gap height="44"></u-gap>
 			<block v-for="(panel,index) in rightMenuItem" :key="index">
-				<view style="margin:20rpx 20rpx 0 20rpx; background: #fff;border-radius: 20rpx;">
+				<view class="rightPanel">
 					<block v-for="(item,subindex) in panel">
 						<u-row customStyle="padding:30rpx" @click="goPage(item.path);showRightMenu = false">
 							<i class="ess" :class="item.icon" style="font-size: 40rpx;"></i>
@@ -160,21 +161,18 @@
 			</block>
 			<!-- 管理面板 -->
 			<view style="position: fixed;bottom: 0; width: 70vw;">
-				<view style="margin: 20rpx;background: #fff;border-radius: 20rpx;padding: 20rpx;">
+				<view class="rightPanel-bottom">
 					<u-row justify="space-between">
 						<u-row style="flex-direction: column;" justify="center" @click="goLogout()">
-							<i class="ess mgc_flash_line"
-								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;color: red;"></i>
+							<i class="ess mgc_flash_line rightPanel-bottom-icon"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">退出</text>
 						</u-row>
 						<u-row style="flex-direction: column;" justify="center">
-							<i class="ess mgc_clipboard_line"
-								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
+							<i class="ess mgc_clipboard_line rightPanel-bottom-icon"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">反馈</text>
 						</u-row>
 						<u-row style="flex-direction: column;" justify="center" @click="goPage('setting')">
-							<i class="ess mgc_settings_1_line"
-								style="font-size: 40rpx;padding: 14rpx;border-radius: 50rpx;background: #f7f7f7;"></i>
+							<i class="ess mgc_settings_1_line rightPanel-bottom-icon"></i>
 							<text style="font-size: 26rpx;margin-top: 10rpx;">设置</text>
 						</u-row>
 					</u-row>
@@ -183,8 +181,8 @@
 		</u-popup>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
 			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false" is-limit-move
-			is-lock-ratio :width="1280" :height="720" :scaleRatio="2" :min-width="1280" :min-height="720" :max-width="1920"
-			:max-height="720" style="z-index: 99999;" />
+			is-lock-ratio :width="1280" :height="720" :scaleRatio="2" :min-width="1280" :min-height="720"
+			:max-width="1920" :max-height="720" style="z-index: 99999;" />
 
 		<!-- 等级弹窗 -->
 		<u-popup mode="center" :show="showLevel" @close="showLevel = false" round="10">
@@ -377,6 +375,7 @@
 				tasks: {},
 				edit: {},
 				showDelete: false,
+				theme: '#fff'
 			}
 		},
 		computed: {
@@ -388,6 +387,11 @@
 				this.isMounted = true
 			})
 			this.tasks = uni.getStorageSync('userTasks')
+			if (uni.getSystemInfoSync().theme == 'dark') this.theme = '#292929'
+			uni.onThemeChange((res) => {
+				if (res.theme == 'dark') this.theme = "#292929";
+				else this.theme = '#fff'
+			})
 		},
 		methods: {
 			//tabs通知swiper切换
@@ -557,6 +561,38 @@
 </script>
 
 <style lang="scss">
+	@media (prefers-color-scheme: dark) {
+		.userPanel {
+			background: #292929 !important;
+		}
+
+		.tabs-dark {
+			background: #292929 !important;
+			color: white;
+		}
+
+		.rightPanel {
+			background: #525252 !important;
+
+			&-bottom {
+				background: #525252 !important;
+
+				&-icon {
+					background: #606060 !important;
+				}
+			}
+		}
+	}
+
+	.top-header {
+		width: 100%;
+		border-radius: 30rpx 30rpx 0 0;
+		height: 40rpx;
+		position: absolute;
+		bottom: 0;
+		background: white;
+	}
+
 	.overlay {
 		position: absolute;
 		top: 0;
@@ -577,10 +613,7 @@
 
 	.userPanel {
 		position: relative;
-		background-color: #fff;
-		border-radius: 40rpx 40rpx 0 0;
 		padding: 0 40rpx 40rpx 40rpx;
-		border-bottom: 1rpx solid #f7f7f7;
 	}
 
 	.u-button::before {
@@ -606,5 +639,26 @@
 	.btn {
 		border-radius: 50rpx;
 		height: 60rpx;
+	}
+
+	.rightPanel {
+		margin: 30rpx 30rpx 0 30rpx;
+		background: #fff;
+		border-radius: 20rpx;
+
+		&-bottom {
+			margin: 30rpx;
+			background: #fff;
+			border-radius: 20rpx;
+			padding: 30rpx;
+
+			&-icon {
+				font-size: 40rpx;
+				padding: 14rpx;
+				border-radius: 50rpx;
+				background: #f7f7f7;
+				color: red;
+			}
+		}
 	}
 </style>

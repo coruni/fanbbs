@@ -4,21 +4,20 @@
 			:auto-clean-list-when-reload="false" v-show="!loading" @scroll="onScroll" @onRefresh="onRefresh"
 			cache-mode="always" use-cache :cache-key="`article_mid-${cid}`">
 			<template #top>
-				<u-navbar placeholder fixed style="z-index: 10;">
+				<u-navbar placeholder fixed style="z-index: 10;" bgColor="transparent">
 					<view slot="left" style="display:flex;align-items: center;">
 						<i class="ess mgc_left_line" style="font-size: 60rpx;" @click="$Router.back(1)"></i>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
 							@click="goProfile(article.authorId)" v-show="showNavAvatar" v-if="article">
 							<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="28"
-								customStyle="border:4rpx solid #85a3ff32"></u-avatar>
+								class="nav-border"></u-avatar>
 							<text
-								style="font-weight: 600;font-size: 30rpx;margin-left: 20rpx;">{{article && article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
+								class="nav-text">{{article && article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
 						</view>
 					</view>
 					<view slot="right">
-						<view v-show="showNavAvatar"
-							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #ff080032;padding: 0rpx 16rpx;line-height: 1;">
-							<u-row customStyle="margin-right:20rpx;"
+						<view v-show="showNavAvatar" class="nav-avatar">
+							<u-row style="margin-right:20rpx;"
 								@click="article.authorInfo.isFollow?showFollow = true:follow(article.authorId)">
 								<i class="ess mgc_add_line" style="font-size: 30rpx;font-weight: 600;"
 									:style="{color:article && article.authorInfo &&article.authorInfo.isFollow?'':'#ff0800'}"
@@ -44,14 +43,13 @@
 				<articleFooter :data="article" @hideFilesTap="showPay = $event"></articleFooter>
 			</view>
 			<!-- 评论区 -->
-			<u-gap height="6" bgColor="#f9f9f9"></u-gap>
+			<u-gap height="6" class="article-gap" bgColor="#f7f7f7"></u-gap>
 			<!-- #ifdef APP -->
-			<u-sticky bgColor="#fff">
-				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
+			<u-sticky>
+				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text
-								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
+							<text style="margin-right: 6rpx;font-size: 30rpx;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 
@@ -61,11 +59,8 @@
 						style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
 						<view>
 							<!-- 半透明遮罩 -->
-							<view @click.stop="showOrderList = false"
-								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
-							</view>
-							<view
-								style="font-size: 30rpx;color:#ff0800;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+							<view @click.stop="showOrderList = false" class="comment-mask"></view>
+							<view class="comment-order" @touchmove.stop.prevent>
 								<block v-for="(item,index) in orderList" :key="index">
 									<text @click.stop="orderTap(item.name);$refs.comments.reload()"
 										style="padding: 15rpx;">{{item.name}}</text>
@@ -77,8 +72,8 @@
 			</u-sticky>
 			<!-- #endif -->
 			<!-- #ifndef APP -->
-			<u-sticky bgColor="#fff" offsetTop="-44">
-				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
+			<u-sticky offsetTop="-44">
+				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text
@@ -91,11 +86,8 @@
 						style="position: absolute; top: -10rpx; left: 0; width: 100%;z-index: 1001;">
 						<view>
 							<!-- 半透明遮罩 -->
-							<view @click.stop="showOrderList = false"
-								style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">
-							</view>
-							<view
-								style="font-size: 30rpx;color:#ff0800;display: flex;flex-direction: column;position: absolute; top: 100rpx; left: 30rpx; background-color: #fff; padding: 10rpx; border-radius: 20rpx; box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);">
+							<view @click.stop="showOrderList = false" class="comment-mask"></view>
+							<view class="comment-order" @touchmove.stop.prevent>
 								<block v-for="(item,index) in orderList" :key="index">
 									<text @click.stop="orderTap(item.name);$refs.comments.reload()"
 										style="padding: 15rpx;">{{item.name}}</text>
@@ -104,7 +96,6 @@
 						</view>
 					</u-transition>
 				</view>
-
 			</u-sticky>
 			<!-- #endif -->
 			<view style="margin: 30rpx;">
@@ -117,10 +108,9 @@
 				</block>
 			</view>
 			<template #bottom>
-				<u-row customStyle="padding:10rpx 20rpx;border-top:#f7f7f7 solid 1rpx" justify="space-between">
+				<u-row class="bottom-tabbar" justify="space-between">
 					<u-col span="6">
-						<u-row customStyle="padding:14rpx 14rpx;border-radius: 50rpx;background: #f9f9f9;"
-							class="u-info" @click="showComment = true">
+						<u-row class="u-info comment-box" @click="showComment = true">
 							<u-icon name="edit-pen" size="20"></u-icon>
 							<text style="margin-left:10rpx;font-size: 28rpx;">说点什么</text>
 						</u-row>
@@ -154,14 +144,18 @@
 			</template>
 		</z-paging>
 		<u-loading-page :loading="loading"></u-loading-page>
-		<!-- 页面公用组件 -->
+
 		<!-- 回复文章 -->
 		<u-popup :show="showComment" @close="showComment = false;pid = 0" round="20" :z-index="10074"
-			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease',padding:30+'rpx'}">
-			<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
-				:show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
-				style="background: #f9f9f9;height: auto;min-height: 60px;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
-			</editor>
+			:customStyle="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.2s ease',padding:30+'rpx'}">
+			<view style="position: relative;">
+				<editor id="editor" :adjust-position="false" :show-img-size="false" :show-img-resize="false"
+					:show-img-toolbar="false" @ready="onEditorReady" placeholder="说点什么"
+					:class="{'fullscreen':fullscreenEdit}">
+				</editor>
+				<i :class="fullscreenEdit?'mgc_fullscreen_exit_2_line':'mgc_fullscreen_2_line'"
+					style="position: absolute;top: 10rpx;right: 10rpx;" @click="fullscreenEdit= !fullscreenEdit"></i>
+			</view>
 			<u-row customStyle="margin-top:20rpx" justify="space-between">
 				<u-col span="4">
 					<u-row justify="space-between">
@@ -204,7 +198,7 @@
 					</swiper>
 				</block>
 				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#ff0800"
-					itemStyle="height: 24px;"
+					itemStyle="height: 26px;"
 					:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 					:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
 					style="position: static;"></u-tabs>
@@ -490,6 +484,7 @@
 				keyboardHeight: 0,
 				headerHeight: 0,
 				isHideReply: false,
+				fullscreenEdit: false,
 			};
 		},
 		onLoad(params) {
@@ -536,16 +531,16 @@
 				})
 			},
 			cBtnTap(name) {
-				let perimission = false
+				let permission = false
 				let userInfo = this.$store.state.userInfo
 				if (userInfo.group == 'administrator' || userInfo.group == 'editor' || userInfo.isVip) {
-					perimission = true
+					permission = true
 				}
 				if (name == '图片') {
 					this.chooseImage()
 					return;
 				}
-				if (name == '颜色' && !perimission) {
+				if (name == '颜色' && !permission) {
 					uni.$u.toast('颜色评论仅会员可用');
 					return
 				}
@@ -915,5 +910,79 @@
 		min-height: 60rpx;
 		height: 60rpx;
 		font-style: normal;
+	}
+
+	#editor {
+		background: #f9f9f9;
+		height: auto;
+		min-height: 120rpx;
+		max-height: 200rpx;
+		border-radius: 20rpx;
+		padding: 8rpx 16rpx;
+		transition: all 0.5s ease;
+		/* 添加过渡效果 */
+	}
+
+	#editor.fullscreen {
+		min-height: 600rpx;
+		max-height: 600rpx;
+	}
+
+
+	.nav {
+		&-avatar {
+			display: flex;
+			align-items: center;
+			border-radius: 50rpx;
+			border: 2rpx solid #ff080032;
+			padding: 0rpx 16rpx;
+			line-height: 1;
+		}
+
+		&-border {
+			border: 4rpx solid #85a3ff32
+		}
+
+		&-text {
+			font-weight: 600;
+			font-size: 30rpx;
+			margin-left: 20rpx;
+		}
+	}
+
+	.comment {
+		&-mask {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			background-color: rgba(0, 0, 0, 0.5);
+		}
+
+		&-order {
+			font-size: 30rpx;
+			color: #ff0800;
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			top: 100rpx;
+			left: 30rpx;
+			background-color: #fff;
+			padding: 10rpx;
+			border-radius: 20rpx;
+			box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+		}
+
+		&-box {
+			padding: 14rpx 14rpx;
+			border-radius: 50rpx;
+			background: #f9f9f9;
+		}
+	}
+
+	.bottom-tabbar {
+		padding: 10rpx 20rpx;
+		border-top: #f7f7f7 solid 1rpx
 	}
 </style>

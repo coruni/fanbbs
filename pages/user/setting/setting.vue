@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar title="设置" placeholder autoBack>
+		<u-navbar title="设置" placeholder autoBack bgColor="transparent">
 			<view slot="left">
 				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
@@ -11,7 +11,7 @@
 				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 			</u-row>
 		</view>
-		<u-gap height="7" bgColor="#f7f7f7"></u-gap>
+		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
 		<u-row justify="space-between" style="padding: 20rpx 30rpx;">
 			<text>护眼模式</text>
 			<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
@@ -24,7 +24,7 @@
 			<text>列表视频自动播放</text>
 			<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 		</u-row>
-		<u-gap height="7" bgColor="#f7f7f7"></u-gap>
+		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
 		<view>
 			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
 				<text>关于{{systemInfo.appName}}</text>
@@ -51,7 +51,7 @@
 				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 			</u-row>
 		</view>
-		<u-gap height="7" bgColor="#f7f7f7"></u-gap>
+		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
 		<view>
 			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
 				<text>用户协议</text>

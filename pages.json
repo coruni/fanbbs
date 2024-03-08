@@ -33,7 +33,7 @@
 				"enablePullDownRefresh": false,
 				"navigationBarTextStyle": "white"
 			},
-			"name":"login"
+			"name": "login"
 		},
 		{
 			"path": "pages/common/category/category",
@@ -214,136 +214,125 @@
 			"perm": "login"
 		},
 		{
-			"path" : "pages/shop/addProduct",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/shop/addProduct",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/shop/order",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/shop/order",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/user/orderList",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/user/orderList",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"orderList"
+			"name": "orderList"
 		},
 		{
-			"path" : "pages/user/tracking",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/user/tracking",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/shop/myProduct",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/shop/myProduct",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"myProduct"
+			"name": "myProduct"
 		},
 		{
-			"path" : "pages/article/components/preview_photo/preview_photo",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false,
+			"path": "pages/article/components/preview_photo/preview_photo",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
 				"navigationBarTextStyle": "white"
 			}
 		},
 		{
-			"path" : "pages/user/business",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/user/business",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"business"
+			"name": "business"
 		},
 		{
-			"path" : "pages/user/setting/setting",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/user/setting/setting",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"setting"
+			"name": "setting"
 		},
 		{
-			"path" : "pages/user/setting/account",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/user/setting/account",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"account",
-			"perm":"login"
+			"name": "account",
+			"perm": "login"
 		},
 		{
-			"path" : "pages/user/setting/destroy",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/user/setting/destroy",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"destroy",
-			"perm":"login"
+			"name": "destroy",
+			"perm": "login"
 		},
 		{
-			"path" : "pages/exchange/exchange",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/exchange/exchange",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"exchange"
+			"name": "exchange"
 		},
 		{
-			"path" : "pages/user/history",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/user/history",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"history"
+			"name": "history"
 		},
 		{
-			"path" : "publish/article/video",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "publish/article/video",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			},
-			"name":"video"
+			"name": "video"
 		},
 		{
-			"path" : "pagesA/lottery/lottery",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pagesA/lottery/lottery",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			}
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
 		"navigationStyle": "custom",
+		// 导航栏字体颜色
+		"navigationBarTextStyle": "@navTxtStyle",
+		// 导航栏背景色
+		"navigationBarBackgroundColor": "@navBgColor",
+		// 导航栏背景底色
+		"backgroundColor": "@bgColor",
 		"app-plus": {
 			"bounce": "none",
 			"scrollIndicator": "none",

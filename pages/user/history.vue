@@ -1,15 +1,15 @@
 <template>
 	<view>
-		<u-navbar title="浏览历史" placeholder autoBack>
+		<u-navbar title="浏览历史" placeholder autoBack bgColor="transparent">
 			<view slot="left">
-				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
+				<i class="mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
-				<i class="ess mgc_delete_2_line" style="font-size: 45rpx;" @click="clearHistory()"></i>
+				<i class="mgc_delete_2_line" style="font-size: 45rpx;" @click="clearHistory()"></i>
 			</view>
 		</u-navbar>
-		<block v-for="(item,index) in $store.state.history" :key="index">
-			<view style="margin: 30rpx;padding: 30rpx;background:#fff;border-radius: 20rpx;"
+		<block v-for="(item,index) in $store.state.history" :key="index" v-if="$store.state.history">
+			<view class="content"
 				@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
 				<view style="display: flex;flex-direction: column;">
 					<u-row justify="space-between" align="top">
@@ -23,11 +23,12 @@
 							style="width: 260rpx;height: 160rpx; border-radius: 20rpx;flex-shrink: 0;"
 							mode="aspectFill"></image>
 					</u-row>
+
 					<u-row justify="space-between" style="margin-top: 20rpx;">
 						<u-row>
-							<u-avatar :src="item.authorInfo.avatar" size="24"></u-avatar>
+							<u-avatar :src="item && item.authorInfo && item.authorInfo.avatar" size="24"></u-avatar>
 							<text
-								style="margin-left: 20rpx;font-size: 28rpx;">{{item.authorInfo.screenName?item.authorInfo.screenName:item.authorInfo.name}}</text>
+								style="margin-left: 20rpx;font-size: 28rpx;">{{item && item.authorInfo && item.authorInfo.screenName?item.authorInfo.screenName:item && item.authorInfo &&item.authorInfo.name}}</text>
 						</u-row>
 
 						<u-icon name="eye-fill" size="16" labelColor="#eee" color="#eee" :label="item.views"></u-icon>
@@ -64,9 +65,6 @@
 				showClear: false
 			}
 		},
-		created() {
-			console.log(this.$store.state.history)
-		},
 		methods: {
 			...mapMutations(['clearHistory']),
 			goArticle(data) {
@@ -86,7 +84,7 @@
 				})
 			},
 			replaceEmoji(html) {
-				if(html){
+				if (html) {
 					return html.replace(
 						/<img[^>]*?alt="src=([^"]+)\|poster=([^"]+)\|type=video"[^>]*?>/g, (match, src, poster) => {
 							return `<div style="border-radius:10px"><video src="${src}" poster="${poster}" muted width="100%" style="border-radius:10px" /></div>`
@@ -101,7 +99,7 @@
 						return ''
 					}).replace(/\|</g, '<').replace(/>\|/g, '>')
 				}
-				
+
 			},
 		}
 	}
@@ -110,5 +108,25 @@
 <style>
 	page {
 		background: #f7f7f7;
+	}
+
+	@media (prefers-color-scheme: dark) {
+
+		body,
+		html {
+			background: #292929 !important;
+		}
+
+		.content {
+			background: #525252 !important;
+		}
+	}
+
+	.content {
+		margin: 30rpx;
+		padding: 30rpx;
+		background: #fff;
+		border-radius: 20rpx;
+
 	}
 </style>
