@@ -2,7 +2,7 @@
 	<z-paging refresher-only @onRefresh="onRefresh" ref="paging" @scroll="onScroll">
 		<template #top>
 			<u-navbar autoBack
-				:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : (info.opt && info.opt.primary ? $u.colorToRgba(info.opt.primary, opacity) : '')">
+				:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : (info.opt && info.opt.primary ? $u.colorToRgba(info.opt.primary, opacity) : $u.colorToRgba('#fff', opacity))">
 				<view slot="left">
 				    <i class="ess mgc_left_line" style="font-size: 60rpx;"
 				        :style="{color: opacity >= 0.5 ? (theme === '#292929' ? '#fff' : 'black') : 'white'}"></i>

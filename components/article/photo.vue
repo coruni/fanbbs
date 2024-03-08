@@ -63,6 +63,8 @@
 			padding: 30rpx;
 			display: flex;
 			flex-direction: column;
+			background: #f7f7f7;
+			border-radius: 0 20rpx 20rpx 0;
 			justify-content: space-between;
 			align-items: flex-start;
 			flex: 1;

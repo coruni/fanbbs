@@ -57,7 +57,8 @@
 		components: {
 			articleHeader,
 			articleContent,
-			articleFooter
+			articleFooter,
+			articlePhoto
 		},
 		props: {
 			type: {
