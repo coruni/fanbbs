@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="height: 100%;overflow-y: scroll;overflow: scroll;">
 		<u-navbar placeholder title="板块列表" bgColor="transparent">
 			<view slot="left"></view>
 		</u-navbar>
