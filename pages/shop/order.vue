@@ -110,11 +110,13 @@
 						<u-input border="bottom" v-model="address.address" placeholder="请输入订单号"></u-input>
 					</u-form-item>
 				</u-form>
-				
+
 				<view style="margin-top: 30rpx;">
 					<u-row justify="space-between">
-						<u-button shape="circle" plain color="#ff0800" style="margin-right: 40rpx;" @click="isTracking(0)">保存订单</u-button>
-						<u-button shape="circle" @click="isTracking(info.isTracking?0:1)" :color="info.isTracking?'#ccc':'#ff0800'">{{info.isTracking?'已发货':'发货'}}</u-button>
+						<u-button shape="circle" plain color="#ff0800" style="margin-right: 40rpx;"
+							@click="isTracking(0)">保存订单</u-button>
+						<u-button shape="circle" @click="isTracking(info.isTracking?0:1)"
+							:color="info.isTracking?'#ccc':'#ff0800'">{{info.isTracking?'已发货':'发货'}}</u-button>
 					</u-row>
 				</view>
 			</view>
@@ -152,23 +154,23 @@
 				<text>收货地址</text>
 			</view>
 			<view style="margin: 30rpx;height: 50vh;">
-				<u-form :model="address" :rules="rules" ref="address">
+				<u-form :model="address" :rules="addressRules" ref="address">
 					<u-form-item :borderBottom="false" prop="contacts" label="收货人" label-width="80">
-						<u-input v-model="address.contacts" placeholder="名字"></u-input>
+						<u-input v-model="address && address.contacts" placeholder="名字"></u-input>
 					</u-form-item>
 					<u-form-item :borderBottom="false" prop="phone" label="手机号" label-width="80">
-						<u-input v-model="address.phone" maxlength="11" placeholder="手机号"></u-input>
+						<u-input v-model="address && address.phone" maxlength="11" placeholder="手机号"></u-input>
 					</u-form-item>
-					<u-form-item :borderBottom="false" prop="province" label="所在地区" label-width="80">
-						<u-input v-model="address.region" disabled :placeholder="address.region?address.region:'所在地区'"
-							@click="getLocaltion()">
+					<u-form-item :borderBottom="false" prop="region" label="所在地区" label-width="80">
+						<u-input v-model="address && address.region" placeholder="请填写省/市/县">
 							<template slot="suffix">
 								<u-icon name="map" color="#ff0800" size="20" @click="getLocaltion()"></u-icon>
 							</template>
 						</u-input>
 					</u-form-item>
 					<u-form-item :borderBottom="false" prop="detailAddress" label="详细地址" label-width="80">
-						<u-textarea placeholder="镇/村/门牌号" v-model="address.detailAddress" height="40"></u-textarea>
+						<u-textarea placeholder="镇/村/门牌号" v-model="address && address.detailAddress"
+							height="40"></u-textarea>
 					</u-form-item>
 				</u-form>
 				<u-button color="#ff0800" style="margin-top: 60rpx;" shape="circle"
@@ -217,7 +219,7 @@
 						min: 11,
 						trigger: ['blur', 'change']
 					},
-					'province': {
+					'region': {
 						type: 'string',
 						required: true,
 						message: '请定位获取位置',
@@ -243,9 +245,9 @@
 		methods: {
 			getData() {
 				this.$http.post('/shop/order', {
-					id:this.id,
+					id: this.id,
 				}).then(res => {
-					
+
 					if (res.data.code == 200) {
 						this.info = res.data.data
 						if (res.data.data.paid) this.showPayment = true;
@@ -259,9 +261,7 @@
 						id: this.$store.state.userInfo.uid
 					}
 				}).then(res => {
-					
 					if (res.data.code == 200) {
-
 						this.$store.commit('setUser', res.data.data)
 					}
 				})
@@ -280,17 +280,22 @@
 				})
 			},
 			saveAddress() {
-				let address = this.address
-				address.address = address.region + address.detailAddress
-				this.$http.post('/shop/tracking', {
-					id: this.info.id,
-					address: JSON.stringify(address)
-				}).then(res => {
-					if (res.data.code) {
-						this.getData(this.info.id)
-					}
-					uni.$u.toast(res.data.msg)
+				this.$refs.address.validate().then(() => {
+					let address = this.address
+					address.address = address.region + address.detailAddress
+					this.$http.post('/shop/tracking', {
+						id: this.info.id,
+						address: JSON.stringify(address)
+					}).then(res => {
+						if (res.data.code) {
+							this.getData(this.info.id)
+						}
+						uni.$u.toast(res.data.msg)
+					})
+				}).catch(err=>{
+					uni.$u.toast('请填写完整收货地址！')
 				})
+
 			},
 			getLocaltion() {
 				uni.getLocation({
@@ -309,13 +314,13 @@
 			},
 			isTracking(isTracking) {
 				this.$http.post('/shop/tracking', {
-					id:this.info.id,
+					id: this.info.id,
 					tracking_number: this.info.tracking_number,
-					price:this.info.price,
-					address:JSON.stringify(this.address),
+					price: this.info.price,
+					address: JSON.stringify(this.address),
 					isTracking
-				}).then(res=>{
-					if(res.data.code==200){
+				}).then(res => {
+					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
 					}
 					this.getData()

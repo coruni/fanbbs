@@ -324,6 +324,11 @@
 							name: '我的小摊',
 							icon: 'mgc_shopping_cart_2_line',
 							path: 'myProduct',
+						},
+						{
+							name: '我的奖品',
+							icon: 'mgc_gift_2_line',
+							path: 'myReward',
 						}
 					],
 					blance: [{
@@ -427,13 +432,10 @@
 					params: {
 						id: this.userInfo.uid,
 					},
-
 				}).then(res => {
-
 					if (res.data.code == 200) {
 						this.$store.commit('setUser', res.data.data)
 					}
-
 				}).catch(err => {
 
 				})

@@ -66,9 +66,8 @@
 					<u-form-item :borderBottom="false" prop="phone" label="手机号" label-width="80">
 						<u-input v-model="address && address.phone" maxlength="11" placeholder="手机号"></u-input>
 					</u-form-item>
-					<u-form-item :borderBottom="false" prop="province" label="所在地区" label-width="80">
-						<u-input v-model="address && address.region" disabled
-							:placeholder="address && address.region?address.region:'所在地区'" @click="getLocaltion()">
+					<u-form-item :borderBottom="false" prop="region" label="所在地区" label-width="80">
+						<u-input v-model="address && address.region" placeholder="请填写省/市/县">
 							<template slot="suffix">
 								<u-icon name="map" color="#ff0800" size="20" @click="getLocaltion()"></u-icon>
 							</template>
@@ -87,6 +86,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex';
 	export default {
 		data() {
 			return {
@@ -156,6 +158,16 @@
 
 			}
 		},
+		computed: {
+			...mapState(['userInfo'])
+		},
+		onLoad() {
+			// 获取用户地址
+			if (this.userInfo.address) {
+				this.address = this.userInfo.address
+			}
+
+		},
 		methods: {
 			savePassword() {
 				this.$refs.uForm.validateField('newPassword')
@@ -190,29 +202,45 @@
 					type: 'gcj02',
 					geocode: true,
 					success: (res) => {
-						
 						this.address.region = res.address.province + res.address.city + res.address.district
 						this.address.province = res.address.province
 						this.address.city = res.address.city
 						this.address.district = res.address.district
 					},
-					fail: (err) => {
-						console.log(err)
-					}
+					fail: (err) => {}
 				})
 			},
 			saveAddress() {
-				let address = this.address
-				address.address = address.region + address.detailAddress
-				this.$http.post('/user/update', {
-					address: JSON.stringify(address)
-				}).then(res => {
-
-					if (res.data.code == 200) {
-						uni.$u.toast('已设置地址')
-					}
+				this.$refs.address.validate().then(() => {
+					let address = this.address
+					address.address = address.region + address.detailAddress
+					this.$http.post('/user/update', {
+						address: JSON.stringify(address)
+					}).then(res => {
+						if (res.data.code == 200) {
+							uni.$u.toast('已设置地址')
+							this.getUserInfo()
+						}
+					})
+				}).catch(err => {
+					uni.$u.toast('请填写完整收货地址！')
 				})
-			}
+
+			},
+			getUserInfo() {
+				if (!uni.getStorageSync('token')) return;
+				this.$http.get('/user/userInfo', {
+					params: {
+						id: this.userInfo.uid,
+					},
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.$store.commit('setUser', res.data.data)
+					}
+				}).catch(err => {
+
+				})
+			},
 
 		}
 	}

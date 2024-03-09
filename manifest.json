@@ -2,8 +2,8 @@
     "name" : "不正常萝莉研究所",
     "appid" : "__UNI__3F0725D",
     "description" : "",
-    "versionName" : "1.4.4",
-    "versionCode" : 44,
+    "versionName" : "1.4.5",
+    "versionCode" : 45,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -42,7 +42,8 @@
             "OAuth" : {},
             "Payment" : {},
             "VideoPlayer" : {},
-            "Share" : {}
+            "Share" : {},
+            "Geolocation" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -117,6 +118,11 @@
                     "weixin" : {
                         "appid" : "123123",
                         "UniversalLinks" : ""
+                    }
+                },
+                "geolocation" : {
+                    "system" : {
+                        "__platform__" : [ "ios", "android" ]
                     }
                 }
             },

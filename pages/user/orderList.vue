@@ -2,12 +2,15 @@
 	<z-paging-swiper>
 		<template #top>
 			<u-navbar title="我的订单" autoBack placeholder bgColor="transparent">
+				<view slot="left">
+					<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
+				</view>
 				<view slot="right">
 					<u-button style="height: 50rpx;" shape="circle" @click="goBusiness()">商家订单</u-button>
 				</view>
 			</u-navbar>
-			<z-tabs :list="list" :current="tabIndex" :activeColor="'#ff0800'" ref="tab"
-				@change="tabIndex = $event"></z-tabs>
+			<z-tabs :list="list" :current="tabIndex" :activeColor="'#ff0800'" ref="tab" @change="tabIndex = $event"
+				bgColor="transparent"></z-tabs>
 		</template>
 		<swiper style="height: 100%;" :current="tabIndex"
 			@animationfinish="tabIndex = $event.detail.current;$refs.tab.unlockDx()"
@@ -38,23 +41,23 @@
 				<text>收货地址</text>
 			</view>
 			<view style="margin: 30rpx;height: 50vh;">
-				<u-form :model="address" :rules="rules" ref="address">
+				<u-form :model="address" :rules="addressRules" ref="address">
 					<u-form-item :borderBottom="false" prop="contacts" label="收货人" label-width="80">
-						<u-input v-model="address.contacts" placeholder="名字"></u-input>
+						<u-input v-model="address && address.contacts" placeholder="名字"></u-input>
 					</u-form-item>
 					<u-form-item :borderBottom="false" prop="phone" label="手机号" label-width="80">
-						<u-input v-model="address.phone" maxlength="11" placeholder="手机号"></u-input>
+						<u-input v-model="address && address.phone" maxlength="11" placeholder="手机号"></u-input>
 					</u-form-item>
-					<u-form-item :borderBottom="false" prop="province" label="所在地区" label-width="80">
-						<u-input v-model="address.region" disabled :placeholder="address.region?address.region:'所在地区'"
-							@click="getLocaltion()">
+					<u-form-item :borderBottom="false" prop="region" label="所在地区" label-width="80">
+						<u-input v-model="address && address.region" placeholder="请填写省/市/县">
 							<template slot="suffix">
 								<u-icon name="map" color="#ff0800" size="20" @click="getLocaltion()"></u-icon>
 							</template>
 						</u-input>
 					</u-form-item>
 					<u-form-item :borderBottom="false" prop="detailAddress" label="详细地址" label-width="80">
-						<u-textarea placeholder="镇/村/门牌号" v-model="address.detailAddress" height="40"></u-textarea>
+						<u-textarea placeholder="镇/村/门牌号" v-model="address && address.detailAddress"
+							height="40"></u-textarea>
 					</u-form-item>
 				</u-form>
 				<u-button color="#ff0800" style="margin-top: 60rpx;" shape="circle"
@@ -132,7 +135,7 @@
 						min: 11,
 						trigger: ['blur', 'change']
 					},
-					'province': {
+					'region': {
 						type: 'string',
 						required: true,
 						message: '请定位获取位置',
@@ -165,7 +168,7 @@
 					type: 'gcj02',
 					geocode: true,
 					success: (res) => {
-						
+
 						this.address.region = res.address.province + res.address.city + res.address.district
 						this.address.province = res.address.province
 						this.address.city = res.address.city
@@ -177,19 +180,24 @@
 				})
 			},
 			saveAddress() {
-				let address = this.address
-				address.address = address.region + address.detailAddress
-				this.$http.post('/shop/tracking', {
-					id: this.orderId,
-					address: JSON.stringify(address)
-				}).then(res => {
+				this.$refs.address.validate().then(() => {
+					let address = this.address
+					address.address = address.region + address.detailAddress
+					this.$http.post('/shop/tracking', {
+						id: this.orderId,
+						address: JSON.stringify(address)
+					}).then(res => {
 
-					if (res.data.code == 200) {
-						this.$refs.page[this.tabIndex].reload()
-						this.orderId = 0;
-					}
-					uni.$u.toast(res.data.msg)
+						if (res.data.code == 200) {
+							this.$refs.page[this.tabIndex].reload()
+							this.orderId = 0;
+						}
+						uni.$u.toast(res.data.msg)
+					})
+				}).catch(err => {
+					uni.$u.toast('请填写完整收货地址！')
 				})
+
 			},
 			buy() {
 				this.$http.post('/shop/buy', {
@@ -205,8 +213,10 @@
 					this.$refs.payMent.close()
 				})
 			},
-			goBusiness(){
-				this.$Router.push({name:"business"})
+			goBusiness() {
+				this.$Router.push({
+					name: "business"
+				})
 			}
 
 		}

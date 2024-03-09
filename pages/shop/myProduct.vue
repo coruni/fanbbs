@@ -8,12 +8,12 @@
 					</view>
 					<i class="ess mgc_add_line" slot="right" style="font-size: 40rpx;" @click="goEdit()"></i>
 				</u-navbar>
-				<view style="padding: 20rpx;background: white;">
+				<view style="padding: 20rpx;">
 					<u-row>
 						<view style="margin-right: 20rpx;">
 							<u-button @click="showSelect = true" style="height: 60rpx;">{{select.name}}</u-button>
 						</view>
-						<u-search></u-search>
+						<uv-search></uv-search>
 					</u-row>
 				</view>
 			</template>
@@ -128,6 +128,8 @@
 </script>
 
 <style lang="scss">
+	@media (prefers-color-scheme: dark) {}
+
 	page {
 		background: #f7f7f7;
 	}

@@ -3,7 +3,7 @@
 		<u-navbar autoBack title="商家订单" placeholder bgColor="transparent">
 		</u-navbar>
 		<z-tabs :list="list" :current="tabIndex" :activeColor="'#ff0800'" ref="tab"
-			@change="tabIndex = $event"></z-tabs>
+			@change="tabIndex = $event" bgColor="transparent"></z-tabs>
 			
 			<swiper style="height: 100%;" :current="tabIndex"
 				@animationfinish="tabIndex = $event.detail.current;$refs.tab.unlockDx()"
