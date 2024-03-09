@@ -42,7 +42,7 @@
 					params: {
 						page,
 						limit,
-						type: 'point'
+						type: 'product'
 					}
 				}).then(res => {
 					console.log(res)
