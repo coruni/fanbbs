@@ -45,14 +45,13 @@
 			<!-- 评论区 -->
 			<u-gap height="6" class="article-gap" bgColor="#f7f7f7"></u-gap>
 			<!-- #ifdef APP -->
-			<u-sticky>
+			<u-sticky bgColor="#fff" class="sticky">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text style="margin-right: 6rpx;font-size: 30rpx;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
-
 						</view>
 					</u-row>
 					<u-transition :show="showOrderList"
@@ -72,7 +71,7 @@
 			</u-sticky>
 			<!-- #endif -->
 			<!-- #ifndef APP -->
-			<u-sticky offsetTop="-44">
+			<u-sticky bgColor="#fff" class="sticky" offsetTop="-44">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
@@ -124,18 +123,16 @@
 							</view> -->
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$u.throttle(mark(),1000,true)">
-								<i class="ess mgc_star_line" style="font-size: 44rpx;"
-									:style="{color:article && article.isMark?'#ff0800':''}"
-									:class="{'animate__animated animate__pulse':article && article.isMark}"></i>
+								<i style="font-size: 44rpx;"
+									:class="[article && article.isMark?'mgc_star_fill animate__animated animate__pulse like-active':'mgc_star_line']"></i>
 
 								<text style="font-size: 24rpx;color: #999;">{{article && article.marks}}</text>
 							</view>
 
 							<view style="display: flex; flex-direction: column;align-items: center;"
 								@click="$u.throttle(like(),1000,true)">
-								<i class="ess mgc_thumb_up_2_line" style="font-size: 44rpx;"
-									:style="{color:article && article.isLike?'#ff0800':''}"
-									:class="{'animate__animated animate__pulse':article && article.isLike}"></i>
+								<i style="font-size: 44rpx;"
+									:class="[article &&article.isLike?'mgc_thumb_up_2_fill animate__animated animate__pulse like-active':'mgc_thumb_up_2_line']"></i>
 								<text style="font-size: 24rpx;color: #999;">{{article && article.likes}}</text>
 							</view>
 						</u-row>
@@ -494,6 +491,7 @@
 			uni.onKeyboardHeightChange(data => {
 				this.keyboardHeight = data.height
 			})
+			this.formatEmoji()
 
 		},
 		beforeRouteLeave(to, from, next) {
@@ -507,10 +505,7 @@
 			next();
 
 		},
-		created() {
-			this.formatEmoji()
-		},
-		beforeDestroy() {
+		onUnload() {
 			// 取消监听
 			uni.offKeyboardHeightChange(data => {})
 		},
@@ -927,7 +922,7 @@
 		min-height: 600rpx;
 		max-height: 600rpx;
 	}
-
+	
 
 	.nav {
 		&-avatar {
@@ -984,5 +979,9 @@
 	.bottom-tabbar {
 		padding: 10rpx 20rpx;
 		border-top: #f7f7f7 solid 1rpx
+	}
+
+	.like-active {
+		color: $c-primary;
 	}
 </style>

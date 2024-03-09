@@ -763,7 +763,6 @@
 				}).then(res => {})
 			},
 			changTab(data) {
-				console.log(data)
 				this.commentTabIndex = data.index
 
 			},

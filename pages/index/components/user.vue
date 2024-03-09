@@ -115,14 +115,14 @@
 			<view style="position: relative;top: 0rpx;" v-if="isMounted">
 				<view v-if="$store.state.hasLogin">
 					<!-- #ifndef APP -->
-					<u-sticky>
+					<u-sticky bgColor="#fff">
 						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
 							active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
 							class="tabs-dark"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
-					<u-sticky offsetTop="64">
+					<u-sticky bgColor="#fff" offsetTop="64">
 						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
 							active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
 							class="tabs-dark"></z-tabs>

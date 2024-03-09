@@ -270,7 +270,8 @@
 			color: white !important;
 		}
 
-		.top-header {
+		.top-header,
+		.u-sticky{
 			background: #292929 !important;
 		}
 

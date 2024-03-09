@@ -168,6 +168,7 @@
 				editorCtx: null,
 				windowHeight: 0,
 				isSave: false,
+				back: false,
 
 			}
 		},
@@ -187,6 +188,18 @@
 			})
 			let systemInfo = uni.getSystemInfoSync()
 			this.editorHeight = systemInfo.screenHeight - systemInfo.statusBarHeight - inputHeight
+		},
+		beforeRouteLeave(to, from, next) {
+			if (this.back) {
+				next()
+				return;
+			}
+			if (this.showCategory || this.showTag) {
+				this.showCategory = false;
+				this.showTag = false;
+				return;
+			}
+			next()
 		},
 		methods: {
 			initData() {
@@ -267,6 +280,7 @@
 							images: this.images
 						}).then(res => {
 							if (res.data.code == 200) {
+								this.back = true
 								setTimeout(() => {
 									this.$Router.back(1)
 								}, 1500)
@@ -275,13 +289,10 @@
 								this.$refs.publish.close()
 							}, 1000)
 							uni.$u.toast(res.data.msg)
-							this.isSave = false;
-						}).catch(err => {
-							this.isSave = false;
-						})
+						}).catch(err => {})
+						this.isSave = false;
 					}
 				})
-
 			},
 			async chooseImage() {
 				this.percentage = 0; // 重置进度条
@@ -393,6 +404,7 @@
 		border-radius: 50rpx;
 		flex-shrink: 0;
 		background: #f7f7f7;
+		color: black;
 		padding: 10rpx;
 		flex: 1;
 		margin-left: 20rpx;

@@ -4,14 +4,14 @@
 			<view slot="left"></view>
 		</u-navbar>
 		<view style="margin: 30rpx;">
-			<view style="position: relative;top: 0;">
-				<u-swiper height="200" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
-					@change="swiperIndex = $event.current" radius="10"></u-swiper>
-				<view
-					style="font-size: 24rpx;background: #ff0800a0;border-radius:20rpx 0rpx 20rpx 0 ;padding:6rpx 20rpx;position: absolute;bottom: 0;right: 0;"
-					v-if="$store.state.swiper.length">
-					<text style="color: #fff;">{{swiperIndex+1}}/{{$store.state.swiper.length}}</text>
-				</view>
+			<view>
+				<text style="font-size: 60rpx;font-weight: 600;">Top</text>
+				<block v-for="(item,index) in top" :key="index">
+					<u-row style="padding: 10rpx 30rpx;">
+						<view class="top">{{index+1}}</view>
+						<text style="margin-left: 30rpx;font-size: 30rpx;">{{item.title}}</text>
+					</u-row>
+				</block>
 			</view>
 			<u-row justify="space-between" style="margin-top: 20rpx;">
 				<text style="font-weight: 600;">板块</text>
@@ -55,15 +55,16 @@
 		},
 		data() {
 			return {
+				top: [],
 				categories: [],
 				tabHeight: 720,
 				swiperIndex: 0,
 			}
 		},
-
 		created() {
 			this.tabHeight = uni.getSystemInfoSync().windowHeight - 44 - 60
 			this.getData()
+			this.getTop()
 			this.$nextTick(() => {}, 1)
 		},
 		methods: {
@@ -78,6 +79,19 @@
 				}).then(res => {
 					if (res.data.code == 200) {
 						this.categories = res.data.data.data
+					}
+				})
+			},
+			getTop() {
+				this.$http.get('/article/articleList', {
+					params: {
+						page: 1,
+						limit: 9,
+						order: 'created desc,likes desc,views desc'
+					}
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.top = res.data.data.data
 					}
 				})
 			},
@@ -107,5 +121,21 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	.top {
+		background: #f7f7f7;
+		font-size: 26rpx;
+		padding: 4rpx;
+		text-align: center;
+		line-height: 34rpx;
+		width: 30rpx;
+		height: 30rpx;
+		color: black;
+		border-radius: 8rpx;
+	}
+	.top:nth-child(n+1){
+		background: $c-primary;
+		color: white;
+	}
+	
 </style>

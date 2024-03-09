@@ -1,7 +1,7 @@
 <template>
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
-		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex"></find>
+		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex" @edit="showMoreMenu = true;data=$event"></find>
 		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
 		<!-- 商城 -->
 		<!-- <shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop> -->

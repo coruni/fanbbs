@@ -70,12 +70,12 @@
 			<u-gap height="6" class="article-gap" bgColor="#f7f7f7"></u-gap>
 
 			<!-- #ifdef APP -->
-			<u-sticky>
+			<u-sticky bgColor="#fff">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text
-								style="margin-right: 10rpx;font-size:30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
+								style="margin-right: 10rpx;font-size:30rpx;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 						</view>
@@ -100,7 +100,7 @@
 			</u-sticky>
 			<!-- #endif -->
 			<!-- #ifndef APP -->
-			<u-sticky offsetTop="-44">
+			<u-sticky bgColor="#fff" offsetTop="-44">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">

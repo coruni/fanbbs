@@ -11,7 +11,7 @@
 		</template>
 		<swiper style="height: 100%;" :current="tabsIndex" @transition="swiperTransition" @animationfinish="swiperAnimationfinish">
 			<swiper-item>
-				<articleItem></articleItem>
+				<articleItem @edit="$emit('edit',$event)"></articleItem>
 			</swiper-item>
 			<swiper-item>
 				<videoItem></videoItem>
