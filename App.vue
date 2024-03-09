@@ -248,6 +248,9 @@
 				background: #292929 !important;
 			}
 		}
+		.update-content{
+			background: #525252 !important;
+		}
 
 		.bottom-tabbar {
 			background: #292929 !important;
