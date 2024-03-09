@@ -7,7 +7,8 @@
 			<view>
 				<text style="font-size: 60rpx;font-weight: 600;">Top</text>
 				<block v-for="(item,index) in top" :key="index">
-					<u-row style="padding: 10rpx 30rpx;">
+					<u-row style="padding: 10rpx 30rpx;"
+						@click="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
 						<view class="top">{{index+1}}</view>
 						<text style="margin-left: 30rpx;font-size: 30rpx;">{{item.title}}</text>
 					</u-row>
@@ -95,6 +96,22 @@
 					}
 				})
 			},
+			goArticle(data) {
+				this.$Router.push({
+					path: '/pages/article/article',
+					query: {
+						id: data.cid
+					}
+				})
+			},
+			goPhoto(data) {
+				this.$Router.push({
+					path: '/pages/article/photo',
+					query: {
+						id: data.cid
+					}
+				})
+			},
 			goCategory(id) {
 				this.$Router.push({
 					path: '/pages/common/category/categoryInfo',
@@ -133,9 +150,9 @@
 		color: black;
 		border-radius: 8rpx;
 	}
-	.top:nth-child(n+1){
+
+	.top:first-child {
 		background: $c-primary;
 		color: white;
 	}
-	
 </style>
