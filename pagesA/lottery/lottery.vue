@@ -8,6 +8,12 @@
 		<LuckyGrid ref="lottery" width="600rpx" height="600rpx" :rows="3" :cols="3" :buttons="buttons" :blocks="blocks"
 			:prizes="prizes" :defaultStyle="defaultStyle" @start="play()" @end="endCallBack">
 		</LuckyGrid>
+		<view style="position: absolute; bottom: 60rpx;">
+			<view style="width: 58vw;padding: 20rpx 0;text-align: center;" @click="play()">
+				<text style="font-size: 40rpx;color: white;font-weight: 600;">开始抽奖！</text>
+			</view>
+			
+		</view>
 	</view>
 </template>
 
@@ -23,16 +29,6 @@
 				height: 0,
 				blocks: [{}],
 				prizes: [],
-				buttons: [{
-					x: 1,
-					y: 1,
-					fonts: [{
-						text: '抽奖',
-						fontColor: 'white',
-						top: '45%'
-					}]
-
-				}],
 				defaultStyle: {
 					background: '#b8c5f2',
 
@@ -43,6 +39,9 @@
 		onLoad() {
 			this.getData()
 			this.height = uni.getSystemInfoSync().windowHeight
+		},
+		onReady	(){
+			this.lottery = this.$refs.lottery;
 		},
 		methods: {
 			getData() {
@@ -55,39 +54,37 @@
 					limit: 8
 				}).then(res => {
 					if (res.data.code == 200) {
-						const items = res.data.data.data;
-						const gridSize = 3;
-						const prizes = [];
-						items.forEach((item, index) => {
-							const row = Math.floor(index / gridSize);
-							const col = Math.floor(index % gridSize);
-							const src = typeToImage[item.type] || item.image;
-							if (row == 1 && col == 1) {
-								return; // 跳过 x 和 y 都为 1 的情况
-							}
-							prizes.push({
-								data: item,
-								x: col,
-								y: row,
-								id: item.id,
-								fonts: [{
-									text: item.type == 'point' ? `${item.value}积分` : item
-										.type == 'vip' ? `会员${item.value}天` : '实物',
-									fontColor: 'white',
-									fontSize: '16px',
-									top: '70%'
-
-								}],
-								imgs: [{
-									src,
-									width: '40%',
-									top: '30%'
-								}]
-							});
-						});
-
-						this.prizes = prizes;
-						console.log(prizes);
+					    const items = res.data.data.data;
+					    const gridSize = 3;
+					    const prizes = [];
+					    items.forEach((item, index) => {
+					    
+					        const row = Math.floor(index / gridSize);
+					        const col = Math.floor(index % gridSize);
+					        const src = typeToImage[item.type] || item.image;
+					        
+					        prizes.push({
+					            data: item,
+					            x: col,
+					            y: row,
+					            id: item.id,
+					            fonts: [{
+					                text: item.type == 'point' ? `${item.value}积分` : 
+					                      item.type == 'vip' ? `会员${item.value}天` : '实物',
+					                fontColor: 'white',
+					                fontSize: '16px',
+					                top: '70%'
+					            }],
+					            imgs: [{
+					                src,
+					                width: '40%',
+					                top: '30%'
+					            }]
+					        });
+					    });
+					
+					    this.prizes = prizes;
+					    
 					}
 				});
 			},
@@ -125,8 +122,7 @@
 				if (e.data && e.data.name) {
 					uni.$u.toast(`恭喜你抽中了${e.data.name}！`)
 				}
-
-			}
+			},
 
 		}
 

@@ -181,5 +181,8 @@
 	.swiper {
 		height: 100%;
 	}
+	.waterfall-home{
+		background: #f7f7f7;
+	}
 	
 </style>

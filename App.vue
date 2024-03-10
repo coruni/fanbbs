@@ -17,7 +17,6 @@
 			if (token) {
 				this.$store.commit('setToken', uni.getStorageSync('token'));
 				this.$store.commit('setUser', uni.getStorageSync('user'));
-				this.$store.commit('setUserMeta', uni.getStorageSync('userMeta'));
 				this.$store.commit('loginStatus');
 				setTimeout(() => {
 					this.getNoticeNum();
@@ -90,7 +89,6 @@
 					if (res.data.code == 200) {
 						this.setToken(res.data.data.token);
 						this.getUserInfo(res.data.data.uid);
-						this.getUserMeta()
 						uni.$emit('login', true)
 					} else {
 						this.$Router.push({
@@ -116,13 +114,7 @@
 
 				})
 			},
-			getUserMeta() {
-				http.post('/user/userData').then(res => {
-					if (res.data.code == 200) {
-						this.setUserMeta(res.data.data)
-					}
-				})
-			},
+
 			getAppData() {
 				http.get('/system/app', {
 					params: {
@@ -238,9 +230,11 @@
 		body {
 			background: #292929 !important;
 		}
-		.u-loading-page{
+
+		.u-loading-page {
 			background: #292929 !important;
 		}
+
 		.waterfall {
 			background: #525252 !important;
 
@@ -248,7 +242,8 @@
 				background: #292929 !important;
 			}
 		}
-		.update-content{
+
+		.update-content {
 			background: #525252 !important;
 		}
 
@@ -274,7 +269,7 @@
 		}
 
 		.top-header,
-		.u-sticky{
+		.u-sticky {
 			background: #292929 !important;
 		}
 

@@ -10,7 +10,7 @@
 					<u-row style="padding: 10rpx 30rpx;"
 						@click="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
 						<view class="top">{{index+1}}</view>
-						<text style="margin-left: 30rpx;font-size: 30rpx;">{{item.title}}</text>
+						<text style="margin-left: 30rpx;font-size: 30rpx;" class="u-line-1">{{item.title}}</text>
 					</u-row>
 				</block>
 			</view>
@@ -148,6 +148,7 @@
 		width: 30rpx;
 		height: 30rpx;
 		color: black;
+		flex-shrink: 0;
 		border-radius: 8rpx;
 	}
 

@@ -117,7 +117,7 @@
 						params: JSON.stringify({
 							mid: this.mid ? this.mid : '',
 						}),
-						order: this.mid ? 'isCircleTop desc,istop desc,created desc' : 'istop desc, created desc',
+						order: this.mid ? 'isCircleTop desc,istop desc,created desc,replyTime desc' : 'istop desc, created desc',
 
 					}
 				}).then(res => {
