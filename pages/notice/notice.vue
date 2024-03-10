@@ -19,7 +19,7 @@
 							<text style="margin-left: 20rpx;">财务通知</text>
 						</u-row>
 						<i class="ess mgc_round_fill" style="color: #ff0800;font-size: 18rpx;"
-							v-if="$store.state.noticeNum.systems"></i>
+							v-if="$store.state.noticeNum.finances"></i>
 					</u-row>
 					<u-gap height="10"></u-gap>
 					<u-row justify="space-between" @click="goPath('systems')">

@@ -455,7 +455,7 @@
 				emojiIndex: 0,
 				author: null,
 				subComment: null,
-				loading: false,
+				loading: true,
 				showMore: false,
 				showComment: false,
 				showComemntBtn: null,
@@ -580,6 +580,10 @@
 					if (res.statusCode == 200) {
 						this.article = res.data.data
 						this.article.text = res.data.data && this.replaceEmoji(res.data.data.text)
+						setTimeout(()=>{
+							this.loading = false;
+						},600)
+						
 					}
 				})
 			},
