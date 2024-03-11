@@ -41,18 +41,15 @@
 			<view style="margin: 30rpx;">
 				<block v-for="(item,index) in logs" :key="index">
 					<view class="task-panel">
-						<view style="display: flex;flex-direction: column;">
-							<u-row justify="space-between"
-								style="padding-left: 20rpx; border-left: 6rpx #ff08001e solid;width:100%;">
-								<view>
-									<text>{{item.subject}}</text>
-									<text style="margin-left: 20rpx;"
-										:style="{color:item.totalAmount>0?'red':'green'}">{{item.totalAmount>0?'+'+item.totalAmount:item.totalAmount}}</text>
-								</view>
-								<text
-									style="color: #999;font-size: 28rpx;">{{$u.timeFormat(item.created,'mm-dd')}}</text>
-							</u-row>
-						</view>
+						<u-row justify="space-between"
+							style="padding-left: 20rpx; border-left: 6rpx #ff08001e solid;width:100%;">
+							<view>
+								<text>{{item.subject}}</text>
+								<text style="margin-left: 20rpx;"
+									:style="{color:item.totalAmount>0?'red':'green'}">{{item.totalAmount>0?'+'+item.totalAmount:item.totalAmount}}</text>
+							</view>
+							<text style="color: #999;font-size: 28rpx;">{{$u.timeFormat(item.created,'mm-dd')}}</text>
+						</u-row>
 					</view>
 				</block>
 			</view>
