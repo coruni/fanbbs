@@ -1,45 +1,44 @@
 <template>
 	<view>
-	<z-paging @query="getLog" v-model="logs" ref="paging">
-		<template #top>
-			<u-navbar placeholder title="钱包" autoBack bgColor="transparent">
-				<view slot="left">
-					<i class="mgc_left_line" style="font-size: 60rpx;"></i>
-				</view>
-			</u-navbar>
-			<view class="panel">
-				<u-row justify="space-between">
-					<text style="color: #999999;">Balance</text>
-					<u-avatar size="26" :src="userInfo.avatar"></u-avatar>
-				</u-row>
-				<u-row style="margin-top: 50rpx;" justify="space-between">
-					<u-row style="font-size: 50rpx;">
-						<i class="mgc_currency_dollar_line"></i>
-						<text style="margin-left: 20rpx;">{{userInfo.assets}}</text>
-					</u-row>
-					<view style="z-index: 1;">
-						<u-button shape="circle" style="height: 60rpx;padding: 0 30rpx;" color="#525252"
-							@click="showPayment = true">充值</u-button>
+		<z-paging @query="getLog" v-model="logs" ref="paging">
+			<template #top>
+				<u-navbar placeholder title="钱包" autoBack bgColor="transparent">
+					<view slot="left">
+						<i class="mgc_left_line" style="font-size: 60rpx;"></i>
 					</view>
-				</u-row>
-				<u-row style="margin-top: 20rpx;font-size: 40rpx;">
-					<i class="mgc_VIP_1_line"></i>
-					<text
-						style="margin-left: 30rpx;font-size: 32rpx;">{{userInfo.vip?$u.timeFormat(userInfo.vip, 'yyyy年mm月dd日'):'未开通'}}</text>
-				</u-row>
-				<view style="margin-top: 30rpx;">
-					<text style="text-shadow: 1px 1px 1px #000, -1px -1px 1px #fff;color: #999999">
-						Virtual Points Bank Card
-					</text>
+				</u-navbar>
+				<view class="panel">
+					<u-row justify="space-between">
+						<text style="color: #999999;">Balance</text>
+						<u-avatar size="26" :src="userInfo.avatar"></u-avatar>
+					</u-row>
+					<u-row style="margin-top: 50rpx;" justify="space-between">
+						<u-row style="font-size: 50rpx;">
+							<i class="mgc_currency_dollar_line"></i>
+							<text style="margin-left: 20rpx;">{{userInfo.assets}}</text>
+						</u-row>
+						<view style="z-index: 1;">
+							<u-button shape="circle" style="height: 60rpx;padding: 0 30rpx;" color="#525252"
+								@click="showPayment = true">充值</u-button>
+						</view>
+					</u-row>
+					<u-row style="margin-top: 20rpx;font-size: 40rpx;">
+						<i class="mgc_VIP_1_line"></i>
+						<text
+							style="margin-left: 30rpx;font-size: 32rpx;">{{userInfo.vip?$u.timeFormat(userInfo.vip, 'yyyy年mm月dd日'):'未开通'}}</text>
+					</u-row>
+					<view style="margin-top: 30rpx;">
+						<text style="text-shadow: 1px 1px 1px #000, -1px -1px 1px #fff;color: #999999">
+							Virtual Points Bank Card
+						</text>
+					</view>
+					<view class="panel-circle" style="z-index: 0;"></view>
 				</view>
-				<view class="panel-circle" style="z-index: 0;"></view>
-			</view>
-			<text style="font-weight: 600; font-size: 40rpx;margin:0 30rpx;">收支明细</text>
-		</template>
-		
-		<!-- 收支记录 -->
-		<view style="margin-top: 60rpx;flex: 1;">
-			
+				<text style="font-weight: 600; font-size: 40rpx;margin:0 30rpx;">收支明细</text>
+			</template>
+
+			<!-- 收支记录 -->
+			<view style="margin: 30rpx;">
 				<block v-for="(item,index) in logs" :key="index">
 					<view class="task-panel">
 						<view style="display: flex;flex-direction: column;">
@@ -56,7 +55,7 @@
 						</view>
 					</view>
 				</block>
-		</view>
+			</view>
 		</z-paging>
 		<u-popup round="10" :show="showPayment" @close="showPayment = false;selectPackage =payPackage[0]">
 			<view style="padding: 30rpx;">
@@ -229,13 +228,13 @@
 			this.selectPackage = this.payPackage[0]
 			this.initData()
 			this.appInfo = this.$store.state.appInfo
-			 // 计算剩余高度
-			 let system = uni.getSystemInfoSync()
-			 this.pageHeight = system.windowHeight - system.statusBarHeight
+			// 计算剩余高度
+			let system = uni.getSystemInfoSync()
+			this.pageHeight = system.windowHeight - system.statusBarHeight
 		},
-		onReady(){
-			uni.createSelectorQuery().in(this).select(".panel").boundingClientRect(data=>{
-				this.pageHeight-=data.height
+		onReady() {
+			uni.createSelectorQuery().in(this).select(".panel").boundingClientRect(data => {
+				this.pageHeight -= data.height
 			}).exec()
 		},
 		methods: {
