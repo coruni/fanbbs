@@ -6,7 +6,7 @@
 			<template #top>
 				<u-navbar placeholder fixed style="z-index: 10;" bgColor="transparent">
 					<view slot="left" style="display:flex;align-items: center;">
-						<i class="ess mgc_left_line" style="font-size: 60rpx;" @click="$Router.back(1)"></i>
+						<i class="mgc_left_line" style="font-size: 60rpx;" @click="$Router.back(1)"></i>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
 							@click="goProfile(article.authorId)" v-show="showNavAvatar" v-if="article">
 							<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="28"

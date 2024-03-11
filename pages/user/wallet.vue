@@ -1,88 +1,63 @@
 <template>
-	<z-paging-swiper>
-		<view style="flex: 1;display: flex;flex-direction: column;" :style="{height:pageHeight+'px'}">
-			<u-navbar placeholder title="钱包" autoBack bgColor="transparent"></u-navbar>
+	<view>
+	<z-paging @query="getLog" v-model="logs" ref="paging">
+		<template #top>
+			<u-navbar placeholder title="钱包" autoBack bgColor="transparent">
+				<view slot="left">
+					<i class="mgc_left_line" style="font-size: 60rpx;"></i>
+				</view>
+			</u-navbar>
 			<view class="panel">
 				<u-row justify="space-between">
-					<view
-						style="background: #ff0800a0;border-radius: 20rpx;padding: 30rpx;display: flex;align-items: center;width: 200rpx;">
-						<i class="ess mgc_yinhangka" style="font-size: 36rpx;color: white;"></i>
-						<text style="margin-left: 30rpx;color: #fff;">{{userInfo.assets}}</text>
-					</view>
-					<view>
-						<u-button color="#ff0800a0" shape="circle" throttleTime="1000"
-							customStyle="height:60rpx;width:120rpx" @click="showPayment = true">充值</u-button>
+					<text style="color: #999999;">Balance</text>
+					<u-avatar size="26" :src="userInfo.avatar"></u-avatar>
+				</u-row>
+				<u-row style="margin-top: 50rpx;" justify="space-between">
+					<u-row style="font-size: 50rpx;">
+						<i class="mgc_currency_dollar_line"></i>
+						<text style="margin-left: 20rpx;">{{userInfo.assets}}</text>
+					</u-row>
+					<view style="z-index: 1;">
+						<u-button shape="circle" style="height: 60rpx;padding: 0 30rpx;" color="#525252"
+							@click="showPayment = true">充值</u-button>
 					</view>
 				</u-row>
-				<view style="margin-top: 20rpx;">
-					<text style="font-weight: 600;">我的会员</text>
-					<view
-						style="margin-top: 20rpx;padding: 30rpx;border-radius: 20rpx;background: linear-gradient(89deg, rgba(255, 133, 163, 0.48) 21%,rgba(255, 163, 133, 0.55) 62%);">
-						<u-row justify="space-between">
-							<u-icon name="level" color="#fff" size="24" customStyle="opacity: 0.5;"></u-icon>
-							<view style="margin-left: 20rpx;">
-								<text style="color: #fff;">{{!userInfo.vip?'未开通':$u.timeFrom(userInfo.vip)}}</text>
-							</view>
-						</u-row>
-					</view>
-
+				<u-row style="margin-top: 20rpx;font-size: 40rpx;">
+					<i class="mgc_VIP_1_line"></i>
+					<text
+						style="margin-left: 30rpx;font-size: 32rpx;">{{userInfo.vip?$u.timeFormat(userInfo.vip, 'yyyy年mm月dd日'):'未开通'}}</text>
+				</u-row>
+				<view style="margin-top: 30rpx;">
+					<text style="text-shadow: 1px 1px 1px #000, -1px -1px 1px #fff;color: #999999">
+						Virtual Points Bank Card
+					</text>
 				</view>
+				<view class="panel-circle" style="z-index: 0;"></view>
 			</view>
-			<u-tabs :list="tabs" :scrollable="false" :current="tabsIndex" @change="tabsIndex = $event.index"></u-tabs>
-			<swiper style="flex:1;" :current="tabsIndex" @animationfinish="tabsIndex = $event.detail.current">
-				<swiper-item>
-					<view style="margin: 30rpx;">
-						<view style="display: flex; flex-direction: column;">
-							<text style="font-weight: 600;">每日任务</text>
-							<text
-								style="color: #999;font-size: 28rpx;">今日获取{{appInfo && appInfo.currencyName?appInfo.currencyName:'积分'}}上限</text>
-						</view>
-						<view>
-							<block v-for="(item,index) in task" :key="index">
-								<view class="task-panel">
-									<u-row>
-										<u-icon :name="item.icon" size="22"></u-icon>
-										<view style="display: flex;flex-direction: column;margin-left: 30rpx;">
-											<text>{{item.name}}</text>
-											<text style="font-size: 24rpx;">+{{item.point}}</text>
-										</view>
-									</u-row>
-									<view style="display: flex;flex-direction: column;">
-										<u-row>
-											<text style="color: #ff0800;">{{item.check}}</text>
-											<text>/{{item.times}}</text>
-										</u-row>
-
-									</view>
+			<text style="font-weight: 600; font-size: 40rpx;margin:0 30rpx;">收支明细</text>
+		</template>
+		
+		<!-- 收支记录 -->
+		<view style="margin-top: 60rpx;flex: 1;">
+			
+				<block v-for="(item,index) in logs" :key="index">
+					<view class="task-panel">
+						<view style="display: flex;flex-direction: column;">
+							<u-row justify="space-between"
+								style="padding-left: 20rpx; border-left: 6rpx #ff08001e solid;width:100%;">
+								<view>
+									<text>{{item.subject}}</text>
+									<text style="margin-left: 20rpx;"
+										:style="{color:item.totalAmount>0?'red':'green'}">{{item.totalAmount>0?'+'+item.totalAmount:item.totalAmount}}</text>
 								</view>
-							</block>
+								<text
+									style="color: #999;font-size: 28rpx;">{{$u.timeFormat(item.created,'mm-dd')}}</text>
+							</u-row>
 						</view>
 					</view>
-				</swiper-item>
-				<swiper-item>
-					<z-paging @query="getLog" v-model="logs" ref="paging">
-						<block v-for="(item,index) in logs" :key="index">
-							<view class="task-panel">
-								<view style="display: flex;flex-direction: column;">
-									<u-row justify="space-between"
-										customStyle="padding-left: 20rpx; border-left: 6rpx #ff08001e solid;width:100%">
-										<view>
-											<text>{{item.subject}}</text>
-											<text style="margin-left: 20rpx;"
-												:style="{color:item.totalAmount>0?'red':'green'}">{{item.totalAmount>0?'+'+item.totalAmount:item.totalAmount}}</text>
-										</view>
-										<text
-											style="color: #999;font-size: 28rpx;">{{$u.timeFormat(item.created,'mm-dd')}}</text>
-									</u-row>
-								</view>
-							</view>
-						</block>
-					</z-paging>
-				</swiper-item>
-			</swiper>
-			<!-- 组件 -->
-			<!-- 充值 -->
+				</block>
 		</view>
+		</z-paging>
 		<u-popup round="10" :show="showPayment" @close="showPayment = false;selectPackage =payPackage[0]">
 			<view style="padding: 30rpx;">
 				<view style="text-align: center;">
@@ -148,8 +123,7 @@
 
 			</u-popup>
 		</u-popup>
-
-	</z-paging-swiper>
+	</view>
 </template>
 
 <script>
@@ -253,10 +227,16 @@
 		},
 		created() {
 			this.selectPackage = this.payPackage[0]
-			console.log(this.userInfo)
 			this.initData()
 			this.appInfo = this.$store.state.appInfo
-			this.pageHeight = uni.getSystemInfoSync().windowHeight - uni.getSystemInfoSync().statusBarHeight
+			 // 计算剩余高度
+			 let system = uni.getSystemInfoSync()
+			 this.pageHeight = system.windowHeight - system.statusBarHeight
+		},
+		onReady(){
+			uni.createSelectorQuery().in(this).select(".panel").boundingClientRect(data=>{
+				this.pageHeight-=data.height
+			}).exec()
 		},
 		methods: {
 			initData() {
@@ -340,11 +320,7 @@
 	}
 </script>
 
-<style>
-	page {
-		background: #ff08000a;
-	}
-
+<style lang="scss">
 	@media (prefers-color-scheme: dark) {
 
 		.panel,
@@ -355,11 +331,37 @@
 	}
 
 	.panel {
+		position: relative;
 		margin: 30rpx;
 		padding: 30rpx;
-		background: #fff;
+		background: #343434;
+		color: white;
+		height: 340rpx;
 		border-radius: 20rpx;
+		overflow: hidden;
+
+		&-circle {
+			position: absolute;
+			bottom: -30rpx;
+			right: -40rpx;
+			height: 260rpx;
+			width: 260rpx;
+			background: #404040;
+			border-radius: 50%;
+		}
+
+		&-bottom {
+			backdrop-filter: blur(1px);
+			position: absolute;
+			bottom: 0;
+			height: 150rpx;
+			width: 100%;
+			background: #fff;
+			opacity: 0.5;
+		}
+
 	}
+
 
 	.task-panel {
 		font-size: 28rpx;

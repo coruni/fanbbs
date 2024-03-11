@@ -110,7 +110,6 @@
 					</swiper>
 				</view>
 			</view>
-
 		</z-paging>
 		<uv-modal :showConfirmButton="false" ref="follow" title="提示" width="500rpx">
 			<view style="flex:1;display: flex;flex-direction: column;">
