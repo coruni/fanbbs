@@ -41,17 +41,8 @@
 		<view style="margin-top: 20rpx;">
 			<u-row style="flex-wrap:wrap;">
 				<block v-for="(item,index) in data.tag" :key="index">
-					<view style="
-						font-size: 26rpx;
-						background:#ff08001e;
-						color: #ff0800;
-						padding:8rpx 14rpx;
-						border-radius: 500rpx;
-						margin-right: 10rpx;
-						margin-top: 10rpx;
-						font-size: 26rpx;
-						">
-						<i class="ess mgc_hashtag_line" style="font-size: 26rpx;"></i>
+					<view class="tag" @tap.stop.prevent="goTag(item.mid)">
+						<i class="mgc_hashtag_line" style="font-size: 26rpx;"></i>
 						<text>{{item.name}}</text>
 					</view>
 				</block>
@@ -104,7 +95,14 @@
 					}
 				})
 			},
-
+			goTag(id) {
+				this.$Router.push({
+					path: '/pages/common/tag/tag',
+					query: {
+						id
+					}
+				})
+			},
 		}
 	}
 </script>
@@ -115,5 +113,18 @@
 		background: #f7f7f7;
 		border-radius: 20rpx;
 		padding: 20rpx;
+	}
+	.tag{
+		font-size: 26rpx;
+		background:#ff08001e;
+		color: #ff0800;
+		padding:8rpx 14rpx;
+		border-radius: 500rpx;
+		margin-right: 10rpx;
+		margin-top: 10rpx;
+		font-size: 26rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

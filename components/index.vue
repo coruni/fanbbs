@@ -182,15 +182,19 @@
 						})
 					}
 				}).then(res => {
-					const data = res.data.data.data
-					let list = [];
-					data.forEach(item => {
-						item.image = item.images[0]
-						list.push({
-							...item
+					console.log(res)
+					if(res.data.code==200){
+						
+						const data = res.data.data.data ||[]
+						let list = [];
+						data.forEach(item => {
+							item.image = item.images[0]
+							list.push({
+								...item
+							});
 						});
-					});
-					this.$store.commit('setSwiper', list)
+						this.$store.commit('setSwiper', list)
+					}
 				})
 			},
 		}

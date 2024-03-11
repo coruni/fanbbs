@@ -102,7 +102,7 @@
 				<block v-for="(item,index) in comments" v-if="comments">
 					<view style="margin:10rpx 0">
 						<comment :data="item" @subComment="subComment = $event;showSub =true"
-							@reply="pid = $event.id;showComment =true" :article="article"></comment>
+							@reply="pid = $event.id;showComment =true" :article="article" @commentDelete="$refs.comments.reload()"></comment>
 					</view>
 				</block>
 			</view>
@@ -213,13 +213,6 @@
 					<i class="ess mgc_eraser_line" style="font-size: 40rpx;" @tap.stop="editorCtx.removeFormat()"></i>
 				</u-row>
 			</block>
-		</u-popup>
-		<!-- 子评论 -->
-		<u-popup :show="showSub" @close="showSub = false;keyboardHeight = 0" round="20">
-			<u-gap height="25"></u-gap>
-			<view>
-				<subComment :data="subComment" ref="paging" :keyHeigt="keyboardHeight"></subComment>
-			</view>
 		</u-popup>
 		<uv-modal :showConfirmButton="false" ref="reward" title="投喂/发电">
 			<view style="flex:1;display: flex;flex-direction: column;">
@@ -374,6 +367,7 @@
 		mixins: [ZPMixin],
 		data() {
 			return {
+				showDeleteComment:false,
 				showDelete: false,
 				showFollow: false,
 				isReply: false,

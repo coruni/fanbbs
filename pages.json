@@ -331,7 +331,14 @@
 				"enablePullDownRefresh" : false
 			},
 			"name":"myReward"
-			
+		},
+		{
+			"path" : "pages/common/tag/tag",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

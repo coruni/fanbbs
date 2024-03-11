@@ -74,8 +74,7 @@
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text
-								style="margin-right: 10rpx;font-size:30rpx;font-weight: 600;">{{orderName}}</text>
+							<text style="margin-right: 10rpx;font-size:30rpx;font-weight: 600;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 						</view>
@@ -188,8 +187,15 @@
 									<view>
 										<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 											<text>{{$u.timeFrom(item.created,'mm-dd')}}</text>
-											<u-row customStyle="flex-basis:30%" justify="space-between">
-												<u-row
+											<u-row style="flex-wrap: nowrap;" justify="space-between">
+												<u-row style="margin-right: 30rpx;"
+													v-if="$store.state.userInfo.uid == item.userInfo.uid"
+													@click="showDelete = true;deleteId = item.id">
+													<i class="mgc_delete_3_line"
+														style="font-size: 40rpx;color: #ff0800;"></i>
+													<text style="font-size: 28rpx;margin-left: 10rpx;">删除</text>
+												</u-row>
+												<u-row style="margin-right: 30rpx;"
 													@click="commentCheck(true,item.id,item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name)">
 													<i class="ess mgc_chat_4_line" style="font-size: 40rpx;"></i>
 													<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
@@ -298,6 +304,21 @@
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 			<view slot="confirmButton"></view>
 		</uv-modal>
+		<u-popup :show="showDelete" :round="10" mode="center" @close="showDelete = false" customStyle="width:500rpx">
+			<view
+				style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 50rpx;">
+				<text style="font-size: 34rpx;">提示</text>
+				<view style="margin-top:30rpx">
+					<text>是否删除该评论？</text>
+				</view>
+				<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+					<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+						@click="showDelete = false">取消</u-button>
+					<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+						@click="deleteComment()">确定</u-button>
+				</u-row>
+			</view>
+		</u-popup>
 	</view>
 
 </template>
@@ -359,6 +380,8 @@
 				showOrderList: false,
 				replyWho: '',
 				loading: true,
+				showDelete: false,
+				deleteId: 0,
 			}
 		},
 		beforeRouteLeave(to, from, next) {
@@ -646,6 +669,17 @@
 			},
 			colorTap(color) {
 				this.editorCtx.format('color', color)
+			},
+			deleteComment(id) {
+				this.showDelete = false;
+				this.$http.post('/comments/delete', {
+					id: this.deleteId
+				}).then(res => {
+					if (res.data.code == 200) {
+						// 通知父组件刷新数据
+						this.$refs.paging.reload()
+					}
+				})
 			}
 		}
 	}

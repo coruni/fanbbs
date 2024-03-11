@@ -55,30 +55,50 @@
 					<view style="margin-top: 30rpx;">
 						<view class="moreComment">
 							<text>{{data.subComments && data.subComments.count}}条评论</text>
-							<i class="ess mgc_right_line"></i>
+							<i class="mgc_right_line"></i>
 						</view>
 
 					</view>
 				</view>
 				<u-gap height="6"></u-gap>
 				<view style="padding-bottom: 50rpx;">
-					<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
+					<u-row justify="space-between" style="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
-						<u-row customStyle="flex-basis:30%" justify="space-between">
-							<u-row @click="reply(data)">
-								<i class="ess mgc_chat_4_line" style="font-size: 40rpx;"></i>
+						<u-row style="flex-wrap: nowrap;" justify="space-between">
+							<u-row style="margin-right: 30rpx;" v-if="$store.state.userInfo.uid == data.userInfo.uid"
+								@click="showDelete = true">
+								<i class="mgc_delete_3_line" style="font-size: 40rpx;color: #ff0800;"></i>
+								<text style="font-size: 28rpx;margin-left: 10rpx;">删除</text>
+							</u-row>
+							<u-row @click="reply(data)" style="margin-right: 30rpx;">
+								<i class="mgc_chat_4_line" style="font-size: 40rpx;"></i>
 								<text style="font-size: 28rpx;margin-left: 10rpx;">回复</text>
 							</u-row>
 							<u-row @click="like()" :style="{color:data.isLike?'#ffa385':''}">
-								<i class="ess mgc_thumb_up_2_line" style="font-size: 40rpx;"></i>
+								<i class="mgc_thumb_up_2_line" style="font-size: 40rpx;"></i>
 								<text
-									style="font-size: 28rpx;margin-left: 10rpx;">{{data && data.likes?data.likes:''}}</text>
+									style="font-size: 28rpx;margin-left: 10rpx;">{{data && data.likes?data.likes:0}}</text>
 							</u-row>
 						</u-row>
 					</u-row>
 				</view>
 			</view>
 		</u-row>
+		<u-popup :show="showDelete" :round="10" mode="center" @close="showDelete = false" customStyle="width:500rpx">
+			<view
+				style="display: flex;flex-direction: column;align-items: center;justify-content: center;padding: 50rpx;">
+				<text style="font-size: 34rpx;">提示</text>
+				<view style="margin-top:30rpx">
+					<text>是否删除该评论？</text>
+				</view>
+				<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+					<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+						@click="showDelete = false">取消</u-button>
+					<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+						@click="deleteComment()">确定</u-button>
+				</u-row>
+			</view>
+		</u-popup>
 	</view>
 
 </template>
@@ -100,6 +120,7 @@
 			return {
 				comments: [],
 				num: 0,
+				showDelete: false,
 			}
 		},
 		created() {
@@ -153,26 +174,40 @@
 					// 如果找不到对应的 emoji，可能需要返回原始的字符串或者给出一些提示
 					return match;
 				})
+			},
+			deleteComment() {
+				this.showDelete = false
+				this.$http.post('/comments/delete', {
+					id: this.data.id
+				}).then(res => {
+					if (res.data.code == 200) {
+						// 通知父组件刷新数据
+						this.$emit('commentDelete', true)
+					}
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	@media(prefers-color-scheme:dark){
-		.subComment{
+	@media(prefers-color-scheme:dark) {
+		.subComment {
 			border-left: 6rpx solid #fff !important;
 		}
-		.moreComment{
+
+		.moreComment {
 			background: #525252 !important;
 		}
 	}
+
 	.subComment {
 		border-left: 6rpx solid #ff08001e;
 		padding-left: 15rpx;
 		flex-direction: column;
 		padding-bottom: 5rpx
 	}
+
 	.moreComment {
 		padding: 8rpx 20rpx;
 		font-size: 26rpx;

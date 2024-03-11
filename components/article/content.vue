@@ -50,17 +50,8 @@
 
 		<view v-if="data.tag && data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 20rpx;">
 			<block v-for="(item,index) in data.tag" :key="index">
-				<view style="
-					font-size: 26rpx;
-					background:#ff08001e;
-					color: #ff0800;
-					padding:8rpx 14rpx;
-					border-radius: 500rpx;
-					margin-right: 20rpx;
-					margin-bottom: 10rpx;
-					font-size: 24rpx;
-					">
-					<i class="ess mgc_hashtag_line" style="font-size: 26rpx;"></i>
+				<view class="tag" @tap.stop.prevent="goTag(item.mid)">
+					<i class="mgc_hashtag_line" style="font-size: 26rpx;"></i>
 					<text>{{item.name}}</text>
 				</view>
 			</block>
@@ -144,6 +135,14 @@
 
 				}).replace(/\|</g, '<').replace(/>\|/g, '>')
 			},
+			goTag(id) {
+				this.$Router.push({
+					path: '/pages/common/tag/tag',
+					query: {
+						id
+					}
+				})
+			},
 			picPreview(urls, current) {
 				uni.previewImage({
 					urls,
@@ -180,4 +179,17 @@
 </script>
 
 <style lang="scss">
+	.tag {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 26rpx;
+		background: #ff08001e;
+		color: #ff0800;
+		padding: 8rpx 14rpx;
+		border-radius: 500rpx;
+		margin-right: 20rpx;
+		margin-bottom: 10rpx;
+		font-size: 24rpx;
+	}
 </style>

@@ -72,9 +72,7 @@
 					params: {
 						page,
 						limit,
-						params: JSON.stringify({
-							mid: this.mid,
-						}),
+						tag:this.mid,
 						random: this.random ? 1 : 0,
 						order: this.order,
 
