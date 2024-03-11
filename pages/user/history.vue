@@ -15,8 +15,6 @@
 					<u-row justify="space-between" align="top">
 						<view class="u-line-2" style="display: flex;flex-direction: column;">
 							<text style="font-size: 36rpx;font-weight: 600;">{{item.title}}</text>
-							<uv-parse :showImgMenu="false" class="u-line-1" style="overflow-y: unset;overflow: hidden;"
-								:content="replaceEmoji(item.text)"></uv-parse>
 						</view>
 						<image v-if="item.images&&item.images[0]"
 							:src="item.images&& item.images[0]?item.images[0]:'/static/login.jpg'"
