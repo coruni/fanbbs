@@ -4,7 +4,7 @@
 			:auto-clean-list-when-reload="false" v-show="!loading" @scroll="onScroll" @onRefresh="onRefresh"
 			cache-mode="always" use-cache :cache-key="`article_mid-${cid}`">
 			<template #top>
-				<u-navbar placeholder fixed style="z-index: 10;" bgColor="transparent">
+				<u-navbar placeholder fixed style="z-index: 10;" bgColor="transparent" id="navbar">
 					<view slot="left" style="display:flex;align-items: center;">
 						<i class="ess mgc_left_line" style="font-size: 60rpx;" @click="$Router.back(1)"></i>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
@@ -46,7 +46,7 @@
 					<u-col :span="5">
 						<view
 							style="display: flex;flex-direction: column;align-items: flex-end; justify-content: flex-start;padding: 20rpx 30rpx;flex:1">
-							<view class="ripple album-content-info">
+							<view class="ripple album-content-info" @tap.stop="goCategory(article.category.mid)">
 								<u-row justify="space-between" class="u-line-1">
 									<text>{{article.category.name}}</text>
 								</u-row>
@@ -157,7 +157,7 @@
 			</u-sticky>
 			<!-- #endif -->
 			<!-- #ifndef APP -->
-			<u-sticky offsetTop="-44">
+			<u-sticky>
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
@@ -543,6 +543,7 @@
 			this.cid = params.id
 			this.author = uni.getStorageSync(`article_${params.id}`)
 			this.getData(params.id)
+			this.formatEmoji()
 			uni.onKeyboardHeightChange(data => {
 				this.keyboardHeight = data.height
 			})
@@ -558,9 +559,6 @@
 			}
 			next();
 
-		},
-		created() {
-			this.formatEmoji()
 		},
 		onUnload() {
 			// 取消监听
@@ -580,10 +578,10 @@
 					if (res.statusCode == 200) {
 						this.article = res.data.data
 						this.article.text = res.data.data && this.replaceEmoji(res.data.data.text)
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.loading = false;
-						},600)
-						
+						}, 600)
+
 					}
 				})
 			},
@@ -951,6 +949,14 @@
 			shareWithApi(data) {
 				shareTap(data.provider, data.type, data.scene, this.article.title, filterHtml(this.article.text),
 					`${this.$config.h5}/#/pages/article/photo?id=${this.article.cid}`, this.article.images[0])
+			},
+			goCategory(id) {
+				this.$Router.push({
+					path: '/pages/common/category/categoryInfo',
+					query: {
+						id
+					}
+				})
 			},
 			copyLink() {
 				let data = this.article

@@ -4,7 +4,7 @@
 			:auto-clean-list-when-reload="false" v-show="!loading" @scroll="onScroll" @onRefresh="onRefresh"
 			cache-mode="always" use-cache :cache-key="`article_mid-${cid}`">
 			<template #top>
-				<u-navbar placeholder fixed style="z-index: 10;" bgColor="transparent">
+				<u-navbar placeholder fixed style="z-index: 10;" bgColor="transparent" id="navbar">
 					<view slot="left" style="display:flex;align-items: center;">
 						<i class="mgc_left_line" style="font-size: 60rpx;" @click="$Router.back(1)"></i>
 						<view style="margin-left: 40rpx;display: flex;align-items: center;"
@@ -71,7 +71,7 @@
 			</u-sticky>
 			<!-- #endif -->
 			<!-- #ifndef APP -->
-			<u-sticky bgColor="#fff" class="sticky" offsetTop="-44">
+			<u-sticky bgColor="#fff" class="sticky" :offsetTop="sticky">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
@@ -476,6 +476,7 @@
 				headerHeight: 0,
 				isHideReply: false,
 				fullscreenEdit: false,
+				
 			};
 		},
 		onLoad(params) {

@@ -4,7 +4,7 @@
 			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false"
 			v-if="$store.state.hasLogin&&isMounted" style="margin-bottom: 50rpx;">
 			<template #top>
-				<u-navbar
+				<u-navbar id="navbar"
 					:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : $u.colorToRgba('#fff', opacity)">
 					<view slot="left">
 						<u-row>
@@ -112,33 +112,31 @@
 				</u-row>
 			</view>
 			<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
-			<view style="position: relative;top: 0rpx;" v-if="isMounted">
-				<view v-if="$store.state.hasLogin">
-					<!-- #ifndef APP -->
-					<u-sticky bgColor="#fff">
-						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-							active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
-							class="tabs-dark"></z-tabs>
-					</u-sticky>
-					<!-- #endif -->
-					<!-- #ifdef APP -->
-					<u-sticky bgColor="#fff" offsetTop="64">
-						<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-							active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
-							class="tabs-dark"></z-tabs>
-					</u-sticky>
-					<!-- #endif -->
-					<swiper style="height: 100vh;" :current="tabsIndex" @transition="swiperTransition"
-						@animationfinish="swiperAnimationfinish" v-if="$store.state.hasLogin && isMounted">
-						<swiper-item style="overflow: auto;">
-							<publish :isScroll="isScroll" :data="userInfo" ref="publish"
-								@articleMenu="showArticleMenu = true;edit = $event"></publish>
-						</swiper-item>
-						<swiper-item style="overflow: auto;">
-							<comment :isScroll="isScroll" :data="userInfo" ref="comment"></comment>
-						</swiper-item>
-					</swiper>
-				</view>
+			<view v-if="$store.state.hasLogin &&isMounted">
+				<!-- #ifndef APP -->
+				<u-sticky bgColor="#fff">
+					<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
+						active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
+						class="tabs-dark"></z-tabs>
+				</u-sticky>
+				<!-- #endif -->
+				<!-- #ifdef APP -->
+				<u-sticky bgColor="#fff" :offsetTop="sticky">
+					<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
+						active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
+						class="tabs-dark"></z-tabs>
+				</u-sticky>
+				<!-- #endif -->
+				<swiper style="height: 100vh;" :current="tabsIndex" @transition="swiperTransition"
+					@animationfinish="swiperAnimationfinish" v-if="$store.state.hasLogin && isMounted">
+					<swiper-item style="overflow: auto;">
+						<publish :isScroll="isScroll" :data="userInfo" ref="publish"
+							@articleMenu="showArticleMenu = true;edit = $event"></publish>
+					</swiper-item>
+					<swiper-item style="overflow: auto;">
+						<comment :isScroll="isScroll" :data="userInfo" ref="comment"></comment>
+					</swiper-item>
+				</swiper>
 			</view>
 
 		</z-paging>
@@ -380,7 +378,8 @@
 				tasks: {},
 				edit: {},
 				showDelete: false,
-				theme: '#fff'
+				theme: '#fff',
+				sticky: 0,
 			}
 		},
 		computed: {
@@ -397,7 +396,11 @@
 				if (res.theme == 'dark') this.theme = "#292929";
 				else this.theme = '#fff'
 			})
+			let system = uni.getSystemInfoSync()
+			this.sticky = system.statusBarHeight + 44
+			
 		},
+
 		methods: {
 			//tabs通知swiper切换
 			tabsChange(index) {
