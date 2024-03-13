@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<yingbing-video :autoplay="false" style="height: 500rpx;" :poster="video.poster" :src="video.src"
-			:title="article.title" ref="video" v-if="article">
+		<yingbing-video :autoplay="false" style="height: 500rpx;" :poster="video && video.poster"
+			:src="video && video.src" :title="article && article.title" ref="video" v-if="article">
 		</yingbing-video>
 		<u-row style="padding: 5rpx 30rpx;border-bottom: #f7f7f7 1rpx solid;">
 			<z-tabs :list="list" :scrollCount="0" active-color="#ff0800" bar-animate-mode="worm"></z-tabs>
@@ -12,19 +12,18 @@
 					</view>
 				</uv-input>
 			</u-col>
-			
+
 		</u-row>
 
 		<view style="margin: 30rpx;">
-
 			<u-row justify="space-between">
 				<u-row>
-					<u-avatar :src="article.authorInfo.avatar" size="30"></u-avatar>
+					<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="30"></u-avatar>
 					<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
 						<text
-							style="font-size: 28rpx;">{{article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
+							style="font-size: 28rpx;">{{article && article.authorInfo && article.authorInfo.screenName?article.authorInfo.screenName:article && article.authorInfo &&article.authorInfo.name}}</text>
 						<text style="font-size: 24rpx;color: #ccc;"
-							class="u-line-1">{{article.authorInfo.introduce}}</text>
+							class="u-line-1">{{article && article.authorInfo &&  article.authorInfo.introduce}}</text>
 					</view>
 				</u-row>
 				<view style="flex-shrink: 0;">
