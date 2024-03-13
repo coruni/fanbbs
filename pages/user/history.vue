@@ -9,8 +9,7 @@
 			</view>
 		</u-navbar>
 		<block v-for="(item,index) in $store.state.history" :key="index" v-if="$store.state.history">
-			<view class="content"
-				@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
+			<view class="content" @tap.stop="goArticle(item)">
 				<view style="display: flex;flex-direction: column;">
 					<u-row justify="space-between" align="top">
 						<view class="u-line-2" style="display: flex;flex-direction: column;">
@@ -66,21 +65,26 @@
 		methods: {
 			...mapMutations(['clearHistory']),
 			goArticle(data) {
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
+					path: path,
 					query: {
 						id: data.cid
 					}
 				})
 			},
-			goPhoto(data) {
-				this.$Router.push({
-					path: '/pages/article/photo',
-					query: {
-						id: data.cid
-					}
-				})
-			},
+
 			replaceEmoji(html) {
 				if (html) {
 					return html.replace(

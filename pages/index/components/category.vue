@@ -7,8 +7,7 @@
 			<view>
 				<text style="font-size: 60rpx;font-weight: 600;">Top</text>
 				<block v-for="(item,index) in top" :key="index">
-					<u-row style="padding: 10rpx 30rpx;"
-						@click="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
+					<u-row style="padding: 10rpx 30rpx;" @click="goArticle(item)">
 						<view class="top" :style="{background:color[index],color:index<3?'white':'black'}">
 							<text>
 								{{index+1}}
@@ -134,21 +133,26 @@
 				})
 			},
 			goArticle(data) {
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
+					path: path,
 					query: {
 						id: data.cid
 					}
 				})
 			},
-			goPhoto(data) {
-				this.$Router.push({
-					path: '/pages/article/photo',
-					query: {
-						id: data.cid
-					}
-				})
-			},
+
 			goCategory(id) {
 				this.$Router.push({
 					path: '/pages/common/category/categoryInfo',

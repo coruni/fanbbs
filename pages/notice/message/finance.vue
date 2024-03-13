@@ -60,11 +60,22 @@
 				})
 			},
 			goArticle(data) {
-				console.log(data)
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
+					path: path,
 					query: {
-						id: data.contentsInfo.cid
+						id: data.cid
 					}
 				})
 			},

@@ -8,7 +8,7 @@
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
 					<view v-for="(item,index) in list1" :key="index" :style="[imageStyle(item)]" class="waterfall"
-						@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
+						@tap.stop="goArticle(item)">
 						<image
 							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
 							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
@@ -124,17 +124,20 @@
 				})
 			},
 			goArticle(data) {
-				uni.setStorageSync(`article_${data.cid}`, data)
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
-					query: {
-						id: data.cid
-					}
-				})
-			},
-			goPhoto(data) {
-				this.$Router.push({
-					path: '/pages/article/photo',
+					path:path,
 					query: {
 						id: data.cid
 					}

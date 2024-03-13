@@ -4,7 +4,7 @@
 		:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" use-cache
 		:cache-key="`user_publish`">
 		<block v-for="(item,index) in article" :key="index">
-			<view style="margin: 30rpx;"  @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
+			<view style="margin: 30rpx;" @tap.stop="goArticle(item)">
 				<u-row justify="space-between" customStyle="margin-bottom:20rpx">
 					<u-row align="bottom">
 						<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
@@ -76,29 +76,33 @@
 				})
 			},
 			goArticle(data) {
-				uni.setStorageSync(`article_${data.cid}`, data)
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
+					path: path,
 					query: {
 						id: data.cid
 					}
 				})
 			},
-			goPhoto(data) {
-				this.$Router.push({
-					path: '/pages/article/photo',
-					query: {
-						id: data.cid
-					}
-				})
-			},
+
 			reload() {
 				this.$refs.paging.reload();
 			},
-			sendEmit(event,data){
-				this.$emit(event,data)
+			sendEmit(event, data) {
+				this.$emit(event, data)
 			}
-			
+
 		}
 	}
 </script>

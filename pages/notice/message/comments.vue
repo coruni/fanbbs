@@ -9,9 +9,8 @@
 					</view>
 				</u-navbar>
 			</template>
-			<block v-for="(item,index) in comments">
-				<view class="notice-message"
-					@click="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
+			<block v-for="(item,index) in comments" :key="index">
+				<view class="notice-message" @click="goArticle(item.article)">
 					<u-row customStyle="margin-bottom:20rpx">
 						<u-avatar :src="item.userInfo && item.userInfo.avatar" size="24"></u-avatar>
 						<text
@@ -83,21 +82,27 @@
 				})
 			},
 			goArticle(data) {
+				console.log(data)
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
+					path: path,
 					query: {
-						id: data.article.id
+						id: data.id
 					}
 				})
 			},
-			goPhoto(data) {
-				this.$Router.push({
-					path: '/pages/article/photo',
-					query: {
-						id: data.article.id
-					}
-				})
-			},
+
 			clearNotice() {
 				this.$http.post('/user/clearNum', {
 					type: 'comment'

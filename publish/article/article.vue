@@ -26,7 +26,7 @@
 		</view>
 		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
 		<!--  -->
-		<editor :adjust-position="false" placeholder="灵感迸发" id="editor" @ready="onEditorReady"
+		<editor :adjust-position="false" placeholder="说点好玩的~" id="editor" @ready="onEditorReady"
 			style="width: 100%;padding:10rpx 30rpx 10rpx 30rpx;"
 			:style="{height:editorHeight - keyboardHeight - toolbarHeight - 11 -(showPanel?panelHeight:0) +'px',minHeight:0+'px'}"
 			@statuschange="statuschange">
@@ -481,6 +481,8 @@
 
 		},
 		onLoad(params) {
+			this.formatEmoji()
+			this.initData()
 			this.update = params.update
 			if (params.update) {
 				this.getContentInfo(params.id)
@@ -516,8 +518,6 @@
 
 		},
 		created() {
-			this.formatEmoji()
-			this.initData()
 			this.draftList = uni.getStorageSync('draftList')
 			if (!this.draftList.length) this.draftList = [];
 			this.draftId = this.draftList.length + 1
@@ -1158,10 +1158,6 @@
 		font-style: normal;
 		color: #999;
 		min-height: 0rpx;
-	}
-
-	.mgc_download_2_line:before {
-		content: "\e685";
 	}
 
 	.ql-container ::v-deep a {

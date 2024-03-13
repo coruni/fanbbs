@@ -2,7 +2,7 @@
 	<z-paging @query="getData" ref="paging" v-model="article" :auto-scroll-to-top-when-reload="false"
 		:auto-clean-list-when-reload="false" :use-page-scroll="!scroll" :refresher-enabled="false">
 		<block v-for="(item,index) in article" :key="index">
-			<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
+			<view @tap.stop="goArticle(item)"
 				style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
@@ -86,22 +86,26 @@
 				})
 			},
 			goArticle(data) {
-				uni.setStorageSync(`article_${data.cid}`, data)
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
+					path:path,
 					query: {
 						id: data.cid
 					}
 				})
 			},
-			goPhoto(data) {
-				this.$Router.push({
-					path: '/pages/article/photo',
-					query: {
-						id: data.cid
-					}
-				})
-			},
+			
 			reload() {
 				this.$refs.paging.reload()
 			}

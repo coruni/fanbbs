@@ -1,25 +1,23 @@
 <template>
-	<view>
-		<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
-			:auto-hide-loading-after-first-loaded="false" :auto-scroll-to-top-when-reload="false"
-			:auto-clean-list-when-reload="false">
-			<block v-for="(item,index) in article">
-				<view style="margin: 30rpx;" @click="goArticle(item)">
-					<u-row align="bottom" customStyle="margin-bottom:20rpx">
-						<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
-						<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
-						<view v-if="item.category" style="color: #999;">
-							<text style="margin: 0 10rpx;">·</text>
-							<text>{{item.category.name}}</text>
-						</view>
-					</u-row>
-					<articleContent :data="item"></articleContent>
-					<articleFooter :data="item"></articleFooter>
-				</view>
-				<view style="border-bottom:1rpx #f7f7f7 solid"></view>
-			</block>
-		</z-paging>
-	</view>
+	<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
+		:auto-hide-loading-after-first-loaded="false" :auto-scroll-to-top-when-reload="false"
+		:auto-clean-list-when-reload="false">
+		<block v-for="(item,index) in article">
+			<view style="margin: 30rpx;" @click="goArticle(item)">
+				<u-row align="bottom" customStyle="margin-bottom:20rpx">
+					<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
+					<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
+					<view v-if="item.category" style="color: #999;">
+						<text style="margin: 0 10rpx;">·</text>
+						<text>{{item.category.name}}</text>
+					</view>
+				</u-row>
+				<articleContent :data="item"></articleContent>
+				<articleFooter :data="item"></articleFooter>
+			</view>
+			<view style="border-bottom:1rpx #f7f7f7 solid"></view>
+		</block>
+	</z-paging>
 </template>
 
 <script>
@@ -76,9 +74,20 @@
 				})
 			},
 			goArticle(data) {
-				uni.setStorageSync(`article_${data.cid}`, data)
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
+					path: path,
 					query: {
 						id: data.cid
 					}

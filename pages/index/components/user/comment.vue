@@ -28,7 +28,7 @@
 					</view>
 
 					<view style="background: #f9f9f9;border-radius: 20rpx;margin-top: 10rpx;"
-						@tap.stop="item.article.type=='post'?goArticle(item):item.article.type=='photo'?goPhoto(item):goArticle(item)">
+						@tap.stop="goArticle(item)">
 						<u-row>
 							<image mode="aspectFill"
 								style="height: 100rpx;width: 100rpx;background: #f7f7f7;border-radius: 20rpx 0 0 20rpx;">
@@ -98,22 +98,26 @@
 				this.$refs.paging.reload();
 			},
 			goArticle(data) {
-				console.log(data)
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
+					path: path,
 					query: {
 						id: data.cid
 					}
 				})
 			},
-			goPhoto(data) {
-				this.$Router.push({
-					path: '/pages/article/photo',
-					query: {
-						id: data.cid
-					}
-				})
-			},
+
 		}
 	}
 </script>

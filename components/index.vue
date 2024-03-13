@@ -24,8 +24,9 @@
 					display: flex;
 					flex-direction: column;
 					align-items: center;" @tap.stop="homepageTap(item)">
-						<image mode="aspectFill" :src="item.image" style="width: 90rpx;height: 90rpx;border-radius: 20rpx;"></u-image>
-						<text style="
+						<image mode="aspectFill" :src="item.image"
+							style="width: 90rpx;height: 90rpx;border-radius: 20rpx;"></u-image>
+							<text style="
 						margin-top: 20rpx;
 						font-size: 28rpx;
 						">{{item.name}}</text>
@@ -38,8 +39,7 @@
 				style="border-radius: 20rpx;"></u-notice-bar>
 		</view>
 		<block v-for="(item,index) in content" :key="index" v-if="content.length">
-			<view @tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)"
-				class="article">
+			<view @tap.stop="goArticle(item)" class="article">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
 				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
@@ -117,7 +117,8 @@
 						params: JSON.stringify({
 							mid: this.mid ? this.mid : '',
 						}),
-						order: this.mid ? 'isCircleTop desc,istop desc,created desc,replyTime desc' : 'istop desc, created desc',
+						order: this.mid ? 'isCircleTop desc,istop desc,created desc,replyTime desc' :
+							'istop desc, created desc',
 
 					}
 				}).then(res => {
@@ -141,21 +142,26 @@
 				})
 			},
 			goArticle(data) {
+				let path
+				switch (data.type) {
+					case 'photo':
+						path = '/pages/article/photo';
+						break;
+					case 'video':
+						path = '/pages/article/video';
+						break;
+					default:
+						path = '/pages/article/article';
+						break;
+				}
 				this.$Router.push({
-					path: '/pages/article/article',
+					path:path,
 					query: {
 						id: data.cid
 					}
 				})
 			},
-			goPhoto(data) {
-				this.$Router.push({
-					path: '/pages/article/photo',
-					query: {
-						id: data.cid
-					}
-				})
-			},
+
 			onRefresh() {
 				this.getSwiper()
 			},
@@ -183,9 +189,9 @@
 					}
 				}).then(res => {
 					console.log(res)
-					if(res.data.code==200){
-						
-						const data = res.data.data.data ||[]
+					if (res.data.code == 200) {
+
+						const data = res.data.data.data || []
 						let list = [];
 						data.forEach(item => {
 							item.image = item.images[0]
