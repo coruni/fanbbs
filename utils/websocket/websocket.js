@@ -11,7 +11,7 @@ class websocketUtil {
 		try {
 			return this.connectSocketInit()
 		} catch (e) {
-			console.log(e);
+			// console.log(e);
 			this.is_open_socket = false
 			this.reconnect();
 		}
@@ -23,20 +23,20 @@ class websocketUtil {
 		this.socketTask = uni.connectSocket({
 			url: this.url,
 			success:()=>{
-				console.log("正准备建立websocket中...");
+				// console.log("正准备建立websocket中...");
 				// 返回实例
 				return this.socketTask
 			},
 		});
 		this.socketTask.onOpen((res) => {
-			console.log("WebSocket连接正常！");
+			// console.log("WebSocket连接正常！");
 			clearTimeout(this.reconnectTimeOut)
 			clearTimeout(this.heartbeatInterval)
 			this.is_open_socket = true;
 			this.start();
 			// 注：只有连接正常打开中 ，才能正常收到消息
 			this.socketTask.onMessage((res) => {
-				console.log(res.data)
+				// console.log(res.data)
 			});
 		})
 		// 监听连接失败，这里代码我注释掉的原因是因为如果服务器关闭后，和下面的onclose方法一起发起重连操作，这样会导致重复连接
@@ -47,7 +47,7 @@ class websocketUtil {
 		// });
 		// 这里仅是事件监听【如果socket关闭了会执行】
 		this.socketTask.onClose(() => {
-			console.log("已经被关闭了")
+			// console.log("已经被关闭了")
 			this.is_open_socket = false;
 			this.reconnect();
 		})
@@ -59,7 +59,7 @@ class websocketUtil {
 		this.socketTask.send({
 			data: value,
 			async success() {
-				console.log("消息发送成功");
+				// console.log("消息发送成功");
 			},
 		});
 	}
@@ -67,7 +67,7 @@ class websocketUtil {
 	start(){
 		this.heartbeatInterval = setTimeout(()=>{
 			this.data={type:"PING",text:"PING"}
-			console.log(this.data)
+			// console.log(this.data)
 			this.send(JSON.stringify(this.data));
 		},this.timeout)
 	}

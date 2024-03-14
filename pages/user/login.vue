@@ -291,7 +291,6 @@
 			saveUser(data, type) {
 				this.setToken(data.token);
 				this.getUserInfo(data.uid);
-				this.getUserMeta()
 				uni.$emit('login', true)
 				this.$store.commit('loginStatus')
 				//保存账号密码 用于持久登录
@@ -317,13 +316,7 @@
 					}
 				})
 			},
-			getUserMeta() {
-				this.$http.get('/user/userData', {}).then(res => {
-					if (res.data.code == 200) {
-						this.setUserMeta(res.data.data)
-					}
-				})
-			},
+			
 			register() {
 				if (!this.username.length) {
 					uni.$u.toast('请填写用户名！');

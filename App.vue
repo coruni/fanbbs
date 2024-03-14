@@ -231,7 +231,7 @@
 			background: #292929 !important;
 		}
 
-		.u-loading-page{
+		.u-loading-page {
 			background: #292929 !important;
 		}
 

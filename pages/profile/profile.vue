@@ -174,8 +174,7 @@
 		},
 		onLoad(params) {
 			this.id = params.id
-			this.getAuthor(params.id)
-			this.getUserData(params.id)
+			this.getAuthor(this.$Route.query.id)
 		},
 		created() {
 
@@ -234,17 +233,7 @@
 				if (scrollTop >= this.elementHeight) this.isScroll = true
 				else this.isScroll = false
 			},
-			getUserData(id) {
-				this.$http.get('/user/userData', {
-					params: {
-						id
-					}
-				}).then(res => {
-					if (res.data.code == 200) {
-						this.userData = res.data.data
-					}
-				})
-			},
+			
 			goPrivate(data) {
 				if (data.uid == this.$store.state.userInfo.uid) {
 					uni.$u.toast('不能私聊自己')

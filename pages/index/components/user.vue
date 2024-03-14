@@ -421,8 +421,6 @@
 					this.$refs.comment.reload()
 					// this.$refs.collect.reload()
 					this.getUserInfo()
-					this.getUserMeta()
-
 				}
 				setTimeout(() => {
 					this.$refs.paging.complete()
@@ -441,13 +439,6 @@
 					}
 				}).catch(err => {
 
-				})
-			},
-			getUserMeta() {
-				this.$http.get('/user/userData', {}).then(res => {
-					if (res.data.code == 200) {
-						this.$store.commit('setUserMeta', res.data.data)
-					}
 				})
 			},
 

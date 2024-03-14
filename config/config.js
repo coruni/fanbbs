@@ -7,10 +7,13 @@ const config = {
 	"h5": "https://h5.i-hentai.cc",
 	// 首页分享处描述
 	"description": "rule",
-
 	// websocket
 	"websocket": "wss://api.i-hentai.cc/websocket"
 }
+
+// Author:CHIKATA
+// QQ群：869350741
+// 欢迎反馈问题
 
 // 导出配置
 export default config;
