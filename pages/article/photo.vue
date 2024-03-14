@@ -539,11 +539,10 @@
 			};
 		},
 		onLoad(params) {
-			// GetStorage 获取存储本地的文章简略信息
-			this.cid = params.id
-			this.author = uni.getStorageSync(`article_${params.id}`)
-			this.getData(params.id)
-			this.formatEmoji()
+			let query = this.$Route.query;
+			this.cid = query.id;
+			this.getData(query.id);
+			this.formatEmoji();
 			uni.onKeyboardHeightChange(data => {
 				this.keyboardHeight = data.height
 			})

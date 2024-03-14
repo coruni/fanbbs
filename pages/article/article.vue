@@ -102,7 +102,8 @@
 				<block v-for="(item,index) in comments" v-if="comments">
 					<view style="margin:10rpx 0">
 						<comment :data="item" @subComment="subComment = $event;showSub =true"
-							@reply="pid = $event.id;showComment =true" :article="article" @commentDelete="$refs.comments.reload()"></comment>
+							@reply="pid = $event.id;showComment =true" :article="article"
+							@commentDelete="$refs.comments.reload()"></comment>
 					</view>
 				</block>
 			</view>
@@ -367,7 +368,7 @@
 		mixins: [ZPMixin],
 		data() {
 			return {
-				showDeleteComment:false,
+				showDeleteComment: false,
 				showDelete: false,
 				showFollow: false,
 				isReply: false,
@@ -476,13 +477,14 @@
 				headerHeight: 0,
 				isHideReply: false,
 				fullscreenEdit: false,
-				
+
 			};
 		},
 		onLoad(params) {
 			// GetStorage 获取存储本地的文章简略信息
-			this.cid = params.id
-			this.getData(params.id)
+			let query = this.$Route.query
+			this.cid = query.id
+			this.getData(query.id)
 			uni.onKeyboardHeightChange(data => {
 				this.keyboardHeight = data.height
 			})
@@ -917,7 +919,7 @@
 		min-height: 600rpx;
 		max-height: 600rpx;
 	}
-	
+
 
 	.nav {
 		&-avatar {

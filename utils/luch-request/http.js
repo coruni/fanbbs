@@ -59,7 +59,7 @@ againHttp.interceptors.request.use(config => {
 //   所有的网络请求返回数据之后都会先执行这个方法
 http.interceptors.response.use(async (response) => {
 	let code = response.data.code
-	if (store.state.hasLogin &&code==400|| code==401 || code==402 || code==403 || code == 404) {
+	if (store.state.hasLogin && code == 400 || code == 401 || code == 402 || code == 403 || code == 404) {
 		let account = uni.getStorageSync('account')
 		try {
 			const res = await refresh.get('/user/login', {
@@ -68,7 +68,7 @@ http.interceptors.response.use(async (response) => {
 					password: account.password
 				}
 			})
-			if (res.data.code==200) {
+			if (res.data.code == 200) {
 				store.commit('setToken', res.data.data.token)
 				try {
 					const againhttp = await againHttp.middleware(response.config)

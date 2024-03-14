@@ -25,7 +25,7 @@
 				<!-- 为了磨平部分平台的BUG，必须套一层view -->
 				<view>
 					<view v-for="(item,index) in list2" :key="index" :style="[imageStyle(item)]" class="waterfall"
-						@tap.stop="item.type=='post'?goArticle(item):item.type=='photo'?goPhoto(item):goArticle(item)">
+						@tap.stop="goArticle(item)">
 						<image :src="item.images.length?item.images[0]:'@/static/login.jpg'" mode="widthFix"
 							:style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
 						</image>
@@ -137,7 +137,7 @@
 						break;
 				}
 				this.$Router.push({
-					path:path,
+					path: path,
 					query: {
 						id: data.cid
 					}
