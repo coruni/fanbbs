@@ -57,17 +57,19 @@ Vue.prototype.$emoji = emoji
 import level from '@/config/level.js'
 Vue.prototype.$level = level
 Vue.prototype.$config = config
-
-if (store.state.hasLogin) {
-	//开启websocket
-	let websocket = new wsRequest(config.websocket + `?token=${uni.getStorageSync('token')}`, 3000)
-	//挂载到全局
-	Vue.prototype.$socket = websocket
-}
 // 引入全局函数
 import common from "./common/common.js"
 Vue.prototype.$common = common
 
+uni.getStorage({
+	key: 'token'
+}).then(() => {
+	//开启websocket
+	let websocket = new wsRequest(config.websocket + `?token=${uni.getStorageSync('token')}`, 3000)
+	//挂载到全局
+	Vue.prototype.$socket = websocket
+
+})
 // z-paging配置 这个不是必须的，请自行修改
 uni.$zp = {
 	config: {

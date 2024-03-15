@@ -233,7 +233,6 @@
 							this.$refs.uCode1.start();
 						}
 						uni.$u.toast(res.data.msg)
-
 					})
 				}
 			},
@@ -250,15 +249,11 @@
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
-						if (this.code == null && !this.code) {
-							uni.$u.toast(res.data.msg)
-							return
-						}
-						uni.$u.toast('已重置密码，即将自动登录')
 						setTimeout(() => {
 							this.login()
 						}, 1600)
 					}
+					uni.$u.toast(res.data.msg)
 				})
 			},
 			login() {

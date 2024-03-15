@@ -1,6 +1,6 @@
 <template>
 	<view class="update-mask flex-center">
-		<view style="background: white;width: 600px;margin: 60rpx;padding: 30rpx;border-radius: 40rpx;">
+		<view class="content">
 			<view style="display: flex;flex-direction: row;justify-content: center;">
 				<view style="font-size: 40rpx;font-weight: 600;">
 					<text>发现新版本{{data.edition_name}}</text>
@@ -23,8 +23,8 @@
 				<view><text class="fs24">正在下载，请稍后 ({{downloadedSize}}/{{packageFileSize}}M)</text></view>
 			</view>
 			<view style="display: flex;flex-direction: row;flex:1;margin-top: 40rpx;" v-if="updateBtn">
-				<u-button plain color="#ff0800" shape="circle" style="margin-right: 20rpx;"
-					@click="cancel" v-if="cancleBtn">取消</u-button>
+				<u-button plain color="#ff0800" shape="circle" style="margin-right: 20rpx;" @click="cancel"
+					v-if="cancleBtn">取消</u-button>
 				<u-button color="#ff0800" shape="circle" @click="confirm">升级</u-button>
 			</view>
 		</view>
@@ -156,9 +156,19 @@
 	};
 </script>
 
-<style>
+<style lang="scss">
 	page {
-		background: transparent;
+		background: transparent !important;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.content {
+			background: #292929 !important;
+		}
+
+		html,page {
+			background: transparent !important;
+		}
 	}
 
 	.flex-center {
@@ -184,13 +194,11 @@
 	}
 
 	.content {
-		position: relative;
-		top: 0;
-		width: 600rpx;
-		background-color: #fff;
-		box-sizing: border-box;
-		padding: 0 50rpx;
-		font-family: Source Han Sans CN;
+		background: white;
+		width: 600px;
+		margin: 60rpx;
+		padding: 30rpx;
+		border-radius: 40rpx;
 	}
 
 	.text {

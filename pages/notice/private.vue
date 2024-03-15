@@ -1,52 +1,50 @@
 <template>
-	<view>
-		<z-paging ref="paging" @query="getData" v-model="messages" use-chat-record-mode auto-hide-keyboard-when-chat
-			use-page-scroll>
-			<template #top>
-				<u-navbar placeholder autoBack :title="nickname">
-					<view slot="left">
-						<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
-					</view>
-				</u-navbar>
-			</template>
-			<view style="margin: 30rpx;"
-				:style="{transform: `translateY(${keyboardHeight+'px'})`,transition:'transform 0.3s ease'}">
-				<block v-for="(item,index) in messages" :key="index">
-					<u-row v-if="item.sender_id != userInfo.uid" align="top"
-						style="margin-bottom: 20rpx;transform: scaleY(-1)">
-						<u-avatar :src="item.userInfo.avatar"></u-avatar>
-						<view
-							style="background: #ff080032;padding:10rpx;margin-left: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
-							<uv-parse :tagStyle="{img:'border-radius:10px'}" :content="item.text"
-								style="word-wrap: normal;flex-wrap: wrap; word-break: break-all;"></uv-parse>
-						</view>
-					</u-row>
-					<u-row v-if="item.sender_id == userInfo.uid" justify="end" align="top"
-						style="margin-bottom: 20rpx;transform: scaleY(-1);">
-						<view
-							style="background: #ff080032;padding:10rpx;margin-right: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
-							<uv-parse :tagStyle="{img:'border-radius:10px'}" :content="item.text"
-								style="word-wrap: normal;flex-wrap: wrap; word-break: break-all;"></uv-parse>
-						</view>
-						<u-avatar :src="userInfo.avatar" />
-					</u-row>
-				</block>
-			</view>
-			<template #bottom>
-				<view style="padding: 30rpx;background: #fff;"
-					:style="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease'}">
-					<u-row align="bottom">
-						<editor id="editor" @ready="onEditorReady" :adjust-position="false" :show-img-size="false"
-							:show-img-resize="false" :show-img-toolbar="false"
-							style="background: #ff080032;height: auto;min-height: unset;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
-						</editor>
-						<u-button color="#ff0800" style="width: 140rpx;height: 60rpx;margin-left: 20rpx;" shape="circle"
-							@click="sendMessage()">发送</u-button>
-					</u-row>
+	<z-paging ref="paging" @query="getData" v-model="messages" use-chat-record-mode auto-hide-keyboard-when-chat
+		use-page-scroll>
+		<template #top>
+			<u-navbar placeholder autoBack :title="nickname">
+				<view slot="left">
+					<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 				</view>
-			</template>
-		</z-paging>
-	</view>
+			</u-navbar>
+		</template>
+		<view style="margin: 30rpx;"
+			:style="{transform: `translateY(${keyboardHeight+'px'})`,transition:'transform 0.3s ease'}">
+			<block v-for="(item,index) in messages" :key="index">
+				<u-row v-if="item.sender_id != userInfo.uid" align="top"
+					style="margin-bottom: 20rpx;transform: scaleY(-1)">
+					<u-avatar :src="item.userInfo.avatar"></u-avatar>
+					<view
+						style="background: #ff080032;padding:10rpx;margin-left: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
+						<uv-parse :tagStyle="{img:'border-radius:10px'}" :content="item.text"
+							style="word-wrap: normal;flex-wrap: wrap; word-break: break-all;"></uv-parse>
+					</view>
+				</u-row>
+				<u-row v-if="item.sender_id == userInfo.uid" justify="end" align="top"
+					style="margin-bottom: 20rpx;transform: scaleY(-1);">
+					<view
+						style="background: #ff080032;padding:10rpx;margin-right: 10rpx;border-radius: 20rpx;margin-top: 10rpx;">
+						<uv-parse :tagStyle="{img:'border-radius:10px'}" :content="item.text"
+							style="word-wrap: normal;flex-wrap: wrap; word-break: break-all;"></uv-parse>
+					</view>
+					<u-avatar :src="userInfo.avatar" />
+				</u-row>
+			</block>
+		</view>
+		<template #bottom>
+			<view style="padding: 30rpx;background: #fff;"
+				:style="{transform: `translateY(${-keyboardHeight+'px'})`,transition:'transform 0.3s ease'}">
+				<u-row align="bottom">
+					<editor id="editor" @ready="onEditorReady" :adjust-position="false" :show-img-size="false"
+						:show-img-resize="false" :show-img-toolbar="false"
+						style="background: #ff080032;height: auto;min-height: unset;max-height: 100px;border-radius: 20rpx;padding: 8rpx 16rpx;">
+					</editor>
+					<u-button color="#ff0800" style="width: 140rpx;height: 60rpx;margin-left: 20rpx;" shape="circle"
+						@click="sendMessage()">发送</u-button>
+				</u-row>
+			</view>
+		</template>
+	</z-paging>
 </template>
 
 <script>

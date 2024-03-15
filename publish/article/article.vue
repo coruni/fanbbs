@@ -760,11 +760,12 @@
 										uni.$u.toast(res.data.msg)
 										setTimeout(() => {
 											this.$Router.back(1);
-										}, 1500);
+										}, 1000);
 									}, 1000)
 								}, 1000);
 							} else {
 								this.$refs.publish.close()
+								uni.$u.toast(res.data.msg)
 							}
 							this.isSave = false
 						}).catch(err => {
