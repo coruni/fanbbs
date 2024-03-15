@@ -94,19 +94,19 @@
 				</u-row>
 				<u-row justify="space-around" customStyle="margin-top:40rpx">
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.articles}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.articles}}</text>
 						<text>帖子</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.follows}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.follows}}</text>
 						<text>关注</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.fans}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.fans}}</text>
 						<text>粉丝</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userMeta && userMeta.comments}}</text>
+						<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.comments}}</text>
 						<text>评论</text>
 					</view>
 				</u-row>

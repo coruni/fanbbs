@@ -2,8 +2,8 @@
     "name" : "不正常萝莉研究所",
     "appid" : "__UNI__3F0725D",
     "description" : "",
-    "versionName" : "1.5.0",
-    "versionCode" : 50,
+    "versionName" : "1.5.1",
+    "versionCode" : 51,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -192,7 +192,7 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "3",
+    "vueVersion" : "2",
     "h5" : {
         "optimization" : {
             "treeShaking" : {
