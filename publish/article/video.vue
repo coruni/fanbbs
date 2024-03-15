@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-navbar placeholder autoBack title="发布视频">
+		<u-navbar placeholder autoBack title="发布视频" bgColor="transparent">
 			<view slot="left">
 				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
@@ -13,15 +13,14 @@
 			<view style="text-align: center;height:500rpx;display: flex;justify-content: center;align-items: center;"
 				v-if="!article.videos[index].src">
 				<uv-line-progress :percentage="progress" v-if="uploadTask"></uv-line-progress>
-				<text style="padding: 10rpx;background: #f7f7f7;border-radius: 10rpx;"
-					@click="chooseVideo()">上传视频</text>
+				<text class="uploadBtn" @click="chooseVideo()">上传视频</text>
 			</view>
 		</yingbing-video>
 		<view style="margin: 30rpx;">
 			<view>
 				<text>标题</text><text style="color: red;">*</text>
 				<uv-input v-model="article.title" :maxlength="20" placeholder="取一个响亮的标题!" border="none"
-					style="background: #f7f7f7;padding: 10rpx 0;margin-top: 10rpx;"></uv-input>
+					class="input"></uv-input>
 			</view>
 			<view style="margin-top: 30rpx;">
 				<text>简介</text>
@@ -42,8 +41,7 @@
 					<u-collapse-item v-for="(item,index) in article.videos" :key="index" :title="item.name"
 						:border="false" :name="index">
 						<u-row>
-							<view
-								style="background: #f7f7f7;display: flex;flex-direction: column;border-radius: 10rpx;flex:1">
+							<view class="epContent">
 								<uv-input v-model="article.videos[index].name" placeholder="分集名" border="none"
 									style="padding: 10rpx;">
 									<view slot="prefix">
@@ -144,7 +142,7 @@
 				progress: 0,
 				showCategory: false,
 				saving: false,
-				saveBack:false,
+				saveBack: false,
 			}
 		},
 		watch: {
@@ -366,9 +364,40 @@
 </script>
 
 <style lang="scss">
+	@media(prefers-color-scheme:dark) {
+
+		.uploadBtn,
+		.epContent {
+			background: #525252 !important;
+		}
+		.uv-input__content__prefix-icon{
+			color: white !important;
+		}
+	}
+
 	.ql-container ::v-deep .ql-blank::before {
 		font-style: normal;
 		color: #999;
 		min-height: 0rpx;
+	}
+
+	.uploadBtn {
+		padding: 15rpx;
+		background: #f7f7f7;
+		border-radius: 10rpx;
+	}
+
+	.input {
+		background: #f7f7f7;
+		padding: 10rpx 0;
+		margin-top: 10rpx;
+	}
+
+	.epContent {
+		background: #f7f7f7;
+		display: flex;
+		flex-direction: column;
+		border-radius: 10rpx;
+		flex: 1
 	}
 </style>
