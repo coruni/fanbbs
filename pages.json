@@ -314,7 +314,8 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			},
-			"name": "video"
+			"name": "video",
+			"perm":"login"
 		},
 		{
 			"path": "pagesA/lottery/lottery",
@@ -345,7 +346,8 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+				"enablePullDownRefresh" : false,
+				"navigationBarTextStyle": "white"
 			}
 		}
 	],

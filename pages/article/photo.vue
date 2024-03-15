@@ -549,6 +549,7 @@
 
 		},
 		beforeRouteLeave(to, from, next) {
+			
 			if (this.showComment || this.showMore || this.showSub) {
 				this.showComment = false;
 				this.showSub = false;
@@ -880,17 +881,14 @@
 			},
 
 			goEdit() {
-				if (this.article.type == 'post') {
-					this.$Router.push({
-						path: '/publish/article/article',
-						query: {
-							update: 1,
-							id: this.article.cid
-						}
-					})
-					this.showMore = false
-				}
-
+				this.showMore = false
+				this.$Router.push({
+					path: '/publish/article/photo',
+					query: {
+						update: true,
+						id: this.article.cid
+					}
+				})
 			},
 
 			hideTap(type) {

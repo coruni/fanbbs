@@ -71,7 +71,7 @@
 			</u-sticky>
 			<!-- #endif -->
 			<!-- #ifndef APP -->
-			<u-sticky bgColor="#fff" class="sticky" :offsetTop="sticky">
+			<u-sticky bgColor="#fff" class="sticky">
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
@@ -662,7 +662,7 @@
 						const emoji = this.$emoji.data.find(e => e.name === name)
 						if (emoji) {
 							const src = `${emoji.base}${emoji.slug}_${emoji.list[key]}.${emoji.format}`
-							return `<img src="${src}" style="width:100rpx;height:100rpx">`
+							return `<img src="${src}" style="width:100rpx;height:100rpx" ignore>`
 						}
 						// 如果没有找到,直接返回空字符串
 						// 即删除整个匹配文本

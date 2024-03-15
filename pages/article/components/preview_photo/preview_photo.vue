@@ -6,8 +6,7 @@
 			</view>
 		</u-navbar>
 		<view @touchend="touchEnd" @touchmove="touchMove">
-			<articleContent :data="data" :autoPreview="isScroll" :isPreview="true">
-			</articleContent>
+			<articleContent :data="data" :autoPreview="isScroll" :isPreview="true"></articleContent>
 		</view>
 	</view>
 </template>
@@ -24,7 +23,7 @@
 				isScroll: false,
 			};
 		},
-		created() {
+		onLoad(){
 			this.data = uni.getStorageSync('photo_read')
 		},
 		methods:{

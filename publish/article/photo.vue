@@ -7,8 +7,8 @@
 			<view slot="right">
 				<view
 					style="display: flex;align-items: center;background: #ff0800; border-radius: 50rpx;padding: 4rpx 16rpx;color: white;font-size: 28rpx;">
-					<view hover-class="button_hover" @click="save()">
-						<text>发布</text>
+					<view hover-class="button_hover" @click="update?updateArticle(): save()">
+						<text>{{update?'更新':'发布'}}</text>
 					</view>
 				</view>
 			</view>
@@ -169,11 +169,9 @@
 				windowHeight: 0,
 				isSave: false,
 				back: false,
+				update: false,
 
 			}
-		},
-		created() {
-			this.initData()
 		},
 		onReady() {
 			let inputHeight = 0;
@@ -183,9 +181,6 @@
 			uni.createSelectorQuery().in(this).select("#toolbar").boundingClientRect(data => {
 				this.toolbarHeight = data.height
 			}).exec()
-			uni.onKeyboardHeightChange(data => {
-				this.keyboardHeight = data.height
-			})
 			let systemInfo = uni.getSystemInfoSync()
 			this.editorHeight = systemInfo.screenHeight - systemInfo.statusBarHeight - inputHeight
 		},
@@ -201,12 +196,24 @@
 			}
 			next()
 		},
+		onLoad(params) {
+			this.initData()
+			uni.onKeyboardHeightChange(data => {
+				this.keyboardHeight = data.height
+			})
+			// 判断update
+			if (this.$Route.query.update) {
+				console.log(1)
+				this.update = true;
+				this.getContentInfo(this.$Route.query.id)
+			}
+
+		},
 		methods: {
 			initData() {
 				this.getCategory()
 				this.getTags()
 			},
-
 			getCategory() {
 				this.$http.get('/category/list', {
 					params: {
@@ -224,6 +231,41 @@
 						}
 						this.category = data
 					}
+				})
+			},
+			getContentInfo(id) {
+				this.$http.get('/article/info', {
+					params: {
+						id
+					},
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.article.cid = res.data.data.cid
+						this.article.title = res.data.data.title
+						this.article.text = res.data.data.text
+						this.article.category = res.data.data.category ? res.data.data
+							.category : this.category[0]
+						this.article.tags = res.data.data.tag
+						this.article.mid = res.data.data.mid
+						this.article.opt = res.data.data.opt
+						this.article.price = res.data.data.price
+						this.article.discount = res.data.data.discount
+						this.editorCtx.getContents({
+							success: (res) => {
+								if (res.text.length < 2) {
+									this.setContents()
+								}
+							}
+						})
+					}
+				}).catch(err => {
+					
+				})
+
+			},
+			setContents() {
+				this.editorCtx.setContents({
+					html: this.article.text,
 				})
 			},
 			getTags() {
@@ -291,6 +333,46 @@
 							uni.$u.toast(res.data.msg)
 						}).catch(err => {})
 						this.isSave = false;
+					}
+				})
+			},
+			updateArticle() {
+				this.editorCtx.getContents({
+					success: (res) => {
+						this.article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
+							function(match, alt) {
+								return `_|#${alt}|`;
+							});
+				
+						if (res.html.length < 15) {
+							uni.$u.toast('再多写点吧~')
+							return;
+						}
+						if (this.article.title.length < 3) {
+							uni.$u.toast('标题太短')
+							return;
+						}
+						console.log(this.article)
+						let tags = this.article.tags.map(tag => tag.mid).join(',');
+						this.$http.post('/article/update', {
+							id: this.article.cid,
+							title: this.article.title,
+							text: this.article.text,
+							category: this.article.category.mid ? this.article.category
+								.mid : this.article.category[0].mid,
+							tag: tags,
+							price: this.article.price,
+							discount: this.article.discount,
+							opt: JSON.stringify(this.article.opt)
+						}).then(res => {
+							if (res.data.code == 200) {
+								this.saveBack = true
+								setTimeout(() => {
+									this.$Router.back(1)
+								}, 1000)
+							}
+							uni.$u.toast(res.data.msg)
+						})
 					}
 				})
 			},

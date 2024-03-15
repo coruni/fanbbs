@@ -14,7 +14,7 @@
 				<articleItem @edit="$emit('edit',$event)"></articleItem>
 			</swiper-item>
 			<swiper-item>
-				<videoItem></videoItem>
+				<videoItem style="margin-bottom: 110rpx;"  class="waterfall-home"></videoItem>
 			</swiper-item>
 		</swiper>
 	</z-paging-swiper>
@@ -83,5 +83,8 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	.waterfall-home{
+		background: #f7f7f7;
+	}
 </style>

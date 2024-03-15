@@ -834,11 +834,12 @@
 					alt: name + '_' + key + '_' + 'emoji',
 					width: '50px',
 					height: '50px',
+					
 					extClass: 'emoji',
 					data: {
 						name: name,
 						emoji: emoji,
-						format: format
+						format: format,
 					},
 					success: res => {
 						this.editorCtx.insertText({

@@ -15,7 +15,7 @@
 				<text>该板块内容仅限会员可见</text>
 			</view>
 		</block>
-		<uv-parse :ImgCache="true"
+		<uv-parse :ImgCache="true" ref="article"
 			:tag-style="{img:!isPreview?'border-radius:20rpx':'',video:'border-radius:20rpx !improtant',uniVideo:'border-radius:20rpx !improtant'}"
 			style="overflow: unset;white-space: normal;word-break: break-all" :show-img-menu="!isScroll"
 			:content="data.text" img-cache lazyLoad selectable @ready="htmlReady()" @linktap="linkTap"
@@ -56,6 +56,7 @@
 		data() {
 			return {
 				isScroll: false,
+				article: null,
 			}
 		},
 		created() {
@@ -64,6 +65,7 @@
 			setTimeout(() => {
 				this.$emit('ready', true)
 			}, 1000)
+			
 		},
 		onReady() {},
 		methods: {
@@ -78,17 +80,13 @@
 				})
 			},
 			htmlReady() {
-				setTimeout(() => {
-					this.$emit('ready', true)
-				})
+				this.$emit('ready', true)
+				this.article = this.$refs.article
+				this.article.imgList.forEach((src, i, array) => {
+				      array[i] = src.replace('_compress.webp', '') // 替换为高清图链接
+				    })
 			},
-			buyHide() {
-				this.$http.post('/article/buyHide', {
-					cid: this.article.cid
-				}).then(res => {
 
-				})
-			},
 			linkTap(data) {
 				if (data['data-type'] == '付费' || data.data - type == '回复') {
 					this.$emit('hideTap', data['data-type'])

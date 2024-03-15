@@ -10,7 +10,7 @@
 					<view v-for="(item,index) in list1" :key="index" :style="[imageStyle(item)]" class="waterfall"
 						@tap.stop="goArticle(item)">
 						<image
-							:src="item.images.length?item.images[0]:'https://gitcode.net/qq_44112897/images/-/raw/master/comic/63.jpg'"
+							:src="item.images.length?item.images[0]:'/static/login.jpg'"
 							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
 						</image>
 						<view style="margin: 20rpx;">
@@ -26,7 +26,7 @@
 				<view>
 					<view v-for="(item,index) in list2" :key="index" :style="[imageStyle(item)]" class="waterfall"
 						@tap.stop="goArticle(item)">
-						<image :src="item.images.length?item.images[0]:'@/static/login.jpg'" mode="widthFix"
+						<image :src="item.images.length?item.images[0]:'/static/login.jpg'" mode="widthFix"
 							:style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
 						</image>
 						<view style="margin: 20rpx;">

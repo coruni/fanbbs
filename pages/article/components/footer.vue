@@ -1,13 +1,13 @@
 <template>
 	<view style="margin-top: 10rpx;">
-		<view v-if="data.opt&&data.opt.files[0].link" style="margin-top: 20rpx;">
+		<view v-if="data.opt!=null &&data.opt.hasOwnProperty('files') && data.opt.files[0].hasOwnProperty('link')" style="margin-top: 20rpx;">
 			<view class="download-content">
 				<view style="margin-bottom: 10rpx;">
 					<i class="ess mgc_download_line" style="color: #ff0800;font-size: 34rpx;"></i>
 					<text style="font-weight: 600;margin-left: 10rpx;">资源下载</text>
 				</view>
 				<view style="display: flex;flex-direction: column;">
-					<block v-for="(item,index) in data.opt.files">
+					<block v-for="(item,index) in data.opt.files" :key="index">
 						<view style="margin-bottom: 20rpx;">
 							<u-row>
 								<u-button shape="circle" @click="openUrl(item.link)">
@@ -27,7 +27,6 @@
 								</u-row>
 							</u-row>
 						</view>
-
 					</block>
 				</view>
 			</view>

@@ -1,10 +1,10 @@
 <template>
 	<z-paging-swiper>
 		<template #top>
-			<yingbing-video :autoplay="false" style="height: 500rpx;background: black;" :poster="video.poster"
-				:src="video.src" ref="video" :title="article.title">
+			<yingbing-video :autoplay="true" style="height: 500rpx;background: black;" :poster="video.poster"
+				:src="video.src" ref="video">
 			</yingbing-video>
-			<u-row style="padding: 5rpx 30rpx;border-bottom: #f7f7f7 1rpx solid;">
+			<u-row style="padding: 5rpx 30rpx;border-bottom: #f7f7f7 1rpx solid;" class="bottom-tabbar">
 				<z-tabs :list="list" :scrollCount="0" :current="swiperIndex" active-color="#ff0800"
 					bar-animate-mode="worm" ref="tabs" bgColor="transparent" @change="tabsChange"></z-tabs>
 				<u-col :span="4.5">
@@ -20,7 +20,7 @@
 		<swiper :current="swiperIndex" @transition="swiperTransition" @animationfinish="swiperAnimationfinish"
 			class="swiper">
 			<swiper-item>
-				<scroll-view scroll-y style="height: 100%;" @scrolltolower="scrolltolower('article')">
+				<z-paging @query="getArticleList" v-model="articleList" ref="article" :refresher-enabled="false">
 					<view style="padding: 30rpx;">
 						<u-row justify="space-between">
 							<u-row>
@@ -88,8 +88,11 @@
 							</u-row>
 						</block>
 					</view>
+				</z-paging>
+				<!-- <scroll-view scroll-y style="height: 100%;" @scrolltolower="scrolltolower('article')">
+					
 
-				</scroll-view>
+				</scroll-view> -->
 			</swiper-item>
 			<swiper-item>
 				<z-paging @query="getComments" v-model="comments" ref="comments" empty-view-text="还没有人发表评论哦,快来评论一下吧~">
@@ -236,7 +239,6 @@
 			this.formatEmoji()
 			this.id = this.$Route.query.id;
 			this.getData(this.id)
-			this.getArticleList()
 			this.getComments()
 			uni.onKeyboardHeightChange(data => {
 				this.keyboardHeight = data.height
@@ -258,12 +260,11 @@
 					}
 				})
 			},
-			getArticleList(bottom) {
-				if (bottom) this.page += 1;
+			getArticleList(page,limit) {
 				this.$http.get('/article/articleList', {
 					params: {
-						page: this.page,
-						limit: this.limit,
+						page,
+						limit,
 						params: {
 							type: 'video'
 						},
@@ -271,8 +272,7 @@
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
-						if (!bottom) this.articleList = [];
-						this.articleList = this.articleList.concat(res.data.data.data)
+						this.$refs.article.complete(res.data.data.data)
 					}
 				})
 			},

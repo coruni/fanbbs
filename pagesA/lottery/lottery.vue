@@ -5,7 +5,7 @@
 				<i class="ess mgc_left_line" style="font-size: 60rpx;color: white;"></i>
 			</view>
 		</u-navbar>
-		<LuckyGrid ref="lottery" width="600rpx" height="600rpx" :rows="3" :cols="3" :buttons="buttons" :blocks="blocks"
+		<LuckyGrid ref="lottery" width="600rpx" height="600rpx" :rows="3" :cols="3" :blocks="blocks"
 			:prizes="prizes" :defaultStyle="defaultStyle" @start="play()" @end="endCallBack">
 		</LuckyGrid>
 		<view style="position: absolute; bottom: 60rpx;">
