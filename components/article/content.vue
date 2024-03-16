@@ -10,15 +10,30 @@
 					padding: 4rpx 16rpx;
 					border-radius: 10rpx;">置顶</text>
 			</view>
+			<i :class="{
+			    'mgc_document_line': data.type === 'post',
+			    'mgc_video_line': data.type === 'video'
+			}" style="margin-right: 10rpx;"></i>
 			<text style="font-weight: 600;word-break: break-all;word-wrap: break-word;"
 				class="u-line-2">{{data.title}}</text>
 		</u-row>
 
+		<!-- 视频布局 -->
+		<view v-if="data.type === 'video'"
+			style="position: relative; width: 100%; height: 400rpx; border-radius: 20rpx; background: #f7f7f7; display: flex; justify-content: center; align-items: center;">
+			<image :src="data.images[0]" mode="aspectFill"
+				style="width: 100%; max-height: 400rpx; border-radius: 20rpx;"></image>
+			<view
+				style="position: absolute; top: 0; height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;color: white;">
+				<i class="mgc_play_circle_fill" style="font-size: 60rpx;"></i>
+			</view>
+		</view>
+
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
-			:previewImg="false" :showImgMenu="false"></uv-parse>
+			:previewImg="false" :showImgMenu="false" v-if="data.type!='video'"></uv-parse>
 		<!-- 一张图片 -->
-		<view v-if="data.images.length==1">
+		<view v-if="data.images.length==1&&data.type!='video'">
 			<!-- <u-image :src="data.images[0]" :mode="mode" width="100%" radius="10" height="200"></u-image> -->
 			<image :src="data.images[0]" :mode="mode"
 				style="width: 100%; max-height: 400rpx;border-radius: 20rpx;background: #f7f7f7;"
@@ -26,13 +41,13 @@
 			</image>
 		</view>
 		<!-- 三张图片以上才显示 -->
-		<view id="album" style="width: 100%;" v-if="data.images.length>=3">
+		<view id="album" style="width: 100%;" v-if="data.images.length>= 3 &&data.type!='video'">
 			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
 				singleMode="scaleToFill" :multipleSize="elWidth" v-if="data.images.length"></uv-album>
 		</view>
 
 		<!-- 两张图片 -->
-		<view v-if="data.images.length==2">
+		<view v-if="data.images.length==2&&data.type!='video'">
 			<u-row justify="space-between">
 				<u-col span="5.9">
 					<image mode="aspectFill" style="width: 100%;height: 300rpx;border-radius: 20rpx 0 0 20rpx;"
