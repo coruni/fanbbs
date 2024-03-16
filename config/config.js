@@ -1,14 +1,14 @@
 const config = {
 	// API接口，必须是HTTPS开头
-	"api": "https://api.i-hentai.cc",
+	"api": "http://localhost",
 	// 版本号，禁止私自修改，后果自负
 	"version": "1.0.0",
 	// H5网页（用于分享）
-	"h5": "https://h5.i-hentai.cc",
+	"h5": "https://h5.localhost",
 	// 首页分享处描述
 	"description": "rule",
 	// websocket
-	"websocket": "wss://api.i-hentai.cc/websocket"
+	"websocket": "wss://localhost/websocket"
 }
 
 // Author:CHIKATA

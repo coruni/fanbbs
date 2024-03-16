@@ -5,7 +5,8 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
-			}
+			},
+			"name":"home"
 
 		}, {
 			"path": "pages/profile/profile",

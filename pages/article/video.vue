@@ -1,10 +1,53 @@
 <template>
 	<z-paging-swiper>
 		<template #top>
+			<!-- 状态栏占位 -->
+			<view :style="{height:systemInfo.statusBarHeight+'px',background:'black'}"></view>
+			<!-- 视频主容器 -->
 			<yingbing-video :autoplay="true" style="height: 500rpx;background: black;" :poster="video.poster"
-				:src="video.src" ref="video">
+				:src="video.src" ref="video" :controls="false" @loadedmetadata="loadedMetaData" @timeupdate="timeUpdate"
+				@play="play.status = true" @pause="play.status = false" @fullscreenChange="fullscreen" @ended="ended">
+				<template #controls>
+					<view class="player-container">
+						<view class="player-btn" v-show="showBtn">
+							<u-row style="padding: 10rpx 30rpx;" justify="space-between">
+								<u-row>
+									<i class="mgc_left_line" style="font-size: 60rpx;" @click="back()"></i>
+									<i class="mgc_home_3_line" style="font-size: 45rpx;margin-left: 30rpx;"
+										@click="$Router.replaceAll({name:'home'})"></i>
+								</u-row>
+								<i class="mgc_more_2_line" style="font-size: 60rpx;"></i>
+							</u-row>
+						</view>
+						<view class="player-control" v-show="showBtn">
+							<view style="padding: 10rpx 30rpx;"
+								:style="play.fullscreen?'padding-top:30rpx !important':''">
+								<!-- 播放组件 -->
+								<u-row>
+									<i :class="play.status ? 'mgc_pause_fill' : 'mgc_play_fill'"
+										style="font-size: 40rpx;" @click="onPlay()"></i>
+									<!-- 进度条 -->
+									<view class="progress-bar" ref="progressBar" style="margin:0 30rpx;">
+										<view class="played" :style="{ width: progress.played+'%' }"></view>
+										<view class="unplayed" :style="{ width: progress.unplayed+'%' }"></view>
+										<i class="mgc_rabbit_fill progress-bar-icon"
+											:style="{left:iconPosition+'px'}"></i>
+									</view>
+									<text
+										style="font-size: 28rpx;margin-right: 30rpx;">{{formatDuration(play.currentTime)}}/{{ play.duration}}</text>
+									<i :class="play.fullscreen?'mgc_fullscreen_exit_fill':'mgc_fullscreen_fill'"
+										@click="$refs.video.switchFullscreen()" style="font-size: 40rpx;"></i>
+								</u-row>
+							</view>
+						</view>
+						<!-- 呼出控制组件时的遮罩 -->
+						<view class="player-mask" @tap.stop="maskTouchend()" :class="{'active':!showBtn}"
+							@touchstart="touchStart" @touchmove.stop.prevent="handleTouch" @touchend="touchEnd">
+						</view>
+					</view>
+				</template>
 			</yingbing-video>
-			<u-row style="padding: 5rpx 30rpx;border-bottom: #f7f7f7 1rpx solid;" class="bottom-tabbar">
+			<u-row class="tabbar">
 				<z-tabs :list="list" :scrollCount="0" :current="swiperIndex" active-color="#ff0800"
 					bar-animate-mode="worm" ref="tabs" bgColor="transparent" @change="tabsChange"></z-tabs>
 				<u-col :span="4.5">
@@ -44,12 +87,12 @@
 							</view>
 						</u-row>
 					</view>
-					<view style="padding: 30rpx;">
+					<view style="padding: 10rpx 30rpx;">
 						<u-row justify="space-between" @click="showInfo =!showInfo">
 							<text>{{article.title}}</text>
 							<i class="mgc_right_line icon" :class="{'icon-active':showInfo}"></i>
 						</u-row>
-						<view class="info-panel" :class="{'info-panel-active':showInfo}">
+						<view class="info-panel" :class="{'active':showInfo}">
 							<view class="chlid">
 								<uv-parse :content="article.text" class="text" selectable></uv-parse>
 								<view style="margin-top: 30rpx;display: flex;flex-wrap: wrap;" v-if="article.tag">
@@ -60,11 +103,26 @@
 							</view>
 						</view>
 					</view>
-					<view style="padding: 30rpx;">
+					<!-- 这里放分集 只有videos长度大于1时才会显示 -->
+					<view style="padding: 0 30rpx;" v-if="article.videos && article.videos.length>1">
+						<scroll-view style="width: 100%;overflow: hidden;" scroll-x>
+							<u-row>
+								<block v-for="(item,index) in article.videos" :key="index">
+									<view class="epContent" @click="video = item">
+										<text style="overflow: hidden;" class="u-line-1"
+											:class="{'ep': video.src == item.src}">{{item.name}}</text>
+									</view>
+								</block>
+							</u-row>
+						</scroll-view>
+					</view>
+					<view style="padding: 30rpx;border-top: #f7f7f7 1rpx solid;margin-top: 10rpx;"
+						class="bottom-tabbar">
 						<block v-for="(item,index) in articleList" :key="index">
 							<u-row style="margin-bottom: 20rpx;height: 150rpx;" @click="goArticle(item)">
 								<image :src="item.images[0]" mode="aspectFill"
-									style="width: 260rpx;height: 150rpx;border-radius: 10rpx;flex-shrink: 0;"></image>
+									style="width: 260rpx;height: 150rpx;border-radius: 10rpx;flex-shrink: 0;background: #f7f7f7;">
+								</image>
 								<view
 									style="display: flex;flex-direction: column;margin-left: 20rpx;height: 100%;justify-content: space-between;flex: 1;">
 									<text class="u-line-1">{{item.title}}</text>
@@ -89,10 +147,6 @@
 						</block>
 					</view>
 				</z-paging>
-				<!-- <scroll-view scroll-y style="height: 100%;" @scrolltolower="scrolltolower('article')">
-					
-
-				</scroll-view> -->
 			</swiper-item>
 			<swiper-item>
 				<z-paging @query="getComments" v-model="comments" ref="comments" empty-view-text="还没有人发表评论哦,快来评论一下吧~">
@@ -233,6 +287,29 @@
 				colors: ['#ff0800', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],
 				isReply: false,
 				commentText: '',
+				systemInfo: {},
+				showBtn: true,
+				play: {
+					duration: '00:00:00',
+					metaData: {},
+					currentTime: 0,
+					status: false,
+					fullscreen: false,
+				},
+				progress: {
+					played: 0,
+					unplayed: 100
+				},
+				iconPosition: 0,
+				touchNum: 0,
+				startX: 0,
+				startY: 0,
+				lastX: 0,
+				totalOffset: 0, // 累计滑动偏移量
+				smoothingFactor: 0.4, // 平滑系数,0-1 之间,数值越小平滑程度越高
+				startVolume: 0, // 开始音量值
+				startBrightness: 0 // 开始亮度值
+
 			}
 		},
 		async onLoad(params) {
@@ -243,10 +320,21 @@
 			uni.onKeyboardHeightChange(data => {
 				this.keyboardHeight = data.height
 			})
+			this.systemInfo = uni.getSystemInfoSync()
+
 		},
-		onPageScroll(e) {
-			console.log(e)
+		computed: {
+			playedPercentage() {
+				return `${this.progress.played}%`;
+			},
+			unplayedPercentage() {
+				return `${this.progress.unplayed}%`;
+			},
+			dragPosition() {
+				return `${this.progress.played}%`;
+			}
 		},
+		onPageScroll(e) {},
 		methods: {
 			getData(id) {
 				this.$http.get('/article/info', {
@@ -260,7 +348,7 @@
 					}
 				})
 			},
-			getArticleList(page,limit) {
+			getArticleList(page, limit) {
 				this.$http.get('/article/articleList', {
 					params: {
 						page,
@@ -281,7 +369,9 @@
 					params: {
 						page,
 						limit,
-						id: this.id
+						id: this.id,
+						all: 0,
+						parent: 0,
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
@@ -300,14 +390,6 @@
 			swiperAnimationfinish(e) {
 				this.swiperIndex = e.detail.current;
 				this.$refs.tabs.unlockDx();
-			},
-			handleTouchStart(event) {
-				this.startY = event.touches[0].clientY; // 记录触摸起始位置
-				this.deltaY = 0; // 每次触摸开始时重置滑动距离
-			},
-			handleTouchMove(event) {
-				let currentY = event.touches[0].clientY;
-				this.deltaY = currentY - this.startY; // 计算Y轴滑动距离
 			},
 			onEditorReady() {
 				// #ifdef MP-BAIDU
@@ -464,7 +546,126 @@
 					}
 				})
 			},
-		}
+			back() {
+				if (this.play.fullscreen) this.$refs.video.switchFullscreen()
+				else this.$Router.back()
+			},
+			loadedMetaData(event) {
+				this.play.metaData = event;
+				this.play.duration = this.formatDuration(event.duration)
+			},
+			fullscreen() {
+				this.play.fullscreen = !this.play.fullscreen
+				// #ifdef APP
+				if (!this.play.fullscreen) plus.navigator.setStatusBarStyle("light");
+				// #endif
+
+			},
+			formatDuration(duration) {
+				const durationInSeconds = duration;
+				const hours = Math.floor(durationInSeconds / 3600);
+				const minutes = Math.floor((durationInSeconds % 3600) / 60);
+				const seconds = Math.floor(durationInSeconds % 60);
+				let formatDuration;
+				if (hours > 0) {
+					// 格式化为时:分:秒的格式
+					formatDuration =
+						`${this.padZero(hours)}:${this.padZero(minutes)}:${this.padZero(seconds)}`;
+				} else {
+					// 格式化为分:秒的格式
+					formatDuration = `${this.padZero(minutes)}:${this.padZero(seconds)}`;
+				}
+				return formatDuration;
+			},
+			padZero(num) {
+				return num.toString().padStart(2, '0');
+			},
+			timeUpdate(e) {
+				const duration = this.play.metaData.duration;
+				const currentTime = e.currentTime;
+				// 计算已播放和未播放的百分比
+				this.progress.played = (currentTime / duration) * 100;
+				this.progress.unplayed = 100 - this.progress.played;
+				this.play.currentTime = e.currentTime
+
+				// 获取进度条宽度
+				uni.createSelectorQuery().in(this).select('.progress-bar').boundingClientRect((rect) => {
+					const progressBarWidth = rect.width;
+					// 计算图标位置
+					this.iconPosition = (this.progress.played / 100) * progressBarWidth - 10;
+				}).exec();
+			},
+			onPlay() {
+				this.$refs.video.toggle();
+				this.play.status = !this.play.status;
+
+
+			},
+			ended() {
+				// 重置播放进度
+				this.progress.played = 0;
+				this.progress.unplayed = 100;
+
+				// 重置图标位置
+				this.iconPosition = 0;
+			},
+			maskTouchend(e) {
+				this.touchNum++
+				setTimeout(() => {
+					if (this.touchNum == 1) {
+						this.showBtn = !this.showBtn
+					}
+					if (this.touchNum >= 2) {
+						this.onPlay()
+					}
+					this.touchNum = 0
+				}, 200)
+			},
+			touchStart(e) {
+				this.startX = e.touches[0].clientX
+				this.startY = e.touches[0].clientY
+				this.lastX = this.startX
+				this.totalOffset = 0
+				this.startVolume = plus.device.getVolume()
+				this.startBrightness = plus.screen.getBrightness()
+			},
+			handleTouch(e) {
+				const screenWidth = uni.getSystemInfoSync().screenWidth
+				const duration = this.play.metaData.duration || 0
+				const currentX = e.touches[0].clientX
+				const currentY = e.touches[0].clientY
+				const deltaX = currentX - this.lastX
+				const deltaY = currentY - this.startY
+
+				// 横向滑动，调节进度
+				if (Math.abs(deltaX) > Math.abs(deltaY)) {
+					this.totalOffset += deltaX * this.smoothingFactor
+					const moveRatio = this.totalOffset / screenWidth
+					const newPosition = Math.max(0, Math.min(this.play.currentTime + duration * moveRatio, duration))
+					this.$refs.video.seek(newPosition)
+					this.lastX = currentX
+				} else if (Math.abs(deltaY) > 10) { // 纵向滑动，防止微小移动引起变化
+					// 右侧调节音量
+					if (this.startX > screenWidth / 2) {
+						let volume = this.startVolume - deltaY / uni.upx2px(500) * 0.4
+						volume = Math.max(0, Math.min(volume, 1))
+						plus.device.setVolume(volume)
+					} else { // 左侧调节亮度
+						let brightness = this.startBrightness - deltaY / uni.upx2px(500) * 0.4
+						brightness = Math.max(0, Math.min(brightness, 1))
+						plus.screen.setBrightness(brightness)
+					}
+				}
+			},
+			touchEnd() {
+				this.startX = 0
+				this.startY = 0
+				this.lastX = 0
+				this.totalOffset = 0
+				this.startVolume = 0
+				this.startBrightness = 0
+			}
+		},
 	}
 </script>
 
@@ -472,6 +673,10 @@
 	@media(prefers-color-scheme:dark) {
 		.text {
 			color: white;
+		}
+
+		.tabbar {
+			border-bottom: #292929 1rpx solid;
 		}
 	}
 
@@ -501,16 +706,15 @@
 		display: grid;
 		grid-template-rows: 0fr;
 		overflow: hidden;
-		transition: all 0.3s ease;
+		transition: all .3s;
 
-		&-active {
-			transition: all 0.3s ease;
-			grid-template-rows: 1fr;
+		&.active {
+			grid-template-rows: 1fr !important;
 		}
 	}
 
 	.info-panel .chlid {
-		min-height: 0;
+		min-height: 0rpx;
 	}
 
 	.icon {
@@ -559,5 +763,103 @@
 			border-radius: 50rpx;
 			background: #f9f9f9;
 		}
+	}
+
+	.epContent {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 15rpx 30rpx;
+		border-radius: 10rpx;
+		background: #f7f7f7;
+		min-width: 100rpx;
+		max-width: 100rpx;
+	}
+
+	.ep {
+		color: $c-primary;
+	}
+
+	.player-container {
+		position: relative;
+		height: 100%;
+	}
+
+	.player-btn {
+		position: absolute;
+		left: 0;
+		color: white;
+		width: 100%;
+		z-index: 10;
+	}
+
+	.player-mask {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		/* 设置黑色透明背景 */
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5970763305322129) 0%, rgba(0, 0, 0, 0) 12%, rgba(0, 0, 0, 0) 88%, rgba(0, 0, 0, 0.6) 100%);
+		z-index: 0;
+
+		&.active {
+			background: transparent;
+		}
+	}
+
+	.player-control {
+		position: absolute;
+		bottom: 10rpx;
+		width: 100%;
+		color: white;
+		z-index: 10;
+	}
+
+	.progress-bar {
+		width: 100%;
+		height: 10rpx;
+		border-radius: 10rpx;
+		background-color: rgba(255, 255, 255, 0.4);
+		/* 白色半透明 */
+		position: relative;
+	}
+
+	.progress-bar-icon {
+		transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		position: absolute;
+		top: 50%;
+		transform: translateY(-60%);
+		font-size: 32rpx;
+		color: white;
+	}
+
+	.played {
+		height: 100%;
+		border-radius: 10rpx;
+		background-color: $c-primary;
+		transition: width 0.3s;
+
+	}
+
+	.unplayed {
+		height: 100%;
+		border-radius: 10rpx;
+		background-color: rgba(255, 255, 255, 0.4);
+		transition: width 0.3s;
+		/* 白色半透明 */
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	/deep/ .ybplayer-slots,
+	/deep/ .ybplayer-controls-slots {
+		height: 100%;
+	}
+
+	.tabbar {
+		padding: 5rpx 30rpx;
+		border-bottom: #f7f7f7 1rpx solid;
 	}
 </style>
