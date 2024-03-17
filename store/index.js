@@ -73,10 +73,15 @@ const store = new Vuex.Store({
 			uni.clearStorage('user');
 			uni.clearStorage('token');
 			uni.clearStorage('account');
+			uni.clearStorage('userMeta');
+			uni.clearStorage('userTasks');
+			uni.clearStorage('userTasks');
 			state.userInfo = {};
+			state.tasks = {};
+			state.userMeta = {};
 			state.token = null;
 			state.hasLogin = false
-			uni.reLaunch({
+			uni.redirectTo({
 				url: '/pages/index/index'
 			})
 		},
@@ -95,28 +100,28 @@ const store = new Vuex.Store({
 			state.homeTabs = payload
 		},
 		setHistory(state, payload) {
-		    if (!payload) return;
-		    
-		    let data = uni.getStorageSync('history') || [];
-		    
-		    if (Array.isArray(payload)) {
-		        // 如果传入的是数组，直接赋值给历史记录数组
-		        data = payload;
-		    } else if (typeof payload === 'object') {
-		        let index = data.findIndex(item => item.cid === payload.cid);
-		        if (index !== -1) {
-		            // 如果存在相同 id 的数据，删除旧数据，存入新数据
-		            data.splice(index, 1, payload);
-		        } else {
-		            // 如果不存在相同 id 的数据，直接添加新数据到数组开头
-		            data.unshift(payload);
-		        }
-		    }
-		    state.history = data;
-		    uni.setStorage({
-		        data: data,
-		        key: 'history'
-		    });
+			if (!payload) return;
+
+			let data = uni.getStorageSync('history') || [];
+
+			if (Array.isArray(payload)) {
+				// 如果传入的是数组，直接赋值给历史记录数组
+				data = payload;
+			} else if (typeof payload === 'object') {
+				let index = data.findIndex(item => item.cid === payload.cid);
+				if (index !== -1) {
+					// 如果存在相同 id 的数据，删除旧数据，存入新数据
+					data.splice(index, 1, payload);
+				} else {
+					// 如果不存在相同 id 的数据，直接添加新数据到数组开头
+					data.unshift(payload);
+				}
+			}
+			state.history = data;
+			uni.setStorage({
+				data: data,
+				key: 'history'
+			});
 		},
 		clearHistory(state) {
 			return new Promise((resolve, reject) => {

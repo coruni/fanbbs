@@ -278,9 +278,7 @@
 								<i class="ess mgc_delete_2_line" style="font-size: 40rpx;"></i>
 								<text style="margin-left:20rpx">删除</text>
 							</u-row>
-
 						</view>
-
 					</view>
 				</view>
 			</view>

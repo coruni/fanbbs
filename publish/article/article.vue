@@ -835,7 +835,7 @@
 					alt: name + '_' + key + '_' + 'emoji',
 					width: '50px',
 					height: '50px',
-					
+
 					extClass: 'emoji',
 					data: {
 						name: name,
@@ -934,16 +934,9 @@
 
 				}).then(res => {
 					if (res.data.code == 200) {
-						this.article.cid = res.data.data.cid
-						this.article.title = res.data.data.title
-						this.article.text = res.data.data.text
+						this.article = res.data.data
 						this.article.category = res.data.data.category ? res.data.data.category : this.category[0]
 						this.article.tags = res.data.data.tag
-						this.article.mid = res.data.data.mid
-						this.article.opt = res.data.data.opt
-						this.article.price = res.data.data.price
-						this.article.discount = res.data.data.discount
-
 						this.editorCtx.getContents({
 							success: (res) => {
 								if (res.text.length < 2) {
@@ -952,7 +945,6 @@
 							}
 						})
 					}
-
 				})
 			},
 			setContents() {

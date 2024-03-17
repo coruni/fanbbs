@@ -65,9 +65,9 @@
 					<u-row justify="space-between" style="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
 						<u-row style="flex-wrap: nowrap;" justify="space-between">
-							<u-row style="margin-right: 30rpx;" v-if="$store.state.userInfo.uid == data.userInfo.uid"
+							<u-row style="margin-right: 30rpx;" align="top" v-if="$store.state.userInfo.uid == data.userInfo.uid"
 								@click="showDelete = true">
-								<i class="mgc_delete_3_line" style="font-size: 40rpx;color: #ff0800;"></i>
+								<i class="mgc_delete_2_line" style="font-size: 36rpx;color: #ff0800;"></i>
 								<text style="font-size: 28rpx;margin-left: 10rpx;">删除</text>
 							</u-row>
 							<u-row @click="reply(data)" style="margin-right: 30rpx;">

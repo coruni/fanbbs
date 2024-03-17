@@ -2,34 +2,19 @@
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
 		cache-mode="always" style="margin-bottom: 190rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false"
 		use-cache :cache-key="`articleList_${mid}`">
-		<view style="margin: 30rpx;position: relative;top: 0;" v-if="swiper==0">
-			<u-swiper height="200" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
-				@change="swiperIndex = $event.current" radius="10"></u-swiper>
-			<view style="
-			font-size: 24rpx;
-			background: #ff0800a0;
-			border-radius: 20rpx 0rpx 20rpx 0;
-			padding: 6rpx 20rpx;
-			position: absolute;
-			bottom: 0;
-			right: 0;
-			" v-if="$store.state.swiper.length">
+		<view class="swiper" v-if="swiper==0">
+			<u-swiper height="100%" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
+				@change="swiperIndex = $event.current" radius="10" showTitle></u-swiper>
+			<view class="swiper-dot" v-if="$store.state.swiper.length">
 				<text style="color: #fff;">{{swiperIndex+1}}/{{$store.state.swiper.length}}</text>
 			</view>
 		</view>
 		<view style="margin-top: 20rpx;" v-if="$store.state.homepage.length>0 && swiper==0">
 			<u-grid col="5">
 				<u-grid-item v-for="(item,index) in $store.state.homepage" :key="index">
-					<view style="
-					display: flex;
-					flex-direction: column;
-					align-items: center;" @tap.stop="homepageTap(item)">
-						<image mode="aspectFill" :src="item.image"
-							style="width: 90rpx;height: 90rpx;border-radius: 20rpx;"></u-image>
-							<text style="
-						margin-top: 20rpx;
-						font-size: 28rpx;
-						">{{item.name}}</text>
+					<view class="home-content" @tap.stop="homepageTap(item)">
+						<image mode="aspectFill" :src="item.image" class="image"></u-image>
+							<text style="margin-top: 20rpx;font-size: 28rpx;">{{item.name}}</text>
 					</view>
 				</u-grid-item>
 			</u-grid>
@@ -155,7 +140,7 @@
 						break;
 				}
 				this.$Router.push({
-					path:path,
+					path: path,
 					query: {
 						id: data.cid
 					}
@@ -207,7 +192,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	::v-deep .u-grid-item--hover-class {
 		opacity: 1 !important;
 	}
@@ -215,5 +200,52 @@
 	.article {
 		margin: 30rpx 30rpx 12rpx 30rpx;
 		padding-bottom: 10rpx;
+	}
+
+	.image {
+		width: 90rpx;
+		height: 90rpx;
+		border-radius: 20rpx;
+	}
+
+	.home-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.swiper {
+		margin: 30rpx;
+		height: 400rpx;
+		position: relative;
+		top: 0;
+
+		&-dot {
+			font-size: 24rpx;
+			background: #ff0800a0;
+			border-radius: 20rpx 0rpx 20rpx 0;
+			padding: 6rpx 20rpx;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			z-index: 10;
+		}
+
+		&-mask {
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 0;
+			background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 76%, rgba(0, 0, 0, 0.48783263305322133) 100%);
+
+			&-title {
+				position: absolute;
+				bottom: 0;
+				color: white;
+				font-weight: 600;
+				padding: 30rpx;
+			}
+		}
 	}
 </style>

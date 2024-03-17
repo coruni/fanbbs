@@ -1,7 +1,8 @@
 <template>
 	<z-paging-swiper>
 		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
-		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex" @edit="showMoreMenu = true;data=$event"></find>
+		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex" @edit="showMoreMenu = true;data=$event">
+		</find>
 		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
 		<!-- 商城 -->
 		<!-- <shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop> -->
@@ -91,6 +92,17 @@
 							<text style="margin-left:20rpx" @click="shareWithSystem()">通过系统分享</text>
 						</u-row>
 						<!-- #endif -->
+						<view
+							v-if="data&& data.authorId == $store.state.userInfo.uid|| $store.state.userInfo.group =='administrator'">
+							<u-row customStyle="margin-bottom: 30rpx;" @click="goEdit()">
+								<i class="ess mgc_edit_line" style="font-size: 40rpx;"></i>
+								<text style="margin-left:20rpx">编辑</text>
+							</u-row>
+							<u-row customStyle="margin-bottom: 30rpx;color:red" @click="showDelete = true">
+								<i class="ess mgc_delete_2_line" style="font-size: 40rpx;"></i>
+								<text style="margin-left:20rpx">删除</text>
+							</u-row>
+						</view>
 
 					</view>
 				</view>
@@ -107,10 +119,10 @@
 		shareWithSystem,
 		filterHtml
 	} from '@/common/common.js';
-	import index from './components/index.vue';
-	import find from './components/find.vue';
-	import user from './components/user.vue';
-	import category from './components/category.vue';
+	import index from './components/index.nvue';
+	import find from './components/find.nvue';
+	import user from './components/user.nvue';
+	import category from './components/category.nvue';
 	export default {
 		components: {
 			index,
@@ -277,7 +289,24 @@
 						this.showMoreMenu = false
 					}
 				})
-			}
+			},
+			goEdit() {
+				this.showMoreMenu = false
+				let path
+				let type = this.data.type;
+				if (type == 'post') path = '/publish/article/article';
+				if (type == 'photo') path = '/publish/article/photo';
+				if (type == 'video') path = '/publish/article/video';
+				setTimeout(() => {
+					this.$Router.push({
+						path: path,
+						query: {
+							update: 1,
+							id: this.data.cid
+						}
+					})
+				}, 500)
+			},
 		}
 	}
 </script>

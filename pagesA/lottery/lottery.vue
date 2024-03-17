@@ -70,7 +70,7 @@
 					            id: item.id,
 					            fonts: [{
 					                text: item.type == 'point' ? `${item.value}积分` : 
-					                      item.type == 'vip' ? `会员${item.value}天` : '实物',
+					                      item.type == 'vip' ? `会员${item.value}天` : item.name,
 					                fontColor: 'white',
 					                fontSize: '16px',
 					                top: '70%'

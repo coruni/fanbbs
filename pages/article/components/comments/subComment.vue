@@ -188,11 +188,11 @@
 										<u-row justify="space-between" customStyle="font-size: 24rpx;color: #aaa;">
 											<text>{{$u.timeFrom(item.created,'mm-dd')}}</text>
 											<u-row style="flex-wrap: nowrap;" justify="space-between">
-												<u-row style="margin-right: 30rpx;"
+												<u-row style="margin-right: 30rpx;" align="top"
 													v-if="$store.state.userInfo.uid == item.userInfo.uid"
 													@click="showDelete = true;deleteId = item.id">
-													<i class="mgc_delete_3_line"
-														style="font-size: 40rpx;color: #ff0800;"></i>
+													<i class="mgc_delete_2_line"
+														style="font-size: 36rpx;color: #ff0800;"></i>
 													<text style="font-size: 28rpx;margin-left: 10rpx;">删除</text>
 												</u-row>
 												<u-row style="margin-right: 30rpx;"

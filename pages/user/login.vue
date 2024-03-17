@@ -401,8 +401,6 @@
 						access_token: data.authResult.access_token,
 						openid: data.authResult.openid
 					}
-
-
 				}).then(res => {
 					if (res.data.code == 200) {
 						this.saveUser(res.data.data, false)

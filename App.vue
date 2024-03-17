@@ -59,7 +59,7 @@
 				})
 			},
 			getSwiper() {
-				this.$http.get('/article/articleList', {
+				http.get('/article/articleList', {
 					params: {
 						params: JSON.stringify({
 							isswiper: 1
@@ -102,7 +102,7 @@
 			},
 			getUserInfo(uid) {
 				if (!uni.getStorageSync('token')) return;
-				this.$http.get('/user/userInfo', {
+				http.get('/user/userInfo', {
 					params: {
 						id: uid ? uid : this.$store.state.userInfo.uid,
 					},
@@ -145,7 +145,7 @@
 					edition_silence: 0, // 是否静默更新 0代表否 1代表是
 				}
 				plus.runtime.getProperty(plus.runtime.appid, (inf) => {
-					this.$http.get('/system/app', {}).then(res => {
+					http.get('/system/app', {}).then(res => {
 						if (res.data.code == 200) {
 
 							let app = res.data.data.app
@@ -182,7 +182,7 @@
 				});
 			},
 			getHomeTabs() {
-				this.$http.get('/category/list', {
+				http.get('/category/list', {
 					params: {
 						page: 1,
 						limit: 8,

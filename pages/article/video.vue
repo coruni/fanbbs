@@ -4,9 +4,10 @@
 			<!-- 状态栏占位 -->
 			<view :style="{height:systemInfo.statusBarHeight+'px',background:'black'}"></view>
 			<!-- 视频主容器 -->
-			<yingbing-video :autoplay="true" style="height: 500rpx;background: black;" :poster="video.poster"
-				:src="video.src" ref="video" :controls="false" @loadedmetadata="loadedMetaData" @timeupdate="timeUpdate"
-				@play="play.status = true" @pause="play.status = false" @fullscreenChange="fullscreen" @ended="ended">
+			<yingbing-video :autoplay="true" style="height: 500rpx;background: black;" :poster="video && video.poster"
+				:src="video && video.src" ref="video" :controls="false" @loadedmetadata="loadedMetaData"
+				@timeupdate="timeUpdate" @play="play.status = true" @pause="play.status = false"
+				@fullscreenChange="fullscreen" @ended="ended">
 				<template #controls>
 					<view class="player-container">
 						<view class="player-btn" v-show="showBtn">
@@ -16,7 +17,7 @@
 									<i class="mgc_home_3_line" style="font-size: 45rpx;margin-left: 30rpx;"
 										@click="$Router.replace({name:'home'})"></i>
 								</u-row>
-								<i class="mgc_more_2_line" style="font-size: 60rpx;"></i>
+								<i class="mgc_more_2_line" style="font-size: 60rpx;" @click="showMore = true"></i>
 							</u-row>
 						</view>
 						<view class="player-control" v-show="showBtn">
@@ -25,16 +26,17 @@
 								<!-- 播放组件 -->
 								<u-row>
 									<i :class="play.status ? 'mgc_pause_fill' : 'mgc_play_fill'"
-										style="font-size: 40rpx;" @click="onPlay()"></i>
+										style="font-size: 40rpx;margin-right: 30rpx;" @click="onPlay()"></i>
 									<!-- 进度条 -->
-									<view class="progress-bar" ref="progressBar" style="margin:0 30rpx;">
-										<view class="played" :style="{ width: progress.played+'%' }"></view>
-										<view class="unplayed" :style="{ width: progress.unplayed+'%' }"></view>
-										<i class="mgc_rabbit_fill progress-bar-icon"
-											:style="{left:iconPosition+'px'}"></i>
+									<view class="progress-bar" @click="handleProgressBarClick">
+										<view class="played" :style="{ width: playedPercentage }"></view>
+										<view class="unplayed" :style="{ width: unplayedPercentage }"></view>
+										<i class="mgc_rabbit_fill progress-bar-icon" :style="{ left: dragPosition }"
+											@touchstart="handleTouchStart" @touchmove.stop.prevent="handleTouchMove"
+											@touchend="handleTouchEnd"></i>
 									</view>
 									<text
-										style="font-size: 28rpx;margin-right: 30rpx;">{{formatDuration(play.currentTime)}}/{{ play.duration}}</text>
+										style="font-size: 28rpx;margin: 0 30rpx;">{{formatDuration(play.currentTime)}}/{{ play.duration}}</text>
 									<i :class="play.fullscreen?'mgc_fullscreen_exit_fill':'mgc_fullscreen_fill'"
 										@click="$refs.video.switchFullscreen()" style="font-size: 40rpx;"></i>
 								</u-row>
@@ -49,7 +51,8 @@
 			</yingbing-video>
 			<u-row class="tabbar">
 				<z-tabs :list="list" :scrollCount="0" :current="swiperIndex" active-color="#ff0800"
-					bar-animate-mode="worm" ref="tabs" bgColor="transparent" @change="tabsChange"></z-tabs>
+					bar-animate-mode="worm" ref="tabs" bgColor="transparent" @change="swiperIndex = $event"
+					v-if="article"></z-tabs>
 				<u-col :span="4.5">
 					<uv-input disabled shape="circle" style="padding: 5rpx 10rpx;">
 						<view slot="suffix" style="display: flex;align-items: center;padding: 0 10rpx;">
@@ -59,7 +62,6 @@
 				</u-col>
 			</u-row>
 		</template>
-
 		<swiper :current="swiperIndex" @transition="swiperTransition" @animationfinish="swiperAnimationfinish"
 			class="swiper">
 			<swiper-item>
@@ -241,6 +243,73 @@
 				</u-row>
 			</block>
 		</u-popup>
+		<!-- 分享 -->
+		<u-popup mode="bottom" round="10" :show="showMore" @close="showMore =false" :closeable="true">
+			<view style="padding: 30rpx;">
+				<view style="text-align: center;color: #999;">
+					<text>分享至</text>
+				</view>
+				<view style="margin-top: 50rpx;">
+					<u-row customStyle="border-bottom:1rpx solid #ff08000a;padding-bottom:30rpx" justify="space-around">
+						<block v-for="(item,index) in share" :key="index">
+							<u-row align="center" customStyle="flex-direction:column" @click="shareWithApi(item)">
+								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
+									<u-icon :name="item.icon" color="white" size="24"></u-icon>
+								</view>
+								<text style="margin-top: 20rpx;">{{item.name}}</text>
+							</u-row>
+						</block>
+					</u-row>
+					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
+						<u-row customStyle="margin-bottom:30rpx">
+							<i class="ess mgc_alert_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">举报</text>
+						</u-row>
+						<u-row customStyle="margin-bottom: 30rpx;" @click="copyLink()">
+							<i class="ess mgc_flash_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">复制链接</text>
+						</u-row>
+						<!-- #ifdef APP -->
+						<u-row customStyle="margin-bottom: 30rpx;">
+							<i class="ess mgc_share_forward_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx" @click="shareWithSystem()">通过系统分享</text>
+						</u-row>
+						<!-- #endif -->
+						<view
+							v-if="article&& article.authorId == $store.state.userInfo.uid|| $store.state.userInfo.group =='administrator'">
+							<u-row customStyle="margin-bottom: 30rpx;" @click="goEdit()">
+								<i class="ess mgc_edit_line" style="font-size: 40rpx;"></i>
+								<text style="margin-left:20rpx">编辑</text>
+							</u-row>
+							<u-row customStyle="margin-bottom: 30rpx;color:red" @click="showDelete = true">
+								<i class="ess mgc_delete_2_line" style="font-size: 40rpx;"></i>
+								<text style="margin-left:20rpx">删除</text>
+							</u-row>
+
+						</view>
+					</view>
+				</view>
+			</view>
+			<u-popup :show="showDelete" :round="10" mode="center" @close="showDelete = false"
+				customStyle="width:500rpx">
+				<view style="display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					padding: 50rpx;">
+					<text style="font-size: 34rpx;">提示</text>
+					<view style="margin-top:30rpx">
+						<text>是否确定删除？</text>
+					</view>
+					<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+						<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+							@click="showDelete = false">取消</u-button>
+						<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+							@click="deleteArticle()">确定</u-button>
+					</u-row>
+				</view>
+			</u-popup>
+		</u-popup>
 	</z-paging-swiper>
 </template>
 
@@ -290,7 +359,7 @@
 				systemInfo: {},
 				showBtn: true,
 				play: {
-					duration: '00:00:00',
+					duration: '00:00',
 					metaData: {},
 					currentTime: 0,
 					status: false,
@@ -308,7 +377,39 @@
 				totalOffset: 0, // 累计滑动偏移量
 				smoothingFactor: 0.4, // 平滑系数,0-1 之间,数值越小平滑程度越高
 				startVolume: 0, // 开始音量值
-				startBrightness: 0 // 开始亮度值
+				startBrightness: 0, // 开始亮度值
+				showDelete: false,
+				showMore: false,
+				isDragging: false,
+				progressStartX: 0,
+				progressBarWidth: 0,
+				progressBarLeft: 0,
+				share: [{
+						name: '微信',
+						icon: 'weixin-fill',
+						provider: 'weixin',
+						type: 0,
+						scene: 'WXSceneSession',
+						color: '#46d262'
+					},
+					{
+						name: '朋友圈',
+						icon: 'moments',
+						provider: 'weixin',
+						type: 0,
+						scene: 'WXSceneTimeline',
+						color: '#46d262'
+					},
+					{
+						name: 'QQ',
+						icon: 'qq-fill',
+						provider: 'qq',
+						type: 2,
+						scene: '',
+						color: '#0070ff'
+					},
+				],
+
 
 			}
 		},
@@ -331,7 +432,7 @@
 				return `${this.progress.unplayed}%`;
 			},
 			dragPosition() {
-				return `${this.progress.played}%`;
+				return `${this.progress.played-1}%`;
 			}
 		},
 		onPageScroll(e) {},
@@ -581,19 +682,13 @@
 				return num.toString().padStart(2, '0');
 			},
 			timeUpdate(e) {
+				if (this.isDragging) return;
 				const duration = this.play.metaData.duration;
 				const currentTime = e.currentTime;
 				// 计算已播放和未播放的百分比
 				this.progress.played = (currentTime / duration) * 100;
 				this.progress.unplayed = 100 - this.progress.played;
 				this.play.currentTime = e.currentTime
-
-				// 获取进度条宽度
-				uni.createSelectorQuery().in(this).select('.progress-bar').boundingClientRect((rect) => {
-					const progressBarWidth = rect.width;
-					// 计算图标位置
-					this.iconPosition = (this.progress.played / 100) * progressBarWidth - 10;
-				}).exec();
 			},
 			onPlay() {
 				this.$refs.video.toggle();
@@ -605,9 +700,19 @@
 				// 重置播放进度
 				this.progress.played = 0;
 				this.progress.unplayed = 100;
-
 				// 重置图标位置
 				this.iconPosition = 0;
+				// 获取当前播放视频的索引
+				const currentIndex = this.article.videos.findIndex(v => v.src === this.video.src);
+
+				// 如果有续集
+				if (currentIndex !== -1 && currentIndex < this.article.videos.length - 1) {
+					// 获取下一集视频的信息
+					const nextVideo = this.article.videos[currentIndex + 1];
+
+					// 将下一集视频信息赋值给 this.video
+					this.video = nextVideo;
+				}
 			},
 			maskTouchend(e) {
 				this.touchNum++
@@ -626,8 +731,11 @@
 				this.startY = e.touches[0].clientY
 				this.lastX = this.startX
 				this.totalOffset = 0
+				// #ifdef APP
 				this.startVolume = plus.device.getVolume()
 				this.startBrightness = plus.screen.getBrightness()
+				// #endif
+
 			},
 			handleTouch(e) {
 				const screenWidth = uni.getSystemInfoSync().screenWidth
@@ -637,6 +745,7 @@
 				const deltaX = currentX - this.lastX
 				const deltaY = currentY - this.startY
 
+				// #ifdef APP
 				// 横向滑动，调节进度
 				if (Math.abs(deltaX) > Math.abs(deltaY)) {
 					this.totalOffset += deltaX * this.smoothingFactor
@@ -656,6 +765,8 @@
 						plus.screen.setBrightness(brightness)
 					}
 				}
+				// #endif
+
 			},
 			touchEnd() {
 				this.startX = 0
@@ -664,7 +775,94 @@
 				this.totalOffset = 0
 				this.startVolume = 0
 				this.startBrightness = 0
-			}
+			},
+
+
+			// 操作进度条方法
+			handleTouchStart(e) {
+				this.isDragging = true;
+				this.progressStartX = e.touches[0].clientX;
+				this.queryProgressBarBoundingRect();
+			},
+			handleTouchMove(e) {
+				if (!this.isDragging) return;
+				const offsetX = e.touches[0].clientX - this.progressStartX;
+				const progress = (offsetX / this.progressBarWidth) * 100;
+				this.updateProgress(progress);
+			},
+			handleTouchEnd() {
+				this.isDragging = false;
+				const newPosition = (this.progress.played / 100) * this.play.metaData.duration;
+				this.$refs.video.seek(newPosition);
+			},
+			handleProgressBarClick(e) {
+				this.queryProgressBarBoundingRect();
+				const offsetX = e.detail.x - this.progressBarLeft;
+				const progress = (offsetX / this.progressBarWidth) * 100;
+				this.updateProgress(progress);
+				const newPosition = (this.progress.played / 100) * this.play.metaData.duration;
+				this.$refs.video.seek(newPosition);
+			},
+			queryProgressBarBoundingRect() {
+				const query = uni.createSelectorQuery().in(this);
+				query
+					.select(".progress-bar")
+					.boundingClientRect((res) => {
+						this.progressBarWidth = res.width;
+						this.progressBarLeft = res.left;
+					})
+					.exec();
+			},
+			updateProgress(progress) {
+				progress = Math.max(0, Math.min(100, progress));
+				this.progress.played = progress;
+				this.progress.unplayed = 100 - progress;
+				this.iconPosition = (this.progressBarWidth * progress) / 100;
+			},
+
+			shareWithSystem() {
+				let data = this.article
+				shareWithSystem(data.title, `${this.$config.h5}/#/pages/article/video?id=${data.cid}`).then(() => {
+					this.showMore = false;
+				})
+			},
+			shareWithApi(data) {
+				shareTap(data.provider, data.type, data.scene, this.article.title, filterHtml(this.article.text),
+					`${this.$config.h5}/#/pages/article/video?id=${this.article.cid}`, this.article.images[0])
+			},
+			copyLink() {
+				let data = this.article
+				uni.setClipboardData({
+					data: `${this.$config.h5}/#/pages/article/video?id=${data.cid}`,
+					success: () => {
+						uni.$u.toast('复制成功')
+						this.showMore = false
+					}
+				})
+			},
+			goEdit() {
+				this.showMore = false
+				this.$Router.push({
+					path: '/publish/article/video',
+					query: {
+						update: true,
+						id: this.article.cid
+					}
+				})
+			},
+			deleteArticle() {
+				this.$http.post('/article/delete', {
+					id: this.article.cid
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.showDelete = false
+						uni.$u.toast(res.data.msg)
+						setTimeout(() => {
+							this.$Router.back()
+						})
+					}
+				})
+			},
 		},
 	}
 </script>
@@ -769,7 +967,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding: 15rpx 30rpx;
+		margin: 0 10rpx;
+		padding: 8rpx 30rpx;
 		border-radius: 10rpx;
 		background: #f7f7f7;
 		min-width: 100rpx;

@@ -234,11 +234,12 @@
 
 					&__title {
 						position: absolute;
-						background-color: rgba(0, 0, 0, 0.3);
+						background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 10%, rgba(0,0,0,0.32) 82%);
 						bottom: 0;
 						left: 0;
 						right: 0;
-						font-size: 28rpx;
+						font-size: 32rpx;
+						font-weight: 600;
 						padding: 12rpx 24rpx;
 						color: #FFFFFF;
 						flex: 1;

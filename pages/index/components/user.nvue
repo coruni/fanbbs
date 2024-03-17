@@ -521,7 +521,7 @@
 				})
 			},
 			getUserTasks() {
-				http.get('/user/tasks', {}).then(res => {
+				this.$http.get('/user/tasks').then(res => {
 					if (res.data.code == 200) {
 						this.$store.commit('setTasks', res.data.data);
 						this.tasks = res.data.data

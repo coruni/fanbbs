@@ -1,19 +1,20 @@
 <template>
 	<view>
-		<u-navbar placeholder autoBack title="发布视频" bgColor="transparent">
+		<u-navbar placeholder autoBack :title="update?'更新视频':'发布视频'" bgColor="transparent">
 			<view slot="left">
 				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
-				<u-button shape="circle" color="#ff0800" style="height: 60rpx;" @click="save()">发布</u-button>
+				<u-button shape="circle" color="#ff0800" style="height: 60rpx;"
+					@click="update?updateArticle():save()">{{update?'更新':'发布'}}</u-button>
 			</view>
 		</u-navbar>
 		<yingbing-video ref="video" :autoplay="false" style="height: 500rpx;" @captureFinish="captureFinish"
 			:src="video.src" :title="article.title" :poster="video.potser">
 			<view style="text-align: center;height:500rpx;display: flex;justify-content: center;align-items: center;"
 				v-if="!article.videos[index].src">
-				<uv-line-progress :percentage="progress" v-if="uploadTask"></uv-line-progress>
-				<text class="uploadBtn" @click="chooseVideo()">上传视频</text>
+				<uv-line-progress :percentage="progress" v-if="uploadTask" style="margin: 30rpx;"></uv-line-progress>
+				<text class="uploadBtn" @click="chooseVideo()" v-if="!uploadTask">上传视频</text>
 			</view>
 		</yingbing-video>
 		<view style="margin: 30rpx;">
@@ -41,40 +42,44 @@
 					<u-collapse-item v-for="(item,index) in article.videos" :key="index" :title="item.name"
 						:border="false" :name="index">
 						<u-row>
-							<view class="epContent">
-								<uv-input v-model="article.videos[index].name" placeholder="分集名" border="none"
-									style="padding: 10rpx;">
-									<view slot="prefix">
-										<text>分集名：</text>
-									</view>
-								</uv-input>
-								<uv-input v-model="article.videos[index].src" placeholder="视频源" border="none"
-									style="padding: 10rpx;">
-									<view slot="prefix">
-										<text>视频源：</text>
-									</view>
-								</uv-input>
-								<uv-input v-model="article.videos[index].poster" placeholder="封面源" border="none"
-									style="padding: 10rpx;">
-									<view slot="prefix">
-										<text>封面源：</text>
-									</view>
-									<view slot="suffix">
-										<image :src="article.videos[index].poster" mode="aspectFill"
-											style="width: 40rpx;height: 40rpx;"
-											@click="previewImg(article.videos[index].poster)"></image>
-									</view>
-								</uv-input>
-							</view>
+							<u-form :model="article.videos[index]" :rules="rules" class="epContent"
+								:ref="`epForm_${index}`">
+								<u-form-item prop="name">
+									<uv-input v-model="article.videos[index].name" placeholder="分集名" border="none"
+										style="padding: 10rpx;">
+										<view slot="prefix">
+											<text>分集名：</text>
+										</view>
+									</uv-input>
+								</u-form-item>
+								<u-form-item prop="src">
+									<uv-input v-model="article.videos[index].src" placeholder="视频源" border="none"
+										style="padding: 10rpx;">
+										<view slot="prefix">
+											<text>视频源：</text>
+										</view>
+									</uv-input>
+								</u-form-item>
+								<u-form-item prop="poster">
+									<uv-input v-model="article.videos[index].poster" placeholder="封面源" border="none"
+										style="padding: 10rpx;">
+										<view slot="prefix">
+											<text>封面源：</text>
+										</view>
+										<view slot="suffix">
+											<image :src="article.videos[index].poster" mode="aspectFill"
+												style="width: 40rpx;height: 40rpx;"
+												@click="previewImg(article.videos[index].poster)"></image>
+										</view>
+									</uv-input>
+								</u-form-item>
+							</u-form>
 							<i class="mgc_delete_2_line" style="font-size: 45rpx;margin-left: 30rpx;color: red;"
 								@click="deleteVideo(index)"></i>
 						</u-row>
-
-
 					</u-collapse-item>
 					<u-button color="#ff0800" shape="circle" @click="addEP" style="margin-top: 60rpx;">添加分集</u-button>
 				</u-collapse>
-
 			</view>
 		</view>
 		<!-- 分类 -->
@@ -143,6 +148,27 @@
 				showCategory: false,
 				saving: false,
 				saveBack: false,
+				rules: {
+					'name': {
+						type: 'string',
+						required: true,
+						message: '请填写分集名',
+						trigger: ['blur', 'change']
+					},
+					'src': {
+						type: 'string',
+						required: true,
+						message: '请上传视频或者填写链接',
+						trigger: ['blur', 'change']
+					},
+					'poster': {
+						type: 'string',
+						required: true,
+						message: '请截取封面或者填写链接',
+						trigger: ['blur', 'change']
+					},
+				},
+				update: false,
 			}
 		},
 		watch: {
@@ -153,6 +179,10 @@
 			}
 		},
 		onLoad() {
+			if (this.$Route.query.update) {
+				this.update = true;
+				this.getContentInfo(this.$Route.query.id)
+			}
 			this.getCategory()
 			this.getTags()
 		},
@@ -318,6 +348,16 @@
 					uni.$u.toast('标题太短')
 					return
 				}
+
+				// 手动对每个分集表单进行验证
+				for (let index = 0; index < this.article.videos.length; index++) {
+					console.log(this.$refs[`epForm_${index}`])
+					this.$refs[`epForm_${index}`][0].validate().catch(() => {
+						uni.$u.toast('请填写信息')
+						return
+					})
+				}
+
 				this.saving = true;
 				this.editorCtx.getContents({
 					success: res => {
@@ -326,7 +366,7 @@
 								return `_|#${alt}|`;
 							});
 
-						if (this.article.text.length < 20) {
+						if (this.article.text.length < 5) {
 							uni.$u.toast('再多写点吧~');
 							this.saving = false;
 							return;
@@ -352,12 +392,83 @@
 									}, 1500);
 								}, 1000)
 							}
+							uni.$u.toast(res.data.msg)
 							this.saving = false
 						}).catch(err => {
 							this.saving = false
 						})
 					}
 				});
+			},
+			getContentInfo(id) {
+				this.$http.get('/article/info', {
+					params: {
+						id
+					},
+
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.article = res.data.data
+						this.article.category = res.data.data.category ? res.data.data.category : this.category[0];
+						this.article.tags = res.data.data.tag
+						this.editorCtx.getContents({
+							success: (res) => {
+								if (res.text.length < 2) {
+									this.setContents()
+								}
+							}
+						})
+					}
+
+				})
+			},
+			setContents() {
+				this.editorCtx.setContents({
+					html: this.article.text,
+
+				})
+			},
+			updateArticle() {
+				this.editorCtx.getContents({
+					success: (res) => {
+						this.article.text = res.html.replace(/<img\s+[^>]*alt="([^"]+)_emoji"[^>]*>/g,
+							function(match, alt) {
+								return `_|#${alt}|`;
+							});
+
+						if (res.text.length < 3) {
+							uni.$u.toast('再多写点吧~')
+							return;
+						}
+						if (this.article.title.length < 3) {
+							uni.$u.toast('标题太短')
+							return;
+						}
+						let tags = this.article.tags.map(tag => tag.mid).join(',');
+						this.$http.post('/article/update', {
+							id: this.article.cid,
+							title: this.article.title,
+							text: this.article.text,
+							category: this.article.category.mid ? this.article.category
+								.mid : this.article.category[0].mid,
+							mid: this.article.category.mid ? this.article.category.mid : this.article
+								.category[0].mid,
+							tag: tags,
+							videos: JSON.stringify(this.article.videos),
+							price: this.article.price,
+							discount: this.article.discount,
+							opt: JSON.stringify(this.article.opt)
+						}).then(res => {
+							if (res.data.code == 200) {
+								this.saveBack = true
+								setTimeout(() => {
+									this.$Router.back(1)
+								}, 1000)
+							}
+							uni.$u.toast(res.data.msg)
+						})
+					}
+				})
 			},
 		}
 	}
@@ -370,7 +481,8 @@
 		.epContent {
 			background: #525252 !important;
 		}
-		.uv-input__content__prefix-icon{
+
+		.uv-input__content__prefix-icon {
 			color: white !important;
 		}
 	}
