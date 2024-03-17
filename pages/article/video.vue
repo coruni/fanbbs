@@ -15,7 +15,7 @@
 								<u-row>
 									<i class="mgc_left_line" style="font-size: 60rpx;" @click="back()"></i>
 									<i class="mgc_home_3_line" style="font-size: 45rpx;margin-left: 30rpx;"
-										@click="$Router.replace({name:'home'})"></i>
+										@click="goHome()"></i>
 								</u-row>
 								<i class="mgc_more_2_line" style="font-size: 60rpx;" @click="showMore = true"></i>
 							</u-row>
@@ -650,6 +650,13 @@
 			back() {
 				if (this.play.fullscreen) this.$refs.video.switchFullscreen()
 				else this.$Router.back()
+			},
+			goHome(){
+				if (this.play.fullscreen) this.$refs.video.switchFullscreen();
+				setTimeout(()=>{
+					this.$Router.replace({name:'home'})
+				},500)
+				
 			},
 			loadedMetaData(event) {
 				this.play.metaData = event;
