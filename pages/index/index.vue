@@ -119,10 +119,10 @@
 		shareWithSystem,
 		filterHtml
 	} from '@/common/common.js';
-	import index from './components/index.nvue';
-	import find from './components/find.nvue';
-	import user from './components/user.nvue';
-	import category from './components/category.nvue';
+	import index from './components/index.vue';
+	import find from './components/find.vue';
+	import user from './components/user.vue';
+	import category from './components/category.vue';
 	export default {
 		components: {
 			index,
