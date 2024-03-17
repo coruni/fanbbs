@@ -4,10 +4,10 @@
 			<!-- 状态栏占位 -->
 			<view :style="{height:systemInfo.statusBarHeight+'px',background:'black'}"></view>
 			<!-- 视频主容器 -->
-			<yingbing-video :autoplay="true" style="height: 500rpx;background: black;" :poster="video && video.poster"
-				:src="video && video.src" ref="video" :controls="false" @loadedmetadata="loadedMetaData"
-				@timeupdate="timeUpdate" @play="play.status = true" @pause="play.status = false"
-				@fullscreenChange="fullscreen" @ended="ended">
+			<yingbing-video :autoplay="true" class="video-content" :style="{height:isPro}" :poster="video.poster"
+				:src="video.src" ref="video" :controls="false" @loadedmetadata="loadedMetaData" @timeupdate="timeUpdate"
+				@play="play.status = true" @pause="play.status = false" @fullscreenChange="fullscreen" @ended="ended"
+				:fullscreenDirection="direction">
 				<template #controls>
 					<view class="player-container">
 						<view class="player-btn" v-show="showBtn">
@@ -38,7 +38,7 @@
 									<text
 										style="font-size: 28rpx;margin: 0 30rpx;">{{formatDuration(play.currentTime)}}/{{ play.duration}}</text>
 									<i :class="play.fullscreen?'mgc_fullscreen_exit_fill':'mgc_fullscreen_fill'"
-										@click="$refs.video.switchFullscreen()" style="font-size: 40rpx;"></i>
+										@click="switchFullscreen()" style="font-size: 40rpx;"></i>
 								</u-row>
 							</view>
 						</view>
@@ -51,7 +51,7 @@
 			</yingbing-video>
 			<u-row class="tabbar">
 				<z-tabs :list="list" :scrollCount="0" :current="swiperIndex" active-color="#ff0800"
-					bar-animate-mode="worm" ref="tabs" bgColor="transparent" @change="swiperIndex = $event"
+					bar-animate-mode="worm" ref="tabs" bgColor="transparent" @change="tabsChange"
 					v-if="article"></z-tabs>
 				<u-col :span="4.5">
 					<uv-input disabled shape="circle" style="padding: 5rpx 10rpx;">
@@ -65,7 +65,8 @@
 		<swiper :current="swiperIndex" @transition="swiperTransition" @animationfinish="swiperAnimationfinish"
 			class="swiper">
 			<swiper-item>
-				<z-paging @query="getArticleList" v-model="articleList" ref="article" :refresher-enabled="false">
+				<z-paging @query="getArticleList" v-model="articleList" ref="article" :refresher-enabled="false"
+					@scroll="handleScroll" @scrolltoupper="lastScrollTop=500">
 					<view style="padding: 30rpx;">
 						<u-row justify="space-between">
 							<u-row>
@@ -118,6 +119,14 @@
 							</u-row>
 						</scroll-view>
 					</view>
+					<!-- 点赞控件之类 -->
+					<u-row justify="space-around" style="font-size: 50rpx;padding: 30rpx; color: #999;">
+						<i class="mgc_thumb_up_2_fill" :class="{'active':article.isLike}" @click="like()"></i>
+						<i class="mgc_star_fill" :class="{'active':article.isMark}" @click="mark()"></i>
+						<i class="mgc_coin_fill"></i>
+						<i class="mgc_share_forward_fill"></i>
+					</u-row>
+
 					<view style="padding: 30rpx;border-top: #f7f7f7 1rpx solid;margin-top: 10rpx;"
 						class="bottom-tabbar">
 						<block v-for="(item,index) in articleList" :key="index">
@@ -315,6 +324,7 @@
 
 <script>
 	import comment from '@/pages/article/components/comments/comment.vue';
+	import _ from 'lodash' // 导入 lodash 库
 	export default {
 		components: {
 			comment
@@ -409,8 +419,9 @@
 						color: '#0070ff'
 					},
 				],
-
-
+				direction: 'landscape-primary',
+				videoHeight: 500, // 初始视频高度
+				lastScrollTop: 0, // 上次滚动位置
 			}
 		},
 		async onLoad(params) {
@@ -433,9 +444,24 @@
 			},
 			dragPosition() {
 				return `${this.progress.played-1}%`;
+			},
+			isPro() {
+				let width = this.play.metaData.width;
+				let height = this.play.metaData.height;
+
+				// 判断视频方向
+				const isPortrait = height > width;
+
+				if (isPortrait) {
+					// 竖屏视频,应用动态高度
+					let newHeight = 1000 - this.lastScrollTop;
+					return `${newHeight <= 1000 ? newHeight : ''}rpx`;
+				} else {
+					// 横屏视频,使用固定高度
+					return '500rpx';
+				}
 			}
 		},
-		onPageScroll(e) {},
 		methods: {
 			getData(id) {
 				this.$http.get('/article/info', {
@@ -482,6 +508,8 @@
 			},
 			tabsChange(index) {
 				this.swiperIndex = index;
+				if (index == 1) this.lastScrollTop = 1000;
+				else this.lastScrollTop = 0;
 			},
 			//swiper滑动中
 			swiperTransition(e) {
@@ -490,7 +518,10 @@
 			//swiper滑动结束
 			swiperAnimationfinish(e) {
 				this.swiperIndex = e.detail.current;
+				if (e.detail.current == 1) this.lastScrollTop = 1000;
+				else this.lastScrollTop = 0;
 				this.$refs.tabs.unlockDx();
+
 			},
 			onEditorReady() {
 				// #ifdef MP-BAIDU
@@ -651,22 +682,45 @@
 				if (this.play.fullscreen) this.$refs.video.switchFullscreen()
 				else this.$Router.back()
 			},
-			goHome(){
-				if (this.play.fullscreen) this.$refs.video.switchFullscreen();
-				setTimeout(()=>{
-					this.$Router.replace({name:'home'})
-				},500)
-				
+			goHome() {
+				if (this.play.fullscreen) {
+					this.$refs.video.switchFullscreen();
+					setTimeout(() => {
+						this.$Router.replace({
+							name: 'home'
+						})
+					}, 200)
+				} else {
+					this.$Router.replace({
+						name: 'home'
+					})
+				}
+
 			},
 			loadedMetaData(event) {
 				this.play.metaData = event;
 				this.play.duration = this.formatDuration(event.duration)
+				if (event.width < event.height) this.videoHeight = `${event.height}px`;
+				else this.videoHeight = '500rpx'
 			},
 			fullscreen() {
 				this.play.fullscreen = !this.play.fullscreen
 				// #ifdef APP
 				if (!this.play.fullscreen) plus.navigator.setStatusBarStyle("light");
 				// #endif
+
+			},
+			switchFullscreen() {
+				let height = this.play.metaData.height;
+				let width = this.play.metaData.width;
+				if (height > width) {
+					this.direction = 'portrait-primary'
+				} else {
+					this.direction = 'landscape-primary'
+				}
+				setTimeout(() => {
+					this.$refs.video.switchFullscreen()
+				}, 50)
 
 			},
 			formatDuration(duration) {
@@ -784,7 +838,6 @@
 				this.startBrightness = 0
 			},
 
-
 			// 操作进度条方法
 			handleTouchStart(e) {
 				this.isDragging = true;
@@ -869,6 +922,36 @@
 						})
 					}
 				})
+			},
+			handleScroll(event) {
+				const scrollTop = event.detail.scrollTop
+				this.updateVideoHeight(scrollTop)
+			},
+			updateVideoHeight: _.throttle(function(scrollTop) {
+				const scrollDiff = scrollTop - this.lastScrollTop
+				let newHeight = this.videoHeight - scrollDiff
+				newHeight = Math.max(this.minHeight, Math.min(this.maxHeight, newHeight))
+				this.videoHeight = newHeight
+				this.lastScrollTop = scrollTop + 100
+			}, 100),
+			like() {
+				this.$http.post('/article/like', {
+					id: this.article.cid
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.article.isLike = !this.article.isLike
+						this.article.likes += this.article.isLike ? 1 : -1;
+					}
+				})
+			},
+			mark() {
+				this.article.isMark = !this.article.isMark
+				if (this.article.isMark) this.article.marks += 1;
+				if (!this.article.isMark) this.article.marks = this.article.marks ? this.article.marks -
+					1 : 0;
+				this.$http.post('/article/mark', {
+					id: this.article.cid
+				}).then(res => {})
 			},
 		},
 	}
@@ -1064,8 +1147,23 @@
 		height: 100%;
 	}
 
+	/deep/.ybplayer-video-poster {
+		background-size: cover !important;
+	}
+
 	.tabbar {
 		padding: 5rpx 30rpx;
 		border-bottom: #f7f7f7 1rpx solid;
+	}
+
+	.video-content {
+		max-height: 1000rpx;
+		min-height: 500rpx;
+		height: 500rpx;
+		transition: all 0.8s;
+	}
+	.active{
+		color: $c-primary;
+		transition: all 0.3s;
 	}
 </style>
