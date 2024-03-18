@@ -97,7 +97,7 @@
 					const rate = w / item.w;
 					const h = rate * item.h;
 					return {
-						width: w + 'px',
+						width: '100%',
 						height: h + 'px'
 					}
 				}
