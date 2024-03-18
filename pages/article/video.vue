@@ -65,8 +65,7 @@
 		<swiper :current="swiperIndex" @transition="swiperTransition" @animationfinish="swiperAnimationfinish"
 			class="swiper">
 			<swiper-item>
-				<z-paging @query="getArticleList" v-model="articleList" ref="article" :refresher-enabled="false"
-					@scroll="handleScroll" @scrolltoupper="lastScrollTop=500">
+				<z-paging @query="getArticleList" v-model="articleList" ref="article" :refresher-enabled="false">
 					<view style="padding: 30rpx;">
 						<u-row justify="space-between">
 							<u-row>
@@ -121,12 +120,23 @@
 					</view>
 					<!-- 点赞控件之类 -->
 					<u-row justify="space-around" style="font-size: 50rpx;padding: 30rpx; color: #999;">
-						<i class="mgc_thumb_up_2_fill" :class="{'active':article.isLike}" @click="like()"></i>
-						<i class="mgc_star_fill" :class="{'active':article.isMark}" @click="mark()"></i>
-						<i class="mgc_coin_fill"></i>
-						<i class="mgc_share_forward_fill"></i>
+						<view style="display: flex;flex-direction: column;align-items: center;">
+							<i class="mgc_thumb_up_2_fill" :class="{'active':article.isLike}" @click="like()"></i>
+							<text style="font-size: 28rpx;">{{article.likes}}</text>
+						</view>
+						<view style="display: flex;flex-direction: column;align-items: center;">
+							<i class="mgc_star_fill" :class="{'active':article.isMark}" @click="mark()"></i>
+							<text style="font-size: 28rpx;">{{article.marks}}</text>
+						</view>
+						<view style="display: flex;flex-direction: column;align-items: center;">
+							<i class="mgc_coin_fill"></i>
+							<text style="font-size: 28rpx;">{{article.marks}}</text>
+						</view>
+						<view style="display: flex;flex-direction: column;align-items: center;">
+							<i class="mgc_share_forward_fill"></i>
+							<text style="font-size: 28rpx;">{{article.marks}}</text>
+						</view>
 					</u-row>
-
 					<view style="padding: 30rpx;border-top: #f7f7f7 1rpx solid;margin-top: 10rpx;"
 						class="bottom-tabbar">
 						<block v-for="(item,index) in articleList" :key="index">
@@ -323,6 +333,11 @@
 </template>
 
 <script>
+	import {
+		shareTap,
+		filterHtml,
+		shareWithSystem
+	} from '@/common/common.js';
 	import comment from '@/pages/article/components/comments/comment.vue';
 	import _ from 'lodash' // 导入 lodash 库
 	export default {
@@ -461,6 +476,10 @@
 					return '500rpx';
 				}
 			}
+		},
+		mounted() {
+			this.queryProgressBarBoundingRect();
+
 		},
 		methods: {
 			getData(id) {
@@ -839,15 +858,16 @@
 			},
 
 			// 操作进度条方法
+			// 操作进度条方法
 			handleTouchStart(e) {
 				this.isDragging = true;
 				this.progressStartX = e.touches[0].clientX;
-				this.queryProgressBarBoundingRect();
 			},
 			handleTouchMove(e) {
 				if (!this.isDragging) return;
-				const offsetX = e.touches[0].clientX - this.progressStartX;
-				const progress = (offsetX / this.progressBarWidth) * 100;
+				const currentX = e.touches[0].clientX;
+				const progress = Math.max(0, Math.min(100, (currentX - this.progressBarLeft) / this.progressBarWidth *
+					100));
 				this.updateProgress(progress);
 			},
 			handleTouchEnd() {
@@ -856,7 +876,6 @@
 				this.$refs.video.seek(newPosition);
 			},
 			handleProgressBarClick(e) {
-				this.queryProgressBarBoundingRect();
 				const offsetX = e.detail.x - this.progressBarLeft;
 				const progress = (offsetX / this.progressBarWidth) * 100;
 				this.updateProgress(progress);
@@ -923,17 +942,17 @@
 					}
 				})
 			},
-			handleScroll(event) {
-				const scrollTop = event.detail.scrollTop
-				this.updateVideoHeight(scrollTop)
-			},
-			updateVideoHeight: _.throttle(function(scrollTop) {
-				const scrollDiff = scrollTop - this.lastScrollTop
-				let newHeight = this.videoHeight - scrollDiff
-				newHeight = Math.max(this.minHeight, Math.min(this.maxHeight, newHeight))
-				this.videoHeight = newHeight
-				this.lastScrollTop = scrollTop + 100
-			}, 100),
+			// handleScroll(event) {
+			// 	const scrollTop = event.detail.scrollTop
+			// 	this.updateVideoHeight(scrollTop)
+			// },
+			// updateVideoHeight: _.throttle(function(scrollTop) {
+			// 	const scrollDiff = scrollTop - this.lastScrollTop
+			// 	let newHeight = this.videoHeight - scrollDiff
+			// 	newHeight = Math.max(this.minHeight, Math.min(this.maxHeight, newHeight))
+			// 	this.videoHeight = newHeight
+			// 	this.lastScrollTop = scrollTop + 100
+			// }, 100),
 			like() {
 				this.$http.post('/article/like', {
 					id: this.article.cid
@@ -1156,13 +1175,15 @@
 		border-bottom: #f7f7f7 1rpx solid;
 	}
 
-	.video-content {
+	/deep/ .video-content {
 		max-height: 1000rpx;
 		min-height: 500rpx;
 		height: 500rpx;
-		transition: all 0.8s;
+		transition: all 0.3s;
+		background: black;
 	}
-	.active{
+
+	.active {
 		color: $c-primary;
 		transition: all 0.3s;
 	}

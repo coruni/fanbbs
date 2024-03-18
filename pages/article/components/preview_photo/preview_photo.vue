@@ -24,7 +24,9 @@
 			};
 		},
 		onLoad(){
-			this.data = uni.getStorageSync('photo_read')
+			this.data = uni.getStorageSync('photo_read');
+			let newText = this.data.text.replace(/_compress\.webp/g, '');
+			this.data.text = newText;
 		},
 		methods:{
 			touchEnd() {

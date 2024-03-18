@@ -146,7 +146,8 @@ export default {
 			queryFrom: '',
 			listRendering: false,
 			isHandlingRefreshToPage: false,
-			isFirstPageAndNoMore: false
+			isFirstPageAndNoMore: false,
+			totalDataChangeThrow: true
 		}
 	},
 	computed: {
@@ -171,7 +172,8 @@ export default {
 	},
 	watch: {
 		totalData(newVal, oldVal) {
-			this._totalDataChange(newVal, oldVal);
+			this._totalDataChange(newVal, oldVal, this.totalDataChangeThrow);
+			this.totalDataChangeThrow = true;
 		},
 		currentData(newVal, oldVal) {
 			this._currentDataChange(newVal, oldVal);
@@ -181,24 +183,24 @@ export default {
 				this.nLoadingMoreFixedHeight = false;
 			}
 		},
-		isFirstPageAndNoMore: {
-			handler(newVal) {
-				const cellStyle = this.chatRecordRotateStyle;
-				this.$emit('update:cellStyle', cellStyle);
-				this.$emit('cellStyleChange', cellStyle);
-			},
-			immediate: true
-		},
 		value: {
 			handler(newVal) {
-				this.realTotalData = newVal;
+				// 当v-model绑定的数据源被更改时，此时数据源改变不emit input事件，避免循环调用
+				if (newVal !== this.totalData) {
+					this.totalDataChangeThrow = false;
+					this.totalData = newVal;
+				}
 			},
 			immediate: true
 		},
 		// #ifdef VUE3
 		modelValue: {
 			handler(newVal) {
-				this.realTotalData = newVal;
+				// 当v-model绑定的数据源被更改时，此时数据源改变不emit input事件，避免循环调用
+				if (newVal !== this.totalData) {
+					this.totalDataChangeThrow = false;
+					this.totalData = newVal;
+				}
 			},
 			immediate: true
 		}
@@ -287,13 +289,16 @@ export default {
 		},
 		// 从顶部添加数据，不会影响分页的pageNo和pageSize
 		addDataFromTop(data, toTop = true, toTopWithAnimate = true) {
-			data = Object.prototype.toString.call(data) !== '[object Array]' ? [data] : data.reverse();
+			// 数据是否拼接到顶部，如果是聊天记录模式并且列表没有倒置，则应该拼接在底部
+			let addFromTop = !this.isChatRecordModeAndNotInversion;
+			data = Object.prototype.toString.call(data) !== '[object Array]' ? [data] : (addFromTop ? data.reverse() : data);
 			// #ifndef APP-NVUE
 			this.finalUseVirtualList && this._setCellIndex(data, 'top')
 			// #endif
-			this.totalData = [...data, ...this.totalData];
+			
+			this.totalData = addFromTop ? [...data, ...this.totalData] : [...this.totalData, ...data];
 			if (toTop) {
-				u.delay(() => this._scrollToTop(toTopWithAnimate));
+				u.delay(() => this.useChatRecordMode ? this.scrollToBottom(toTopWithAnimate) : this.scrollToTop(toTopWithAnimate));
 			}
 		},
 		// 重新设置列表数据，调用此方法不会影响pageNo和pageSize，也不会触发请求。适用场景：当需要删除列表中某一项时，将删除对应项后的数组通过此方法传递给z-paging。(当出现类似的需要修改列表数组的场景时，请使用此方法，请勿直接修改page中:list.sync绑定的数组)
@@ -585,11 +590,12 @@ export default {
 				}
 			}
 			if (!this.totalData.length) {
-				if (this.finalConcat) {
-					if (this.useChatRecordMode && this.isFirstPage && this.loadingStatus === Enum.More.NoMore) {
-						newVal.reverse();
-					}
+				// #ifdef APP-NVUE
+				// 如果在聊天记录模式+nvue中，并且数据不满一页时需要将列表倒序，因为此时没有将列表旋转180度，数组中第0条数据应当在最底下显示
+				if (this.useChatRecordMode && this.finalConcat && this.isFirstPage && this.loadingStatus === Enum.More.NoMore) {
+					newVal.reverse();
 				}
+				// #endif
 				this.totalData = newVal;
 			} else {
 				if (this.finalConcat) {

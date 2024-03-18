@@ -58,7 +58,6 @@ export default {
 			// 当前加载类型
 			loadingType: Enum.LoadingType.Refresher,
 			requestTimeStamp: 0,
-			chatRecordLoadingMoreText: '',
 			wxsPropType: '',
 			renderPropScrollTop: -1,
 			checkScrolledToBottomTimeOut: null,
@@ -108,6 +107,11 @@ export default {
 			type: String,
 			default: u.gc('width', '')
 		},
+		// z-paging的最大宽度，优先级低于pagingStyle中设置的max-width；传字符串，如100px、100rpx、100%。默认为空，也就是铺满窗口宽度，若设置了特定值则会自动添加margin: 0 auto
+		maxWidth: {
+			type: String,
+			default: u.gc('maxWidth', '')
+		},
 		// z-paging的背景色，优先级低于pagingStyle中设置的background。传字符串，如"#ffffff"
 		bgColor: {
 			type: String,
@@ -147,6 +151,11 @@ export default {
 		useSafeAreaPlaceholder: {
 			type: Boolean,
 			default: u.gc('useSafeAreaPlaceholder', false)
+		},
+		// z-paging bottom的背景色，默认透明，传字符串，如"#ffffff"
+		bottomBgColor: {
+			type: String,
+			default: u.gc('bottomBgColor', '')
 		},
 		// slot="top"的view的z-index，默认为99，仅使用页面滚动时有效
 		topZIndex: {
@@ -288,6 +297,10 @@ export default {
 			if (this.width.length && !pagingStyle['width']) {
 				pagingStyle['width'] = this.width;
 			}
+			if (this.maxWidth.length && !pagingStyle['max-width']) {
+				pagingStyle['max-width'] = this.maxWidth;
+				pagingStyle['margin'] = '0 auto';
+			}
 			return pagingStyle;
 		},
 		// 当前z-paging内容的样式
@@ -314,7 +327,8 @@ export default {
 		windowBottom() {
 			if (!this.systemInfo) return 0;
 			let windowBottom = this.systemInfo.windowBottom || 0;
-			if (this.safeAreaInsetBottom && !this.useSafeAreaPlaceholder) {
+			// 如果开启底部安全区域适配并且不使用placeholder的形式体现并且不是聊天记录模式（因为聊天记录模式在keyboardHeight计算初已添加了底部安全区域），在windowBottom添加底部安全区域高度
+			if (this.safeAreaInsetBottom && !this.useSafeAreaPlaceholder && !this.useChatRecordMode) {
 				windowBottom += this.safeAreaBottom;
 			}
 			return windowBottom;
@@ -415,7 +429,7 @@ export default {
 			this._offEmit();
 			// 取消监听键盘高度变化事件（H5、百度小程序、抖音小程序、飞书小程序、QQ小程序、快手小程序不支持）
 			// #ifndef H5 || MP-BAIDU || MP-TOUTIAO || MP-QQ || MP-KUAISHOU
-			this.useChatRecordMode && uni.offKeyboardHeightChange(() => {});
+			this.useChatRecordMode && uni.offKeyboardHeightChange(this._handleKeyboardHeightChange);
 			// #endif
 		},
 		// 触发更新是否超出页面状态

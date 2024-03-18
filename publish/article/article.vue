@@ -622,7 +622,11 @@
 						this.percentage += increment; // 增加上传进度
 						this.editorCtx.insertImage({
 							src: image,
-							alt: this.article.title ? this.article.title : 'IMAGE'
+							alt: this.article.title ? this.article.title : 'IMAGE',
+							data:{
+								'original-src': image.replace('_compress.webp','')
+							}
+							
 						});
 					}
 

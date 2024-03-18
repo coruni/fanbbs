@@ -12,7 +12,7 @@
 
 <script>
 /**
- * mp-html v2.4.2
+ * mp-html v2.4.3
  * @description 富文本组件
  * @tutorial https://github.com/jin-yufeng/mp-html
  * @property {String} container-style 容器的样式
@@ -41,8 +41,11 @@
 import node from './node/node'
 // #endif
 import Parser from './parser'
+import highlight from './highlight/index.js'
+import search from './search/index.js'
 import imgCache from './img-cache/index.js'
-const plugins=[imgCache,]
+import card from './card/index.js'
+const plugins=[highlight,search,imgCache,card,]
 // #ifdef APP-PLUS-NVUE
 const dom = weex.requireModule('dom')
 // #endif

@@ -5,7 +5,7 @@
 // 配置
 const config = {
   // 信任的标签（保持标签名不变）
-  trustTags: makeMap('a,abbr,ad,audio,b,blockquote,br,code,col,colgroup,dd,del,dl,dt,div,em,fieldset,h1,h2,h3,h4,h5,h6,hr,i,img,ins,label,legend,li,ol,p,q,ruby,rt,source,span,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,title,ul,video'),
+  trustTags: makeMap('card,a,abbr,ad,audio,b,blockquote,br,code,col,colgroup,dd,del,dl,dt,div,em,fieldset,h1,h2,h3,h4,h5,h6,hr,i,img,ins,label,legend,li,ol,p,q,ruby,rt,source,span,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,title,ul,video'),
 
   // 块级标签（转为 div，其他的非信任标签转为 span）
   blockTags: makeMap('address,article,aside,body,caption,center,cite,footer,header,html,nav,pre,section'),
@@ -19,7 +19,7 @@ const config = {
   ignoreTags: makeMap('area,base,canvas,embed,frame,head,iframe,input,link,map,meta,param,rp,script,source,style,textarea,title,track,wbr'),
 
   // 自闭合的标签
-  voidTags: makeMap('area,base,br,col,circle,ellipse,embed,frame,hr,img,input,line,link,meta,param,path,polygon,rect,source,track,use,wbr'),
+  voidTags: makeMap('card,area,base,br,col,circle,ellipse,embed,frame,hr,img,input,line,link,meta,param,path,polygon,rect,source,track,use,wbr'),
 
   // html 实体
   entities: {
@@ -71,7 +71,8 @@ const config = {
     viewbox: 'viewBox',
     attributename: 'attributeName',
     repeatcount: 'repeatCount',
-    repeatdur: 'repeatDur'
+    repeatdur: 'repeatDur',
+    foreignobject: 'foreignObject'
   }
 }
 const tagSelector={}
@@ -552,6 +553,13 @@ Parser.prototype.onOpenTag = function (selfClose) {
       if (!isNaN(parseInt(styleObj.height)) && (!styleObj.height.includes('%') || (parent && (parent.attrs.style || '').includes('height')))) {
         node.h = 'T'
       }
+      if (node.w && node.h && styleObj['object-fit']) {
+        if (styleObj['object-fit'] === 'contain') {
+          node.m = 'aspectFit'
+        } else if (styleObj['object-fit'] === 'cover') {
+          node.m = 'aspectFill'
+        }
+      }
     } else if (node.name === 'svg') {
       siblings.push(node)
       this.stack.push(node)
@@ -678,6 +686,14 @@ Parser.prototype.popNode = function () {
         return
       }
       const name = config.svgDict[node.name] || node.name
+      if (name === 'foreignObject') {
+        for (const child of (node.children || [])) {
+          if (child.attrs && !child.attrs.xmlns) {
+            child.attrs.xmlns = 'http://www.w3.org/1999/xhtml'
+            break
+          }
+        }
+      }
       src += '<' + name
       for (const item in node.attrs) {
         const val = node.attrs[item]
@@ -841,6 +857,10 @@ Parser.prototype.popNode = function () {
     if (node.flag && node.c) {
       // 有 colspan 或 rowspan 且含有链接的表格通过 grid 布局实现
       styleObj.display = 'grid'
+      if (styleObj['border-collapse'] === 'collapse') {
+        styleObj['border-collapse'] = undefined
+        spacing = 0
+      }
       if (spacing) {
         styleObj['grid-gap'] = spacing + 'px'
         styleObj.padding = spacing + 'px'
@@ -858,6 +878,23 @@ Parser.prototype.popNode = function () {
         for (let i = 0; i < nodes.length; i++) {
           if (nodes[i].name === 'tr') {
             trList.push(nodes[i])
+          } else if (nodes[i].name === 'colgroup') {
+            let colI = 1
+            for (const col of (nodes[i].children || [])) {
+              if (col.name === 'col') {
+                const style = col.attrs.style || ''
+                const start = style.indexOf('width') ? style.indexOf(';width') : 0
+                // 提取出宽度
+                if (start !== -1) {
+                  let end = style.indexOf(';', start + 6)
+                  if (end === -1) {
+                    end = style.length
+                  }
+                  width[colI] = style.substring(start ? start + 7 : 6, end)
+                }
+                colI += 1
+              }
+            }
           } else {
             traversal(nodes[i].children || [])
           }
