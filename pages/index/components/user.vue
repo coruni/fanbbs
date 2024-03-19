@@ -1,148 +1,107 @@
 <template>
 	<view>
-		<z-paging ref="paging" refresher-only @onRefresh="onRefresh" @scroll="scroll"
-			:auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false"
-			v-if="$store.state.hasLogin&&isMounted" style="margin-bottom: 50rpx;">
-			<template #top>
-				<u-navbar id="navbar"
-					:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : $u.colorToRgba('#fff', opacity)">
-					<view slot="left">
-						<u-row>
-							<u-icon name="scan" size="26"
-								:color="opacity>0.4? (theme === '#292929' ? '#fff' : 'black') : 'white'"></u-icon>
-							<u-row customStyle="margin-left:20rpx" v-show="opacity>=1"
-								@click="$refs.paging.scrollToTop()">
-								<u-avatar :src="userInfo && userInfo.avatar" size="26"></u-avatar>
-								<text style="margin-left:20rpx">{{userInfo && userInfo.screenName}}</text>
-							</u-row>
-						</u-row>
-					</view>
-					<u-row slot="right">
-						<i class="ess mgc_menu_line"
-							:style="{color: opacity > 0.4 ? (theme === '#292929' ? '#fff' : 'black') : 'white'}"
-							style="font-size: 44rpx; margin-right: 20rpx;" @click="showRightMenu = true">
-						</i>
+		<u-navbar id="navbar"
+			:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : $u.colorToRgba('#fff', opacity)">
+			<view slot="left">
+				<u-row>
+					<u-icon name="scan" size="26"
+						:color="opacity>0.4? (theme === '#292929' ? '#fff' : 'black') : 'white'"></u-icon>
+					<u-row customStyle="margin-left:20rpx" v-show="opacity>=1" @click="$refs.paging.scrollToTop()">
+						<u-avatar :src="userInfo && userInfo.avatar" size="26"></u-avatar>
+						<text style="margin-left:20rpx">{{userInfo && userInfo.screenName}}</text>
 					</u-row>
-				</u-navbar>
-			</template>
-			<view style="position: relative;">
-				<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
-					style="width: 100%;height: 500rpx;transform: scale(1);" class="backCover" @click="chooseBackImg()">
+				</u-row>
+			</view>
+			<u-row slot="right">
+				<i class="mgc_menu_line"
+					:style="{color: opacity > 0.4 ? (theme === '#292929' ? '#fff' : 'black') : 'white'}"
+					style="font-size: 44rpx; margin-right: 20rpx;" @click="showRightMenu = true">
+				</i>
+			</u-row>
+		</u-navbar>
+		<!-- 头部 -->
+		<view style="position: relative;">
+			<image :src="userInfo && userInfo.userBg?userInfo.userBg:'/static/login.jpg'" mode="aspectFill"
+				class="backCover" @click="chooseBackImg()">
+			</image>
+			<view class="top-header"></view>
+			<!-- 头像 -->
+			<view class="avatar-position">
+				<u-avatar style="border: 4rpx solid #fff;" :src="userInfo && userInfo.avatar" size="80"
+					@click="$store.state.hasLogin?'':goLogin()"></u-avatar>
+				<image class="avatar_head" mode="aspectFill" :src="userInfo && userInfo.opt&&userInfo.opt.head_picture">
 				</image>
-				<view class="top-header"></view>
 			</view>
-			<view class="userPanel">
-				<view style="position: absolute;top: -100rpx;">
-					<u-avatar :src="userInfo && userInfo.avatar" size="80">
-					</u-avatar>
-					<image class="avatar_head" mode="aspectFill"
-						:src="userInfo && userInfo.opt&&userInfo.opt.head_picture">
-					</image>
-				</view>
-
-				<u-row justify="space-between" align="top" customStyle="padding-top:20rpx">
-					<view>
-						<!-- 占位脱离文档流头像 -->
-						<u-gap height="40"></u-gap>
-						<!-- 占位结束 -->
-						<u-row>
-							<view style="position: relative;top: 0;">
-								<text style="font-weight: 600;font-size: 34rpx;"
-									:class="{'vipname':userInfo&& userInfo.isVip}">{{userInfo && userInfo.screenName?userInfo.screenName:userInfo.name}}</text>
-								<uv-line-progress :height="4"
-									:activeColor="userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]"
-									:percentage="100-((userInfo.nextLevel - userInfo.experience) / userInfo.nextExp) * 100"
-									:showText="false" style="position: absolute;bottom: 0;width: 100%;"
-									v-if="userInfo && userInfo.experience && userInfo.nextLevel && userInfo.level">
-								</uv-line-progress>
-							</view>
-
-							<text
-								:style="{border:`${userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]} solid 2rpx`,background:userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }"
-								style="font-size: 18rpx;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx;color: white;"
-								v-if="userInfo.level" @click="showLevel = true">
-								Lv.{{userInfo.level}}
-							</text>
-						</u-row>
-						<u-row customStyle="font-size:28rpx">
-							<i class="ess mgc_renwu" style="margin-right: 10rpx;"></i>
-							<text>通行证ID：{{userInfo && userInfo.uid}}</text>
-						</u-row>
-						<u-row customStyle="font-size:28rpx;color: #999;">
-							<i class="ess mgc_ziliao" style="margin-right: 10rpx;"></i>
-							<text>{{userInfo && userInfo.introduce?userInfo.introduce:'系统默认签名~'}}</text>
-						</u-row>
-					</view>
-					<view>
-						<u-button plain color="#ff0800" shape="circle" customStyle="height:60rpx"
-							@click="goPage('editUser')">
-							<u-icon name="edit-pen" color="#ff0800"></u-icon>
-							<text>编辑</text>
-						</u-button>
-						<u-gap></u-gap>
-						<u-button plain v-if="!$store.state.tasks.isSign" color="#ff0800" shape="circle"
-							customStyle="height:60rpx" @click="checkUp()">
-							<i class="ess mgc_leaf_line"></i>
-							<text>签到</text>
-						</u-button>
-						<u-button v-if="$store.state.tasks.isSign" color="#ffe085" shape="circle"
-							customStyle="height:60rpx" @click="checkUp()">
-							<i class="ess mgc_leaf_line"></i>
-							<text>已签到</text>
-						</u-button>
-					</view>
-				</u-row>
-				<u-row justify="space-around" customStyle="margin-top:40rpx">
-					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.articles}}</text>
-						<text>帖子</text>
-					</view>
-					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.follows}}</text>
-						<text>关注</text>
-					</view>
-					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.fans}}</text>
-						<text>粉丝</text>
-					</view>
-					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.comments}}</text>
-						<text>评论</text>
-					</view>
+			<!-- 用户数据 -->
+			<view class="data-position" style="width: 30%;">
+				<u-row justify="space-between">
+					<u-col :span="6">
+						<view class="userMate">
+							<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.follows}}</text>
+							<text>关注</text>
+						</view>
+					</u-col>
+					<u-col :span="6">
+						<view class="userMate">
+							<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.fans}}</text>
+							<text>粉丝</text>
+						</view>
+					</u-col>
 				</u-row>
 			</view>
-			<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
-			<view v-if="$store.state.hasLogin &&isMounted">
-				<!-- #ifndef APP -->
-				<u-sticky bgColor="#fff">
-					<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-						active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
-						class="tabs-dark"></z-tabs>
-				</u-sticky>
-				<!-- #endif -->
-				<!-- #ifdef APP -->
-				<u-sticky bgColor="#fff" :offsetTop="sticky">
-					<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-						active-color="#ff0800" :active-style="{fontWeight:'bold'}" bar-animate-mode="worm"
-						class="tabs-dark"></z-tabs>
-				</u-sticky>
-				<!-- #endif -->
-				<swiper style="height: 100vh;" :current="tabsIndex" @transition="swiperTransition"
-					@animationfinish="swiperAnimationfinish" v-if="$store.state.hasLogin && isMounted">
-					<swiper-item style="overflow: auto;">
-						<publish :isScroll="isScroll" :data="userInfo" ref="publish"
-							@articleMenu="showArticleMenu = true;edit = $event"></publish>
-					</swiper-item>
-					<swiper-item style="overflow: auto;">
-						<comment :isScroll="isScroll" :data="userInfo" ref="comment"></comment>
-					</swiper-item>
-				</swiper>
-			</view>
-
-		</z-paging>
-		<view v-else style="margin-top: 40vh;text-align: center;">
-			<text style="font-weight: bold;" @click="goLogin">登录查看更多精彩</text>
 		</view>
+		<!-- 内容 --> <!-- 间隔 -->
+		<view style="padding: 40rpx;">
+			<u-row justify="space-between" v-if="$store.state.hasLogin">
+				<view>
+					<u-row>
+						<text style="font-weight: 600;font-size: 34rpx;"
+							:class="{'vipname':userInfo&& userInfo.isVip}">{{userInfo && userInfo.screenName?userInfo.screenName:userInfo.name}}</text>
+						<text
+							:style="{border:`${userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]} solid 2rpx`,background:userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }"
+							class="level" v-if="userInfo.level" @click="showLevel = true">
+							Lv.{{userInfo.level}}
+						</text>
+					</u-row>
+					<u-row style="font-size: 26rpx;color: #999;">
+						<text>通行证：</text>
+						<text>{{userInfo&& userInfo.uid}}</text>
+					</u-row>
+				</view>
+				<u-row class="wallet" justify="space-between" align="end">
+					<i class="mgc_wallet_3_fill wallet-icon"></i>
+					<text class="u-line-1" style="font-size: 28rpx;">{{userInfo&& userInfo.assets}}</text>
+				</u-row>
+			</u-row>
+			<u-row v-else>
+				<text style="font-weight: 600;font-size: 34rpx;" @click="goLogin()">哦~乐子神在上，这里还有一个没有加入欢愉的瓜娃子</text>
+
+			</u-row>
+		</view>
+		<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
+		<view style="padding: 40rpx;">
+			<u-row style="height: 400rpx;" justify="space-between">
+				<u-col :span="5" id="sign" @click="checkUp()">
+					<view class="panel-article" :style="{backgroundColor:getTime.backgroundColor}">
+						<view class="panel-article-text">
+							<text>{{getTime.greeting}}</text>
+							<text>{{getTime.hour>=21 || getTime.hour<6?'记得早点休息哦~':tasks && tasks.isSign?'今天的事务都完成了哦~':'今日戳戳小猫了吗？'}}</text>
+						</view>
+					</view>
+				</u-col>
+				<u-col :span="6.5" style="height: 100%;">
+					<view style="display: flex;flex-direction: column;height: 100%;justify-content: space-between;">
+						<view class="panel-photo"></view>
+						<view class="panel-video"></view>
+					</view>
+				</u-col>
+
+
+			</u-row>
+		</view>
+		<!-- 组件 -->
+
+
 		<!-- 组件 -->
 		<u-popup mode="right" :show="showRightMenu" @close="showRightMenu = false" bgColor="#f4f4f4"
 			customStyle="width:70vw">
@@ -257,12 +216,12 @@
 	import {
 		mapState
 	} from 'vuex';
-	import publish from '../components/user/publish.vue';
-	import comment from '../components/user/comment.vue'
+	import articleItem from '../components/user/article.vue';
+	import commentItem from '../components/user/comment.vue'
 	export default {
 		components: {
-			publish,
-			comment
+			articleItem,
+			commentItem
 		},
 		props: {
 			index: {
@@ -380,10 +339,34 @@
 				showDelete: false,
 				theme: '#fff',
 				sticky: 0,
+				hours: 0,
 			}
 		},
 		computed: {
-			...mapState(['userInfo'])
+			...mapState(['userInfo']),
+			getTime() {
+				var date = new Date();
+				var hour = date.getHours();
+				var greeting = "";
+				var backgroundColor = "";
+
+				if (hour >= 6 && hour < 12) {
+					greeting = "早上好喵~";
+					backgroundColor = "#f07b3f"; // 早上的背景色
+				} else if (hour >= 12 && hour < 18) {
+					greeting = "中午好喵~";
+					backgroundColor = "#ffd460"; // 中午的背景色
+				} else {
+					greeting = "晚上好喵~";
+					backgroundColor = "#2d4059"; // 晚上的背景色
+				}
+
+				return {
+					greeting,
+					backgroundColor,
+					hour
+				};
+			}
 		},
 		created() {
 			uni.$on('login', data => {
@@ -398,7 +381,10 @@
 			})
 			let system = uni.getSystemInfoSync()
 			this.sticky = system.statusBarHeight + 44
-			
+		},
+		onShow() {
+			let date = new Date();
+			this.hours = date.getHours()
 		},
 
 		methods: {
@@ -417,14 +403,9 @@
 			},
 			onRefresh() {
 				if (this.$store.state.hasLogin) {
-					this.$refs.publish.reload()
-					this.$refs.comment.reload()
 					// this.$refs.collect.reload()
 					this.getUserInfo()
 				}
-				setTimeout(() => {
-					this.$refs.paging.complete()
-				}, 1000)
 
 			},
 			getUserInfo() {
@@ -437,8 +418,7 @@
 					if (res.data.code == 200) {
 						this.$store.commit('setUser', res.data.data)
 					}
-				}).catch(err => {
-				})
+				}).catch(err => {})
 			},
 
 			goLogout() {
@@ -512,6 +492,7 @@
 				}
 			},
 			checkUp() {
+				if (this.tasks.isSign) return;
 				this.$http.post('/user/sign').then(res => {
 					if (res.data.code == 200) {
 						uni.$u.toast(res.data.msg)
@@ -594,7 +575,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba(0, 0, 0, 0.1);
+		background-color: rgba(0, 0, 0, 0.15);
 		pointer-events: none;
 	}
 
@@ -604,6 +585,7 @@
 		align-items: center;
 		justify-content: center;
 		font-size: 26rpx;
+		color: white;
 	}
 
 	.userPanel {
@@ -619,6 +601,9 @@
 		height: 100%;
 		background-size: cover;
 		background-repeat: no-repeat;
+		width: 100%;
+		height: 500rpx;
+		transform: scale(1);
 	}
 
 	.backCover::before {
@@ -654,6 +639,95 @@
 				background: #f7f7f7;
 				color: red;
 			}
+		}
+	}
+
+	.avatar-position {
+		position: absolute;
+		bottom: -60rpx;
+		padding: 40rpx;
+	}
+
+	.level {
+		font-size: 18rpx;
+		padding: 0 16rpx;
+		border-radius: 50rpx;
+		margin-left: 20rpx;
+		color: white;
+	}
+
+	.data-position {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		padding: 40rpx;
+	}
+
+	.wallet {
+		background: #09244b;
+		color: white;
+		width: 140rpx;
+		border-radius: 10rpx;
+		overflow: hidden;
+		padding: 10rpx;
+
+		&-icon {
+			color: white;
+			font-size: 45rpx;
+		}
+	}
+
+	.panel {
+		&-article {
+			display: flex;
+			position: relative;
+			justify-content: center;
+			align-items: flex-end;
+			background-color: #f38181;
+			border-radius: 10rpx;
+			width: 100%;
+			height: 400rpx;
+			color: white;
+			background-image: url('@/static/user/sign_background.webp') !important;
+			background-repeat: no-repeat !important;
+			background-position: center 300rpx !important;
+			background-size: cover !important;
+			transition: all ease 0.5s;
+
+			&:hover {
+				background-position: 0 22rpx !important;
+
+				.panel-article-text {
+					bottom: 200rpx;
+					color: #78bbde;
+
+				}
+			}
+
+			&-text {
+				overflow: hidden;
+				display: flex;
+				padding: 0 20rpx;
+				flex-direction: column;
+				position: absolute;
+				bottom: 100rpx;
+				transition: all 0.5s ease;
+			}
+		}
+
+
+		&-photo {
+			border-radius: 10rpx;
+			background: #fce38a;
+			width: 100%;
+			height: 190rpx;
+		}
+
+		&-video {
+			border-radius: 10rpx;
+			background: #eaffd0;
+			width: 100%;
+			height: 190rpx;
 		}
 	}
 </style>

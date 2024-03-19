@@ -1,9 +1,9 @@
 <template>
 	<z-paging-swiper>
-		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event" ref="home">
-		</index>
-		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex" @edit="showMoreMenu = true;data=$event">
-		</find>
+		<home @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event" ref="home">
+		</home>
+		<discovery v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex" @edit="showMoreMenu = true;data=$event">
+		</discovery>
 		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
 		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex"></user>
 		<!-- 底部导航栏 -->
@@ -36,7 +36,7 @@
 						display: flex;
 						flex-direction: column;
 						align-items: center;" @click="goPublish(item.path);showPublish=false">
-							<i class="ess" :class="item.icon" style="font-size: 48rpx;
+							<i :class="item.icon" style="font-size: 48rpx;
 							background: #ff08004c;
 							border-radius: 50rpx;
 							display: inline-flex;
@@ -138,15 +138,15 @@
 		shareWithSystem,
 		filterHtml
 	} from '@/common/common.js';
-	import index from './components/index.vue';
-	import find from './components/find.vue';
+	import home from './components/home.vue';
+	import discovery from './components/discovery.vue';
 	import user from './components/user.vue';
 	import category from './components/category.vue';
 	export default {
 		components: {
-			index,
+			home,
 			user,
-			find,
+			discovery,
 			category,
 		},
 		data() {

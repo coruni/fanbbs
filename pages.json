@@ -25,7 +25,6 @@
 					"softinputmode": "nothing"
 				}
 			}
-
 		},
 		{
 			"path": "pages/user/login",
@@ -45,7 +44,7 @@
 			"name": "categoryList"
 		},
 		{
-			"path": "pages/user/editProfile",
+			"path": "pages/user/profile",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
@@ -71,21 +70,22 @@
 			"perm": "login"
 		},
 		{
-			"path": "pages/user/avatarChange",
+			"path": "pages/user/avatar",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			},
-			"name": "avatarChange",
+			"name": "avatar",
 			"perm": "login"
 		},
 		{
-			"path": "pages/user/headPictureChange",
+			"path": "pages/user/headPicture",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			},
-			"name": "headPictureChange"
+			"name": "headPicture",
+			"perm":"login"
 		},
 		{
 			"path": "pages/user/collect",

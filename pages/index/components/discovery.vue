@@ -21,14 +21,14 @@
 </template>
 
 <script>
-	import articleItem from './find/article.vue';
-	import videoItem from './find/video.vue';
+	import articleItem from './discover/article.vue';
+	import videoItem from './discover/video.vue';
 	export default {
 		components: {
 			articleItem,
 			videoItem
 		},
-		name: 'find',
+		name: 'discovery',
 		props: {
 			index: {
 				type: [String, Number],

@@ -23,15 +23,16 @@
 		</template>
 		<!-- 模拟首屏开始 -->
 		<z-tabs ref="tabs" :list="$store.state.homeTabs" :scrollCount="0" :current="topTabIndex" @change="tabsChange"
-			active-color="#ff0800" bar-animate-mode="worm" :active-style="{fontWeight:600}" bgColor="transparent"></z-tabs>
+			active-color="#ff0800" bar-animate-mode="worm" :active-style="{fontWeight:600}"
+			bgColor="transparent"></z-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition"
 			@animationfinish="swiperAnimationfinish">
 			<swiper-item v-for="(page,pageIndex) in $store.state.homeTabs" :key="pageIndex">
-				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.iswaterfall"
+				<articleItem :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.iswaterfall"
 					:isSwiper="!pageIndex" @edit="$emit('edit',$event)" ref="article">
-				</articleIndex>
-				<water-fall-index v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex"
-					style="margin-bottom: 190rpx;" class="waterfall-home"></water-fall-index>
+				</articleItem>
+				<waterfallItem v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex"
+					style="margin-bottom: 190rpx;" class="waterfall-home"></waterfallItem>
 			</swiper-item>
 		</swiper>
 	</z-paging-swiper>
@@ -41,12 +42,12 @@
 	import {
 		mapState
 	} from 'vuex';
-	import waterFallIndex from '@/components/waterfall.vue';
-	import articleIndex from '@/components/index.vue';
+	import waterfallItem from './home/waterfall.vue';
+	import articleItem from './home/article.vue';
 	export default {
 		components: {
-			articleIndex,
-			waterFallIndex
+			articleItem,
+			waterfallItem
 		},
 		name: 'index',
 		data() {
@@ -109,8 +110,7 @@
 				searchFoucs: false,
 			}
 		},
-		created() {
-		},
+		created() {},
 		computed: {
 			...mapState(['userInfo'])
 		},
@@ -173,7 +173,7 @@
 
 				})
 			},
-			reload(){
+			reload() {
 				this.$refs.article.reload()
 			}
 		}
@@ -184,8 +184,8 @@
 	.swiper {
 		height: 100%;
 	}
-	.waterfall-home{
+
+	.waterfall-home {
 		background: #f7f7f7;
 	}
-	
 </style>

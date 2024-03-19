@@ -172,7 +172,7 @@
 			},
 			goHeadPicture() {
 				this.$Router.push({
-					name: 'headPictureChange'
+					name: 'headPicture'
 				})
 			}
 
