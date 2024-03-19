@@ -41,8 +41,8 @@
 			<view style="margin: 30rpx;">
 				<block v-for="(item,index) in logs" :key="index">
 					<view class="task-panel">
-						<u-row justify="space-between"
-							style="padding-left: 20rpx; border-left: 6rpx #ff08001e solid;width:100%;">
+						<u-row justify="space-between" class="logItem" :class="[{'logItem-add':item.totalAmount>0},
+							{'logItem-reduce':item.totalAmount<0}]">
 							<view>
 								<text>{{item.subject}}</text>
 								<text style="margin-left: 20rpx;"
@@ -54,23 +54,16 @@
 				</block>
 			</view>
 		</z-paging>
-		<u-popup round="10" :show="showPayment" @close="showPayment = false;selectPackage =payPackage[0]">
+		<u-popup round="10" :show="showPayment" @close="showPayment = false;selectPackage =payPackage[0]" closeable>
 			<view style="padding: 30rpx;">
 				<view style="text-align: center;">
 					<text>选择充值套餐</text>
 				</view>
 				<u-grid col="3">
 					<u-grid-item v-for="(item,index) in payPackage" :key="index">
-						<view style="display: flex;
-							flex-direction: column;
-							padding: 30rpx;
-							
-							border: #ff0800 solid 2rpx; 
-							width: 80rpx;
-							margin: 30rpx;
-							border-radius: 20rpx;" @click="selectPackage = item"
+						<view class="package" @click="selectPackage = item"
 							:style="{background:selectPackage && selectPackage.id == item.id?'#ff08001e':''}">
-							<view style="color: #ff0800;display: flex;justify-content: center;align-items: baseline;">
+							<view class="package-sub">
 								<text style="font-size: 26rpx;">￥</text>
 								<text style="font-size: 50rpx;">{{item.price}}</text>
 							</view>
@@ -86,9 +79,8 @@
 							<u-row justify="space-between" style="flex:1;margin-bottom: 30rpx"
 								@click="radio = item.name">
 								<u-row>
-									<view :style="`background:${item.color};padding:10rpx;border-radius:50rpx`">
-										<u-icon :name="item.icon" color="#fff" size="24"></u-icon>
-									</view>
+									<i :class="item.icon" :style="{background:item.color}"
+										style="padding: 16rpx;border-radius: 50rpx;color: white;"></i>
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</u-row>
 								<u-radio :name="item.name" activeColor="#ff0800"></u-radio>
@@ -109,15 +101,24 @@
 				<view style="height: 40vh;padding: 60rpx 30rpx 30rpx 30rpx;">
 					<text style="margin-bottom: 10rpx;">输入卡密</text>
 					<u-input v-model="card" placeholder="卡密" border="bottom"></u-input>
-
 				</view>
 				<view style="position: fixed;bottom: 0;width: 100%;">
 					<view style="padding: 30rpx;">
 						<u-button color="#ff0800" shape="circle" @click="cardPay()">充值</u-button>
 					</view>
 				</view>
-
 			</u-popup>
+		</u-popup>
+		<!-- 二维码弹窗 -->
+		<u-popup mode="center" round="10" :show="showPaycode" @close="showPaycode = false" closeable>
+			<u-gap height="30"></u-gap>
+			<view
+				style="padding: 30rpx;width: 550rpx;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+				<uv-qrcode size="200" :value="paycode" auto ref="qrcode"></uv-qrcode>
+				<text
+					style="font-size: 24rpx;color: #999;margin-top: 30rpx;">点击按钮保存在相册打开微信或支付宝扫码付款，支付完成后会延迟到账，请耐心等待。如长时间不到账请联系客服处理</text>
+				<u-button color="#ff0800" shape="circle" style="margin-top: 30rpx;" @click="save()">保存二维码</u-button>
+			</view>
 		</u-popup>
 	</view>
 </template>
@@ -147,25 +148,31 @@
 				payMent: [{
 						name: '微信',
 						type: 'wxpay',
-						icon: 'weixin-fill',
+						icon: 'mgc_wechat_pay_fill',
 						color: '#46d262'
 					},
 					{
 						name: '支付宝',
 						type: 'alipay',
-						icon: 'zhifubao',
+						icon: 'mgc_alipay_fill',
 						color: '#0070ff'
 					},
 					{
-						name: '三方支付',
-						type: 'easypay',
-						icon: 'bookmark',
-						color: '#a899e6'
+						name: '三方微信',
+						type: 'epayWechat',
+						icon: 'mgc_wechat_pay_fill',
+						color: '#000'
+					},
+					{
+						name: '三方支付宝',
+						type: 'epayAlipay',
+						icon: 'mgc_alipay_fill',
+						color: '#000'
 					}
 				],
 				payPackage: [{
 					id: 1,
-					price: 1,
+					price: 0.01,
 				}, {
 					id: 2,
 					price: 6
@@ -183,7 +190,8 @@
 					price: 100
 				}],
 				selectPackage: {
-					id: 1
+					id: 1,
+					price: 0.01
 				},
 				radio: '微信',
 				config: {},
@@ -215,19 +223,25 @@
 						check: this.tasksInfo && this.tasksInfo.shares,
 						icon: 'heart'
 					}
-				]
+				],
+				paycode: '',
+				showPaycode: false
 			}
 		},
 		computed: {
 			...mapState(['userInfo'])
 		},
-		created() {
+		onLoad() {
 			this.selectPackage = this.payPackage[0]
 			this.initData()
 			this.appInfo = this.$store.state.appInfo
 			// 计算剩余高度
 			let system = uni.getSystemInfoSync()
 			this.pageHeight = system.windowHeight - system.statusBarHeight
+
+		},
+		onShow() {
+			this.getUserInfo()
 		},
 		onReady() {
 			uni.createSelectorQuery().in(this).select(".panel").boundingClientRect(data => {
@@ -246,7 +260,6 @@
 						this.task[1].check = res.data.data.likes
 						this.task[2].check = res.data.data.views
 						this.task[3].check = res.data.data.shares
-
 					}
 				})
 			},
@@ -262,9 +275,9 @@
 				this.$http.get('/pay/list', {
 					params: {
 						page,
-						limit
+						limit,
+						status: 1,
 					}
-
 				}).then(res => {
 					if (res.data.code == 200) {
 						this.$refs.paging.complete(res.data.data.data)
@@ -279,10 +292,12 @@
 					case '支付宝':
 						this.pay('alipay')
 						break;
-					case '三方支付':
-						this.orderPay()
+					case '三方微信':
+						this.orderPay('wxpay')
 						break;
-
+					case '三方支付宝':
+						this.orderPay('alipay')
+						break;
 					default:
 						break;
 				}
@@ -291,8 +306,42 @@
 				if (provider == '')
 					uni.requestPayment({
 						provider: provider,
-
 					})
+			},
+
+			// 三方支付
+			orderPay(type) {
+				uni.showLoading({
+					mask: true,
+					title: "生成二维码中..."
+				})
+				this.$http.post('/pay/EPay', {
+					money: this.selectPackage.price,
+					type: type,
+					device: 'mobile',
+				}).then(res => {
+					console.log(res)
+					if (res.data.code == 200) {
+						let data = res.data.data
+						this.showPayment = false;
+						if (data.hasOwnProperty('qrcode')) {
+							this.paycode = data.qrcode
+							this.showPaycode = true;
+						}
+						if (data.hasOwnProperty('payurl')) {
+							// #ifdef APP
+							plus.runtime.openWeb(data.payurl);
+							// #endif
+							// #ifdef H5
+							window.open(data.payurl);
+							// #endif
+						}
+						this.showCard = false;
+					}
+					uni.hideLoading()
+				}).catch(err => {
+					uni.hideLoading()
+				})
 			},
 			cardPay() {
 				if (this.card == null) {
@@ -309,9 +358,27 @@
 						this.getData()
 					}
 					uni.$u.toast(res.data.msg)
-
 				})
-			}
+			},
+			save() {
+				this.$refs.qrcode.save({
+					success: () => {
+						uni.$u.toast('保存成功');
+					}
+				});
+			},
+			getUserInfo() {
+				if (!uni.getStorageSync('token')) return;
+				this.$http.get('/user/userInfo', {
+					params: {
+						id: this.userInfo.uid,
+					},
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.$store.commit('setUser', res.data.data)
+					}
+				}).catch(err => {})
+			},
 		}
 	}
 </script>
@@ -371,5 +438,36 @@
 
 	::v-deep .u-grid-item--hover-class {
 		opacity: unset;
+	}
+
+	.package {
+		display: flex;
+		flex-direction: column;
+		padding: 30rpx;
+		height: 160rpx;
+		border: $c-primary solid 2rpx;
+		width: 80rpx;
+		margin: 30rpx;
+		border-radius: 20rpx;
+
+		&-sub {
+			color: $c-primary;
+			display: flex;
+			justify-content: center;
+			align-items: baseline;
+		}
+	}
+
+	.logItem {
+		padding-left: 20rpx;
+		width: 100%;
+
+		&-add {
+			border-left: 6rpx red solid;
+		}
+
+		&-reduce {
+			border-left: 6rpx green solid;
+		}
 	}
 </style>

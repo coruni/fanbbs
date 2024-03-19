@@ -501,7 +501,7 @@
 
 	.input {
 		background: #f7f7f7;
-		padding: 10rpx 0;
+		padding: 10rpx 0 !important;
 		margin-top: 10rpx;
 	}
 

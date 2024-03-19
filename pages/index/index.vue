@@ -1,13 +1,11 @@
 <template>
 	<z-paging-swiper>
-		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"></index>
+		<index @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event" ref="home">
+		</index>
 		<find v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex" @edit="showMoreMenu = true;data=$event">
 		</find>
 		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
-		<!-- 商城 -->
-		<!-- <shop v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></shop> -->
 		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex"></user>
-		<!-- 间隔 -->
 		<!-- 底部导航栏 -->
 		<template #bottom>
 			<view class="bottom-tabbar">
@@ -56,6 +54,8 @@
 				</view>
 			</view>
 		</u-popup>
+
+		<!-- 菜单弹出 -->
 		<u-popup :show="showMoreMenu" @close="showMoreMenu = false" :closeable="true" round="10">
 			<view style="padding: 30rpx;">
 				<view style="
@@ -107,8 +107,27 @@
 					</view>
 				</view>
 			</view>
+			<!-- 删除弹出 -->
+			<u-popup :show="showDelete" :round="10" mode="center" @close="showDelete = false"
+				customStyle="width:500rpx">
+				<view style="display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					padding: 50rpx;">
+					<text style="font-size: 34rpx;">提示</text>
+					<view style="margin-top:30rpx">
+						<text>是否确定删除？</text>
+					</view>
+					<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+						<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+							@click="showDelete = false">取消</u-button>
+						<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+							@click="deleteArticle()">确定</u-button>
+					</u-row>
+				</view>
+			</u-popup>
 		</u-popup>
-
 	</z-paging-swiper>
 
 </template>
@@ -217,7 +236,7 @@
 						cur: 'mgc_three_circles_fill'
 					},
 				],
-				lineBg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAOCAYAAABdC15GAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFxSURBVHgBzZNRTsJAEIb/WTW+lpiY+FZPIDew3ABP4GJ8hxsI9zBpOYHeQDwBPQI+mRiRvpLojtPdYhCorQqF/6GdbGd2vvwzBXZcNAt4oj1ANeUoAT5iqkUjbEFLHNmhD1YPEvpZ3ghkGlVDCkc94/BmHMq998I5ONiY1ZBfpKAyuOtgAc5yOEDmYEWNh32BHF91sGHZHmwW4azciN9aQwnz3SJEgOmte+R2tdLprTYoa50mvuomlLpD4Y3oQZnov6D2RzCqI93bWOHaEmAGqQUyRBlZR1WfarcD/EJ2z8DtzDGvsMCwpm8XOCfDUsVOCYhiqRxI/CTQo4UOvjzO7Pow18vfywneuUHHUUxLn55lLw5JFpZ8bEUcY8oXdOLWiHLTxvoGpLqoUmy6dBT15o/ox3znpoycAmxUsiJTbs1cmxeVKp+0zmFIS7bGWiVghC7Vwse8jFKAX9eljh4ggKLLv7uaQvG9/F59Oo2SouxPu7OTCxN/s8wAAAAASUVORK5CYII='
+				showDelete: false,
 			}
 		},
 		created() {
@@ -301,11 +320,22 @@
 					this.$Router.push({
 						path: path,
 						query: {
-							update: 1,
+							update: true,
 							id: this.data.cid
 						}
 					})
-				}, 500)
+				}, 200)
+			},
+			deleteArticle() {
+				this.$http.post('/article/delete', {
+					id: this.data.cid
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.showDelete = false
+						uni.$u.toast(res.data.msg)
+						this.$refs.home.reload()
+					}
+				})
 			},
 		}
 	}

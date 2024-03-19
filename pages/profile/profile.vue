@@ -10,7 +10,8 @@
 							<u-row customStyle="margin-left:20rpx" v-show="opacity>=1"
 								@click="$refs.paging.scrollToTop()">
 								<u-avatar :src="info.avatar" size="26"></u-avatar>
-								<text style="margin-left:20rpx;font-weight: 600;" :class="{'vipname':info&& info.isVip}">{{info.screenName?info.screenName:info.name}}</text>
+								<text style="margin-left:20rpx;font-weight: 600;"
+									:class="{'vipname':info&& info.isVip}">{{info.screenName?info.screenName:info.name}}</text>
 							</u-row>
 						</u-row>
 					</view>
@@ -93,7 +94,7 @@
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
-					<u-sticky bgColor="#fff" offsetTop="65">
+					<u-sticky bgColor="#fff" :offsetTop="sticky">
 						<z-tabs ref="tabs" :list="tabs" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
 							active-color="#ff0800" :active-style="{color:'#303133',fontWeight:'bold'}"
 							bar-animate-mode="worm"></z-tabs>
@@ -102,7 +103,7 @@
 					<swiper style="height: 100vh;" :current="tabsIndex" @transition="swiperTransition"
 						@animationfinish="swiperAnimationfinish">
 						<swiper-item style="overflow: auto;">
-							<publish :isScroll="isScroll" :uid="id" ref="publish" v-if=""></publish>
+							<publish :isScroll="isScroll" :uid="id" ref="publish"></publish>
 						</swiper-item>
 						<swiper-item style="overflow: auto;">
 							<comment :isScroll="isScroll" :uid="id" ref="comment"></comment>
@@ -170,11 +171,14 @@
 				isScroll: false,
 				elementHeight: 0,
 				navbarHeight: 0,
+				sticky: 0,
 			};
 		},
 		onLoad(params) {
 			this.id = params.id
 			this.getAuthor(this.$Route.query.id)
+			let system = uni.getSystemInfoSync()
+			this.sticky = system.statusBarHeight + 44
 		},
 		created() {
 
@@ -233,7 +237,7 @@
 				if (scrollTop >= this.elementHeight) this.isScroll = true
 				else this.isScroll = false
 			},
-			
+
 			goPrivate(data) {
 				if (data.uid == this.$store.state.userInfo.uid) {
 					uni.$u.toast('不能私聊自己')

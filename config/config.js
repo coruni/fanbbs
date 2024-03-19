@@ -1,5 +1,5 @@
 const config = {
-	// API接口，必须是HTTPS开头
+	// API接口，必须是HTTPS开头 
 	"api": "https://api.i-hentai.cc",
 	// 版本号，禁止私自修改，后果自负
 	"version": "1.0.0",

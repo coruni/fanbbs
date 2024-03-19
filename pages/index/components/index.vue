@@ -28,7 +28,7 @@
 			@animationfinish="swiperAnimationfinish">
 			<swiper-item v-for="(page,pageIndex) in $store.state.homeTabs" :key="pageIndex">
 				<articleIndex :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.iswaterfall"
-					:isSwiper="!pageIndex" @edit="$emit('edit',$event)">
+					:isSwiper="!pageIndex" @edit="$emit('edit',$event)" ref="article">
 				</articleIndex>
 				<water-fall-index v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex"
 					style="margin-bottom: 190rpx;" class="waterfall-home"></water-fall-index>
@@ -172,6 +172,9 @@
 					path: '/pages/notice/notice',
 
 				})
+			},
+			reload(){
+				this.$refs.article.reload()
 			}
 		}
 	}

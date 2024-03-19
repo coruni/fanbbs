@@ -383,7 +383,7 @@
 			}
 		},
 		computed: {
-			...mapState(['userInfo', 'userMeta'])
+			...mapState(['userInfo'])
 		},
 		created() {
 			uni.$on('login', data => {
@@ -438,7 +438,6 @@
 						this.$store.commit('setUser', res.data.data)
 					}
 				}).catch(err => {
-
 				})
 			},
 

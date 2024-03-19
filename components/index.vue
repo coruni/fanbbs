@@ -188,6 +188,9 @@
 					}
 				})
 			},
+			reload(){
+				this.$refs.paging.reload()
+			}
 		}
 	}
 </script>
