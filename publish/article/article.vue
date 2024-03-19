@@ -609,10 +609,9 @@
 					const res = await uni.chooseImage({
 						count: 20
 					});
-
 					this.showLoading = true;
 					let images = await this.upload(res.tempFilePaths);
-					for (let image in images) {
+					for (let image of images) {
 						this.editorCtx.insertImage({
 							src: image,
 							alt: this.article.title ? this.article.title : 'IMAGE',
@@ -695,7 +694,7 @@
 			upload(files) {
 				return new Promise((resolve, reject) => {
 					const processedFiles = files.map((item, index) => ({
-						name: 'file',
+						name: `file${index}`,
 						uri: item // 文件路径
 					}));
 					this.$http.upload('/upload/full', {

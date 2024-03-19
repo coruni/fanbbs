@@ -380,8 +380,6 @@
 					this.showLoading = true;
 					let images = await this.upload(res.tempFilePaths);
 					for (let image of images) {
-						count--;
-						this.percentage += increment; // 增加上传进度
 						this.editorCtx.insertImage({
 							src: image,
 							alt: this.article.title ? this.article.title : 'IMAGE'
@@ -414,7 +412,7 @@
 			upload(files) {
 				return new Promise((resolve, reject) => {
 					const processedFiles = files.map((item, index) => ({
-						name: 'file',
+						name: `file${index}`,
 						uri: item // 文件路径
 					}));
 					this.$http.upload('/upload/full', {
@@ -439,7 +437,6 @@
 							this.uploadErr.msg = res.data.msg
 						}
 					}).catch(err => {
-						console.log(res)
 						this.uploadErr.status = true
 						this.uploadErr.msg = '网络错误'
 					})
