@@ -350,7 +350,6 @@
 	import {
 		base64ToPath
 	} from 'image-tools'
-	import upload from '../../uni_modules/uview-ui/libs/config/props/upload'
 	export default {
 		data() {
 			return {
@@ -515,7 +514,6 @@
 					});
 				}, 5000);
 			}
-
 		},
 		created() {
 			this.draftList = uni.getStorageSync('draftList')
@@ -611,31 +609,23 @@
 					const res = await uni.chooseImage({
 						count: 20
 					});
-					let increment = 100 / res.tempFilePaths.length; // 计算每张图片的上传进度增量
-					let count = res.tempFilePaths.length;
 
 					this.showLoading = true;
-
-					for (let i in res.tempFilePaths) {
-						let image = await this.upload(res.tempFilePaths[i]);
-						count--;
-						this.percentage += increment; // 增加上传进度
+					let images = await this.upload(res.tempFilePaths);
+					for (let image in images) {
 						this.editorCtx.insertImage({
 							src: image,
 							alt: this.article.title ? this.article.title : 'IMAGE',
-							data:{
-								'original-src': image.replace('_compress.webp','')
+							data: {
+								'original-src': image.replace('_compress.webp', '')
 							}
-							
+
 						});
 					}
-
-					if (count === 0) {
-						setTimeout(() => {
-							this.showLoading = false;
-						}, 200);
-					}
-
+					setTimeout(() => {
+						this.showLoading = false;
+					}, 200);
+					
 					this.editorCtx.insertText({
 						text: '\n'
 					});
@@ -702,21 +692,27 @@
 				})
 
 			},
-			upload(image) {
+			upload(files) {
 				return new Promise((resolve, reject) => {
-					this.$http.upload('/upload/full', {
-						filePath: image,
+					const processedFiles = files.map((item, index) => ({
 						name: 'file',
+						uri: item // 文件路径
+					}));
+					this.$http.upload('/upload/full', {
+						files: processedFiles,
 					}).then(res => {
-
 						if (res.data.code == 200) {
-							resolve(res.data.data.url)
+							const data = res.data.data;
+							if (data.hasOwnProperty('urls')) {
+								resolve(data.urls)
+							} else {
+								resolve([data.url])
+							}
 						} else {
 							this.uploadErr.status = true
 							this.uploadErr.msg = res.data.msg
 						}
 					}).catch(err => {
-						console.log(err)
 						this.uploadErr.status = true
 						this.uploadErr.msg = '网络错误'
 					})

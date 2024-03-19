@@ -172,7 +172,7 @@
 				],
 				payPackage: [{
 					id: 1,
-					price: 0.01,
+					price: 1,
 				}, {
 					id: 2,
 					price: 6
@@ -191,7 +191,7 @@
 				}],
 				selectPackage: {
 					id: 1,
-					price: 0.01
+					price: 1
 				},
 				radio: '微信',
 				config: {},

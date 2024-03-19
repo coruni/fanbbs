@@ -45,7 +45,7 @@
 							<text style="flex-shrink: 0;">标签：</text>
 							<scroll-view scroll-y style="height: 100%;">
 								<u-row>
-									<block v-for="(item,index) in tags" key="index">
+									<block v-for="(item,index) in tags" :key="index">
 										<view
 											style="border-radius: 50rpx; padding: 8rpx 14rpx;background: #ff08001e;color: #ff0800;font-size: 26rpx; margin-right: 20rpx;">
 											<text>{{item.name}}</text>
@@ -376,13 +376,10 @@
 					const res = await uni.chooseImage({
 						count: 100
 					});
-					let increment = 100 / res.tempFilePaths.length; // 计算每张图片的上传进度增量
-					let count = res.tempFilePaths.length;
-
+					
 					this.showLoading = true;
-
-					for (let i in res.tempFilePaths) {
-						let image = await this.upload(res.tempFilePaths[i]);
+					let images = await this.upload(res.tempFilePaths);
+					for (let image of images) {
 						count--;
 						this.percentage += increment; // 增加上传进度
 						this.editorCtx.insertImage({
@@ -390,12 +387,10 @@
 							alt: this.article.title ? this.article.title : 'IMAGE'
 						});
 					}
-
-					if (count === 0) {
-						setTimeout(() => {
-							this.showLoading = false;
-						}, 200);
-					}
+					
+					setTimeout(() => {
+						this.showLoading = false;
+					}, 200);
 
 					this.editorCtx.insertText({
 						text: '\n'
@@ -416,21 +411,35 @@
 					this.article.tags.push(item);
 				}
 			},
-			upload(image) {
+			upload(files) {
 				return new Promise((resolve, reject) => {
-					this.$http.upload('/upload/full', {
-						filePath: image,
+					const processedFiles = files.map((item, index) => ({
 						name: 'file',
+						uri: item // 文件路径
+					}));
+					this.$http.upload('/upload/full', {
+						files: processedFiles,
+						getTask: (task) => {
+							task.onProgressUpdate((res) => {
+								this.percentage = res.progress
+							})
+						}
 					}).then(res => {
-
 						if (res.data.code == 200) {
-							this.images.push(res.data.data.url)
-							resolve(res.data.data.url)
+							const data = res.data.data;
+							if (data.hasOwnProperty('urls')) {
+								this.images = data.urls
+								resolve(data.urls)
+							} else {
+								this.images.push(data.url)
+								resolve([data.url])
+							}
 						} else {
 							this.uploadErr.status = true
 							this.uploadErr.msg = res.data.msg
 						}
 					}).catch(err => {
+						console.log(res)
 						this.uploadErr.status = true
 						this.uploadErr.msg = '网络错误'
 					})
