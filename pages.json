@@ -234,7 +234,8 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			},
-			"name": "orderList"
+			"name": "orderList",
+			"perm":"login"
 		},
 		{
 			"path": "pages/user/tracking",
@@ -332,7 +333,8 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			},
-			"name":"myReward"
+			"name":"myReward",
+			"perm":"login"
 		},
 		{
 			"path" : "pages/common/tag/tag",

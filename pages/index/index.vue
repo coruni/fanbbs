@@ -1,11 +1,11 @@
 <template>
 	<z-paging-swiper>
-		<home @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event" ref="home">
+		<home @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"  ref="home">
 		</home>
 		<discovery v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex" @edit="showMoreMenu = true;data=$event">
 		</discovery>
 		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
-		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex"></user>
+		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex" style="height: 100%;margin-bottom: 190rpx;"></user>
 		<!-- 底部导航栏 -->
 		<template #bottom>
 			<view class="bottom-tabbar">

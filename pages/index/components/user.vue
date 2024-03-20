@@ -1,11 +1,11 @@
 <template>
-	<view>
+	<view style="overflow: scroll;">
 		<u-navbar id="navbar"
 			:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : $u.colorToRgba('#fff', opacity)">
 			<view slot="left">
 				<u-row>
-					<u-icon name="scan" size="26"
-						:color="opacity>0.4? (theme === '#292929' ? '#fff' : 'black') : 'white'"></u-icon>
+					<!-- <u-icon name="scan" size="26"
+						:color="opacity>0.4? (theme === '#292929' ? '#fff' : 'black') : 'white'"></u-icon> -->
 					<u-row customStyle="margin-left:20rpx" v-show="opacity>=1" @click="$refs.paging.scrollToTop()">
 						<u-avatar :src="userInfo && userInfo.avatar" size="26"></u-avatar>
 						<text style="margin-left:20rpx">{{userInfo && userInfo.screenName}}</text>
@@ -26,14 +26,13 @@
 			</image>
 			<view class="top-header"></view>
 			<!-- 头像 -->
-			<view class="avatar-position">
-				<u-avatar style="border: 4rpx solid #fff;" :src="userInfo && userInfo.avatar" size="80"
-					@click="$store.state.hasLogin?'':goLogin()"></u-avatar>
+			<view class="avatar-position" @click="$store.state.hasLogin?goProfile():goLogin()">
+				<u-avatar style="border: 6rpx solid #fff;" :src="userInfo && userInfo.avatar" size="80"></u-avatar>
 				<image class="avatar_head" mode="aspectFill" :src="userInfo && userInfo.opt&&userInfo.opt.head_picture">
 				</image>
 			</view>
 			<!-- 用户数据 -->
-			<view class="data-position" style="width: 30%;">
+			<view class="data-position" style="width: 30%;" v-if="$store.state.hasLogin">
 				<u-row justify="space-between">
 					<u-col :span="6">
 						<view class="userMate">
@@ -68,74 +67,122 @@
 						<text>{{userInfo&& userInfo.uid}}</text>
 					</u-row>
 				</view>
-				<u-row class="wallet" justify="space-between" align="end">
+				<u-row class="wallet" justify="space-between" align="end" @click="goPage('wallet')">
 					<i class="mgc_wallet_3_fill wallet-icon"></i>
 					<text class="u-line-1" style="font-size: 28rpx;">{{userInfo&& userInfo.assets}}</text>
 				</u-row>
 			</u-row>
 			<u-row v-else>
-				<text style="font-weight: 600;font-size: 34rpx;" @click="goLogin()">哦~乐子神在上，这里还有一个没有加入欢愉的瓜娃子</text>
-
+				<text style="font-weight: 600;font-size: 34rpx;" @click="goLogin()">哦~乐子神在上</text>
 			</u-row>
 		</view>
 		<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
-		<view style="padding: 40rpx;">
+		<view style="padding: 40rpx;" class="panel-container">
 			<u-row style="height: 400rpx;" justify="space-between">
 				<u-col :span="5" id="sign" @click="checkUp()">
 					<view class="panel-article" :style="{backgroundColor:getTime.backgroundColor}">
 						<view class="panel-article-text">
 							<text>{{getTime.greeting}}</text>
-							<text>{{getTime.hour>=21 || getTime.hour<6?'记得早点休息哦~':tasks && tasks.isSign?'今天的事务都完成了哦~':'今日戳戳小猫了吗？'}}</text>
+							<text>{{(tasks && tasks.isSign && getTime.hour>=21) ||(tasks && tasks.isSign && getTime.hour<6)?'记得早点休息哦~':tasks && tasks.isSign?'今天的事务都完成了哦~':'今日戳戳小猫了吗？'}}</text>
 						</view>
 					</view>
 				</u-col>
-				<u-col :span="6.5" style="height: 100%;">
-					<view style="display: flex;flex-direction: column;height: 100%;justify-content: space-between;">
-						<view class="panel-photo"></view>
-						<view class="panel-video"></view>
+				<u-col :span="6.6" style="height: 100%;">
+					<view class="panel">
+						<view class="panel-photo">
+							<u-row justify="space-around" style="height: 100%;flex: 1;">
+								<view class="circle">
+									<i class="circle-icon circle-icon-article mgc_document_fill" data-text="文章"></i>
+									<text style="margin-top: 20rpx;">{{userInfo && userInfo.articles}}</text>
+
+								</view>
+								<view class="circle">
+									<i class="circle-icon circle-icon-comment mgc_chat_4_fill" data-text="评论"></i>
+									<text style="margin-top: 20rpx;">{{userInfo && userInfo.comments}}</text>
+								</view>
+								<view class="circle">
+									<i class="circle-icon circle-icon-level mgc_heart_fill" data-text="经验"
+										:style="{ background: fillStyle }"></i>
+									<text style="margin-top: 20rpx;"
+										v-if="$store.state.hasLogin">{{ Math.floor((userInfo.experience / userInfo.nextExp) * 100) }}%</text>
+								</view>
+							</u-row>
+						</view>
+						<view class="panel-video">
+							<u-row justify="space-around" style="height: 100%;flex: 1;">
+								<view class="circle" @click="goPage('editUser')">
+									<i class="circle-icon circle-icon-user mgc_user_edit_fill"></i>
+									<text style="margin-top: 20rpx;font-size: 24rpx;">信息</text>
+								</view>
+								<view class="circle" @click="goPage('headPicture')">
+									<i class="circle-icon circle-icon-head mgc_bling_fill"></i>
+									<text style="margin-top: 20rpx;font-size: 24rpx;">头像框</text>
+								</view>
+								<view class="circle">
+									<i class="circle-icon circle-icon-rank mgc_drop_fill"></i>
+									<text style="margin-top: 20rpx;font-size: 24rpx;">头衔</text>
+								</view>
+							</u-row>
+						</view>
 					</view>
 				</u-col>
-
-
 			</u-row>
 		</view>
 		<!-- 组件 -->
-
-
-		<!-- 组件 -->
-		<u-popup mode="right" :show="showRightMenu" @close="showRightMenu = false" bgColor="#f4f4f4"
-			customStyle="width:70vw">
-			<u-gap height="44"></u-gap>
-			<block v-for="(panel,index) in rightMenuItem" :key="index">
-				<view class="rightPanel">
-					<block v-for="(item,subindex) in panel">
-						<u-row customStyle="padding:30rpx" @click="goPage(item.path);showRightMenu = false">
-							<i class="ess" :class="item.icon" style="font-size: 40rpx;"></i>
-							<text style="margin-left:20rpx;font-weight: 600;">{{item.name}}</text>
-						</u-row>
-					</block>
-				</view>
-			</block>
-			<!-- 管理面板 -->
-			<view style="position: fixed;bottom: 0; width: 70vw;">
-				<view class="rightPanel-bottom">
-					<u-row justify="space-between">
-						<u-row style="flex-direction: column;" justify="center" @click="goLogout()">
-							<i class="ess mgc_flash_line rightPanel-bottom-icon"></i>
-							<text style="font-size: 26rpx;margin-top: 10rpx;">退出</text>
-						</u-row>
-						<u-row style="flex-direction: column;" justify="center">
-							<i class="ess mgc_clipboard_line rightPanel-bottom-icon"></i>
-							<text style="font-size: 26rpx;margin-top: 10rpx;">反馈</text>
-						</u-row>
-						<u-row style="flex-direction: column;" justify="center" @click="goPage('setting')">
-							<i class="ess mgc_settings_1_line rightPanel-bottom-icon"></i>
-							<text style="font-size: 26rpx;margin-top: 10rpx;">设置</text>
-						</u-row>
-					</u-row>
-				</view>
-			</view>
-		</u-popup>
+		<view style="padding: 40rpx;padding-top: 0rpx;">
+			<text class="more">更多</text>
+			<u-row style="margin-top: 30rpx;" justify="space-between">
+				<u-col :span="3.8">
+					<view class="more-content more-content-shop" @click="goPage('shop')">
+						<text>商店</text>
+						<i class="mgc_shop_line more-position"></i>
+					</view>
+				</u-col>
+				<u-col :span="3.8">
+					<view class="more-content more-content-order" @click="goPage('orderList')">
+						<text>订单</text>
+						<i class="mgc_coupon_line more-position"></i>
+					</view>
+				</u-col>
+				<u-col :span="3.8">
+					<view class="more-content more-content-reward" @click="goPage('myReward')">
+						<text>奖品</text>
+						<i class="mgc_gift_line more-position"></i>
+					</view>
+				</u-col>
+			</u-row>
+			<u-row style="margin-top: 30rpx;" justify="space-between">
+				<u-col :span="3.8">
+					<view class="more-content more-content-exchange" @click="goPage('exchange')">
+						<text>兑换</text>
+						<i class="mgc_sparkles_line more-position"></i>
+					</view>
+				</u-col>
+				<u-col :span="3.8">
+					<view class="more-content more-content-star" @click="goPage('collect')">
+						<text>收藏</text>
+						<i class="mgc_star_line more-position"></i>
+					</view>
+				</u-col>
+				<u-col :span="3.8">
+					<view class="more-content more-content-history" @click="goPage('history')">
+						<text>历史</text>
+						<i class="mgc_time_line more-position"></i>
+					</view>
+				</u-col>
+			</u-row>
+		</view>
+		<view style="padding: 40rpx;padding-top: 0rpx;">
+			<text class="more">系统</text>
+			<u-row style="margin-top: 30rpx;">
+				<i class="mgc_service_fill" style="font-size: 40rpx;"></i>
+				<text style="margin-left: 20rpx;">联系客服</text>
+			</u-row>
+			<u-row style="margin-top: 30rpx;color: red;" @click="goLogout()">
+				<i class="mgc_exit_line" style="font-size: 40rpx;"></i>
+				<text style="margin-left: 20rpx;">退出</text>
+			</u-row>
+		</view>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
 			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false" is-limit-move
 			is-lock-ratio :width="1280" :height="720" :scaleRatio="2" :min-width="1280" :min-height="720"
@@ -247,7 +294,6 @@
 				immediate: true
 			}
 		},
-
 		data() {
 			return {
 				showLevel: false,
@@ -366,7 +412,13 @@
 					backgroundColor,
 					hour
 				};
-			}
+			},
+			fillStyle() {
+				// 计算百分比
+				const percentage = Math.floor((this.userInfo.experience || 0 / this.userInfo.nextExp || 0) * 100);
+				// 根据百分比返回填充样式
+				return `conic-gradient(#ff0800 ${percentage}%, transparent ${percentage}% 100%)`;
+			},
 		},
 		created() {
 			uni.$on('login', data => {
@@ -386,6 +438,7 @@
 			let date = new Date();
 			this.hours = date.getHours()
 		},
+
 
 		methods: {
 			//tabs通知swiper切换
@@ -677,7 +730,19 @@
 		}
 	}
 
+	.panel-container {
+		background-image: url('@/static/user/sign_background.webp');
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: right;
+	}
+
 	.panel {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		justify-content: space-between;
+
 		&-article {
 			display: flex;
 			position: relative;
@@ -718,16 +783,141 @@
 
 		&-photo {
 			border-radius: 10rpx;
-			background: #fce38a;
+			background: #fce38af0;
 			width: 100%;
 			height: 190rpx;
 		}
 
 		&-video {
 			border-radius: 10rpx;
-			background: #eaffd0;
+			background: #ffaaa5f0;
 			width: 100%;
 			height: 190rpx;
+		}
+	}
+
+	.circle {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		color: white;
+	}
+
+	.circle-icon {
+		padding: 20rpx;
+		border-radius: 50rpx;
+		color: white;
+		font-size: 40rpx;
+		position: relative; // 添加相对定位
+		transition: all 0.3s ease; // 添加过渡效果
+
+		&::after {
+			content: attr(data-text); // 获取 data-text 属性作为文字内容
+			position: absolute; // 绝对定位
+			left: 50%;
+			font-size: 24rpx;
+			font-weight: 600;
+			width: 100%;
+			text-align: center;
+			transform: translateX(-50%); // 水平居中
+			bottom: -30rpx; // 距离图标底部 30rpx
+			opacity: 0; // 初始时文字不可见
+			transition: opacity 0.3s ease; // 添加过渡效果
+		}
+
+		&:hover {
+			transform: translateY(-10rpx); // 悬停时向上平移 10rpx
+
+			&::after {
+				opacity: 1; // 悬停时文字可见
+			}
+		}
+
+		&-article {
+			background-color: #ff8c94;
+			box-shadow: 0 0 10rpx 0 #ff8c94;
+		}
+
+		&-comment {
+			background-color: #0dceda;
+			box-shadow: 0 0 10rpx 0 #0dceda;
+		}
+
+		&-level {
+			background-color: #ff0800;
+			box-shadow: 0 0 10rpx 0 #ff0800;
+		}
+
+		&-user {
+			background-color: #ffaa64;
+			box-shadow: 0 0 10rpx 0 #ffaa64;
+		}
+
+		&-rank {
+			background-color: #6eb6ff;
+			box-shadow: 0 0 10rpx 0 #6eb6ff;
+		}
+
+		&-head {
+			background-color: #f67280;
+			box-shadow: 0 0 10rpx 0 #f67280;
+		}
+	}
+
+	.more {
+		font-weight: 600;
+		position: relative;
+
+		::after {
+			content: "";
+			position: absolute;
+			bottom: -8rpx;
+			height: 6rpx;
+			background: #2d4059;
+			border-radius: 50rpx;
+			left: 0;
+			width: 100%;
+		}
+
+		&-position {
+			position: absolute;
+			overflow: hidden;
+			right: 0;
+			top: 0;
+			opacity: 0.5;
+			font-size: 160rpx;
+		}
+
+		&-content {
+			position: relative;
+			overflow: hidden;
+			padding: 30rpx;
+			border-radius: 20rpx;
+			color: white;
+
+			&-shop {
+				background: #80d6fff0;
+			}
+
+			&-order {
+				background: #f47c7cf0;
+			}
+
+			&-reward {
+				background: #fab57af0;
+			}
+
+			&-exchange {
+				background: #f06868f0;
+			}
+
+			&-star {
+				background: #a393ebf0;
+			}
+
+			&-history {
+				background: #455d7af0;
+			}
 		}
 	}
 </style>
