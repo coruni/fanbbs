@@ -645,7 +645,7 @@
 	.avatar-position {
 		position: absolute;
 		bottom: -60rpx;
-		padding: 40rpx;
+		margin: 40rpx;
 	}
 
 	.level {
