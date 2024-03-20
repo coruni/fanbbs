@@ -861,7 +861,7 @@
 				let url;
 				if (type) {
 					file = await this.formatImage(this.videoInfo.poster.base64);
-					poster = await this.upload(file);
+					poster = await this.uploadFile(file,'image');
 					url = this.videoInfo.url
 				} else {
 					poster = this.video.poster;
