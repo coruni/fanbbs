@@ -1,57 +1,63 @@
 <template>
 	<z-paging-swiper>
-		<home @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event"  ref="home">
+		<home @avatarTap="avatarTap()" v-show="tabbarIndex == 0" @edit="showMoreMenu = true;data=$event" ref="home">
 		</home>
 		<discovery v-show="tabbarIndex == 1" :index="1" :current="tabbarIndex" @edit="showMoreMenu = true;data=$event">
 		</discovery>
 		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
-		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex" style="height: 100%;margin-bottom: 190rpx;"></user>
+		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex" style="height: 100%;margin-bottom: 190rpx;">
+		</user>
 		<!-- 底部导航栏 -->
+		<!-- 底部占位高度 100rpx -->
 		<template #bottom>
-			<view class="bottom-tabbar">
-				<u-row justify="space-between">
-					<block v-for="(item,index) in tabbar" :key="index">
-						<u-row style="flex-direction:column" v-if="index!=4" @click="tabbarTap(index)">
-							<i class="ess" :class="item.active ? [item.cur, 'btn-active'] : item.icon"
-								style="font-size: 45rpx;"></i>
-							<text style="font-size: 28rpx;margin-top: 6rpx;"
-								:class="{'btn-active':item.active}">{{item.name}}</text>
-						</u-row>
-					</block>
-					<view class="tabbar-avatar" @tap.stop="tabbarTap(4)">
-						<u-avatar :src="$store.state.userInfo.avatar" size="30" class="avatar"
-							:class="{'animate__animated animate__rotateIn avatar_active':tabbarIndex==4}"></u-avatar>
-					</view>
-				</u-row>
-			</view>
+			<u-row class="bottom bottom-tabbar" justify="space-around">
+				<view class="content" :class="{'btn-active':tabbarIndex==0}" @tap.stop="tabbarIndex=0">
+					<i class="mgc_home_5_line"></i>
+					<text>首页</text>
+				</view>
+				<view class="content" :class="{'btn-active':tabbarIndex==1}" @tap.stop="tabbarIndex=1">
+					<i class="mgc_planet_line"></i>
+					<text>星球</text>
+				</view>
+				<view class="content content-add" @click="showPublish = true">
+					<i class="mgc_add_line"></i>
+				</view>
+				<view class="content" :class="{'btn-active':tabbarIndex==3}" @tap.stop="tabbarIndex=3">
+					<i class="mgc_cube_line"></i>
+					<text>小圈</text>
+				</view>
+				<view @tap.stop="tabbarIndex=4">
+					<u-avatar :src="$store.state.userInfo.avatar || null" size="30"></u-avatar>
+				</view>
+			</u-row>
 		</template>
-
 		<!-- 组件开始 -->
 		<u-popup :show="showPublish" @close="showPublish = false" customStyle="border-radius:20rpx 20rpx 0 0">
-			<view style="margin: 30rpx;">
-				<text style="font-weight:600">发布文章</text>
-				<u-row justify="space-around" customStyle="margin-top:30rpx">
-					<block v-for="(item,index) in publish" :key="index">
-						<view style="
-						display: flex;
-						flex-direction: column;
-						align-items: center;" @click="goPublish(item.path);showPublish=false">
-							<i :class="item.icon" style="font-size: 48rpx;
-							background: #ff08004c;
-							border-radius: 50rpx;
-							display: inline-flex;
-							color:white;
-							padding: 20rpx;"></i>
-							<text style="margin-top: 20rpx;">{{item.name}}</text>
-						</view>
-					</block>
-				</u-row>
-				<view style="margin-top: 30rpx;">
-					<view style="font-size: 26rpx;color: #999;display: flex;flex-direction: column;">
-						<text>1. 在本APP中发布内容则代表您接受本社区的服务条款以及用户协议</text>
-						<text>2. 帖子：图文混搭、图片：仅发布图片、视频：仅发布视频</text>
+			<view style="padding: 30rpx;">
+				<view style="text-align: center;">
+					<text >{{$store.state.hasLogin?'有什么好玩的事~？':'请登录后再发表'}}</text>
+				</view>
+				<view class="publish-content">
+					<view class="publish-content-article" @click="goPublish('articlePublish')">
+						<text>我以精神作笔，谱写乐章</text>
+					</view>
+					<view class="publish-content-photo" @click="goPublish('photo')">
+						<text>万物生于灵动，画作锦绣</text>
+					</view>
+					<view class="publish-content-video" @click="goPublish('video')">
+						<text>虚已为静，动则为实！~</text>
 					</view>
 				</view>
+				<view style="display: flex;flex-direction: column;">
+					<text style="font-size: 34rpx;">创作灵感</text>
+					<text style="padding-left: 30rpx;font-size: 26rpx;">大家都想看的</text>
+				</view>
+				
+				<block v-for="(item,index) in tags" :key="index">
+					<view class="tag-content">
+						<text>No{{index+1}}  {{item.name}}</text>
+					</view>
+				</block>
 			</view>
 		</u-popup>
 
@@ -103,7 +109,6 @@
 								<text style="margin-left:20rpx">删除</text>
 							</u-row>
 						</view>
-
 					</view>
 				</view>
 			</view>
@@ -138,7 +143,7 @@
 		shareWithSystem,
 		filterHtml
 	} from '@/common/common.js';
-	import home from './components/home.vue';
+	import home from './components/home.nvue';
 	import discovery from './components/discovery.vue';
 	import user from './components/user.vue';
 	import category from './components/category.vue';
@@ -162,6 +167,7 @@
 				topTabIndex: 0,
 				tabbarIndex: 0,
 				showPublish: false,
+				tags: [],
 				publish: [{
 						name: '帖子',
 						type: 'article',
@@ -239,12 +245,11 @@
 				showDelete: false,
 			}
 		},
-		created() {
-
-		},
+		created() {},
 		onReady() {},
 		onLoad() {
 			uni.setNavStyle()
+			this.getTags()
 			// 用户切换主题，动态修改状态栏颜色
 			uni.onThemeChange(() => {
 				uni.setNavStyle()
@@ -253,7 +258,6 @@
 		methods: {
 			shareTap,
 			filterHtml,
-
 			animationfinish(data) {
 				this.topTabIndex = data.detail.current
 			},
@@ -278,6 +282,18 @@
 					this.tabbarIndex = 4
 				});
 				this.tabbarIndex = 4
+			},
+			getTags() {
+				this.$http.get('/category/list', {
+					params: {
+						limit: 3,
+						params: {
+							type: 'tag'
+						}
+					}
+				}).then(res => {
+					this.tags = res.data.data.data
+				})
 			},
 			goPublish(path) {
 				if (!path) return;
@@ -341,21 +357,69 @@
 	}
 </script>
 <style lang="scss">
+	@media(prefers-color-scheme:dark) {
+		.tag-content {
+			background-color: #525252;
+		}
+	}
+
+	.content {
+		display: flex;
+		flex-direction: column;
+		font-size: 46rpx;
+		color: #8a8a8a;
+		transition: 0.5s ease-in-out all;
+
+		&-add {
+			font-size: 60rpx;
+			background-color: #fff;
+			border-radius: 500rpx;
+			padding: 30rpx;
+			margin-bottom: 30rpx;
+			border-top: #f7f7f7 2rpx solid;
+
+			&:hover {
+				transform: translateY(-20rpx);
+			}
+
+			&>i {
+				transition: 0.5s ease all;
+				transform-origin: 50% 50%;
+
+				/* 设置旋转中心点为元素中心 */
+				&:hover {
+					transform: rotate(45deg);
+					/* 合并两个变换 */
+				}
+			}
+		}
+
+		&>text {
+			font-size: 24rpx;
+		}
+
+		&:hover {
+			color: $c-primary;
+		}
+	}
+
 	.swiper {
 		height: 100%;
 	}
 
 	.btn-active {
-		color: #ff0800a0;
+		color: $c-primary;
 		/* 设置颜色 */
-		transition: all ease-out 0.2s;
 	}
 
-	.bottom-tabbar {
-		background: white;
-		padding: 11rpx 30rpx;
+	.bottom {
+		width: 100%;
+		height: 100rpx;
 		z-index: 999;
-		border-top: #f7f7f7 2rpx solid;
+
+		&-tabbar {
+			border-top: #f7f7f7 2rpx solid;
+		}
 	}
 
 	.tabbar-avatar {
@@ -374,5 +438,86 @@
 		&_active {
 			border: 4rpx solid #ff0800a0 !important;
 		}
+	}
+
+	.tabbar {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		font-size: 40rpx;
+		transition: all 0.5s ease;
+
+		&:hover {
+			color: $c-primary;
+		}
+
+		&-add {
+			background: radial-gradient(circle at 50% 0rpx, transparent 80rpx, white 0) top left 100% no-repeat;
+			font-size: 45rpx;
+			transform: translateY(-20rpx);
+
+			&:hover {
+				transform: rotate(90deg);
+			}
+		}
+	}
+
+	.publish-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+
+		&-article {
+			display: flex;
+			justify-content: center;
+			color: white;
+			align-items: center;
+			width: 100%;
+			margin: 30rpx;
+			background-image: url();
+			height: 100rpx;
+			background-color: #ffaaa5;
+			border-radius: 10rpx;
+			box-shadow: 0 0 8rpx 0 #ffaaa5;
+		}
+
+		&-photo {
+			display: flex;
+			justify-content: center;
+			color: white;
+			align-items: center;
+			width: 100%;
+			margin: 30rpx;
+			margin-top: 0rpx;
+			height: 100rpx;
+			background-color: #ffd3b6;
+			border-radius: 10rpx;
+			box-shadow: 0 0 8rpx 0 #ffd3b6;
+		}
+
+		&-video {
+			display: flex;
+			justify-content: center;
+			color: white;
+			align-items: center;
+			width: 100%;
+			margin: 30rpx;
+			margin-top: 0rpx;
+			height: 100rpx;
+			background-color: #dcedc1;
+			border-radius: 10rpx;
+			box-shadow: 0 0 8rpx 0 #dcedc1;
+		}
+	}
+
+	.tag-content {
+		margin-top: 30rpx;
+		background-color: #f7f7f7;
+		padding: 20rpx;
+		border-radius: 20rpx;
+		font-size: 30rpx;
 	}
 </style>

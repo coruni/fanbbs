@@ -10,6 +10,7 @@
 	import store from './store';
 	export default {
 		onLaunch: function() {
+			console.log(uni.getSystemInfoSync().browserName)
 			// #ifdef APP-PLUS
 			plus.nativeUI.setUIStyle('auto')
 			// #endif
@@ -207,8 +208,8 @@
 
 <style lang="scss">
 	@font-face {
-		font-family: 'moe';
-		src: url('/static/font/moe.ttf');
+		font-family: 'HarmonyOS_Sans';
+		src: url('/static/font/HarmonyOS_Sans_SC_Medium.ttf');
 
 	}
 
@@ -221,7 +222,7 @@
 	@import './static/font/ess/ess.css';
 
 	body {
-		font-family: 'moe';
+		font-family: 'HarmonyOS_Sans';
 	}
 
 	@media (prefers-color-scheme: dark) {

@@ -76,14 +76,14 @@ uni.$zp = {
 		//配置分页默认pageSize为15
 		'default-page-size': '10',
 		//配置空数据图默认描述文字为：空空如也~~
-		'empty-view-text': '啊哦~好像还没有呢~',
-		'loading-more-no-more-text': '放过我吧~真的一滴都没有了~',
-		'loading-more-fail-text': '你把人家玩坏了呢~',
-		'loading-more-loading-text': '稍等哦~在弄了呢~',
-		'refresher-default-text': '欸？还要玩吗？',
-		'refresher-pulling-text': '好疼！快松开人家~',
-		'refresher-refreshing-text': '笨蛋！道歉之前先拔出来啊！',
-		'refresher-complete-text': 'Baka!'
+		'empty-view-text': '空数据',
+		'loading-more-no-more-text': '无数据',
+		'loading-more-fail-text': '错误数据',
+		'loading-more-loading-text': '加载中',
+		'refresher-default-text': '下拉重载',
+		'refresher-pulling-text': '释放重载',
+		'refresher-refreshing-text': '重载中...',
+		'refresher-complete-text': '已重载'
 		//...
 	}
 }

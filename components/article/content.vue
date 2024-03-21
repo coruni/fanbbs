@@ -35,31 +35,78 @@
 		<!-- 一张图片 -->
 		<view v-if="data.images.length==1&&data.type!='video'">
 			<!-- <u-image :src="data.images[0]" :mode="mode" width="100%" radius="10" height="200"></u-image> -->
-			<image :src="data.images[0]" :mode="mode"
+			<image :src="data.images[0]" mode="heightFix"
 				style="width: 100%; max-height: 400rpx;border-radius: 20rpx;background: #f7f7f7;"
 				@click.stop="picPreview(data.images,0)">
 			</image>
-		</view>
-		<!-- 三张图片以上才显示 -->
-		<view id="album" style="width: 100%;" v-if="data.images.length>= 3 &&data.type!='video'">
-			<uv-album :urls="data.images" maxCount="6" borderRadius="15" :singleSize="elWidth*0.8"
-				singleMode="scaleToFill" :multipleSize="elWidth" v-if="data.images.length"></uv-album>
 		</view>
 
 		<!-- 两张图片 -->
 		<view v-if="data.images.length==2&&data.type!='video'">
 			<u-row justify="space-between">
-				<u-col span="5.9">
+				<u-col :span="5.92">
 					<image mode="aspectFill" style="width: 100%;height: 300rpx;border-radius: 20rpx 0 0 20rpx;"
 						:src="data.images[0]" @click.stop="picPreview(data.images,0)">
 					</image>
 				</u-col>
-				<u-col span="5.9">
+				<u-col :span="5.92">
 					<image mode="aspectFill" style="width: 100%;height: 300rpx;border-radius: 0 20rpx 20rpx 0;"
 						:src="data.images[1]" @click.stop="picPreview(data.images,1)">
 					</image>
 				</u-col>
 			</u-row>
+		</view>
+
+		<!-- 大于等于三 小于六才显示 -->
+		<view v-if="data.images.length>=3 && data.images.length<6 &&data.type !='video'">
+			<u-row justify="space-between" style="height: 400rpx;">
+				<u-col :span="5.91" style="height: 100%;">
+					<image style="height: 100%;width: 100%;border-radius: 20rpx 0 0 20rpx;" mode="aspectFill"
+						:src="data.images[0]" @tap.stop="picPreview(data.images,0,3)"></image>
+				</u-col>
+				<u-col :span="5.91" style="height: 100%;">
+					<view style="display: flex;flex-direction: column;height: 100%;">
+						<image style="height: 100%;width: 100%;border-radius: 0 20rpx 0 0;" mode="aspectFill"
+							:src="data.images[1]" @tap.stop="picPreview(data.images,1,3)"></image>
+						<image style="height: 100%;width: 100%;border-radius: 0 0 20rpx 0; margin-top: 12rpx;"
+							mode="aspectFill" :src="data.images[2]" @tap.stop="picPreview(data.images,2,3)"></image>
+					</view>
+				</u-col>
+			</u-row>
+		</view>
+
+		<!-- 大于等于六张图片 -->
+		<view v-if="data.images.length>=6 &&data.type !='video'">
+			<view style="display: flex;flex-direction: column;height: 500rpx;justify-content: space-between;">
+				<u-row justify="space-between" style="height: 70%;">
+					<u-col :span="5.91" style="height: 100%;">
+						<image style="height: 100%;width: 100%;border-radius: 20rpx 0 0 0;" mode="aspectFill"
+							:src="data.images[0]" @tap.stop="picPreview(data.images,0,6)"></image>
+					</u-col>
+					<u-col :span="5.91" style="height: 100%;">
+						<view style="display: flex;flex-direction: column;height: 100%;">
+							<image style="height: 100%;width: 100%;border-radius: 0 20rpx 0 0;" mode="aspectFill"
+								:src="data.images[1]" @tap.stop="picPreview(data.images,1,6)"></image>
+							<image style="height: 100%;width: 100%; margin-top: 12rpx;" mode="aspectFill"
+								:src="data.images[2]" @tap.stop="picPreview(data.images,2,6)"></image>
+						</view>
+					</u-col>
+				</u-row>
+				<u-row style="height: 30%; margin-top: 12rpx;" justify="space-between">
+					<u-col :span="3.89" style="height: 100%;">
+						<image style="height: 100%;width: 100%; border-radius: 0 0 0 20rpx;" mode="aspectFill"
+							:src="data.images[3]" @tap.stop="picPreview(data.images,3,6)"></image>
+					</u-col>
+					<u-col :span="3.89" style="height: 100%;">
+						<image style="height: 100%;width: 100%;" mode="aspectFill" :src="data.images[4]"
+							@tap.stop="picPreview(data.images,4,6)"></image>
+					</u-col>
+					<u-col :span="3.89" style="height: 100%;">
+						<image style="height: 100%;width: 100%;border-radius: 0 0 20rpx 0" mode="aspectFill"
+							:src="data.images[5]" @tap.stop="picPreview(data.images,5,6)"></image>
+					</u-col>
+				</u-row>
+			</view>
 		</view>
 
 
@@ -91,51 +138,7 @@
 				mode: 'aspectFill'
 			}
 		},
-		async mounted() {
-			this.getImageInfo()
-			// 直接计算图片大小
-			if (this.data.images.length >= 3) {
-				this.elWidth = uni.getStorageSync('albumWidth')
-				// if (uni.getStorageSync('albumWidth') > 0) {
-				// 	this.elWidth = (uni.getStorageSync('albumWidth') - 12) / 3
-				// }
-				// this.$nextTick(() => {
-				// 	this.getAlbumWidth();
-				// }, 1)
-				let data = await this.getAlbumWidth()
-				if (data.width != 0) this.elWidth = (data.width - 12) / 3
-			}
-
-		},
 		methods: {
-			getImageInfo() {
-				if (this.data.images.length == 1) {
-					uni.getImageInfo({
-						src: this.data.images[0],
-						success: (res) => {
-							if (res.width < res.height) {
-								this.mode = 'heightFix'
-							} else {
-								this.mode = 'aspectFill'
-							}
-						}
-					})
-				}
-
-			},
-			getAlbumWidth() {
-				let elWidth = uni.getStorageSync('albumWidth');
-				return new Promise((resolve, reject) => {
-					uni.createSelectorQuery().in(this).select('#album').boundingClientRect(data => {
-
-						if (data.width) uni.setStorageSync('albumWidth', (data.width - 12) / 3);
-						if (data.width == 0 && !elWidth) this.getAlbumWidth();
-						if (data.width == 0 && elWidth) this.elWidth = elWidth;
-						resolve(data)
-					}).exec();
-				})
-
-			},
 			replaceEmoji(html) {
 				return html.replace(/_|#([^|]+)_(([^|]+))|/g, (match, name, key) => {
 					const emoji = this.$emoji.data.find(e => e.name === name)
@@ -158,36 +161,14 @@
 					}
 				})
 			},
-			picPreview(urls, current) {
+			picPreview(urls, current, count = urls.length) {
+				const selectedUrls = urls.slice(0, count).map(url => {
+					return url.replace('_compress.webp', ''); // 将链接中的 _compress.webp 删除
+				});
 				uni.previewImage({
-					urls,
-					current,
-					longPressActions: {
-						itemList: ['保存原图'],
-						success(data) {
-							const save = path => {
-								uni.saveImageToPhotosAlbum({
-									filePath: path,
-									success() {
-										uni.showToast({
-											title: '保存成功'
-										})
-									}
-								})
-							}
-							if (urls[current].startsWith('http')) {
-								let imageUrl = urls[current];
-								imageUrl = imageUrl.replace('_compress.webp', '');
-								uni.downloadFile({
-									url: imageUrl,
-									success: res => save(res.tempFilePath)
-								})
-							} else {
-								save(urls[current])
-							}
-						}
-					},
-				})
+					urls: selectedUrls,
+					current: current
+				});
 			}
 		}
 	}

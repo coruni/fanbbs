@@ -9,9 +9,8 @@
 				<view>
 					<view v-for="(item,index) in list1" :key="index" :style="[imageStyle(item)]" class="waterfall"
 						@tap.stop="goArticle(item)">
-						<image
-							:src="item.images.length?item.images[0]:'/static/login.jpg'"
-							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
+						<image :src="item.images.length?item.images[0]:'/static/login.jpg'" mode="widthFix"
+							:style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
 						</image>
 						<view style="margin: 20rpx;">
 							<text class="u-line-2">{{item.title}}</text>
@@ -37,6 +36,10 @@
 				</view>
 			</template>
 		</uv-waterfall>
+		<!-- 底部占位 -->
+		<template #bottom>
+			<view style="height: 80rpx;background: transparent;"></view>
+		</template>
 	</z-paging>
 </template>
 

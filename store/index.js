@@ -81,9 +81,17 @@ const store = new Vuex.Store({
 			state.userMeta = {};
 			state.token = null;
 			state.hasLogin = false
-			uni.redirectTo({
-				url: '/pages/index/index'
+			uni.showLoading({
+				mask:true,
+				title:'正在清除数据...'
 			})
+			setTimeout(()=>{
+				uni.redirectTo({
+					url: '/pages/index/index'
+				})
+				uni.hideLoading()
+			},800)
+			
 		},
 		setSwiper(state, payload) {
 			uni.setStorage({

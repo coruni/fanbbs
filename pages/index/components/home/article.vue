@@ -1,7 +1,7 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
-		cache-mode="always" style="margin-bottom: 190rpx;" @onRefresh="onRefresh" :auto-clean-list-when-reload="false"
-		use-cache :cache-key="`articleList_${mid}`">
+		cache-mode="always" @onRefresh="onRefresh" safe-area-inset-bottom :auto-clean-list-when-reload="false" use-cache
+		:cache-key="`articleList_${mid}`">
 		<view class="swiper" v-if="swiper==0">
 			<u-swiper height="100%" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="10" showTitle></u-swiper>
@@ -33,6 +33,10 @@
 			</view>
 			<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
 		</block>
+		<!-- 底部占位高度 100rpx -->
+		<template #bottom style="opacity: 0;">
+			<view style="background: transparent !important;height: 80rpx;"></view>
+		</template>
 	</z-paging>
 </template>
 
@@ -188,7 +192,7 @@
 					}
 				})
 			},
-			reload(){
+			reload() {
 				this.$refs.paging.reload()
 			}
 		}

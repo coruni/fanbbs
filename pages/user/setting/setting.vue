@@ -1,75 +1,82 @@
 <template>
-	<view>
-		<u-navbar title="设置" placeholder autoBack bgColor="transparent">
-			<view slot="left">
-				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
+	<view class="content">
+		<view>
+			<u-navbar title="设置" placeholder autoBack bgColor="transparent">
+				<view slot="left">
+					<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
+				</view>
+			</u-navbar>
+			<view>
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="goPage('account')">
+					<text>账号与安全</text>
+					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+				</u-row>
 			</view>
-		</u-navbar>
-		<view>
-			<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="goPage('account')">
-				<text>账号与安全</text>
+			<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
+			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
+				<text>护眼模式</text>
 				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 			</u-row>
-		</view>
-		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
-		<u-row justify="space-between" style="padding: 20rpx 30rpx;">
-			<text>护眼模式</text>
-			<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
-		</u-row>
-		<u-row justify="space-between" style="padding: 20rpx 30rpx;">
-			<text>动图自动播放</text>
-			<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
-		</u-row>
-		<u-row justify="space-between" style="padding: 20rpx 30rpx;">
-			<text>列表视频自动播放</text>
-			<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
-		</u-row>
-		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
-		<view>
 			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
-				<text>关于{{systemInfo.appName}}</text>
-				<u-row>
-					<text style="font-size: 28rpx;">版本{{systemInfo.appVersion}}({{systemInfo.appVersionCode}})</text>
+				<text>动图自动播放</text>
+				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+			</u-row>
+			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
+				<text>列表视频自动播放</text>
+				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+			</u-row>
+			<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
+			<view>
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;">
+					<text>关于{{systemInfo.appName}}</text>
+					<u-row>
+						<text
+							style="font-size: 28rpx;">版本{{systemInfo.appVersion}}({{systemInfo.appVersionCode}})</text>
+						<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+					</u-row>
+
+				</u-row>
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="clearCache()">
+					<text>清除缓存</text>
+					<u-row>
+						<text style="font-size: 28rpx;">{{cacheSize}}Mb</text>
+						<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+					</u-row>
+
+				</u-row>
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;">
+					<text>建议与反馈</text>
 					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 				</u-row>
-
-			</u-row>
-			<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="clearCache()">
-				<text>清除缓存</text>
-				<u-row>
-					<text style="font-size: 28rpx;">{{cacheSize}}Mb</text>
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="getUpdate()">
+					<text>检查更新</text>
 					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 				</u-row>
+			</view>
+			<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
+			<view>
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;">
+					<text>用户协议</text>
+					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+				</u-row>
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;">
+					<text>隐私政策</text>
+					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+				</u-row>
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;">
+					<text>个人信息收集清单</text>
+					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+				</u-row>
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;">
+					<text>第三方共享个人信息清单</text>
+					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+				</u-row>
+			</view>
+		</view>
+		<view style="padding: 30rpx;">
+			<u-button color="#ff165d" @click="$store.commit('logout')">退出登录</u-button>
+		</view>
 
-			</u-row>
-			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
-				<text>建议与反馈</text>
-				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
-			</u-row>
-			<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="getUpdate()">
-				<text>检查更新</text>
-				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
-			</u-row>
-		</view>
-		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
-		<view>
-			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
-				<text>用户协议</text>
-				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
-			</u-row>
-			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
-				<text>隐私政策</text>
-				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
-			</u-row>
-			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
-				<text>个人信息收集清单</text>
-				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
-			</u-row>
-			<u-row justify="space-between" style="padding: 20rpx 30rpx;">
-				<text>第三方共享个人信息清单</text>
-				<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
-			</u-row>
-		</view>
 	</view>
 </template>
 
@@ -176,5 +183,11 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	.content {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100vh;
+	}
 </style>

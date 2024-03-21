@@ -2,22 +2,6 @@
 	<view style="overflow: scroll;">
 		<u-navbar id="navbar"
 			:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : $u.colorToRgba('#fff', opacity)">
-			<view slot="left">
-				<u-row>
-					<!-- <u-icon name="scan" size="26"
-						:color="opacity>0.4? (theme === '#292929' ? '#fff' : 'black') : 'white'"></u-icon> -->
-					<u-row customStyle="margin-left:20rpx" v-show="opacity>=1" @click="$refs.paging.scrollToTop()">
-						<u-avatar :src="userInfo && userInfo.avatar" size="26"></u-avatar>
-						<text style="margin-left:20rpx">{{userInfo && userInfo.screenName}}</text>
-					</u-row>
-				</u-row>
-			</view>
-			<u-row slot="right">
-				<i class="mgc_menu_line"
-					:style="{color: opacity > 0.4 ? (theme === '#292929' ? '#fff' : 'black') : 'white'}"
-					style="font-size: 44rpx; margin-right: 20rpx;" @click="showRightMenu = true">
-				</i>
-			</u-row>
 		</u-navbar>
 		<!-- 头部 -->
 		<view style="position: relative;">
@@ -175,12 +159,12 @@
 		<view style="padding: 40rpx;padding-top: 0rpx;">
 			<text class="more">系统</text>
 			<u-row style="margin-top: 30rpx;">
-				<i class="mgc_service_fill" style="font-size: 40rpx;"></i>
+				<i class="mgc_service_fill" style="font-size: 46rpx;"></i>
 				<text style="margin-left: 20rpx;">联系客服</text>
 			</u-row>
-			<u-row style="margin-top: 30rpx;color: red;" @click="goLogout()">
-				<i class="mgc_exit_line" style="font-size: 40rpx;"></i>
-				<text style="margin-left: 20rpx;">退出</text>
+			<u-row style="margin-top: 30rpx;" @click="goPage('setting')" v-if="$store.state.hasLogin">
+				<i class="mgc_settings_1_line" style="font-size: 46rpx;"></i>
+				<text style="margin-left: 20rpx;">设置</text>
 			</u-row>
 		</view>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
