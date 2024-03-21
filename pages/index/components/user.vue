@@ -2,6 +2,7 @@
 	<view style="overflow: scroll;">
 		<u-navbar id="navbar"
 			:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : $u.colorToRgba('#fff', opacity)">
+			<view slot="left"></view>
 		</u-navbar>
 		<!-- 头部 -->
 		<view style="position: relative;">

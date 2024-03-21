@@ -19,6 +19,13 @@
 							v-if="data.authorInfo.level">
 							Lv.{{data.authorInfo.level}}
 						</text>
+						<view style="height: 40rpx;"
+							v-if="data.authorInfo && data.authorInfo.opt&& data.authorInfo.opt.rank && data.authorInfo.opt.rank.type">
+							<image :src="data.authorInfo.opt.rank.image"
+								style="height: 40rpx;width: 100%;margin-left: 20rpx;" mode="heightFix">
+							</image>
+						</view>
+
 					</u-row>
 					<u-row style="font-size: 24rpx;color: #999;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
