@@ -28,19 +28,14 @@
 				<i class="mgc_play_circle_fill" style="font-size: 60rpx;"></i>
 			</view>
 		</view>
-
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
 			:previewImg="false" :showImgMenu="false" v-if="data.type!='video'"></uv-parse>
 		<!-- 一张图片 -->
-		<view v-if="data.images.length==1&&data.type!='video'">
-			<!-- <u-image :src="data.images[0]" :mode="mode" width="100%" radius="10" height="200"></u-image> -->
-			<image :src="data.images[0]" mode="heightFix"
-				style="width: 100%; max-height: 400rpx;border-radius: 20rpx;background: #f7f7f7;"
-				@click.stop="picPreview(data.images,0)">
-			</image>
+		<view v-if="data.images.length === 1 && data.type !== 'video'">
+			<image :src="data.images[0]" mode="heightFix" style="max-height: 300rpx; border-radius: 20rpx;"
+				@tap.stop.prevent="picPreview(data.images,0)"></image>
 		</view>
-
 		<!-- 两张图片 -->
 		<view v-if="data.images.length==2&&data.type!='video'">
 			<u-row justify="space-between">
@@ -168,6 +163,26 @@
 				uni.previewImage({
 					urls: selectedUrls,
 					current: current
+				});
+			},
+			getImgMode(imageUrl) {
+				return this.getImageOrientation(imageUrl) === 'landscape' ? 'aspectFit' : 'aspectFill';
+			},
+			getImageOrientation(imageUrl) {
+				return new Promise((resolve, reject) => {
+					uni.getImageInfo({
+						src: imageUrl,
+						success: (res) => {
+							if (res.width > res.height) {
+								resolve('landscape');
+							} else {
+								resolve('portrait');
+							}
+						},
+						fail: (err) => {
+							reject(err);
+						}
+					});
 				});
 			}
 		}
