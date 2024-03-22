@@ -4,17 +4,18 @@
 			<u-navbar placeholder bgColor="transparent">
 				<view slot="left"></view>
 				<view slot="center" style="flex:1" v-if="isMounted">
-					<z-tabs ref="tabs" :list="list" :scrollCount="2" :current="tabsIndex"
-						@change="tabsChange" active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"></z-tabs>
+					<z-tabs ref="tabs" :list="list" :scrollCount="2" :current="tabsIndex" @change="tabsChange"
+						active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"></z-tabs>
 				</view>
 			</u-navbar>
 		</template>
-		<swiper style="height: 100%;" :current="tabsIndex" @transition="swiperTransition" @animationfinish="swiperAnimationfinish">
+		<swiper style="height: 100%;" :current="tabsIndex" @transition="swiperTransition"
+			@animationfinish="swiperAnimationfinish">
 			<swiper-item>
 				<articleItem @edit="$emit('edit',$event)"></articleItem>
 			</swiper-item>
 			<swiper-item>
-				<videoItem style="margin-bottom: 110rpx;"  class="waterfall-home"></videoItem>
+				<videoItem class="waterfall-home"></videoItem>
 			</swiper-item>
 		</swiper>
 	</z-paging-swiper>
@@ -84,7 +85,7 @@
 </script>
 
 <style lang="scss">
-	.waterfall-home{
+	.waterfall-home {
 		background: #f7f7f7;
 	}
 </style>

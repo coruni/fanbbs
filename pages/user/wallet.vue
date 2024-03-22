@@ -172,7 +172,7 @@
 				],
 				payPackage: [{
 					id: 1,
-					price: 1,
+					price: 0.01,
 				}, {
 					id: 2,
 					price: 6
@@ -191,7 +191,7 @@
 				}],
 				selectPackage: {
 					id: 1,
-					price: 1
+					price: 0.01
 				},
 				radio: '微信',
 				config: {},
@@ -287,10 +287,10 @@
 			goPay() {
 				switch (this.radio) {
 					case '微信':
-						this.pay('wxpay')
+						this.despoit('wxpay')
 						break;
 					case '支付宝':
-						this.pay('alipay')
+						this.despoit('alipay')
 						break;
 					case '三方微信':
 						this.orderPay('wxpay')
@@ -301,12 +301,6 @@
 					default:
 						break;
 				}
-			},
-			pay(provider) {
-				if (provider == '')
-					uni.requestPayment({
-						provider: provider,
-					})
 			},
 
 			// 三方支付
@@ -343,6 +337,33 @@
 					uni.hideLoading()
 				})
 			},
+
+			// 支付
+			despoit(provider) {
+				console.log("调用", provider)
+				uni.getProvider({
+					service: 'payment',
+					success: (res) => {
+						this.$http.post('/pay/alipay', {
+							money: this.selectPackage.price
+						}).then(res => {
+							if (res.data.code == 200) {
+								let url =
+									`alipays://platformapi/startapp?saId=10000007&qrcode=${encodeURI(res.data.order)}?_s=web-other`;
+								// #ifdef APP
+								plus.runtime.openURL(url)
+								// #endif
+								// #ifndef APP
+								window.open(url)
+								// #endif
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+					}
+				})
+			},
+
 			cardPay() {
 				if (this.card == null) {
 					uni.$u.toast('卡密不可为空')

@@ -14,6 +14,7 @@ const config = {
 // Author:CHIKATA
 // QQ群：869350741
 // 欢迎反馈问题
+// 教程文档： https://docs.qq.com/aio/DZEhDWkdqTWlQWk5H
 
 // 导出配置
 export default config;

@@ -1,5 +1,5 @@
 <template>
-	<z-paging @query="getData" ref="paging" v-model="article" style="margin-bottom: 100rpx;"
+	<z-paging @query="getData" ref="paging" v-model="article"
 		:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'">
 		<view style="display: flex;flex-direction: column;margin: 30rpx;"
 			v-show="!$store.state.hasLogin ||!article.length">
@@ -44,6 +44,9 @@
 			</view>
 			<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
 		</block>
+		<template #bottom>
+			<view class="tabbar-placeholder"></view>
+		</template>
 	</z-paging>
 </template>
 
@@ -172,8 +175,18 @@
 </script>
 
 <style lang="scss">
+	@media(prefers-color-scheme:dark){
+		.tabbar-placeholder{
+			background-color: #292929;
+		}
+	}
 	.article {
 		margin: 30rpx 30rpx 12rpx 30rpx;
 		padding-bottom: 10rpx;
+	}
+
+	.tabbar-placeholder {
+		height: 100rpx;
+		background: #fff;
 	}
 </style>

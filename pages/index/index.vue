@@ -35,7 +35,7 @@
 		<u-popup :show="showPublish" @close="showPublish = false" customStyle="border-radius:20rpx 20rpx 0 0">
 			<view style="padding: 30rpx;">
 				<view style="text-align: center;">
-					<text >{{$store.state.hasLogin?'有什么好玩的事~？':'请登录后再发表'}}</text>
+					<text>{{$store.state.hasLogin?'有什么好玩的事~？':'请登录后再发表'}}</text>
 				</view>
 				<view class="publish-content">
 					<view class="publish-content-article" @click="goPublish('articlePublish')">
@@ -52,10 +52,10 @@
 					<text style="font-size: 34rpx;">创作灵感</text>
 					<text style="padding-left: 30rpx;font-size: 26rpx;">大家都想看的</text>
 				</view>
-				
+
 				<block v-for="(item,index) in tags" :key="index">
 					<view class="tag-content">
-						<text>No{{index+1}}  {{item.name}}</text>
+						<text>No{{index+1}} {{item.name}}</text>
 					</view>
 				</block>
 			</view>
@@ -361,6 +361,11 @@
 		.tag-content {
 			background-color: #525252;
 		}
+
+		.content-add {
+			border-top: #191919 2rpx solid !important;
+			background: #292929 !important;
+		}
 	}
 
 	.content {
@@ -453,7 +458,6 @@
 		}
 
 		&-add {
-			background: radial-gradient(circle at 50% 0rpx, transparent 80rpx, white 0) top left 100% no-repeat;
 			font-size: 45rpx;
 			transform: translateY(-20rpx);
 

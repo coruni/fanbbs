@@ -71,6 +71,11 @@
 					<text>第三方共享个人信息清单</text>
 					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
 				</u-row>
+
+				<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="goSource()">
+					<text>关于FANBBS</text>
+					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
+				</u-row>
 			</view>
 		</view>
 		<view style="padding: 30rpx;">
@@ -178,6 +183,14 @@
 						uni.$u.toast('清除完成')
 					},
 				});
+			},
+			goSource() {
+				// #ifdef APP
+				plus.runtime.openURL("https://gitee.com/qianshn/fanbbs")
+				// #endif
+				// #ifndef APP
+				window.open("https://gitee.com/qianshn/fanbbs")
+				// #endif
 			}
 		}
 	}

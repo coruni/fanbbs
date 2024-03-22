@@ -8,9 +8,8 @@
 				<view>
 					<view v-for="(item,index) in list1" :key="index" :style="[imageStyle(item)]" class="waterfall"
 						@tap.stop="goArticle(item)">
-						<image
-							:src="item.images.length?item.images[0]:''"
-							mode="widthFix" :style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
+						<image :src="item.images.length?item.images[0]:''" mode="widthFix"
+							:style="{width:item.width+'px'}" style="border-radius: 20rpx 20rpx 0 0 ;">
 						</image>
 						<view style="margin: 20rpx;">
 							<text class="u-line-2">{{item.title}}</text>
@@ -36,6 +35,9 @@
 				</view>
 			</template>
 		</uv-waterfall>
+		<template #bottom>
+			<view class="tabbar-placeholder"></view>
+		</template>
 	</z-paging>
 </template>
 
@@ -50,10 +52,10 @@
 				leftGap: 6,
 				rightGap: 6,
 				columnGap: 6,
-				
+
 			}
 		},
-		computed:{
+		computed: {
 			imageStyle(item) {
 				return item => {
 					const v = uni.upx2px(750) - this.leftGap - this.rightGap - this.columnGap;
@@ -76,14 +78,14 @@
 					params: {
 						page,
 						limit,
-						params:JSON.stringify({
-							type:'video'
+						params: JSON.stringify({
+							type: 'video'
 						})
 					}
-				}).then(res=>{
-					if(res.data.code == 200)
-					this.$refs.paging.complete(res.data.data.data)
-				}).catch(()=>{
+				}).then(res => {
+					if (res.data.code == 200)
+						this.$refs.paging.complete(res.data.data.data)
+				}).catch(() => {
 					this.$refs.paging.complete(false)
 				})
 			},
@@ -116,10 +118,21 @@
 </script>
 
 <style lang="scss">
+	@media(prefers-color-scheme:dark) {
+		.tabbar-placeholder {
+			background-color: #292929;
+		}
+	}
+
 	.waterfall {
 		background: #fff;
 		margin-top: 20rpx;
 		border-radius: 20rpx;
 		overflow: hidden;
+	}
+
+	.tabbar-placeholder {
+		height: 100rpx;
+		background: #fff;
 	}
 </style>
