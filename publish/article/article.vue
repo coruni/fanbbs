@@ -114,7 +114,7 @@
 
 				<!-- 更多 -->
 				<view v-show="itemName=='more'">
-					
+
 					<block v-for="(item,index) in article.opt.files" :key="index">
 						<u-row customStyle="margin-bottom:10rpx">
 							<u-col span="2" customStyle="margin-left:10rpx">
@@ -173,12 +173,13 @@
 		<!-- 组件 -->
 		<!-- 分类 -->
 		<u-popup mode="right" :show="showCategory" @close="showCategory = false">
+			<u-gap height="50"></u-gap>
 			<view class="right-category">
 				<block v-for="(item,index) in category" :key="index">
-					<u-row class="category-item">
+					<u-row class="category-item" @click="article.category = item;showCategory = false">
 						<image :src="item.imgurl" mode="aspectFill"
 							style="width: 50rpx;height: 50rpx;border-radius: 10rpx;"></image>
-						<text>{{item.name}}</text>
+						<text style="margin-left: 20rpx;" class="u-line-1">{{item.name}}</text>
 					</u-row>
 				</block>
 			</view>
@@ -1196,11 +1197,12 @@
 	}
 
 	.right-category {
-		width: 400rpx;
+		width: 500rpx;
 
 	}
 
 	.category-item {
+		font-size: 30rpx;
 		padding: 20rpx;
 		background-color: #f7f7f7;
 		height: 50rpx;
