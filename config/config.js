@@ -6,7 +6,7 @@ const config = {
 	// H5网页（用于分享）
 	"h5": "https://h5.i-hentai.cc",
 	// 首页分享处描述
-	"description": "rule",
+	"description": "fanbbs",
 	// websocket
 	"websocket": "wss://api.i-hentai.cc/websocket"
 }

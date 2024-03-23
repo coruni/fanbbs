@@ -8,7 +8,7 @@
 				<u-row>
 					<block v-for="(item,index) in users" :key="index">
 						<view
-							style="display: flex;flex-direction: column;align-items: center;border-radius: 20rpx;background-color: #ff08000a;padding: 20rpx;margin-right: 20rpx;flex-shrink: 0;width: 160rpx;">
+							style="display: flex;flex-direction: column;align-items: center;border-radius: 10rpx;background-color: #ff08000a;padding: 20rpx;margin-right: 20rpx;flex-shrink: 0;width: 160rpx;">
 							<view style="position: relative;">
 								<u-avatar :src="item.avatar"></u-avatar>
 							</view>

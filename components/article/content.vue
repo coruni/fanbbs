@@ -20,9 +20,9 @@
 
 		<!-- 视频布局 -->
 		<view v-if="data.type === 'video'"
-			style="position: relative; width: 100%; height: 400rpx; border-radius: 20rpx; background: #f7f7f7; display: flex; justify-content: center; align-items: center;">
+			style="position: relative; width: 100%; height: 400rpx; border-radius: 10rpx; background: #f7f7f7; display: flex; justify-content: center; align-items: center;">
 			<image :src="data.images[0]" mode="aspectFill"
-				style="width: 100%; max-height: 400rpx; border-radius: 20rpx;"></image>
+				style="width: 100%; max-height: 400rpx; border-radius: 10rpx;"></image>
 			<view
 				style="position: absolute; top: 0; height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;color: white;">
 				<i class="mgc_play_circle_fill" style="font-size: 60rpx;"></i>
@@ -33,19 +33,19 @@
 			:previewImg="false" :showImgMenu="false" v-if="data.type!='video'"></uv-parse>
 		<!-- 一张图片 -->
 		<view v-if="data.images.length === 1 && data.type !== 'video'">
-			<image :src="data.images[0]" mode="heightFix" style="max-height: 300rpx; border-radius: 20rpx;"
+			<image :src="data.images[0]" mode="aspectFill" style="height: 200rpx;width: 200rpx;border-radius: 10rpx;"
 				@tap.stop.prevent="picPreview(data.images,0)"></image>
 		</view>
 		<!-- 两张图片 -->
 		<view v-if="data.images.length==2&&data.type!='video'">
 			<u-row justify="space-between">
 				<u-col :span="5.92">
-					<image mode="aspectFill" style="width: 100%;height: 300rpx;border-radius: 20rpx 0 0 20rpx;"
+					<image mode="aspectFill" style="width: 100%;height: 300rpx;border-radius: 10rpx 0 0 10rpx;"
 						:src="data.images[0]" @click.stop="picPreview(data.images,0)">
 					</image>
 				</u-col>
 				<u-col :span="5.92">
-					<image mode="aspectFill" style="width: 100%;height: 300rpx;border-radius: 0 20rpx 20rpx 0;"
+					<image mode="aspectFill" style="width: 100%;height: 300rpx;border-radius: 0 10rpx 10rpx 0;"
 						:src="data.images[1]" @click.stop="picPreview(data.images,1)">
 					</image>
 				</u-col>
@@ -56,14 +56,14 @@
 		<view v-if="data.images.length>=3 && data.images.length<6 &&data.type !='video'">
 			<u-row justify="space-between" style="height: 400rpx;">
 				<u-col :span="5.91" style="height: 100%;">
-					<image style="height: 100%;width: 100%;border-radius: 20rpx 0 0 20rpx;" mode="aspectFill"
+					<image style="height: 100%;width: 100%;border-radius: 10rpx 0 0 10rpx;" mode="aspectFill"
 						:src="data.images[0]" @tap.stop="picPreview(data.images,0,3)"></image>
 				</u-col>
 				<u-col :span="5.91" style="height: 100%;">
 					<view style="display: flex;flex-direction: column;height: 100%;">
-						<image style="height: 100%;width: 100%;border-radius: 0 20rpx 0 0;" mode="aspectFill"
+						<image style="height: 100%;width: 100%;border-radius: 0 10rpx 0 0;" mode="aspectFill"
 							:src="data.images[1]" @tap.stop="picPreview(data.images,1,3)"></image>
-						<image style="height: 100%;width: 100%;border-radius: 0 0 20rpx 0; margin-top: 12rpx;"
+						<image style="height: 100%;width: 100%;border-radius: 0 0 10rpx 0; margin-top: 12rpx;"
 							mode="aspectFill" :src="data.images[2]" @tap.stop="picPreview(data.images,2,3)"></image>
 					</view>
 				</u-col>
@@ -75,12 +75,12 @@
 			<view style="display: flex;flex-direction: column;height: 500rpx;justify-content: space-between;">
 				<u-row justify="space-between" style="height: 70%;">
 					<u-col :span="5.91" style="height: 100%;">
-						<image style="height: 100%;width: 100%;border-radius: 20rpx 0 0 0;" mode="aspectFill"
+						<image style="height: 100%;width: 100%;border-radius: 10rpx 0 0 0;" mode="aspectFill"
 							:src="data.images[0]" @tap.stop="picPreview(data.images,0,6)"></image>
 					</u-col>
 					<u-col :span="5.91" style="height: 100%;">
 						<view style="display: flex;flex-direction: column;height: 100%;">
-							<image style="height: 100%;width: 100%;border-radius: 0 20rpx 0 0;" mode="aspectFill"
+							<image style="height: 100%;width: 100%;border-radius: 0 10rpx 0 0;" mode="aspectFill"
 								:src="data.images[1]" @tap.stop="picPreview(data.images,1,6)"></image>
 							<image style="height: 100%;width: 100%; margin-top: 12rpx;" mode="aspectFill"
 								:src="data.images[2]" @tap.stop="picPreview(data.images,2,6)"></image>
@@ -89,7 +89,7 @@
 				</u-row>
 				<u-row style="height: 30%; margin-top: 12rpx;" justify="space-between">
 					<u-col :span="3.89" style="height: 100%;">
-						<image style="height: 100%;width: 100%; border-radius: 0 0 0 20rpx;" mode="aspectFill"
+						<image style="height: 100%;width: 100%; border-radius: 0 0 0 10rpx;" mode="aspectFill"
 							:src="data.images[3]" @tap.stop="picPreview(data.images,3,6)"></image>
 					</u-col>
 					<u-col :span="3.89" style="height: 100%;">
@@ -97,7 +97,7 @@
 							@tap.stop="picPreview(data.images,4,6)"></image>
 					</u-col>
 					<u-col :span="3.89" style="height: 100%;">
-						<image style="height: 100%;width: 100%;border-radius: 0 0 20rpx 0" mode="aspectFill"
+						<image style="height: 100%;width: 100%;border-radius: 0 0 10rpx 0" mode="aspectFill"
 							:src="data.images[5]" @tap.stop="picPreview(data.images,5,6)"></image>
 					</u-col>
 				</u-row>
@@ -105,7 +105,7 @@
 		</view>
 
 
-		<view v-if="data.tag && data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 20rpx;">
+		<view v-if="data.tag && data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 10rpx;">
 			<block v-for="(item,index) in data.tag" :key="index">
 				<view class="tag" @tap.stop.prevent="goTag(item.mid)">
 					<i class="mgc_hashtag_line" style="font-size: 26rpx;"></i>

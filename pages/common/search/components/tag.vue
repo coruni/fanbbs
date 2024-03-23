@@ -47,17 +47,17 @@
 					params: {
 						page,
 						limit,
-						params: JSON.stringify({
-							type: 'tag',
-							name: this.key && this.key
-						}),
+						params: {
+							type: 'tag'
+						}
 
 					}
 				}).then(res => {
-
 					if (res.data.code) {
 						this.$refs.paging.complete(res.data.data.data)
 					}
+				}).catch(err => {
+					this.$refs.paging.complete(false)
 				})
 			}
 		}
@@ -69,6 +69,6 @@
 		margin: 30rpx;
 		padding: 30rpx;
 		background: #fff;
-		border-radius: 20rpx
+		border-radius: 10rpx
 	}
 </style>

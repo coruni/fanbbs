@@ -1,31 +1,18 @@
 <template>
-	<view style="margin-top: 20rpx;">
-		<u-row style="photo-top" align="top">
-			<image :src="data.images && data.images[0]" mode="aspectFill"
-				style="height: 200rpx;width: 160rpx; border-radius: 20rpx 0 0 20rpx;"></image>
-			<view class="photo-content">
-				<view>
-					<text>{{data.title}}</text>
-				</view>
-				<view v-if="data.tag && data.tag.length>0" style="display: flex;flex-wrap: wrap;margin-top: 20rpx;">
-					<block v-for="(item,index) in data.tag" :key="index" v-if="index<4">
-						<view style="
-							font-size: 26rpx;
-							background:#ff08001e;
-							color: #ff0800;
-							padding:8rpx 14rpx;
-							border-radius: 500rpx;
-							margin-right: 20rpx;
-							margin-bottom: 10rpx;
-							font-size: 24rpx;
-							">
-							<i class="ess mgc_hashtag_line" style="font-size: 26rpx;"></i>
-							<text>{{item.name}}</text>
-						</view>
-					</block>
+	<view>
+		<view class="photo-content">
+			<view style="height: 100%;position: relative;">
+				<image :src="data.images[0]" style="height: 100%;width: 180rpx;border-radius: 10rpx 0 0 10rpx;"
+					mode="aspectFill"></image>
+				<view class="photo-content-num">
+					<i class="mgc_photo_album_line" style="color: white;"></i>
+					<text style="font-size: 24rpx;">{{data.images.length}}</text>
 				</view>
 			</view>
-		</u-row>
+			<view class="photo-content-right">
+				<text>{{data.title}}</text>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -49,26 +36,38 @@
 	@media (prefers-color-scheme: dark) {
 		.photo-content {
 			background: #525252 !important;
-			border-radius: 0 20rpx 20rpx 0;
+			border-radius: 0 10rpx 10rpx 0;
 		}
 	}
 
-	.photo {
-		&-top {
-			background: #f7f7f7;
-			border-radius: 20rpx;
+	.photo-content {
+		margin-top: 20rpx;
+		border-radius: 10rpx;
+		display: flex;
+		height: 180rpx;
+		background-color: #f7f7f7;
+		position: relative;
+
+		&-num {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			background-color: rgba(0, 0, 0, 0.1);
+			border-top-left-radius: 10rpx;
+			padding: 5rpx;
+			font-size: 30rpx;
+			color: white;
 		}
 
-		&-content {
-			padding: 30rpx;
+		&-right {
 			display: flex;
 			flex-direction: column;
-			background: #f7f7f7;
-			border-radius: 0 20rpx 20rpx 0;
 			justify-content: space-between;
-			align-items: flex-start;
+			height: 100%;
+			margin-left: 20rpx;
 			flex: 1;
-			height: 140rpx;
+			width: 100%;
 		}
+
 	}
 </style>

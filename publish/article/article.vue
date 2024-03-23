@@ -225,9 +225,9 @@
 					<text style="font-weight: bold;">推荐话题</text>
 					<scroll-view scroll-y style="flex:1;height: 55vh;;overflow-y: scroll;">
 						<block v-for="(item,index) in tags" :key="index">
-							<u-row @click="tagTap(item)" style="margin-bottom: 20rpx;">
+							<u-row @click="tagTap(item)" style="padding: 20rpx;">
 								<image v-if="item.imgurl" :src="item.imgurl" mode="aspectFill"
-									style="width: 60rpx;height: 60rpx;background: #f7f7f7;margin-right: 20rpx;border-radius: 20rpx;">
+									style="width: 50rpx;height: 50rpx;background: #f7f7f7;margin-right: 20rpx;border-radius: 20rpx;">
 								</image>
 								<text
 									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#ff0800':''}">{{item.name}}</text>

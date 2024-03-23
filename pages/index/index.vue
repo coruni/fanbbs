@@ -39,13 +39,13 @@
 				</view>
 				<view class="publish-content">
 					<view class="publish-content-article" @click="goPublish('articlePublish')">
-						<text>我以精神作笔，谱写乐章</text>
+						<text>帖子</text>
 					</view>
 					<view class="publish-content-photo" @click="goPublish('photo')">
-						<text>万物生于灵动，画作锦绣</text>
+						<text>图册</text>
 					</view>
 					<view class="publish-content-video" @click="goPublish('video')">
-						<text>虚已为静，动则为实！~</text>
+						<text>视频</text>
 					</view>
 				</view>
 				<view style="display: flex;flex-direction: column;">
@@ -469,18 +469,19 @@
 
 	.publish-content {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		width: 100%;
+		margin: 20rpx 0 ;
 
 		&-article {
+			clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
 			display: flex;
 			justify-content: center;
 			color: white;
 			align-items: center;
 			width: 100%;
-			margin: 30rpx;
+
 			background-image: url();
 			height: 100rpx;
 			background-color: #ffaaa5;
@@ -494,11 +495,9 @@
 			color: white;
 			align-items: center;
 			width: 100%;
-			margin: 30rpx;
-			margin-top: 0rpx;
+			clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
 			height: 100rpx;
 			background-color: #ffd3b6;
-			border-radius: 10rpx;
 			box-shadow: 0 0 8rpx 0 #ffd3b6;
 		}
 
@@ -506,10 +505,9 @@
 			display: flex;
 			justify-content: center;
 			color: white;
+			clip-path: polygon(10% 0, 100% 0%, 100% 100%, 0% 100%);
 			align-items: center;
 			width: 100%;
-			margin: 30rpx;
-			margin-top: 0rpx;
 			height: 100rpx;
 			background-color: #dcedc1;
 			border-radius: 10rpx;
@@ -520,7 +518,7 @@
 	.tag-content {
 		margin-top: 30rpx;
 		background-color: #f7f7f7;
-		padding: 20rpx;
+		padding: 30rpx;
 		border-radius: 20rpx;
 		font-size: 30rpx;
 	}

@@ -16,7 +16,7 @@
 						</view>
 						<image v-if="item.images&&item.images[0]"
 							:src="item.images&& item.images[0]?item.images[0]:'/static/login.jpg'"
-							style="width: 260rpx;height: 160rpx; border-radius: 20rpx;flex-shrink: 0;"
+							style="width: 260rpx;height: 160rpx; border-radius: 10rpx;flex-shrink: 0;"
 							mode="aspectFill"></image>
 					</u-row>
 					<u-row justify="space-between" style="margin-top: 20rpx;">
@@ -144,7 +144,7 @@
 			margin: 30rpx;
 			background: #fff;
 			padding: 30rpx;
-			border-radius: 20rpx;
+			border-radius: 10rpx;
 		}
 
 		&-item {
