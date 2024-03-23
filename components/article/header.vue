@@ -3,7 +3,7 @@
 		<u-row justify="space-between">
 			<u-row>
 				<view style="position: relative;" @tap.stop.prevent="goProfile(data.authorId)">
-					<u-avatar :src="data.authorInfo && data.authorInfo.avatar" :size="34"
+					<u-avatar :src="data.authorInfo && data.authorInfo.avatar" :size="32"
 						customStyle="border:4rpx solid #85a3ff32"></u-avatar>
 					<image class="avatar_head" mode="aspectFill"
 						:src="data.authorInfo && data.authorInfo.opt && data.authorInfo.opt.head_picture">

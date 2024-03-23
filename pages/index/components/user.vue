@@ -712,6 +712,7 @@
 
 		&::after {
 			content: attr(data-text); // 获取 data-text 属性作为文字内容
+			color: black;
 			position: absolute; // 绝对定位
 			left: 50%;
 			font-size: 24rpx;
