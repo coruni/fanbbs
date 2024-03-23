@@ -30,14 +30,14 @@
 			@statuschange="statuschange">
 		</editor>
 		<view id="toolbar" class="bottom-tabbar">
-			<u-row justify="space-between" @click="showCategory = true">
+			<u-row justify="space-between" style="font-size: 30rpx;" @click="showCategory = true">
 				<text>选择发布位置</text>
 				<u-row>
 					<text>{{ article && article.category && article.category.name}}</text>
 					<u-icon name="arrow-right" color="#999"></u-icon>
 				</u-row>
 			</u-row>
-			<view style="padding-top: 30rpx;padding-bottom: 30rpx;">
+			<view style="padding-top: 30rpx;padding-bottom: 30rpx;font-size: 30rpx;">
 				<u-row @click="showTag = true">
 					<u-row>
 						<text>参与话题</text>
