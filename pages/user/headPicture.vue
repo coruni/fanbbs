@@ -17,17 +17,17 @@
 			<u-row style="margin-top: 30rpx;">
 				<u-row style="flex:1">
 					<view style="margin-right: 30rpx;">
-						<u-button style="height: 60rpx;" color="#ff0800" shape="circle"
+						<u-button style="height: 60rpx;" color="#aa96da" shape="circle"
 							@click="showHeadUpload = true">自定义</u-button>
 					</view>
 					<view>
-						<u-button style="height: 60rpx;" color="#ff0800" shape="circle"
+						<u-button style="height: 60rpx;" color="#aa96da" shape="circle"
 							@click="showMyHead = true">我的头像框</u-button>
 					</view>
 
 				</u-row>
 				<view>
-					<u-button style="height: 60rpx;" color="#ff0800" shape="circle"
+					<u-button style="height: 60rpx;" color="#aa96da" shape="circle"
 						@click="clear()">取消佩戴</u-button>
 				</view>
 			</u-row>
@@ -64,7 +64,7 @@
 					</view>
 				</view>
 				<view style="margin-top: 20rpx;">
-					<u-button color="#ff0800" shape="circle" @click="addHead()">确认上传</u-button>
+					<u-button color="#aa96da" shape="circle" @click="addHead()">确认上传</u-button>
 				</view>
 			</view>
 		</u-popup>

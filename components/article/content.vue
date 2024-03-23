@@ -17,7 +17,9 @@
 			<text style="font-weight: 600;word-break: break-all;word-wrap: break-word;"
 				class="u-line-2">{{data.title}}</text>
 		</u-row>
-
+		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
+			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
+			:previewImg="false" :showImgMenu="false" v-if="data.type!='video'"></uv-parse>
 		<!-- 视频布局 -->
 		<view v-if="data.type === 'video'"
 			style="position: relative; width: 100%; height: 400rpx; border-radius: 10rpx; background: #f7f7f7; display: flex; justify-content: center; align-items: center;">
@@ -28,12 +30,10 @@
 				<i class="mgc_play_circle_fill" style="font-size: 60rpx;"></i>
 			</view>
 		</view>
-		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
-			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
-			:previewImg="false" :showImgMenu="false" v-if="data.type!='video'"></uv-parse>
+
 		<!-- 一张图片 -->
 		<view v-if="data.images.length === 1 && data.type !== 'video'">
-			<image :src="data.images[0]" mode="aspectFill" style="height: 200rpx;width: 200rpx;border-radius: 10rpx;"
+			<image :src="data.images[0]" mode="aspectFill" style="height: 300rpx;width: 300rpx;border-radius: 10rpx;"
 				@tap.stop.prevent="picPreview(data.images,0)"></image>
 		</view>
 		<!-- 两张图片 -->
@@ -195,8 +195,8 @@
 		justify-content: center;
 		align-items: center;
 		font-size: 26rpx;
-		background: #ff08001e;
-		color: #ff0800;
+		background: #aa96da1e;
+		color: #aa96da;
 		padding: 8rpx 14rpx;
 		border-radius: 500rpx;
 		margin-right: 20rpx;

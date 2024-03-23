@@ -62,7 +62,7 @@
 				<u-grid col="3">
 					<u-grid-item v-for="(item,index) in payPackage" :key="index">
 						<view class="package" @click="selectPackage = item"
-							:style="{background:selectPackage && selectPackage.id == item.id?'#ff08001e':''}">
+							:style="{background:selectPackage && selectPackage.id == item.id?'#aa96da1e':''}">
 							<view class="package-sub">
 								<text style="font-size: 26rpx;">￥</text>
 								<text style="font-size: 50rpx;">{{item.price}}</text>
@@ -83,7 +83,7 @@
 										style="padding: 16rpx;border-radius: 50rpx;color: white;"></i>
 									<text style="margin-left: 20rpx;">{{item.name}}</text>
 								</u-row>
-								<u-radio :name="item.name" activeColor="#ff0800"></u-radio>
+								<u-radio :name="item.name" activeColor="#aa96da"></u-radio>
 							</u-row>
 						</block>
 					</u-radio-group>
@@ -93,7 +93,7 @@
 					<i class="ess mgc_right_line" style="font-size: 34rpx;"></i>
 				</u-row>
 				<view style="margin-top: 20rpx;">
-					<u-button color="#ff0800" shape="circle"
+					<u-button color="#aa96da" shape="circle"
 						@click="selectPackage?goPay():$u.toast('你还有选择充值金额哦~')">充值</u-button>
 				</view>
 			</view>
@@ -104,7 +104,7 @@
 				</view>
 				<view style="position: fixed;bottom: 0;width: 100%;">
 					<view style="padding: 30rpx;">
-						<u-button color="#ff0800" shape="circle" @click="cardPay()">充值</u-button>
+						<u-button color="#aa96da" shape="circle" @click="cardPay()">充值</u-button>
 					</view>
 				</view>
 			</u-popup>
@@ -117,7 +117,7 @@
 				<uv-qrcode size="200" :value="paycode" auto ref="qrcode"></uv-qrcode>
 				<text
 					style="font-size: 24rpx;color: #999;margin-top: 30rpx;">点击按钮保存在相册打开微信或支付宝扫码付款，支付完成后会延迟到账，请耐心等待。如长时间不到账请联系客服处理</text>
-				<u-button color="#ff0800" shape="circle" style="margin-top: 30rpx;" @click="save()">保存二维码</u-button>
+				<u-button color="#aa96da" shape="circle" style="margin-top: 30rpx;" @click="save()">保存二维码</u-button>
 			</view>
 		</u-popup>
 	</view>
@@ -172,7 +172,7 @@
 				],
 				payPackage: [{
 					id: 1,
-					price: 0.01,
+					price: 1,
 				}, {
 					id: 2,
 					price: 6
@@ -191,7 +191,7 @@
 				}],
 				selectPackage: {
 					id: 1,
-					price: 0.01
+					price: 1
 				},
 				radio: '微信',
 				config: {},

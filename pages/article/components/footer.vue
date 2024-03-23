@@ -3,7 +3,7 @@
 		<view v-if="data.opt!=null &&data.opt.hasOwnProperty('files') && data.opt.files[0].hasOwnProperty('link')" style="margin-top: 20rpx;">
 			<view class="download-content">
 				<view style="margin-bottom: 10rpx;">
-					<i class="ess mgc_download_line" style="color: #ff0800;font-size: 34rpx;"></i>
+					<i class="ess mgc_download_line" style="color: #aa96da;font-size: 34rpx;"></i>
 					<text style="font-weight: 600;margin-left: 10rpx;">资源下载</text>
 				</view>
 				<view style="display: flex;flex-direction: column;">
@@ -115,8 +115,8 @@
 	}
 	.tag{
 		font-size: 26rpx;
-		background:#ff08001e;
-		color: #ff0800;
+		background:#aa96da1e;
+		color: #aa96da;
 		padding:8rpx 14rpx;
 		border-radius: 500rpx;
 		margin-right: 10rpx;

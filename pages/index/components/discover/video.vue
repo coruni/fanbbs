@@ -1,40 +1,27 @@
 <template>
 	<z-paging ref="paging" v-model="videos" @query="getData">
-		<uv-waterfall ref="waterfall" v-model="videos" :add-time="10" :left-gap="leftGap" :rightGap="rightGap"
-			:column-gap="columnGap" @changeList="changeList">
-			<!-- 第一列数据 -->
-			<template v-slot:list1>
-				<!-- 为了磨平部分平台的BUG，必须套一层view -->
-				<view>
-					<view v-for="(item,index) in list1" :key="index" :style="[imageStyle(item)]" class="waterfall"
-						@tap.stop="goArticle(item)">
-						<image :src="item.images.length?item.images[0]:''" mode="widthFix"
-							:style="{width:item.width+'px'}" style="border-radius: 10rpx 10rpx 0 0 ;">
-						</image>
-						<view style="margin: 20rpx;">
+		<u-row style="flex-wrap: wrap;padding: 20rpx;" justify="space-between">
+			<block v-for="(item,index) in videos" :key="index">
+				<u-col :span="5.9" @click="goArticle(item)">
+					<view class="video-item">
+						<image :src="item.images[0]" style="width: 100%;height: 200rpx;border-radius: 10rpx 10rpx 0 0;"
+							mode="aspectFill"></image>
+						<view class="video-item-content">
 							<text class="u-line-2">{{item.title}}</text>
-							<article-footer :data="item" :water-fall="true" style="margin-top: 10rpx;"></article-footer>
+							<view class="video-item-content-avatar">
+								<view class="video-item-content-avatar-left">
+									<u-avatar :src="item.authorInfo.avatar" size="24"></u-avatar>
+									<text style="margin-left: 10rpx;" class="u-line-1" :class="{'vipname':item.authorInfo.isVip}">{{item.authorInfo.screenName||item.authorInfo.name}}</text>
+								</view>
+								<view class="video-item-content-avatar-right">
+									<i class="mgc_thumb_up_2_line" style="font-size: 36rpx;"></i>
+								</view>
+							</view>
 						</view>
 					</view>
-				</view>
-			</template>
-			<!-- 第二列数据 -->
-			<template v-slot:list2>
-				<!-- 为了磨平部分平台的BUG，必须套一层view -->
-				<view>
-					<view v-for="(item,index) in list2" :key="index" :style="[imageStyle(item)]" class="waterfall"
-						@tap.stop="goArticle(item)">
-						<image :src="item.images.length?item.images[0]:'@/static/login.jpg'" mode="widthFix"
-							:style="{width:item.width+'px'}" style="border-radius: 10rpx 10rpx 0 0 ;">
-						</image>
-						<view style="margin: 20rpx;">
-							<text class="u-line-2">{{item.title}}</text>
-							<article-footer :data="item" :water-fall="true" style="margin-top: 10rpx;"></article-footer>
-						</view>
-					</view>
-				</view>
-			</template>
-		</uv-waterfall>
+				</u-col>
+			</block>
+		</u-row>
 		<template #bottom>
 			<view class="tabbar-placeholder"></view>
 		</template>
@@ -122,6 +109,10 @@
 		.tabbar-placeholder {
 			background-color: #292929;
 		}
+
+		.video-item {
+			background: #525252;
+		}
 	}
 
 	.waterfall {
@@ -134,5 +125,37 @@
 	.tabbar-placeholder {
 		height: 100rpx;
 		background: #fff;
+	}
+
+	.video-item {
+		display: flex;
+		flex-direction: column;
+		height: 380rpx;
+		background-color: #fff;
+		margin-bottom: 12rpx;
+		border-radius: 10rpx;
+
+		&-content {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			flex: 1;
+			font-size: 30rpx;
+			padding: 10rpx;
+			&-avatar {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 26rpx;
+				&-left{
+					display: flex;
+					align-items: center;
+				}
+				
+			}
+
+		}
+
 	}
 </style>

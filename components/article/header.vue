@@ -37,7 +37,7 @@
 			</u-row>
 			<view style="display: flex;align-items: center;">
 				<view @click.stop="follow(data.authorInfo.uid)">
-					<u-button v-if="!isfollow && data && data.authorInfo.uid !== userInfo.uid" plain color="#ff0800"
+					<u-button v-if="!isfollow && data && data.authorInfo.uid !== userInfo.uid" plain color="#aa96da"
 						size="mini" shape="circle" plain customStyle="font-size:28rpx;height:55rpx;background:tran"
 						@click="$emit('follow',true)">关注</u-button>
 				</view>

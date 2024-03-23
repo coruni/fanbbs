@@ -56,7 +56,7 @@
 		</view>
 		<view style="position: fixed;bottom: 0;width: 100%;">
 			<view style="margin: 30rpx;">
-				<u-button color="#ff0800" text="保存" shape="circle" @click="save()"></u-button>
+				<u-button color="#aa96da" text="保存" shape="circle" @click="save()"></u-button>
 			</view>
 		</view>
 		<u-popup mode="bottom" round="10" :show="showSexChoose" @close="showSexChoose = false">
@@ -188,7 +188,7 @@
 	}
 
 	.button-hover {
-		background: #ff08000a;
+		background: #aa96da0a;
 	}
 
 	.input {

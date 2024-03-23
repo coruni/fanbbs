@@ -114,7 +114,10 @@
 			"path": "publish/article/photo",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"softinputmode": "nothing"
+				}
 			},
 			"name": "photo",
 			"perm": "login"

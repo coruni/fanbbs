@@ -1,68 +1,46 @@
 <template>
 	<view>
-		<uv-navbar autoBack placeholder bgColor="transparent">
+		<uv-navbar autoBack placeholder title="发布相册" bgColor="transparent">
 			<view slot="left">
 				<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 			</view>
 			<view slot="right">
-				<view
-					style="display: flex;align-items: center;background: #ff0800; border-radius: 50rpx;padding: 4rpx 16rpx;color: white;font-size: 28rpx;">
+				<view class="publish-button">
 					<view hover-class="button_hover" @click="update?updateArticle(): save()">
 						<text>{{update?'更新':'发布'}}</text>
 					</view>
 				</view>
 			</view>
 		</uv-navbar>
-		<view style="margin: 30rpx;" id="input">
-			<u-row align="center">
-				<u-col :span="7">
-					<u-input maxlength="30" :adjustPosition="false" border="bottom" v-model="article.title"
-						placeholder="请输入标题(必须)" customStyle="padding: 0;"></u-input>
-				</u-col>
-				<u-row justify="space-between" class="category" @click="showCategory = true">
+		<view style="padding: 30rpx;">
+			<editor id="editor" :adjust-position="false" placeholder="请上传图片" @ready="onEditorReady"
+				:style="`height:${editorHeight -keyboardHeight}px;`"></editor>
+		</view>
+		<!-- 工具栏 -->
+		<view style="padding: 30rpx;" id="toolbar">
+			<uv-input :adjust-position="false" placeholder="请输入标题(必须)" v-model="article.title" border="none" class="input"
+				:maxlength="32"></uv-input>
+			<u-gap height="10"></u-gap>
+			<u-row style="flex-shrink: 0;">
+				<i class="mgc_photo_album_fill toolbar-button"  @click="chooseImage()"></i>
+				<u-row style="margin-left: 20rpx;flex: 1;" justify="space-between" @click="showTag = true">
 					<u-row>
-						<image :src="article.category.imgurl" mode="aspectFill"
-							style="border-radius: 50rpx;width: 50rpx;height: 50rpx;"></image>
-						<view style="margin-left: 20rpx">
-							<text>{{article.category.name}}</text>
-						</view>
+						<text style="font-size: 30rpx;margin-right: 20rpx;flex-shrink: 0;">已选标签：</text>
+						<scroll-view scroll-x style="white-space: nowrap;overflow: hidden;width: 400rpx;">
+							<block v-for="(item, index) in article.tags">
+								<text style=" margin-right: 20rpx;"
+									@click.stop="tagTap(item)">#{{ item.name }}</text>
+							</block>
+						</scroll-view>
 					</u-row>
-					<i class="ess mgc_right_line"></i>
+					<i class="mgc_right_line"></i>
 				</u-row>
-			</u-row>
-		</view>
-		<view style="margin: 30rpx;border-radius: 20rpx;">
-			<editor id="editor" :adjust-position="false" placeholder="内容写在顶部,其余位置不要写,请上传图片" @ready="onEditorReady"
-				:style="`height:${editorHeight -keyboardHeight-toolbarHeight-180}px;`"></editor>
-		</view>
-		<view id="toolbar" style="margin: 30rpx;">
-			<u-row justify="space-between">
-				<i class="ess mgc_pic_2_line" style="font-size: 45rpx;" @click="chooseImage()"></i>
-				<!-- 标签 -->
-				<u-col :span="10">
-					<u-row justify="space-between" @click="showTag = true">
-						<u-row style="margin-left: 20rpx;">
-							<text style="flex-shrink: 0;">标签：</text>
-							<scroll-view scroll-y style="height: 100%;">
-								<u-row>
-									<block v-for="(item,index) in tags" :key="index">
-										<view
-											style="border-radius: 50rpx; padding: 8rpx 14rpx;background: #ff08001e;color: #ff0800;font-size: 26rpx; margin-right: 20rpx;">
-											<text>{{item.name}}</text>
-										</view>
-									</block>
-								</u-row>
-							</scroll-view>
-						</u-row>
-						<i class="ess mgc_right_line"></i>
-					</u-row>
-				</u-col>
 			</u-row>
 		</view>
 		<!-- 组件 -->
 		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false"
 			width="300rpx">
-			<uv-loading-icon text="发布中..." mode="circle" color="#ff0800"></uv-loading-icon>
+			<uv-loading-icon text="发布中..." mode="circle" color="#aa96da"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
 		<u-popup customStyle="border-radius:40rpx 40rpx 0 0;" :show="showCategory" @close="showCategory = false"
@@ -109,10 +87,14 @@
 					<text style="font-weight: bold;">推荐话题</text>
 					<scroll-view scroll-y style="flex:1;height: 55vh;;overflow-y: scroll;">
 						<block v-for="(item,index) in tags" :key="index">
-							<view @click="tagTap(item)" style="padding: 10rpx 0;">
+							<u-row @click="tagTap(item)" style="padding: 20rpx;">
+								<image v-if="item.imgurl" :src="item.imgurl" mode="aspectFill"
+									style="width: 50rpx;height: 50rpx;background: #f7f7f7;margin-right: 20rpx;border-radius: 20rpx;">
+								</image>
 								<text
-									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#ff0800':''}">{{item.name}}</text>
-							</view>
+									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#aa96da':''}">{{item.name}}</text>
+							</u-row>
+		
 						</block>
 					</scroll-view>
 				</view>
@@ -121,7 +103,7 @@
 		<u-modal :show="showLoading" @close="showLoading=false;uploadErr.status = false;uploadErr.msg=null;"
 			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
 			:title="uploadErr.status?'上传错误':'上传中...'">
-			<u-line-progress :percentage="percentage" activeColor="#ff0800" :showText="false"
+			<u-line-progress :percentage="percentage" activeColor="#aa96da" :showText="false"
 				v-if="!uploadErr.status"></u-line-progress>
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 		</u-modal>
@@ -174,15 +156,12 @@
 			}
 		},
 		onReady() {
-			let inputHeight = 0;
-			uni.createSelectorQuery().in(this).select("#input").boundingClientRect(data => {
-				inputHeight = data.height
-			}).exec()
-			uni.createSelectorQuery().in(this).select("#toolbar").boundingClientRect(data => {
-				this.toolbarHeight = data.height
+			let toolbarHeight = 0;
+			uni.createSelectorQuery().select("#toolbar").boundingClientRect(data => {
+				toolbarHeight = data.height
 			}).exec()
 			let systemInfo = uni.getSystemInfoSync()
-			this.editorHeight = systemInfo.screenHeight - systemInfo.statusBarHeight - inputHeight
+			this.editorHeight = systemInfo.screenHeight - systemInfo.statusBarHeight - 180 - toolbarHeight
 		},
 		beforeRouteLeave(to, from, next) {
 			if (this.back) {
@@ -203,12 +182,15 @@
 			})
 			// 判断update
 			if (this.$Route.query.update) {
-				console.log(1)
 				this.update = true;
 				this.getContentInfo(this.$Route.query.id)
 			}
-
+		
 		},
+		onUnload() {
+			uni.offKeyboardHeightChange()
+		},
+		
 		methods: {
 			initData() {
 				this.getCategory()
@@ -376,7 +358,7 @@
 					const res = await uni.chooseImage({
 						count: 100
 					});
-					
+
 					this.showLoading = true;
 					let images = await this.upload(res.tempFilePaths);
 					for (let image of images) {
@@ -385,7 +367,7 @@
 							alt: this.article.title ? this.article.title : 'IMAGE'
 						});
 					}
-					
+
 					setTimeout(() => {
 						this.showLoading = false;
 					}, 200);
@@ -400,7 +382,6 @@
 			tagTap(item) {
 				// 检查标签是否已存在于数组中
 				const index = this.article.tags.findIndex(tag => tag.mid === item.mid);
-
 				if (index !== -1) {
 					// 如果存在，从数组中删除
 					this.article.tags.splice(index, 1);
@@ -412,7 +393,7 @@
 			upload(files) {
 				return new Promise((resolve, reject) => {
 					const processedFiles = files.map((item, index) => ({
-						name: `file${index}`,
+						name: `file${index+1}`,
 						uri: item // 文件路径
 					}));
 					this.$http.upload('/upload/full', {
@@ -490,5 +471,28 @@
 		padding: 10rpx;
 		flex: 1;
 		margin-left: 20rpx;
+	}
+
+	.publish-button {
+		display: flex;
+		align-items: center;
+		background: #aa96da;
+		border-radius: 10rpx;
+		padding: 10rpx;
+		color: white;
+		font-size: 28rpx;
+	}
+
+	.input {
+		padding: 15rpx !important;
+		border-radius: 10rpx;
+		background: #f7f7f7;
+	}
+	.toolbar-button {
+		font-size: 45rpx;
+		border-radius: 50rpx;
+		padding: 10rpx;
+		background-color: #aa96da1e;
+		color: #aa96da;
 	}
 </style>

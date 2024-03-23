@@ -4,7 +4,7 @@
 		:cache-key="`articleList_${mid}`">
 		<view class="swiper" v-if="swiper==0">
 			<u-swiper height="100%" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
-				@change="swiperIndex = $event.current" radius="10" showTitle></u-swiper>
+				@change="swiperIndex = $event.current" radius="5" showTitle></u-swiper>
 			<view class="swiper-dot" v-if="$store.state.swiper.length">
 				<text style="color: #fff;">{{swiperIndex+1}}/{{$store.state.swiper.length}}</text>
 			</view>
@@ -20,7 +20,7 @@
 			</u-grid>
 		</view>
 		<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement&&isSwiper">
-			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#ff08003c" color="#ff0800" mode="closable"
+			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#aa96da3c" color="#aa96da" mode="closable"
 				style="border-radius: 20rpx;"></u-notice-bar>
 		</view>
 		<block v-for="(item,index) in content" :key="index" v-if="content.length">
@@ -229,8 +229,8 @@
 
 		&-dot {
 			font-size: 24rpx;
-			background: #ff0800a0;
-			border-radius: 20rpx 0rpx 20rpx 0;
+			background: #aa96daa0;
+			border-top-left-radius: 10rpx;
 			padding: 6rpx 20rpx;
 			position: absolute;
 			bottom: 0;

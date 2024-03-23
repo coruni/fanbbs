@@ -28,7 +28,7 @@
 							</view>
 						</u-row>
 						<!-- <view style="flex-shrink: 0;">
-							<u-button color="#ff0800" style="height: 60rpx;" shape="circle"
+							<u-button color="#aa96da" style="height: 60rpx;" shape="circle"
 								@click="follow(info.mid)">{{info.isFollow?'已关注':'关注'}}</u-button>
 						</view> -->
 					</u-row>
@@ -43,7 +43,7 @@
 		<!-- #ifndef APP -->
 		<u-sticky :bgColor="theme === '#292929' ? theme : (info.opt && info.opt.primary ? info.opt.primary : '#fff')">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent" :active-style="{fontWeight:600}">
+				active-color="#aa96da" bar-animate-mode="worm" bgColor="transparent" :active-style="{fontWeight:600}">
 			</z-tabs>
 		</u-sticky>
 		<!-- #endif -->
@@ -51,7 +51,7 @@
 		<u-sticky :bgColor="theme === '#292929' ? theme : (info.opt && info.opt.primary ? info.opt.primary : '#fff')"
 			offsetTop="65">
 			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"
+				active-color="#aa96da" bar-animate-mode="worm" bgColor="transparent"
 				:active-style="{fontWeight:600}"></z-tabs>
 		</u-sticky>
 		<!-- #endif -->

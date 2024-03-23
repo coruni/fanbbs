@@ -8,13 +8,11 @@
 				<text>{{update?'更新帖子':'发布帖子'}}</text>
 			</view>
 			<view slot="right">
-				<view
-					style="display: flex;align-items: center;background: #ff0800; border-radius: 50rpx;padding: 4rpx 16rpx;color: white;font-size: 28rpx;">
-					<view style="border-radius: 50rpx 0 0 50rpx;margin-right: 10rpx;" hover-class="button_hover"
-						@click="showDraft = true">
+				<view class="publish-button">
+					<view style="padding-right: 10rpx;" hover-class="button_hover" @click="showDraft = true">
 						<text>草稿箱</text>
 					</view>
-					<view style="border-radius: 50rpx 0 0 50rpx;margin-left: 10rpx;" hover-class="button_hover"
+					<view style="padding-left: 10rpx;" hover-class="button_hover"
 						@click="update?updateArticle(): save()">
 						<text>{{update?'更新':'发布'}}</text>
 					</view>
@@ -60,18 +58,18 @@
 			<view style="padding-bottom: 20rpx;">
 				<u-row justify="space-between">
 					<u-row justify="space-between" customStyle="flex:1">
-						<i class="ess mgc_pic_line" style="font-size: 48rpx;" @click="chooseImage()"></i>
-						<i class="ess mgc_emoji_line" style="font-size: 48rpx;"
-							:class="{'button-color':itemName=='emoji'}" @click="showItem('emoji')"></i>
-						<i class="ess mgc_font_line" :class="{'button-color':itemName=='format'}"
-							style="font-size: 48rpx;" @click="showItem('format')"></i>
-						<i class="ess mgc_play_circle_line" style="font-size: 48rpx;" @click="chooseVideo()"></i>
-						<i class="ess mgc_folder_3_line" :class="{'button-color':itemName=='more'}"
-							style="font-size: 48rpx;" @click="showItem('more')"></i>
-						<i class="ess mgc_add_line" style="font-size: 48rpx;" @click="showAddMore= true"></i>
+						<i class="ess mgc_photo_album_fill toolbar-button" @click="chooseImage()"></i>
+						<i class="ess mgc_emoji_fill toolbar-button" :class="{'button-color':itemName=='emoji'}"
+							@click="showItem('emoji')"></i>
+						<i class="ess mgc_palette_fill toolbar-button" :class="{'button-color':itemName=='format'}"
+							@click="showItem('format')"></i>
+						<i class="ess mgc_play_fill toolbar-button" @click="chooseVideo()"></i>
+						<i class="ess mgc_folder_3_fill toolbar-button" :class="{'button-color':itemName=='more'}"
+							@click="showItem('more')"></i>
+						<i class="ess mgc_add_fill toolbar-button" @click="showAddMore= true"></i>
 					</u-row>
 					<view style="margin-left: 120rpx;">
-						<i class="ess mgc_settings_1_line" style="font-size: 48rpx;" @click="showItem('setting')"></i>
+						<i class="ess mgc_settings_1_fill toolbar-button" @click="showItem('setting')"></i>
 					</view>
 				</u-row>
 			</view>
@@ -89,7 +87,7 @@
 							</swiper-item>
 						</swiper>
 					</block>
-					<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#ff0800"
+					<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#aa96da"
 						itemStyle="height: 24px;"
 						:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 						:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
@@ -116,14 +114,7 @@
 
 				<!-- 更多 -->
 				<view v-show="itemName=='more'">
-					<u-row justify="space-between" style="padding-bottom: 10rpx;">
-						<text style="font-weight: bold;">添加文件</text>
-						<u-row>
-							<i class="ess mgc_pic_line" style="font-size: 40rpx;"
-								@click="$refs.insertImage.open();showInsertImage = true"></i>
-							<i class="ess mgc_play_circle_line" style="font-size: 40rpx;margin-left: 30rpx;"></i>
-						</u-row>
-					</u-row>
+					
 					<block v-for="(item,index) in article.opt.files" :key="index">
 						<u-row customStyle="margin-bottom:10rpx">
 							<u-col span="2" customStyle="margin-left:10rpx">
@@ -148,7 +139,7 @@
 							</u-col>
 							<u-col span="1" customStyle="margin-left:10rpx">
 								<u-icon :name="article.opt.files.length>=2?'minus-circle':'plus-circle'" size="20"
-									color="#ff0800" @click="addFile(index)"></u-icon>
+									color="#aa96da" @click="addFile(index)"></u-icon>
 							</u-col>
 						</u-row>
 					</block>
@@ -161,12 +152,12 @@
 							<text style="font-size: 32rpx;font-weight: bold;">创作声明</text>
 							<text style="font-size: 26rpx;color: #999;">开启之后文章显示创作声明</text>
 						</u-row>
-						<u-switch size="20" v-model="article.opt.create" activeColor="#ff0800"></u-switch>
+						<u-switch size="20" v-model="article.opt.create" activeColor="#aa96da"></u-switch>
 					</u-row>
 					<u-gap height="6"></u-gap>
 					<u-row justify="space-between">
 						<text style="font-size: 32rpx;font-weight: bold;">允许评论</text>
-						<u-switch size="20" v-model="article.allowComment" activeColor="#ff0800"></u-switch>
+						<u-switch size="20" v-model="article.allowComment" activeColor="#aa96da"></u-switch>
 					</u-row>
 					<u-gap height="6"></u-gap>
 					<u-row justify="space-between">
@@ -182,32 +173,17 @@
 		<!-- 组件 -->
 		<!-- 分类 -->
 		<u-popup mode="right" :show="showCategory" @close="showCategory = false">
-			<view style="width: 70vw;">
-				<u-gap height="60"></u-gap>
-				<view style="padding:30rpx">
-					<text style="font-weight: bold;font-size: 34rpx;">选择分类</text>
-					<view style="padding-top: 20rpx;">
-						<block v-for="(item,index) in category" :key="index">
-							<u-row @click="article.category = item;showCategory = false" style="margin-bottom: 20rpx;">
-								<text v-if="item.isrecommend" style="
-									font-size: 26rpx;
-									color:#ff0800;
-									background: #ff08003c;
-									padding:4rpx 14rpx;
-									border-radius: 10rpx;
-									margin-right: 20rpx;">推荐</text>
-								<u-row>
-									<u-avatar :src="item.imgurl" size="30" shape="square" v-if="item.imgurl"
-										mode="aspectFill"></u-avatar>
-									<text style="margin-left: 20rpx;"
-										:style="{color:article.category && article.category.mid == item.mid?'#ff0800':''}">{{item.name}}</text>
-								</u-row>
-							</u-row>
-						</block>
-					</view>
-				</view>
+			<view class="right-category">
+				<block v-for="(item,index) in category" :key="index">
+					<u-row class="category-item">
+						<image :src="item.imgurl" mode="aspectFill"
+							style="width: 50rpx;height: 50rpx;border-radius: 10rpx;"></image>
+						<text>{{item.name}}</text>
+					</u-row>
+				</block>
 			</view>
 		</u-popup>
+
 		<!-- 标签&&话题 -->
 		<u-popup customStyle="border-radius:40rpx 40rpx 0 0" :show="showTag" @close="showTag = false">
 			<view style="height: 70vh;padding:30rpx">
@@ -230,7 +206,7 @@
 									style="width: 50rpx;height: 50rpx;background: #f7f7f7;margin-right: 20rpx;border-radius: 20rpx;">
 								</image>
 								<text
-									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#ff0800':''}">{{item.name}}</text>
+									:style="{color:article.tags.some(tag=>tag.mid == item.mid)?'#aa96da':''}">{{item.name}}</text>
 							</u-row>
 
 						</block>
@@ -242,13 +218,13 @@
 			@close="showLoading=false;uploadErr.status = false;uploadErr.msg=null;"
 			:closeOnClickOverlay="uploadErr.status" :showConfirmButton="false"
 			:title="uploadErr.status?'上传错误':'上传中...'">
-			<u-line-progress :percentage="percentage" activeColor="#ff0800" :showText="false"
+			<u-line-progress :percentage="percentage" activeColor="#aa96da" :showText="false"
 				v-if="!uploadErr.status"></u-line-progress>
 			<text v-if="uploadErr.status">错误信息：{{uploadErr.msg}}</text>
 		</u-modal>
 		<uv-modal ref="publish" :closeOnClickOverlay="false" :showConfirmButton="false" :show-cancel-button="false"
 			width="300rpx">
-			<uv-loading-icon text="发布中..." mode="circle" color="#ff0800"></uv-loading-icon>
+			<uv-loading-icon text="发布中..." mode="circle" color="#aa96da"></uv-loading-icon>
 			<view slot="confirmButton"></view>
 		</uv-modal>
 		<!-- 插入图片 -->
@@ -261,7 +237,7 @@
 						placeholder="http(s)://"></u-input>
 				</view>
 				<view style="margin-top: 30rpx;">
-					<u-button shape="circle" color="#ff0800" @click="insertImages()">插入</u-button>
+					<u-button shape="circle" color="#aa96da" @click="insertImages()">插入</u-button>
 				</view>
 			</view>
 			<view slot="confirmButton"></view>
@@ -278,7 +254,7 @@
 				<u-input v-model="link.text" placeholder="链接文本" border="none"
 					style="padding:15rpx;border-radius: 10rpx;background: #f7f7f7;"></u-input>
 				<view style="margin-top: 30rpx;">
-					<u-button shape="circle" color="#ff0800" @click="insertLink()">插入链接</u-button>
+					<u-button shape="circle" color="#aa96da" @click="insertLink()">插入链接</u-button>
 				</view>
 			</view>
 			<view slot="confirmButton"></view>
@@ -296,7 +272,7 @@
 				<u-input v-model="video.poster" placeholder="封面链接" border="none"
 					style="padding:15rpx;border-radius: 10rpx;background: #f7f7f7;"></u-input>
 				<view style="margin-top: 30rpx;">
-					<u-button shape="circle" color="#ff0800" @click="insertVideo(false)">插入视频</u-button>
+					<u-button shape="circle" color="#aa96da" @click="insertVideo(false)">插入视频</u-button>
 				</view>
 			</view>
 			<view slot="confirmButton"></view>
@@ -310,7 +286,7 @@
 				<scroll-view style="overflow: scroll;height: 55vh;" scroll-y>
 					<view v-if="draftList">
 						<block v-for="(item,index) in draftList" v-if="item.draftId !=draftId">
-							<view style="padding:30rpx;background:#ff08000a;border-radius: 20rpx;margin-bottom: 20rpx;"
+							<view style="padding:30rpx;background:#aa96da0a;border-radius: 20rpx;margin-bottom: 20rpx;"
 								@click="insertDraft(item)">
 								<text v-if="item.title">{{item.title}}</text>
 								<u-parse style="overflow: hidden;" :content="item.text" v-if="item.text"
@@ -331,9 +307,9 @@
 					<text>是否取消上传？</text>
 				</view>
 				<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
-					<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+					<u-button plain color="#aa96da" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
 						@click="showCancelTask = false">取消</u-button>
-					<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+					<u-button color="#aa96da" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
 						@click="cancelTask()">确定</u-button>
 				</u-row>
 			</view>
@@ -373,7 +349,7 @@
 				showLoading: false,
 				showPanel: false,
 				format: {
-					color: ['#ff0800', '#5bd784', '#ffa600', '#0dd0f2', '#fb4f14', '#000000'],
+					color: ['#aa96da', '#5bd784', '#ffa600', '#0dd0f2', '#fb4f14', '#000000'],
 					method: [{
 						name: '粗体',
 						tool: 'bold'
@@ -551,11 +527,11 @@
 		},
 		methods: {
 			initData() {
-				this.getCategory()
 				this.getTags()
+				this.getCategory()
 			},
 
-			getCategory() {
+			getCategory(page, limit) {
 				this.$http.get('/category/list', {
 					params: {
 						page: 1,
@@ -565,13 +541,14 @@
 						})
 					}
 				}).then(res => {
-
 					if (res.data.code == 200) {
 						for (let i in res.data.data.data) {
 							if (res.data.data.data[i].mid == 1) this.article.category = res.data.data.data[i];
 						}
 						this.category = res.data.data.data
 					}
+				}).catch(err => {
+					this.$refs.category.complete(false);
 				})
 			},
 			getTags() {
@@ -624,7 +601,7 @@
 					setTimeout(() => {
 						this.showLoading = false;
 					}, 200);
-					
+
 					this.editorCtx.insertText({
 						text: '\n'
 					});
@@ -861,7 +838,7 @@
 				let url;
 				if (type) {
 					file = await this.formatImage(this.videoInfo.poster.base64);
-					poster = await this.uploadFile(file,'image');
+					poster = await this.uploadFile(file, 'image');
 					url = this.videoInfo.url
 				} else {
 					poster = this.video.poster;
@@ -1158,7 +1135,7 @@
 		color: $c-primary;
 
 		&::before {
-			content: '🔗';
+			content: '??';
 			margin-right: 5rpx;
 		}
 	}
@@ -1196,6 +1173,16 @@
 		transition: all 0.5s ease-out;
 	}
 
+	.publish-button {
+		display: flex;
+		align-items: center;
+		background: #aa96da;
+		border-radius: 10rpx;
+		padding: 10rpx;
+		color: white;
+		font-size: 28rpx;
+	}
+
 	.bottom-tabbar {
 		background: #fff;
 		padding: 10rpx 30rpx;
@@ -1206,5 +1193,25 @@
 			padding: 4rpx 20rpx;
 			border-radius: 10rpx;
 		}
+	}
+
+	.right-category {
+		width: 400rpx;
+
+	}
+
+	.category-item {
+		padding: 20rpx;
+		background-color: #f7f7f7;
+		height: 50rpx;
+		margin: 30rpx;
+	}
+
+	.toolbar-button {
+		font-size: 45rpx;
+		border-radius: 50rpx;
+		padding: 10rpx;
+		background-color: #aa96da1e;
+		color: #aa96da;
 	}
 </style>

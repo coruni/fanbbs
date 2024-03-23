@@ -17,15 +17,15 @@
 				</view>
 			</view>
 			<view class="progress-box flex-column" v-if="!updateBtn">
-				<progress class="progress" :border-radius="50" :percent="percent" activeColor="#ff0800" show-info
+				<progress class="progress" :border-radius="50" :percent="percent" activeColor="#aa96da" show-info
 					stroke-width="10" />
 				<!-- <u-line-progress :striped="true" :percent="percent" :striped-active="true"></u-line-progress> -->
 				<view><text class="fs24">正在下载，请稍后 ({{downloadedSize}}/{{packageFileSize}}M)</text></view>
 			</view>
 			<view style="display: flex;flex-direction: row;flex:1;margin-top: 40rpx;" v-if="updateBtn">
-				<u-button plain color="#ff0800" shape="circle" style="margin-right: 20rpx;" @click="cancel"
+				<u-button plain color="#aa96da" shape="circle" style="margin-right: 20rpx;" @click="cancel"
 					v-if="cancleBtn">取消</u-button>
-				<u-button color="#ff0800" shape="circle" @click="confirm">升级</u-button>
+				<u-button color="#aa96da" shape="circle" @click="confirm">升级</u-button>
 			</view>
 		</view>
 

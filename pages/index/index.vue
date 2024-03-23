@@ -7,6 +7,8 @@
 		<category v-show="tabbarIndex == 3" :index="3" :current="tabbarIndex"></category>
 		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex" style="height: 100%;margin-bottom: 190rpx;">
 		</user>
+
+
 		<!-- 底部导航栏 -->
 		<!-- 底部占位高度 100rpx -->
 		<template #bottom>
@@ -70,7 +72,7 @@
 					<text>分享至</text>
 				</view>
 				<view style="margin-top: 50rpx;">
-					<u-row customStyle="border-bottom:1rpx solid #ff08000a;padding-bottom:30rpx" justify="space-around">
+					<u-row customStyle="border-bottom:1rpx solid #aa96da0a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
 							<u-row align="center" customStyle="flex-direction:column" @click="shareWithApi(item,data)">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
@@ -125,16 +127,15 @@
 						<text>是否确定删除？</text>
 					</view>
 					<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
-						<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+						<u-button plain color="#aa96da" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
 							@click="showDelete = false">取消</u-button>
-						<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+						<u-button color="#aa96da" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
 							@click="deleteArticle()">确定</u-button>
 					</u-row>
 				</view>
 			</u-popup>
 		</u-popup>
 	</z-paging-swiper>
-
 </template>
 
 <script>
@@ -143,7 +144,7 @@
 		shareWithSystem,
 		filterHtml
 	} from '@/common/common.js';
-	import home from './components/home.nvue';
+	import home from './components/home.vue';
 	import discovery from './components/discovery.vue';
 	import user from './components/user.vue';
 	import category from './components/category.vue';
@@ -441,7 +442,7 @@
 		border: 4rpx solid #85a3ff32;
 
 		&_active {
-			border: 4rpx solid #ff0800a0 !important;
+			border: 4rpx solid #aa96daa0 !important;
 		}
 	}
 
@@ -472,7 +473,7 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%;
-		margin: 20rpx 0 ;
+		margin: 20rpx 0;
 
 		&-article {
 			clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);

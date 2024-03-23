@@ -1,17 +1,23 @@
 <template>
-	<view>
-		<view class="photo-content">
-			<view style="height: 100%;position: relative;">
-				<image :src="data.images[0]" style="height: 100%;width: 180rpx;border-radius: 10rpx 0 0 10rpx;"
-					mode="aspectFill"></image>
-				<view class="photo-content-num">
-					<i class="mgc_photo_album_line" style="color: white;"></i>
-					<text style="font-size: 24rpx;">{{data.images.length}}</text>
-				</view>
+	<view class="photo-content">
+		<view style="height: 100%;position: relative;">
+			<image :src="data.images[0]" style="height: 100%;width: 180rpx;border-radius: 10rpx 0 0 10rpx;"
+				mode="aspectFill"></image>
+			<view class="photo-content-num">
+				<i class="mgc_photo_album_line" style="color: white;"></i>
+				<text style="font-size: 24rpx;">{{data.images.length}}</text>
 			</view>
-			<view class="photo-content-right">
-				<text>{{data.title}}</text>
-			</view>
+		</view>
+		<view class="photo-content-title">
+			<text>{{data.title}}</text>
+			<scroll-view scroll-x style="overflow-x: scroll;">
+				<block v-for="(item,index) in data.tag" :key="index">
+					<u-row @click="goTag(item.mid)" class="tag" justify="center">
+						<i class="mgc_hashtag_line" style="font-size: 26rpx;"></i>
+						<text>{{item.name}}</text>
+					</u-row>
+				</block>
+			</scroll-view>
 		</view>
 	</view>
 </template>
@@ -48,6 +54,16 @@
 		background-color: #f7f7f7;
 		position: relative;
 
+		&-title {
+			flex: 1;
+			height: 100%;
+			padding: 30rpx;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: flex-start;
+		}
+
 		&-num {
 			position: absolute;
 			bottom: 0;
@@ -60,6 +76,7 @@
 		}
 
 		&-right {
+			padding: 20rpx;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;

@@ -22,8 +22,8 @@
 			</u-navbar>
 		</template>
 		<!-- 模拟首屏开始 -->
-		<z-tabs ref="tabs" :list="$store.state.homeTabs" :scrollCount="0" :current="topTabIndex" @change="tabsChange"
-			active-color="#ff0800" bar-animate-mode="worm" :active-style="{fontWeight:600}"
+		<z-tabs ref="tabs" :list="$store.state.homeTabs" :scrollCount="0" :current="topTabIndex"
+			@change="tabsChange" active-color="#aa96da" bar-animate-mode="worm" :active-style="{fontWeight:600}"
 			bgColor="transparent"></z-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition"
 			@animationfinish="swiperAnimationfinish">
@@ -31,7 +31,8 @@
 				<articleItem :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.iswaterfall"
 					:isSwiper="!pageIndex" @edit="$emit('edit',$event)" ref="article">
 				</articleItem>
-				<waterfallItem v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex" class="waterfall-home">
+				<waterfallItem v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex"
+					class="waterfall-home">
 				</waterfallItem>
 			</swiper-item>
 		</swiper>

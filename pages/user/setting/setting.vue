@@ -6,7 +6,7 @@
 					<i class="ess mgc_left_line" style="font-size: 60rpx;"></i>
 				</view>
 			</u-navbar>
-			<view>
+			<view v-if="$store.state.hasLogin">
 				<u-row justify="space-between" style="padding: 20rpx 30rpx;" @click="goPage('account')">
 					<text>账号与安全</text>
 					<i class="ess mgc_right_small_line" style="font-size: 50rpx;"></i>
@@ -78,7 +78,7 @@
 				</u-row>
 			</view>
 		</view>
-		<view style="padding: 30rpx;">
+		<view style="padding: 30rpx;" v-if="$store.state.hasLogin">
 			<u-button color="#ff165d" @click="$store.commit('logout')">退出登录</u-button>
 		</view>
 

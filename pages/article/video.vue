@@ -50,7 +50,7 @@
 				</template>
 			</yingbing-video>
 			<u-row class="tabbar">
-				<z-tabs :list="list" :scrollCount="0" :current="swiperIndex" active-color="#ff0800"
+				<z-tabs :list="list" :scrollCount="0" :current="swiperIndex" active-color="#aa96da"
 					bar-animate-mode="worm" ref="tabs" bgColor="transparent" @change="tabsChange"
 					v-if="article"></z-tabs>
 				<u-col :span="4.5">
@@ -81,9 +81,9 @@
 							<view style="flex-shrink: 0;">
 								<u-button :plain="article && article.authorInfo&& !article.authorInfo.isFollow"
 									shape="circle" hover-class="button_hover"
-									:color="article && article.authorInfo&& article.authorInfo.isFollow?'#ff08000f':'#ff0800'"
+									:color="article && article.authorInfo&& article.authorInfo.isFollow?'#aa96da0f':'#aa96da'"
 									style="width:160rpx;height:65rpx;"
-									:style="{color:article && article.authorInfo&& article.authorInfo.isFollow?'black':'#ff0800'}"
+									:style="{color:article && article.authorInfo&& article.authorInfo.isFollow?'black':'#aa96da'}"
 									:text="article && article.authorInfo&& article.authorInfo.isFollow?'已关注':'关注'"
 									class="follow" @click="$emit('follow',article.authorId)"></u-button>
 							</view>
@@ -210,7 +210,7 @@
 					</u-row>
 				</u-col>
 				<view>
-					<u-button shape="circle" color="#ff0800" customStyle="padding:4rpx,6rpx;height:50rpx;"
+					<u-button shape="circle" color="#aa96da" customStyle="padding:4rpx,6rpx;height:50rpx;"
 						@click="$u.throttle(reply(),2000,true) ">
 						<i class="ess mgc_send_line" style="font-size: 40rpx;"></i>
 						<text>发送</text>
@@ -242,7 +242,7 @@
 						</swiper-item>
 					</swiper>
 				</block>
-				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#ff0800"
+				<u-tabs :list="emojiData" :current="emojiIndex" lineHeight="3" lineColor="#aa96da"
 					itemStyle="height: 26px;"
 					:activeStyle="{color: '#303133',fontWeight: 'bold',transform: 'scale(1.05)'}"
 					:inactiveStyle="{color: '#606266',transform: 'scale(1)'}" @change="emojiIndex = $event.index"
@@ -269,7 +269,7 @@
 					<text>分享至</text>
 				</view>
 				<view style="margin-top: 50rpx;">
-					<u-row customStyle="border-bottom:1rpx solid #ff08000a;padding-bottom:30rpx" justify="space-around">
+					<u-row customStyle="border-bottom:1rpx solid #aa96da0a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
 							<u-row align="center" customStyle="flex-direction:column" @click="shareWithApi(item)">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
@@ -320,9 +320,9 @@
 						<text>是否确定删除？</text>
 					</view>
 					<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
-						<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+						<u-button plain color="#aa96da" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
 							@click="showDelete = false">取消</u-button>
-						<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+						<u-button color="#aa96da" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
 							@click="deleteArticle()">确定</u-button>
 					</u-row>
 				</view>
@@ -377,7 +377,7 @@
 				editorCtx: null,
 				emojiData: [],
 				emojiIndex: 0,
-				colors: ['#ff0800', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],
+				colors: ['#aa96da', '#5BD784', '#FFA600', '#0DD0F2', '#FB4F14', '#000000E6'],
 				isReply: false,
 				commentText: '',
 				systemInfo: {},
@@ -1052,7 +1052,7 @@
 
 		&-order {
 			font-size: 30rpx;
-			color: #ff0800;
+			color: #aa96da;
 			display: flex;
 			flex-direction: column;
 			position: absolute;

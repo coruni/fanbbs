@@ -44,9 +44,9 @@
 			<view>
 				<u-button :plain="data && data.authorInfo&& !data.authorInfo.isFollow" shape="circle"
 					hover-class="button_hover"
-					:color="data && data.authorInfo&& data.authorInfo.isFollow?'#ff08000f':'#ff0800'"
+					:color="data && data.authorInfo&& data.authorInfo.isFollow?'#aa96da0f':'#aa96da'"
 					style="width:160rpx;height:65rpx;"
-					:style="{color:data && data.authorInfo&& data.authorInfo.isFollow?'black':'#ff0800'}"
+					:style="{color:data && data.authorInfo&& data.authorInfo.isFollow?'black':'#aa96da'}"
 					:text="data && data.authorInfo&& data.authorInfo.isFollow?'已关注':'关注'"
 					class="follow"
 					@click="$emit('follow',data.authorId)"></u-button>

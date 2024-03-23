@@ -14,7 +14,11 @@
 						</image>
 						<view style="margin: 10rpx;">
 							<text class="u-line-2">{{item.title}}</text>
-							<article-footer :data="item" :water-fall="true" style="margin-top: 10rpx;"></article-footer>
+							<u-row style="margin-top: 10rpx;">
+								<u-avatar :src="item.authorInfo.avatar" :size="24"></u-avatar>
+								<text style="margin-left: 20rpx;font-size: 26rpx;"
+									class="u-line-1">{{item.authorInfo.screenName||item.authorInfo.name}}</text>
+							</u-row>
 						</view>
 					</view>
 				</view>
@@ -30,7 +34,11 @@
 						</image>
 						<view style="margin: 10rpx;">
 							<text class="u-line-2">{{item.title}}</text>
-							<article-footer :data="item" :water-fall="true" style="margin-top: 10rpx;"></article-footer>
+							<u-row style="margin-top: 10rpx;">
+								<u-avatar :src="item.authorInfo.avatar" :size="24"></u-avatar>
+								<text style="margin-left: 20rpx;font-size: 26rpx;"
+									class="u-line-1">{{item.authorInfo.screenName||item.authorInfo.name}}</text>
+							</u-row>
 						</view>
 					</view>
 				</view>
@@ -156,8 +164,9 @@
 <style lang="scss">
 	.waterfall {
 		background: #fff;
-		margin-top: 10rpx;
+		margin-top: 14rpx;
 		border-radius: 10rpx;
+		font-size: 30rpx;
 		overflow: hidden;
 	}
 </style>

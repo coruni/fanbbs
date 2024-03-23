@@ -113,60 +113,17 @@
 				</u-col>
 			</u-row>
 		</view>
-		<!-- 组件 -->
-		<view style="padding: 40rpx;padding-top: 0rpx;">
-			<text class="more">更多</text>
-			<u-row style="margin-top: 30rpx;" justify="space-between">
-				<u-col :span="3.8">
-					<view class="more-content more-content-shop" @click="goPage('shop')">
-						<text>商店</text>
-						<i class="mgc_shop_line more-position"></i>
-					</view>
-				</u-col>
-				<u-col :span="3.8">
-					<view class="more-content more-content-order" @click="goPage('orderList')">
-						<text>订单</text>
-						<i class="mgc_coupon_line more-position"></i>
-					</view>
-				</u-col>
-				<u-col :span="3.8">
-					<view class="more-content more-content-reward" @click="goPage('myReward')">
-						<text>奖品</text>
-						<i class="mgc_gift_line more-position"></i>
-					</view>
-				</u-col>
-			</u-row>
-			<u-row style="margin-top: 30rpx;" justify="space-between">
-				<u-col :span="3.8">
-					<view class="more-content more-content-exchange" @click="goPage('exchange')">
-						<text>兑换</text>
-						<i class="mgc_sparkles_line more-position"></i>
-					</view>
-				</u-col>
-				<u-col :span="3.8">
-					<view class="more-content more-content-star" @click="goPage('collect')">
-						<text>收藏</text>
-						<i class="mgc_star_line more-position"></i>
-					</view>
-				</u-col>
-				<u-col :span="3.8">
-					<view class="more-content more-content-history" @click="goPage('history')">
-						<text>历史</text>
-						<i class="mgc_time_line more-position"></i>
-					</view>
-				</u-col>
-			</u-row>
-		</view>
-		<view style="padding: 40rpx;padding-top: 0rpx;">
-			<text class="more">系统</text>
-			<u-row style="margin-top: 30rpx;">
-				<i class="mgc_service_fill" style="font-size: 46rpx;"></i>
-				<text style="margin-left: 20rpx;">联系客服</text>
-			</u-row>
-			<u-row style="margin-top: 30rpx;" @click="goPage('setting')" v-if="$store.state.hasLogin">
-				<i class="mgc_settings_1_line" style="font-size: 46rpx;"></i>
-				<text style="margin-left: 20rpx;">设置</text>
-			</u-row>
+		<!-- 更多 -->
+		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
+		<view style="padding: 30rpx;padding-top: 0;">
+			<u-grid :col="4">
+				<u-grid-item v-for="(item,index) in menu" :key="index" @click="goPage(item.path)">
+					<u-row class="menu-item" justify="space-between">
+						<i :class="item.icon" style="font-size: 46rpx;"></i>
+						<text style="font-size: 30rpx;margin-top: 10rpx;">{{item.name}}</text>
+					</u-row>
+				</u-grid-item>
+			</u-grid>
 		</view>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
 			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false" is-limit-move
@@ -197,7 +154,7 @@
 					</view>
 				</view>
 				<view style="margin-top: 60rpx;">
-					<u-button color="#ff0800" shape="circle" @click="showLevel = false">确定</u-button>
+					<u-button color="#aa96da" shape="circle" @click="showLevel = false">确定</u-button>
 				</view>
 			</view>
 		</u-popup>
@@ -233,9 +190,9 @@
 						<text>是否确定删除？</text>
 					</view>
 					<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
-						<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+						<u-button plain color="#aa96da" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
 							@click="showDelete = false">取消</u-button>
-						<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+						<u-button color="#aa96da" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
 							@click="deleteArticle()">确定</u-button>
 					</u-row>
 				</view>
@@ -286,75 +243,45 @@
 				isMounted: false,
 				backgroundShow: false,
 				cropperBg: null,
-				rightMenuItem: {
-					personl: [{
-							name: '个人信息',
-							icon: 'mgc_quill_pen_line',
-							path: 'editUser'
-						},
-						{
-							name: '我的收藏',
-							icon: 'mgc_star_line',
-							path: 'collect'
-						},
-						{
-							name: '浏览历史',
-							icon: 'mgc_time_line',
-							path: 'history',
-						}
-					],
-					all: [{
-							name: '我的订单',
-							icon: 'mgc_bill_line',
-							path: 'orderList',
-						},
-						{
-							name: '我的小摊',
-							icon: 'mgc_shopping_cart_2_line',
-							path: 'myProduct',
-						},
-						{
-							name: '我的奖品',
-							icon: 'mgc_gift_2_line',
-							path: 'myReward',
-						}
-					],
-					blance: [{
-							name: '我的钱包',
-							icon: 'mgc_wallet_3_line',
-							path: 'wallet',
-						},
-						{
-							name: '兑换中心',
-							icon: 'mgc_coin_2_line',
-							path: 'exchange',
-						},
-						{
-							name: '商城',
-							icon: 'mgc_shopping_bag_3_line',
-							path: 'shop',
-						}
-					]
-				},
-				static: [{
-						name: '退出',
-						path: '',
-						type: 'logout',
-						icon: 'setting'
+				menu: [{
+						name: '商店',
+						icon: 'mgc_shop_line',
+						path: 'shop',
 					}, {
-						name: '反馈',
-						path: '',
-						type: '',
-						icon: 'file-text'
+						name: '订单',
+						icon: 'mgc_coupon_line ',
+						path: 'orderList',
 					},
 					{
-						name: '客服',
-						path: '',
-						type: '',
-						icon: 'kefu-ermai'
+						name: '奖品',
+						icon: 'mgc_gift_line',
+						path: 'myReward'
+					}, {
+						name: "兑换",
+						icon: "mgc_sparkles_line",
+						path: "exchange"
 					},
-
+					{
+						name: "收藏",
+						icon: "mgc_star_line ",
+						path: "collect"
+					},
+					{
+						name: "历史",
+						icon: "mgc_time_line",
+						path: "history"
+					}, {
+						name: "客服",
+						icon: "mgc_service_fill",
+						path: ""
+					},
+					{
+						name: "设置",
+						icon: "mgc_settings_1_line",
+						path: "setting"
+					}
 				],
+
 				tabsIndex: 0,
 				list: [{
 					name: '发布'
@@ -402,7 +329,7 @@
 				// 计算百分比
 				const percentage = Math.floor((this.userInfo.experience || 0 / this.userInfo.nextExp || 0) * 100);
 				// 根据百分比返回填充样式
-				return `conic-gradient(#ff0800 ${percentage}%, transparent ${percentage}% 100%)`;
+				return `conic-gradient(#aa96da ${percentage}%, transparent ${percentage}% 100%)`;
 			},
 		},
 		created() {
@@ -632,7 +559,7 @@
 	}
 
 	.u-button::before {
-		background: #ff0800;
+		background: #aa96da;
 	}
 
 	.backCover {
@@ -705,7 +632,7 @@
 		background: #09244b;
 		color: white;
 		width: 140rpx;
-		border-radius: 10rpx;
+		border-radius: 6rpx;
 		overflow: hidden;
 		padding: 10rpx;
 
@@ -716,7 +643,7 @@
 	}
 
 	.panel-container {
-		background-image: url('@/static/user/sign_background.webp');
+
 		background-repeat: no-repeat;
 		background-size: contain;
 		background-position: right;
@@ -829,8 +756,8 @@
 		}
 
 		&-level {
-			background-color: #ff0800;
-			box-shadow: 0 0 10rpx 0 #ff0800;
+			background-color: #aa96da;
+			box-shadow: 0 0 10rpx 0 #aa96da;
 		}
 
 		&-user {
@@ -847,6 +774,16 @@
 			background-color: #f67280;
 			box-shadow: 0 0 10rpx 0 #f67280;
 		}
+	}
+
+	.menu-item {
+		padding: 30rpx;
+		margin-bottom: 20rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		border-radius: 10rpx;
 	}
 
 	.more {

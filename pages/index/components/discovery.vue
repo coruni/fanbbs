@@ -5,7 +5,7 @@
 				<view slot="left"></view>
 				<view slot="center" style="flex:1" v-if="isMounted">
 					<z-tabs ref="tabs" :list="list" :scrollCount="2" :current="tabsIndex" @change="tabsChange"
-						active-color="#ff0800" bar-animate-mode="worm" bgColor="transparent"></z-tabs>
+						active-color="#aa96da" bar-animate-mode="worm" bgColor="transparent"></z-tabs>
 				</view>
 			</u-navbar>
 		</template>

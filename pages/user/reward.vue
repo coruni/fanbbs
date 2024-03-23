@@ -18,7 +18,7 @@
 						</view>
 						<view style="text-align: end;">
 							<text style="font-size: 26rpx;"
-								:style="{color:item.status=='issued'?'#ff0800':'#ff8800'}">{{item.status=='issued'?'已发放，请注意物流':'待发放'}}</text>
+								:style="{color:item.status=='issued'?'#aa96da':'#ff8800'}">{{item.status=='issued'?'已发放，请注意物流':'待发放'}}</text>
 						</view>
 					</view>
 				</u-row>

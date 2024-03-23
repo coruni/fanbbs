@@ -17,7 +17,7 @@
 						</view>
 						<image v-if="item.images&&item.images[0]"
 							:src="item.images&& item.images[0]?item.images[0]:'/static/login.jpg'"
-							style="width: 260rpx;height: 160rpx; border-radius: 20rpx;flex-shrink: 0;"
+							style="width: 260rpx;height: 160rpx; border-radius: 10rpx;flex-shrink: 0;"
 							mode="aspectFill"></image>
 					</u-row>
 
@@ -41,9 +41,9 @@
 					<text>是否清空所有历史记录？</text>
 				</view>
 				<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
-					<u-button plain color="#ff0800" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+					<u-button plain color="#aa96da" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
 						@click="showClear = false">取消</u-button>
-					<u-button color="#ff0800" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+					<u-button color="#aa96da" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
 						@click="clearHistory()">确定</u-button>
 				</u-row>
 			</view>
@@ -128,7 +128,7 @@
 		margin: 30rpx;
 		padding: 30rpx;
 		background: #fff;
-		border-radius: 20rpx;
+		border-radius: 10rpx;
 
 	}
 </style>

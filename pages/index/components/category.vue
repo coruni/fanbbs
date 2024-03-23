@@ -44,13 +44,10 @@
 			</u-row>
 			<u-row style="flex-wrap: wrap;">
 				<block v-for="(item,index) in tags" :key="index">
-					<view class="tag">
-						<u-row @click="goTag(item.mid)">
-							<i class="mgc_hashtag_line" style="font-size: 26rpx;"></i>
-							<text>{{item.name}}</text>
-						</u-row>
-					</view>
-
+					<u-row @click="goTag(item.mid)" class="tag" justify="center">
+						<i class="mgc_hashtag_line" style="font-size: 26rpx;"></i>
+						<text>{{item.name}}</text>
+					</u-row>
 				</block>
 			</u-row>
 		</view>
@@ -77,7 +74,7 @@
 				categories: [],
 				tabHeight: 720,
 				swiperIndex: 0,
-				color: ['#ff0800', '#ff8800', '#FFCC00'],
+				color: ['#aa96da', '#ff8800', '#FFCC00'],
 				tags: [],
 			}
 		},
@@ -188,6 +185,9 @@
 
 <style lang="scss">
 	.top {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		background: #f7f7f7;
 		font-size: 26rpx;
 		padding: 4rpx;
@@ -202,12 +202,15 @@
 
 	.tag {
 		font-size: 26rpx;
-		background: #ff08001e;
-		color: #ff0800;
+		background: #aa96da1e;
+		color: #aa96da;
 		padding: 8rpx 14rpx;
+		min-width: 100rpx;
+		max-width: 160rpx;
+		min-height: 30rpx;
 		border-radius: 500rpx;
 		margin-right: 20rpx;
 		margin-bottom: 10rpx;
-		font-size: 24rpx;
+		font-size: 30rpx;
 	}
 </style>

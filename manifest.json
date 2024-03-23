@@ -43,8 +43,7 @@
             "Payment" : {},
             "VideoPlayer" : {},
             "Share" : {},
-            "Geolocation" : {},
-            "Webview-x5" : {}
+            "Geolocation" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
