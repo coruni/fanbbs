@@ -125,6 +125,7 @@
 				</u-grid-item>
 			</u-grid>
 		</view>
+		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
 		<l-clipper v-if="backgroundShow" :image-url="cropperBg"
 			@success="upload($event.url,false); backgroundShow = false" @cancel="backgroundShow = false" is-limit-move
 			is-lock-ratio :width="1280" :height="720" :scaleRatio="2" :min-width="1280" :min-height="720"
