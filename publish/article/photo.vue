@@ -18,6 +18,11 @@
 		</view>
 		<!-- 工具栏 -->
 		<view style="padding: 30rpx;" id="toolbar">
+			<u-row style="font-size: 30rpx;" @click="showCategory = true">
+				<text>选择分类：{{article.category.name}}</text>
+				<i class="mgc_right_line"></i>
+			</u-row>
+			<u-gap height="10"></u-gap>
 			<uv-input :adjust-position="false" placeholder="请输入标题(必须)" v-model="article.title" border="none" class="input"
 				:maxlength="32"></uv-input>
 			<u-gap height="10"></u-gap>
