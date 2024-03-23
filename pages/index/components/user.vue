@@ -68,7 +68,7 @@
 					<view class="panel-article" :style="{backgroundColor:getTime.backgroundColor}">
 						<view class="panel-article-text">
 							<text>{{getTime.greeting}}</text>
-							<text>{{(tasks && tasks.isSign && getTime.hour>=21) ||(tasks && tasks.isSign && getTime.hour<6)?'记得早点休息哦~':tasks && tasks.isSign?'今天的事务都完成了哦~':'今日戳戳小猫了吗？'}}</text>
+							<text>{{($store.state.tasks && $store.state.tasks.isSign && getTime.hour>=21) ||($store.state.tasks && $store.state.tasks.isSign && getTime.hour<6)?'记得早点休息哦~':$store.state.tasks && $store.state.tasks.isSign?'今天的事务都完成了哦~':'戳戳我签到'}}</text>
 						</view>
 					</view>
 				</u-col>
@@ -78,17 +78,19 @@
 							<u-row justify="space-around" style="height: 100%;flex: 1;">
 								<view class="circle">
 									<i class="circle-icon circle-icon-article mgc_document_fill" data-text="文章"></i>
-									<text style="margin-top: 20rpx;">{{userInfo && userInfo.articles}}</text>
+									<text
+										style="margin-top: 20rpx;font-size: 24rpx;">{{userInfo && userInfo.articles}}</text>
 
 								</view>
 								<view class="circle">
 									<i class="circle-icon circle-icon-comment mgc_chat_4_fill" data-text="评论"></i>
-									<text style="margin-top: 20rpx;">{{userInfo && userInfo.comments}}</text>
+									<text
+										style="margin-top: 20rpx;font-size: 24rpx;">{{userInfo && userInfo.comments}}</text>
 								</view>
 								<view class="circle">
 									<i class="circle-icon circle-icon-level mgc_heart_fill" data-text="经验"
 										:style="{ background: fillStyle }"></i>
-									<text style="margin-top: 20rpx;"
+									<text style="margin-top: 20rpx;font-size: 24rpx;"
 										v-if="$store.state.hasLogin">{{ Math.floor((userInfo.experience / userInfo.nextExp) * 100) }}%</text>
 								</view>
 							</u-row>
@@ -119,7 +121,7 @@
 			<u-grid :col="4">
 				<u-grid-item v-for="(item,index) in menu" :key="index" @click="goPage(item.path)">
 					<u-row class="menu-item" justify="space-between">
-						<i :class="item.icon" style="font-size: 46rpx;"></i>
+						<i :class="item.icon" class="user-menu"></i>
 						<text style="font-size: 30rpx;margin-top: 10rpx;">{{item.name}}</text>
 					</u-row>
 				</u-grid-item>
@@ -644,7 +646,6 @@
 	}
 
 	.panel-container {
-
 		background-repeat: no-repeat;
 		background-size: contain;
 		background-position: right;
@@ -654,7 +655,7 @@
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		justify-content: space-between;
+		justify-content: space-around;
 
 		&-article {
 			display: flex;
@@ -692,28 +693,13 @@
 				transition: all 0.5s ease;
 			}
 		}
-
-
-		&-photo {
-			border-radius: 10rpx;
-			background: #fce38af0;
-			width: 100%;
-			height: 190rpx;
-		}
-
-		&-video {
-			border-radius: 10rpx;
-			background: #ffaaa5f0;
-			width: 100%;
-			height: 190rpx;
-		}
 	}
 
 	.circle {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		color: white;
+
 	}
 
 	.circle-icon {
@@ -810,37 +796,13 @@
 			opacity: 0.5;
 			font-size: 160rpx;
 		}
+	}
 
-		&-content {
-			position: relative;
-			overflow: hidden;
-			padding: 30rpx;
-			border-radius: 20rpx;
-			color: white;
-
-			&-shop {
-				background: #80d6fff0;
-			}
-
-			&-order {
-				background: #f47c7cf0;
-			}
-
-			&-reward {
-				background: #fab57af0;
-			}
-
-			&-exchange {
-				background: #f06868f0;
-			}
-
-			&-star {
-				background: #a393ebf0;
-			}
-
-			&-history {
-				background: #455d7af0;
-			}
-		}
+	.user-menu {
+		font-size: 45rpx;
+		padding: 10rpx;
+		background-color: #aa96da1e;
+		color: #aa96da;
+		border-radius: 50rpx;
 	}
 </style>
