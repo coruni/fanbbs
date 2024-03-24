@@ -1,7 +1,7 @@
 <template>
 	<view class="photo-content">
 		<view style="height: 100%;position: relative;">
-			<image :src="data.images[0]" style="height: 100%;width: 180rpx;border-radius: 10rpx 0 0 10rpx;"
+			<image :src="data.images[0]" style="height: 100%;width: 200rpx;border-radius: 10rpx 0 0 10rpx;"
 				mode="aspectFill"></image>
 			<view class="photo-content-num">
 				<i class="mgc_photo_album_line" style="color: white;"></i>
@@ -52,7 +52,7 @@
 		margin-top: 20rpx;
 		border-radius: 10rpx;
 		display: flex;
-		height: 180rpx;
+		height: 200rpx;
 		background-color: #f7f7f7;
 		position: relative;
 
@@ -100,6 +100,6 @@
 		border-radius: 500rpx;
 		margin-right: 20rpx;
 		margin-bottom: 10rpx;
-		font-size: 30rpx;
+		font-size: 28rpx;
 	}
 </style>

@@ -120,10 +120,10 @@
 					params: {
 						page,
 						limit,
-						params: JSON.stringify({
-							mid: this.mid ? this.mid : '',
-						}),
-						order: 'istop desc, created desc',
+						params: {
+							mid: this.mid || ''
+						},
+						random: 1
 					}
 				}).then(res => {
 					if (res.data.code == 200) {

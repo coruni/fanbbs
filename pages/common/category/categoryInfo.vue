@@ -149,9 +149,10 @@
 				})
 			},
 			onRefresh() {
+				this.$refs.article[this.tabsIndex].reload()
 				setTimeout(() => {
 					this.$refs.paging.complete()
-				}, 1000)
+				}, 800)
 			},
 			onScroll(data) {
 				let scrollTop = data.detail.scrollTop

@@ -79,7 +79,7 @@
 						params: {
 							mid: this.mid
 						},
-						order: 'istop desc, created desc'
+						random: 1,
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
