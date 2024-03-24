@@ -101,7 +101,7 @@
 		computed: {
 			...mapState(['appInfo'])
 		},
-		created() {
+		onLoad(){
 			this.systemInfo = uni.getSystemInfoSync()
 			this.getCacheSize()
 		},

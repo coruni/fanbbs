@@ -8,7 +8,7 @@
 						<u-row>
 							<u-avatar size="30" :src="item.bossInfo.avatar"></u-avatar>
 							<text
-								style="font-weight: 600;margin-left: 20rpx;">{{item.bossInfo.screenName?item.bossInfo.screenName:item.bossInfo.name}}</text>
+								style="font-Weight: bold;margin-left: 20rpx;">{{item.bossInfo.screenName?item.bossInfo.screenName:item.bossInfo.name}}</text>
 						</u-row>
 						<text
 							style="color: #aa96da;">{{item.paid&&!item.isTracking?'待发货':item.paid &&item.isTracking?'待收货':'待支付'}}</text>
@@ -20,7 +20,7 @@
 						</image>
 						<view style="display: flex;flex-direction: column;margin-left: 20rpx;flex:1">
 							<u-row justify="space-between">
-								<text style="font-weight: 600;" class="u-line-1">{{item.product_name}}</text>
+								<text style="font-Weight: bold;" class="u-line-1">{{item.product_name}}</text>
 								<u-row style="color: red;">
 									<i class="ess mgc_coin_line"></i>
 									<text>{{item.price}}</text>

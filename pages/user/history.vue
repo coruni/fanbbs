@@ -13,7 +13,7 @@
 				<view style="display: flex;flex-direction: column;">
 					<u-row justify="space-between" align="top">
 						<view class="u-line-2" style="display: flex;flex-direction: column;">
-							<text style="font-size: 36rpx;font-weight: 600;">{{item.title}}</text>
+							<text style="font-size: 36rpx;font-Weight: bold;">{{item.title}}</text>
 						</view>
 						<image v-if="item.images&&item.images[0]"
 							:src="item.images&& item.images[0]?item.images[0]:'/static/login.jpg'"

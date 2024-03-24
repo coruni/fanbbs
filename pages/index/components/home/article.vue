@@ -79,7 +79,6 @@
 						params: {
 							mid: this.mid
 						},
-						random: 1,
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
@@ -183,7 +182,7 @@
 				position: absolute;
 				bottom: 0;
 				color: white;
-				font-weight: 600;
+				font-Weight: bold;
 				padding: 30rpx;
 			}
 		}

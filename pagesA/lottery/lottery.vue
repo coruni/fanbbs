@@ -10,7 +10,7 @@
 		</LuckyGrid>
 		<view style="position: absolute; bottom: 60rpx;">
 			<view style="width: 58vw;padding: 20rpx 0;text-align: center;" @click="play()">
-				<text style="font-size: 40rpx;color: white;font-weight: 600;">开始抽奖！</text>
+				<text style="font-size: 40rpx;color: white;font-Weight: bold;">开始抽奖！</text>
 			</view>
 			
 		</view>

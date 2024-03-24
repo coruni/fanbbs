@@ -8,7 +8,7 @@
 					</image>
 					<view style="flex:1;display: flex;justify-content: space-between;margin-left: 20rpx;">
 						<view style="display: flex;flex-direction: column;">
-							<text class="u-line-1" style="font-weight: 600;">{{item.title}}</text>
+							<text class="u-line-1" style="font-Weight: bold;">{{item.title}}</text>
 							<view class="u-line-1">
 								<text class="u-line-1">{{item.text}}</text>
 							</view>

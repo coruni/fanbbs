@@ -29,7 +29,7 @@
 			<view
 				style="width: 80vw; height: auto;display: flex;justify-content: center;padding: 30rpx;flex-direction: column;">
 				<u-row justify="center">
-					<text style="font-weight: 600;">修改密码</text>
+					<text style="font-Weight: bold;">修改密码</text>
 				</u-row>
 				<view style="margin-top: 20rpx;">
 					<u-form :model="password" labelWidth="70" :rules="rules" ref="uForm">

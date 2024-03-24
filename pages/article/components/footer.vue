@@ -4,7 +4,7 @@
 			<view class="download-content">
 				<view style="margin-bottom: 10rpx;">
 					<i class="ess mgc_download_line" style="color: #aa96da;font-size: 34rpx;"></i>
-					<text style="font-weight: 600;margin-left: 10rpx;">资源下载</text>
+					<text style="font-Weight: bold;margin-left: 10rpx;">资源下载</text>
 				</view>
 				<view style="display: flex;flex-direction: column;">
 					<block v-for="(item,index) in data.opt.files" :key="index">

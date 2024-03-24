@@ -95,17 +95,17 @@
 		</uv-modal>
 		<uv-modal ref="editArticle" :showConfirmButton="false" title="帖子修改">
 			<view style="width: 100%;" v-if="editArticle">
-				<text style="font-weight: 600;font-size: 36rpx;">{{editArticle.title}}</text>
+				<text style="font-Weight: bold;font-size: 36rpx;">{{editArticle.title}}</text>
 				<view style="margin: 10rpx 0;">
 					<u-button color="#aa96da" shape="circle" @click="getContentInfo(editArticle.cid)">查看内容</u-button>
 				</view>
 
 				<view style="margin-top: 20rpx;">
-					<text style="font-weight: 600;">选择圈子</text>
+					<text style="font-Weight: bold;">选择圈子</text>
 				</view>
 
 				<view style="margin-top: 20rpx;">
-					<text style="font-weight: 600;">文章属性</text>
+					<text style="font-Weight: bold;">文章属性</text>
 					<u-row justify="space-between" customStyle="flex-wrap:wrap">
 						<u-row>
 							<text style="margin-right: 10rpx;">推荐</text>

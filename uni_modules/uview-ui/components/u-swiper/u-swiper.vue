@@ -239,7 +239,7 @@
 						left: 0;
 						right: 0;
 						font-size: 32rpx;
-						font-weight: 600;
+						font-Weight: bold;
 						padding: 12rpx 24rpx;
 						color: #FFFFFF;
 						flex: 1;

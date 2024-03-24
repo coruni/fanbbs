@@ -64,7 +64,7 @@
 											style="width: 100rpx;height: 100rpx;border-radius: 20rpx;background: #f7f7f7;flex-shrink: 0;">
 										</image>
 										<view style="margin-left: 20rpx;display: flex;flex-direction: column;">
-											<text style="font-weight: 600;" class="u-line-1">{{item.name}}</text>
+											<text style="font-Weight: bold;" class="u-line-1">{{item.name}}</text>
 											<text style="font-size: 30rpx;color: #999;"
 												class="u-line-1">{{item.description}}</text>
 										</view>

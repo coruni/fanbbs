@@ -10,7 +10,6 @@
 	import store from './store';
 	export default {
 		onLaunch: function() {
-			console.log(uni.getSystemInfoSync().browserName)
 			// #ifdef APP-PLUS
 			plus.nativeUI.setUIStyle('auto')
 			// #endif
@@ -62,9 +61,10 @@
 			getSwiper() {
 				http.get('/article/articleList', {
 					params: {
-						params: JSON.stringify({
+						params:{
 							isswiper: 1
-						})
+						},
+						newArticle:1
 					}
 				}).then(res => {
 					const data = res.data.data.data
@@ -211,7 +211,7 @@
 <style lang="scss">
 	@font-face {
 		font-family: 'HarmonyOS_Sans';
-		src: url('/static/font/HarmonyOS_Sans_SC_Medium.ttf');
+		src: url('/static/font/HarmonyOS_Sans_SC_Regular.ttf');
 
 	}
 
@@ -223,8 +223,9 @@
 	/*引入基础图标*/
 	@import './static/font/ess/ess.css';
 
-	body {
+	body,html {
 		font-family: 'HarmonyOS_Sans';
+		font-size: 32rpx;
 	}
 
 	@media (prefers-color-scheme: dark) {

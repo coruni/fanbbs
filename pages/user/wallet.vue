@@ -34,7 +34,7 @@
 					</view>
 					<view class="panel-circle" style="z-index: 0;"></view>
 				</view>
-				<text style="font-weight: 600; font-size: 40rpx;margin:0 30rpx;">收支明细</text>
+				<text style="font-Weight: bold; font-size: 40rpx;margin:0 30rpx;">收支明细</text>
 			</template>
 
 			<!-- 收支记录 -->

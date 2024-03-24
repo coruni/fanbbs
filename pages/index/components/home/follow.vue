@@ -3,7 +3,7 @@
 		:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'">
 		<view style="display: flex;flex-direction: column;margin: 30rpx;"
 			v-show="!$store.state.hasLogin ||!article.length">
-			<text style="font-weight: 600;">推荐关注</text>
+			<text style="font-Weight: bold;">推荐关注</text>
 			<scroll-view scroll-x style="margin-top: 30rpx;">
 				<u-row>
 					<block v-for="(item,index) in users" :key="index">

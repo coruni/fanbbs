@@ -1,6 +1,6 @@
 <template>
-	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
-		:auto-clean-list-when-reload="false" use-cache cache-key="article_recommend">
+	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false" use-cache
+		cache-key="article_recommend">
 		<view class="swiper">
 			<u-swiper height="100%" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="5" showTitle></u-swiper>
@@ -96,7 +96,6 @@
 					params: {
 						page,
 						limit,
-						random:1,
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
@@ -210,7 +209,7 @@
 				position: absolute;
 				bottom: 0;
 				color: white;
-				font-weight: 600;
+				font-Weight: bold;
 				padding: 30rpx;
 			}
 		}

@@ -5,7 +5,7 @@
 		<block v-for="(item,index) in article">
 			<view style="margin: 30rpx;" @click="goArticle(item)">
 				<u-row align="bottom" customStyle="margin-bottom:20rpx">
-					<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
+					<text style="font-size:40rpx;font-Weight: bold;">{{$u.timeFormat(item.created,'dd')}}</text>
 					<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
 					<view v-if="item.category" style="color: #999;">
 						<text style="margin: 0 10rpx;">·</text>

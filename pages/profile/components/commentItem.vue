@@ -5,7 +5,7 @@
 		<block v-for="(item,index) in comments">
 			<view style="margin: 30rpx;">
 				<u-row align="bottom">
-					<text style="font-weight: 600;font-size: 40rpx;">{{$u.timeFormat(item.created,'dd')}}</text>
+					<text style="font-Weight: bold;font-size: 40rpx;">{{$u.timeFormat(item.created,'dd')}}</text>
 					<text
 						style="font-size: 26rpx;color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
 				</u-row>

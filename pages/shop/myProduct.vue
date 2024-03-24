@@ -26,7 +26,7 @@
 								style="width: 120rpx;height: 120rpx;border-radius: 20rpx;background: #f7f7f7;"></image>
 							<view style="margin-left: 20rpx;">
 								<view style="display: flex;flex-direction: column;">
-									<text style="font-weight: 600;">{{item.title}}</text>
+									<text style="font-Weight: bold;">{{item.title}}</text>
 									<text style="color: #999;font-size: 30rpx">规格数量：{{item.specs.length}}</text>
 									<u-row style="margin-top: 10rpx;flex-wrap: wrap;">
 										<block v-for="(specs,subIndex) in item.specs" :key="subIndex">

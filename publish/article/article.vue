@@ -283,7 +283,7 @@
 		<u-popup :show="showDraft" mode="bottom" round="20" @close="showDraft = false" :closeable="true">
 			<u-gap height="30"></u-gap>
 			<view style="margin: 30rpx;height: 60vh;">
-				<text style="font-size: 34rpx;font-weight: 600;">草稿箱</text>
+				<text style="font-size: 34rpx;font-Weight: bold;">草稿箱</text>
 				<scroll-view style="overflow: scroll;height: 55vh;" scroll-y>
 					<view v-if="draftList">
 						<block v-for="(item,index) in draftList" v-if="item.draftId !=draftId">

@@ -15,7 +15,6 @@
 							<text class="u-line-2">{{item.title}}</text>
 							<view class="video-item-content-avatar">
 								<view class="video-item-content-avatar-left">
-
 									<text style="margin-left: 10rpx;"
 										class="u-line-1">{{item.authorInfo.screenName||item.authorInfo.name}}</text>
 								</view>
@@ -159,6 +158,7 @@
 				justify-content: space-between;
 				align-items: center;
 				font-size: 26rpx;
+				color: #999;
 
 				&-left {
 					display: flex;

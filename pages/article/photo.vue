@@ -12,7 +12,7 @@
 							<u-avatar :src="article && article.authorInfo && article.authorInfo.avatar" size="28"
 								customStyle="border:4rpx solid #aa96da32"></u-avatar>
 							<text
-								style="font-weight: 600;font-size: 30rpx;margin-left: 20rpx;">{{article && article.authorInfo && article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
+								style="font-Weight: bold;font-size: 30rpx;margin-left: 20rpx;">{{article && article.authorInfo && article.authorInfo.screenName?article.authorInfo.screenName:article.authorInfo.name}}</text>
 						</view>
 					</view>
 					<view slot="right">
@@ -20,11 +20,11 @@
 							style="display: flex; align-items: center;border-radius: 50rpx;border:2rpx solid #aa96da32;padding: 0rpx 16rpx;line-height: 1;">
 							<u-row customStyle="margin-right:20rpx;"
 								@click="article.authorInfo.isFollow?showFollow = true:follow(article.authorId)">
-								<i class="ess mgc_add_line" style="font-size: 30rpx;font-weight: 600;"
+								<i class="ess mgc_add_line" style="font-size: 30rpx;font-Weight: bold;"
 									:style="{color:article && article.authorInfo &&article.authorInfo.isFollow?'':'#aa96da'}"
 									v-if="article && article.authorInfo &&!article.authorInfo.isFollow"></i>
 
-								<text style="font-size: 26rpx;margin-left: 10rpx;padding-right:20rpx;font-weight: 600;"
+								<text style="font-size: 26rpx;margin-left: 10rpx;padding-right:20rpx;font-Weight: bold;"
 									:style="{color:article && article.authorInfo && article.authorInfo.isFollow?'':'#aa96da'}">{{article && article.authorInfo && article.authorInfo.isFollow?'已关注':'关注'}}</text>
 							</u-row>
 							<view>
@@ -86,7 +86,7 @@
 
 				<!-- 图廊 -->
 				<view style="margin-top: 40rpx;">
-					<text style="font-weight: 600;">图廊</text>
+					<text style="font-Weight: bold;">图廊</text>
 					<uv-scroll-list indicatorActiveColor="#aa96da">
 						<block v-for="(item,index) in article.images" :key="index" v-if="index<12">
 							<u-image :src="item" height="160" width="100" radius="8"
@@ -132,7 +132,7 @@
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text
-								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
+								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-Weight: bold;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 						</view>
@@ -162,7 +162,7 @@
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text
-								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
+								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-Weight: bold;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 						</view>

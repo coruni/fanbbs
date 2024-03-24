@@ -13,7 +13,7 @@
 					<image :src="item.image" mode="aspectFill" class="box-content-image"></image>
 					<view class="box-content-info">
 						<view style="display: flex;flex-direction: column;">
-							<text style="font-weight: 600;">奖品：{{item.name}}</text>
+							<text style="font-Weight: bold;">奖品：{{item.name}}</text>
 							<text style="font-size: 26rpx;color: #ccc;" class="u-line-2">介绍：{{item.description}}</text>
 						</view>
 						<view style="text-align: end;">

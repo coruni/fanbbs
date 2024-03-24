@@ -19,11 +19,11 @@
 						<view v-show="showNavAvatar" class="nav-avatar">
 							<u-row style="margin-right:20rpx;"
 								@click="article.authorInfo.isFollow?showFollow = true:follow(article.authorId)">
-								<i class="ess mgc_add_line" style="font-size: 30rpx;font-weight: 600;"
+								<i class="ess mgc_add_line" style="font-size: 30rpx;font-Weight: bold;"
 									:style="{color:article && article.authorInfo &&article.authorInfo.isFollow?'':'#aa96da'}"
 									v-if="article && article.authorInfo &&!article.authorInfo.isFollow"></i>
 
-								<text style="font-size: 26rpx;margin-left: 10rpx;padding-right:20rpx;font-weight: 600;"
+								<text style="font-size: 26rpx;margin-left: 10rpx;padding-right:20rpx;font-Weight: bold;"
 									:style="{color:article && article.authorInfo && article.authorInfo.isFollow?'':'#aa96da'}">{{article && article.authorInfo && article.authorInfo.isFollow?'已关注':'关注'}}</text>
 							</u-row>
 							<view>
@@ -49,7 +49,7 @@
 				<view style="position: relative;top: 0;padding: 30rpx 30rpx 0 30rpx;" @touchmove.stop.prevent>
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
-							<text style="margin-right: 6rpx;font-size: 30rpx;font-weight: 600;">{{orderName}}</text>
+							<text style="margin-right: 6rpx;font-size: 30rpx;font-Weight: bold;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 						</view>
@@ -76,7 +76,7 @@
 					<u-row>
 						<view @click="showOrderList = !showOrderList" style="display: flex; align-items: center;">
 							<text
-								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-weight: 600;">{{orderName}}</text>
+								style="margin-right: 6rpx;font-size: 30rpx;color: #666;font-Weight: bold;">{{orderName}}</text>
 							<i class="ess" style="font-size: 50rpx;"
 								:class="showOrderList?'mgc_up_small_fill':'mgc_down_small_fill'"></i>
 						</view>
@@ -934,7 +934,7 @@
 		}
 
 		&-text {
-			font-weight: 600;
+			font-Weight: bold;
 			font-size: 30rpx;
 			margin-left: 20rpx;
 		}

@@ -11,17 +11,17 @@
 					border-radius: 10rpx;">置顶</text>
 			</view>
 
-			<text style="font-weight: 600;word-break: break-all;word-wrap: break-word;"
+			<text style="font-Weight: bold;word-break: break-all;word-wrap: break-word;font-size: 32rpx;"
 				class="u-line-2">{{data.title}}</text>
 		</u-row>
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
-			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;"
+			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;font-size: 30rpx;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
 		<!-- 视频布局 -->
 		<view v-if="data.type == 'video'"
-			style="position: relative; width: 100%; height: 400rpx; border-radius: 10rpx; background: #f7f7f7; display: flex; justify-content: center; align-items: center;">
-			<image :src="data.images[0]" mode="aspectFill"
-				style="width: 100%; height: 400rpx; border-radius: 10rpx;"></image>
+			style="position: relative; width: 100%; height: 400rpx; border-radius: 10rpx; background: #f7f7f7; display: flex; justify-content: center; align-items: center;overflow: hidden;">
+			<image :src="data.images[0]" mode="aspectFill" style="width: 100%; height: 400rpx; border-radius: 10rpx;">
+			</image>
 			<view
 				style="position: absolute; top: 0; height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;color: white;">
 				<i class="mgc_play_circle_fill" style="font-size: 80rpx;"></i>
@@ -31,7 +31,7 @@
 		<!-- 一张图片 -->
 		<view v-if="data.images.length === 1 && data.type !== 'video'">
 			<image :src="data.images[0]" mode="heightFix"
-				style="max-width: 700rpx; max-height: 400rpx;border-radius: 10rpx;background-color: #f7f7f7;"
+				style="max-width: 680rpx; max-height: 400rpx;border-radius: 10rpx;background-color: #f7f7f7;"
 				@tap.stop.prevent="picPreview(data.images,0)"></image>
 		</view>
 		<!-- 两张图片 -->

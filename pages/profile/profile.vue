@@ -10,7 +10,7 @@
 							<u-row customStyle="margin-left:20rpx" v-show="opacity>=1"
 								@click="$refs.paging.scrollToTop()">
 								<u-avatar :src="info.avatar" size="26"></u-avatar>
-								<text style="margin-left:20rpx;font-weight: 600;"
+								<text style="margin-left:20rpx;font-Weight: bold;"
 									:class="{'vipname':info&& info.isVip}">{{info.screenName?info.screenName:info.name}}</text>
 							</u-row>
 						</u-row>
@@ -35,7 +35,7 @@
 					<view style="margin-top: 80rpx;">
 
 						<u-row>
-							<text style="font-weight: 600;font-size: 34rpx;"
+							<text style="font-Weight: bold;font-size: 34rpx;"
 								:class="{'vipname':info&& info.isVip}">{{info.screenName?info.screenName:info.name}}</text>
 							<text
 								:style="{border:`${info.level > 8 ? $level[Math.floor(info.level/2)-1] : $level[info.level-1]} solid 2rpx`,background:info.level > 8 ? $level[Math.floor(info.level/2)-1] : $level[info.level-1] }"
@@ -67,19 +67,19 @@
 
 				<u-row justify="space-around" customStyle="margin-top:40rpx">
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{info &&info.articles}}</text>
+						<text style="font-size: 34rpx;font-Weight: bold;">{{info &&info.articles}}</text>
 						<text>帖子</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{info &&info.follows}}</text>
+						<text style="font-size: 34rpx;font-Weight: bold;">{{info &&info.follows}}</text>
 						<text>关注</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{info &&info.fans}}</text>
+						<text style="font-size: 34rpx;font-Weight: bold;">{{info &&info.fans}}</text>
 						<text>粉丝</text>
 					</view>
 					<view class="userMate">
-						<text style="font-size: 34rpx;font-weight: 600;">{{info &&info.comments}}</text>
+						<text style="font-size: 34rpx;font-Weight: bold;">{{info &&info.comments}}</text>
 						<text>评论</text>
 					</view>
 				</u-row>

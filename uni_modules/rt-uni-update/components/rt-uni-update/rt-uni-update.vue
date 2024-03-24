@@ -2,7 +2,7 @@
 	<view class="update-mask flex-center">
 		<view class="content">
 			<view style="display: flex;flex-direction: row;justify-content: center;">
-				<view style="font-size: 40rpx;font-weight: 600;">
+				<view style="font-size: 40rpx;font-Weight: bold;">
 					<text>发现新版本{{data.edition_name}}</text>
 				</view>
 			</view>

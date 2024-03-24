@@ -40,7 +40,7 @@
 								<u-row>
 									<u-avatar :src="item.userInfo.avatar" size="20"></u-avatar>
 									<text
-										style="margin-left: 10rpx;font-size: 30rpx;font-weight: 600;">{{item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
+										style="margin-left: 10rpx;font-size: 30rpx;font-Weight: bold;">{{item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
 								</u-row>
 								<text
 									style="font-size: 18rpx;border:#98e6a8 solid 2rpx;color: #98e6a8;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx"

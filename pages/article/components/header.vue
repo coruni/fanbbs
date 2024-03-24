@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<text style="font-size: 50rpx;font-weight: 600;word-break: break-all;">{{data &&data.title}}</text>
+		<text style="font-size: 50rpx;font-Weight: bold;word-break: break-all;">{{data &&data.title}}</text>
 		<u-row customStyle="color:#c0c4cc;font-size: 26rpx;" align="center" justify="space-between">
 			<u-row>
 				<u-row>
@@ -28,7 +28,7 @@
 				<view style="display: flex;flex-direction: column;margin-left:20rpx;font-size: 30rpx;width: 0;flex:1">
 					<u-row>
 						<text
-							style="font-weight: 600;font-size: 34rpx;" :class="{'vipname':data&& data.authorInfo && data.authorInfo.isVip}">{{data.authorInfo&& data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
+							style="font-Weight: bold;font-size: 34rpx;" :class="{'vipname':data&& data.authorInfo && data.authorInfo.isVip}">{{data.authorInfo&& data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
 						<text
 							:style="{border:`${data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1]} solid 2rpx`,background:data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }"
 							style="font-size: 18rpx;padding: 0 16rpx;border-radius: 50rpx;margin-left:20rpx;color: white;"

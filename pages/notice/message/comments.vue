@@ -14,7 +14,7 @@
 					<u-row customStyle="margin-bottom:20rpx">
 						<u-avatar :src="item.userInfo && item.userInfo.avatar" size="24"></u-avatar>
 						<text
-							style="margin-left:20rpx;font-weight: 600;">{{item.userInfo && item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
+							style="margin-left:20rpx;font-Weight: bold;">{{item.userInfo && item.userInfo.screenName?item.userInfo.screenName:item.userInfo.name}}</text>
 					</u-row>
 					<u-parse class="u-line-2" :content="formatEmoji(item.text)"
 						v-if="item.text !=item.article.title"></u-parse>

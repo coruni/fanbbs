@@ -12,7 +12,7 @@
 			<block v-for="(item,index) in systems">
 				<view class="notice-message">
 					<view class="u-line-1">
-						<text style="font-size: 32rpx;font-weight: 600;">系统通知</text>
+						<text style="font-size: 32rpx;font-Weight: bold;">系统通知</text>
 					</view>
 					<view style="margin-top: 20rpx;">
 						<text>{{item.text}}</text>

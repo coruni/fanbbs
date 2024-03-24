@@ -22,7 +22,7 @@
 				<i class="ess mgc_coin_line" style="font-size: 26rpx;margin-right: 10rpx;"></i>
 				<text style="font-size: 40rpx;">{{info.price}}</text>
 			</view>
-			<text style="font-weight: 600;">{{info.title}}</text>
+			<text style="font-Weight: bold;">{{info.title}}</text>
 			<view style="font-size: 24rpx;color: #999;">
 				<text>已售 {{info.sellNum}}</text>
 			</view>
@@ -59,7 +59,7 @@
 					<u-col span="6">
 						<u-row>
 							<u-avatar :src="info && info.bossInfo && info.bossInfo.avatar" size="36"></u-avatar>
-							<text style="margin-left: 20rpx;font-weight: 600;font-size: 28rpx;"
+							<text style="margin-left: 20rpx;font-Weight: bold;font-size: 28rpx;"
 								class="u-line-1">{{info.bossInfo&&info.bossInfo.screenName?info.bossInfo.screenName:info.bossInfo && info.bossInfo.name}}</text>
 						</u-row>
 					</u-col>
@@ -74,7 +74,7 @@
 				</u-row>
 			</view>
 			<view style="margin-top: 50rpx;">
-				<text style="font-weight: 600;">商品详情</text>
+				<text style="font-Weight: bold;">商品详情</text>
 				<uv-parse :showImgMenu="false" :content="info.text"></uv-parse>
 			</view>
 		</view>

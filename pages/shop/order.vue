@@ -14,7 +14,7 @@
 					<u-icon name="map" size="20"></u-icon>
 					<view style="display: flex;flex-direction: column;padding: 0 10rpx;">
 						<u-row align="end">
-							<text style="font-weight: 600;">{{info && info.address&& info.address.contacts}}</text>
+							<text style="font-Weight: bold;">{{info && info.address&& info.address.contacts}}</text>
 							<u-row align="baseline" style="margin-left: 20rpx;font-size: 28rpx;">
 								<i class="ess mgc_cellphone_line"></i>
 								<text>{{info.address&& info.address.phone}}</text>
@@ -33,7 +33,7 @@
 				<u-row style="margin-bottom: 20rpx;" justify="space-between">
 					<u-row>
 						<u-avatar :src="info.bossInfo && info.bossInfo.avatar" size="30"></u-avatar>
-						<text style="margin-left: 20rpx;font-weight: 600;"
+						<text style="margin-left: 20rpx;font-Weight: bold;"
 							class="u-line-1">{{info && info.bossInfo&& info.bossInfo.screenName?info.bossInfo.screenName:info&& info.bossInfo&& info.bossInfo.name}}</text>
 					</u-row>
 					<i class="ess mgc_right_line"></i>
@@ -46,7 +46,7 @@
 					</image>
 					<view
 						style="display: flex;flex-direction: column;justify-content: center;margin-left: 20rpx;flex:1">
-						<text style="font-weight: 600;font-size: 32rpx;word-break: break-all;"
+						<text style="font-Weight: bold;font-size: 32rpx;word-break: break-all;"
 							class="u-line-1">{{info && info.product_name}}</text>
 						<u-row style="font-size: 28rpx;color: #999;" justify="space-between">
 							<text>已选：{{info.specs && info.specs.name}}</text>
@@ -88,11 +88,11 @@
 			</view>
 			<!-- 更多好物 -->
 			<view style="margin-top: 40rpx;background: white;padding: 30rpx;border-radius: 20rpx;" v-if="!tracking">
-				<text style="font-weight: 600;">好物推荐</text>
+				<text style="font-Weight: bold;">好物推荐</text>
 			</view>
 			<!-- 发货 -->
 			<view style="margin-top: 40rpx;background: white;padding: 30rpx;border-radius: 20rpx;" v-if="tracking">
-				<text style="font-weight: 600;">商家发货</text>
+				<text style="font-Weight: bold;">商家发货</text>
 				<u-form>
 					<u-form-item label="价格" labelWidth="80px">
 						<u-input border="bottom" v-model="info.price" placeholder="请输入订单号"></u-input>

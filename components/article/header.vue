@@ -11,7 +11,7 @@
 				</view>
 				<view style="display: flex;flex-direction: column;margin-left:20rpx;">
 					<u-row align="center">
-						<text style="font-size: 30rpx;font-weight: 600;max-width: 240rpx;" class="u-line-1"
+						<text style="font-size: 30rpx;font-Weight: bold;max-width: 240rpx;" class="u-line-1"
 							:class="{'vipname':data&& data.authorInfo && data.authorInfo.isVip}">{{data.authorInfo.screenName?data.authorInfo.screenName:data.authorInfo.name}}</text>
 						<text
 							:style="{border:`${data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1]} solid 2rpx`,background:data.authorInfo.level > 8 ? $level[Math.floor(data.authorInfo.level/2)-1] : $level[data.authorInfo.level-1] }"

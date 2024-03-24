@@ -5,7 +5,7 @@
 		</u-navbar>
 		<view style="margin: 30rpx;">
 			<view>
-				<text style="font-size: 60rpx;font-weight: 600;">Top</text>
+				<text style="font-size: 60rpx;font-Weight: bold;">Top</text>
 				<block v-for="(item,index) in top" :key="index">
 					<u-row style="padding: 10rpx 30rpx;" @click="goArticle(item)">
 						<view class="top" :style="{background:color[index],color:index<3?'white':'black'}">
@@ -18,7 +18,7 @@
 				</block>
 			</view>
 			<u-row justify="space-between" style="margin: 30rpx 0;">
-				<text style="font-weight: 600;">板块</text>
+				<text style="font-Weight: bold;">板块</text>
 				<u-row style="color: #999;font-size: 28rpx;" @click="goCategoryList()">
 					<text>全部</text>
 					<i class="ess mgc_right_line" style="font-size: 40rpx;"></i>
@@ -40,7 +40,7 @@
 				</block>
 			</u-row>
 			<u-row justify="space-between" style="margin: 30rpx 0; ">
-				<text style="font-weight: 600;">标签</text>
+				<text style="font-Weight: bold;">标签</text>
 			</u-row>
 			<u-row style="flex-wrap: wrap;">
 				<block v-for="(item,index) in tags" :key="index">

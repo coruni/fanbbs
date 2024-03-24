@@ -61,7 +61,7 @@
 		</view>
 		<u-popup mode="bottom" round="10" :show="showSexChoose" @close="showSexChoose = false">
 			<view style="margin: 30rpx;">
-				<text style="font-weight: 600;">性别</text>
+				<text style="font-Weight: bold;">性别</text>
 			</view>
 			<block v-for="(item,index) in sexList" :key="index">
 				<view style="padding: 20rpx 30rpx;" @click="info.sex = item;showSexChoose = false"

@@ -21,13 +21,13 @@
 				<u-row justify="space-between">
 					<u-col :span="6">
 						<view class="userMate">
-							<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.follows}}</text>
+							<text style="font-size: 34rpx;font-Weight: bold;">{{userInfo &&userInfo.follows}}</text>
 							<text>关注</text>
 						</view>
 					</u-col>
 					<u-col :span="6">
 						<view class="userMate">
-							<text style="font-size: 34rpx;font-weight: 600;">{{userInfo &&userInfo.fans}}</text>
+							<text style="font-size: 34rpx;font-Weight: bold;">{{userInfo &&userInfo.fans}}</text>
 							<text>粉丝</text>
 						</view>
 					</u-col>
@@ -39,7 +39,7 @@
 			<u-row justify="space-between" v-if="$store.state.hasLogin">
 				<view>
 					<u-row>
-						<text style="font-weight: 600;font-size: 34rpx;"
+						<text style="font-Weight: bold;font-size: 34rpx;"
 							:class="{'vipname':userInfo&& userInfo.isVip}">{{userInfo && userInfo.screenName?userInfo.screenName:userInfo.name}}</text>
 						<text
 							:style="{border:`${userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1]} solid 2rpx`,background:userInfo && userInfo.level > 8 ? $level[Math.floor(userInfo.level/2)-1] : $level[userInfo.level-1] }"
@@ -58,7 +58,7 @@
 				</u-row>
 			</u-row>
 			<u-row v-else>
-				<text style="font-weight: 600;font-size: 34rpx;" @click="goLogin()">登录查看更多精彩</text>
+				<text style="font-Weight: bold;font-size: 34rpx;" @click="goLogin()">登录查看更多精彩</text>
 			</u-row>
 		</view>
 		<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
@@ -716,7 +716,7 @@
 			position: absolute; // 绝对定位
 			left: 50%;
 			font-size: 24rpx;
-			font-weight: 600;
+			font-Weight: bold;
 			width: 100%;
 			text-align: center;
 			transform: translateX(-50%); // 水平居中
@@ -775,7 +775,7 @@
 	}
 
 	.more {
-		font-weight: 600;
+		font-Weight: bold;
 		position: relative;
 
 		::after {

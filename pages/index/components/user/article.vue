@@ -7,7 +7,7 @@
 			<view style="margin: 30rpx;" @tap.stop="goArticle(item)">
 				<u-row justify="space-between" customStyle="margin-bottom:20rpx">
 					<u-row align="bottom">
-						<text style="font-size:40rpx;font-weight: 600;">{{$u.timeFormat(item.created,'dd')}}</text>
+						<text style="font-size:40rpx;font-Weight: bold;">{{$u.timeFormat(item.created,'dd')}}</text>
 						<text style="color: #999;margin-left: 10rpx;">{{$u.timeFormat(item.created,'mm')}}</text>
 						<view v-if="item.category" style="color: #999;font-size: 26rpx;">
 							<text style="margin: 0 10rpx;">·</text>
