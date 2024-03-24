@@ -11,8 +11,10 @@
 						<i class="ess mgc_chat_4_line" style="font-size: 40rpx;"></i>
 						<text style="font-size: 30rpx;margin-left: 10rpx;">{{article.commentsNum}}</text>
 					</u-row>
+
 					<view style="display: flex;" @click.stop.prevent="like()">
-						<i :class="[article.isLike?'mgc_thumb_up_2_fill like-active':'mgc_thumb_up_2_line']" style="font-size: 40rpx;"></i>
+						<i :class="[article.isLike?'mgc_thumb_up_2_fill like-active':'mgc_thumb_up_2_line']"
+							style="font-size: 40rpx;"></i>
 						<text style="font-size: 30rpx;margin-left: 10rpx;">{{article.likes}}</text>
 					</view>
 				</u-row>
@@ -43,13 +45,13 @@
 		},
 		data() {
 			return {
-				article:{}
+				article: {}
 			}
 		},
 		created() {
 			this.article = this.data
 		},
-		
+
 		methods: {
 			like() {
 				this.$http.post('/article/like', {
@@ -66,7 +68,7 @@
 </script>
 
 <style lang="scss">
-	.like-active{
+	.like-active {
 		color: $c-primary;
 	}
 </style>

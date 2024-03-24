@@ -1,6 +1,6 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto="false" :auto-clean-list-when-reload="false"
-		:auto-scroll-to-top-when-reload="false" use-cache :cache-key="`home_index_waterfall-${mid}`">
+		:auto-scroll-to-top-when-reload="false">
 		<uv-waterfall ref="waterfall" v-model="content" :add-time="10" :left-gap="leftGap" :rightGap="rightGap"
 			:column-gap="columnGap" @changeList="changeList">
 			<!-- 第一列数据 -->

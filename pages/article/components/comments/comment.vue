@@ -27,7 +27,7 @@
 				</u-row>
 				<view style="margin-top:10rpx;word-break: break-word;" @click="reply(data)">
 					<uv-parse :preview-img="false" :showImgMenu="false" selectable
-						:content="formatEmoji(data && data.text)"></uv-parse>
+						:content="formatEmoji(data && data.text)" style="font-size: 30rpx;"></uv-parse>
 				</view>
 				<u-swiper :list="data && data.images" v-if="data && data.images && data.images.length" :autoplay="false"
 					indicator height="150" indicator-style="left" radius="10"
@@ -47,7 +47,7 @@
 									v-if="article && item.userInfo.uid ==  article.authorId">作者</text>
 							</u-row>
 							<view>
-								<uv-parse selectable :showImgMenu="false" :preview-img="false" style="font-size:15px;"
+								<uv-parse selectable :showImgMenu="false" :preview-img="false" style="font-size:28rpx;"
 									:content="formatEmoji(item.text)"></uv-parse>
 							</view>
 						</u-row>

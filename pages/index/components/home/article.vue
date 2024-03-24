@@ -1,7 +1,6 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
-		cache-mode="always" safe-area-inset-bottom :auto-clean-list-when-reload="false" use-cache
-		:cache-key="`articleList_${mid}`">
+		cache-mode="always" safe-area-inset-bottom :auto-clean-list-when-reload="false">
 		<block v-for="(item,index) in content" :key="index" v-if="content.length">
 			<view @tap.stop="goArticle(item)" class="article">
 				<article-header :data="item" @follow="$refs.paging.reload()"
