@@ -74,7 +74,7 @@
 				<view style="margin-top: 50rpx;">
 					<u-row customStyle="border-bottom:1rpx solid #aa96da0a;padding-bottom:30rpx" justify="space-around">
 						<block v-for="(item,index) in share" :key="index">
-							<u-row align="center" customStyle="flex-direction:column" @click="shareWithApi(item,data)">
+							<u-row align="center" customStyle="flex-direction:column" @click="shareArticle('api',item)">
 								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
 									<u-icon :name="item.icon" color="white" size="24"></u-icon>
 								</view>
@@ -82,35 +82,29 @@
 							</u-row>
 						</block>
 					</u-row>
-					<view style="
-					display: flex;
-					flex-direction: column;
-					margin-top: 50rpx;">
-						<u-row customStyle="margin-bottom:30rpx">
+					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
+						<u-row style="margin:20rpx 0">
 							<i class="ess mgc_alert_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">举报</text>
 						</u-row>
-						<u-row customStyle="margin-bottom: 30rpx;" @click="copyLink()">
+						<u-row style="margin:20rpx 0" @click="shareArticle('link')">
 							<i class="ess mgc_flash_line" style="font-size: 40rpx;"></i>
 							<text style="margin-left:20rpx">复制链接</text>
 						</u-row>
 						<!-- #ifdef APP -->
-						<u-row customStyle="margin-bottom: 30rpx;">
+						<u-row style="margin:20rpx 0" @click="shareArticle('system')">
 							<i class="ess mgc_share_forward_line" style="font-size: 40rpx;"></i>
-							<text style="margin-left:20rpx" @click="shareWithSystem()">通过系统分享</text>
+							<text style="margin-left:20rpx">通过系统分享</text>
 						</u-row>
 						<!-- #endif -->
-						<view
-							v-if="data&& data.authorId == $store.state.userInfo.uid|| $store.state.userInfo.group =='administrator'">
-							<u-row customStyle="margin-bottom: 30rpx;" @click="goEdit()">
-								<i class="ess mgc_edit_line" style="font-size: 40rpx;"></i>
-								<text style="margin-left:20rpx">编辑</text>
-							</u-row>
-							<u-row customStyle="margin-bottom: 30rpx;color:red" @click="showDelete = true">
-								<i class="ess mgc_delete_2_line" style="font-size: 40rpx;"></i>
-								<text style="margin-left:20rpx">删除</text>
-							</u-row>
-						</view>
+						<u-row style="margin:20rpx 0" @click="goEdit()" v-if="permission">
+							<i class="ess mgc_edit_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">编辑</text>
+						</u-row>
+						<u-row style="margin:20rpx 0;color:red" @click="showDelete = true" v-if="permission">
+							<i class="ess mgc_delete_2_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">删除</text>
+						</u-row>
 					</view>
 				</view>
 			</view>
@@ -246,8 +240,6 @@
 				showDelete: false,
 			}
 		},
-		created() {},
-		onReady() {},
 		onLoad() {
 			uni.setNavStyle()
 			this.getTags()
@@ -256,9 +248,18 @@
 				uni.setNavStyle()
 			})
 		},
+		computed: {
+			permission() {
+				if (!this.$store.state.hasLogin) return false;
+				let userInfo = this.$store.state.userInfo
+				if (this.data && this.data.authorId == userInfo.uid || userInfo.group == 'administrator' || userInfo
+					.group == 'editor')
+					return true;
+				return false;
+			}
+
+		},
 		methods: {
-			shareTap,
-			filterHtml,
 			animationfinish(data) {
 				this.topTabIndex = data.detail.current
 			},
@@ -303,28 +304,45 @@
 				})
 				this.$Router.$lockStatus = false
 			},
-			shareWithSystem() {
-				let data = this.data
-				shareWithSystem(data.title,
-						`${this.$config.h5}/#/pages/article/${article.type=='post'?'article':'photo'}?id=${data.cid}`)
-					.then(() => {
-						this.showMoreMenu = false;
-					})
-			},
-			shareWithApi(data, article) {
-				shareTap(data.provider, data.type, data.scene, article.title, filterHtml(article.text),
-					`${this.$config.h5}/#/pages/article/${article.type=='post'?'article':'photo'}?id=${article.cid}`,
-					article.images[0])
-			},
-			copyLink() {
-				let data = this.data
-				uni.setClipboardData({
-					data: `${this.$config.h5}/#/pages/article/${article.type=='post'?'article':'photo'}?id=${data.cid}`,
-					success: () => {
-						uni.$u.toast('复制成功')
-						this.showMoreMenu = false
-					}
-				})
+			shareArticle(scene, data) {
+				let article = this.data
+				let type
+				switch (article.type) {
+					case 'post':
+						type = 'article'
+						break;
+					case 'video':
+						type = 'video'
+						break;
+					case 'photo':
+						type = 'photo'
+						break;
+					default:
+						type = 'article'
+						break;
+				}
+				switch (scene) {
+					case 'system':
+						shareWithSystem(article.title,
+							`${this.$config.h5}/#/pages/article/${type}?id=${article.cid}`)
+						break;
+					case 'api':
+						shareTap(data.provider, data.type, data.scene, article.title, filterHtml(article.text),
+							`${this.$config.h5}/#/pages/article/${type}?id=${article.cid}`,
+							article.images[0])
+						break;
+					case 'link':
+						uni.setClipboardData({
+							data: `${this.$config.h5}/#/pages/article/${type}?id=${article.cid}`,
+							success: () => {
+								uni.$u.toast('复制成功')
+							}
+						})
+						break;
+					default:
+						break;
+				}
+				this.showMoreMenu = false;
 			},
 			goEdit() {
 				this.showMoreMenu = false

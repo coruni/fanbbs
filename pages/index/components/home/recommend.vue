@@ -1,7 +1,27 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
-		cache-mode="always" safe-area-inset-bottom :auto-clean-list-when-reload="false" use-cache
-		:cache-key="`articleList_${mid}`">
+		:auto-clean-list-when-reload="false" use-cache cache-key="article_recommend">
+		<view class="swiper">
+			<u-swiper height="100%" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
+				@change="swiperIndex = $event.current" radius="5" showTitle></u-swiper>
+			<view class="swiper-dot" v-if="$store.state.swiper.length">
+				<text style="color: #fff;">{{swiperIndex+1}}/{{$store.state.swiper.length}}</text>
+			</view>
+		</view>
+		<view style="margin-top: 20rpx;">
+			<u-grid col="5">
+				<u-grid-item v-for="(item,index) in $store.state.homepage" :key="index">
+					<view class="home-content" @tap.stop="homepageTap(item)">
+						<image mode="aspectFill" :src="item.image" class="image"></u-image>
+							<text style="margin-top: 20rpx;font-size: 28rpx;">{{item.name}}</text>
+					</view>
+				</u-grid-item>
+			</u-grid>
+		</view>
+		<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement&&isSwiper">
+			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#aa96da3c" color="#aa96da" mode="closable"
+				style="border-radius: 20rpx;"></u-notice-bar>
+		</view>
 		<block v-for="(item,index) in content" :key="index" v-if="content.length">
 			<view @tap.stop="goArticle(item)" class="article">
 				<article-header :data="item" @follow="$refs.paging.reload()"
@@ -12,7 +32,7 @@
 			</view>
 			<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
 		</block>
-		<!-- 底部占位高度-->
+		<!-- 底部占位高度 100rpx -->
 		<template #bottom style="opacity: 0;">
 			<view style="background: transparent !important;height: 80rpx;"></view>
 		</template>
@@ -76,10 +96,7 @@
 					params: {
 						page,
 						limit,
-						params: {
-							mid: this.mid
-						},
-						order: 'istop desc, created desc'
+						random:1,
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
@@ -87,6 +104,16 @@
 					}
 				}).catch(err => {
 					this.$refs.paging.complete(false)
+				})
+			},
+
+			swiperTap(index) {
+				uni.setStorageSync(`article_${this.$store.state.swiper[index].cid}`, this.$store.state.swiper[index])
+				this.$Router.push({
+					path: '/pages/article/article',
+					query: {
+						id: this.$store.state.swiper[index].cid
+					}
 				})
 			},
 			goArticle(data) {
@@ -109,7 +136,6 @@
 					}
 				})
 			},
-
 			homepageTap(data) {
 				if (!data.type) {
 					this.$Router.push({
@@ -164,6 +190,7 @@
 			font-size: 24rpx;
 			background: #aa96daa0;
 			border-top-left-radius: 10rpx;
+			border-bottom-right-radius: 10rpx;
 			padding: 6rpx 20rpx;
 			position: absolute;
 			bottom: 0;

@@ -58,7 +58,7 @@
 				</u-row>
 			</u-row>
 			<u-row v-else>
-				<text style="font-weight: 600;font-size: 34rpx;" @click="goLogin()">哦~乐子神在上</text>
+				<text style="font-weight: 600;font-size: 34rpx;" @click="goLogin()">登录查看更多精彩</text>
 			</u-row>
 		</view>
 		<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
@@ -119,7 +119,7 @@
 		<u-gap height="6" bgColor="#f7f7f7" class="article-gap"></u-gap>
 		<view style="padding: 30rpx;padding-top: 0;">
 			<u-grid :col="4">
-				<u-grid-item v-for="(item,index) in menu" :key="index" @click="goPage(item.path)">
+				<u-grid-item v-for="(item,index) in menu" :key="index" @tap="goPage(item.path)">
 					<u-row class="menu-item" justify="space-between">
 						<i :class="item.icon" class="user-menu"></i>
 						<text style="font-size: 30rpx;margin-top: 10rpx;">{{item.name}}</text>

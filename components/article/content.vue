@@ -33,7 +33,7 @@
 
 		<!-- 一张图片 -->
 		<view v-if="data.images.length === 1 && data.type !== 'video'">
-			<image :src="data.images[0]" mode="aspectFill" style="height: 300rpx;width: 300rpx;border-radius: 10rpx;"
+			<image :src="data.images[0]" mode="aspectFill" style="height: 300rpx;max-width: 600rpx;border-radius: 10rpx;"
 				@tap.stop.prevent="picPreview(data.images,0)"></image>
 		</view>
 		<!-- 两张图片 -->

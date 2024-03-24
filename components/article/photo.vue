@@ -9,14 +9,16 @@
 			</view>
 		</view>
 		<view class="photo-content-title">
-			<text>{{data.title}}</text>
-			<scroll-view scroll-x style="overflow-x: scroll;">
-				<block v-for="(item,index) in data.tag" :key="index">
-					<u-row @click="goTag(item.mid)" class="tag" justify="center">
-						<i class="mgc_hashtag_line" style="font-size: 26rpx;"></i>
-						<text>{{item.name}}</text>
-					</u-row>
-				</block>
+			<text style="margin-top: 30rpx;">{{data.title}}</text>
+			<scroll-view scroll-x style="overflow-x: scroll;margin-top: 30rpx;max-width: 440rpx;">
+				<u-row>
+					<block v-for="(item,index) in data.tag" :key="index">
+						<u-row @click="goTag(item.mid)" class="tag" justify="center">
+							<i class="mgc_hashtag_line" style="font-size: 26rpx;"></i>
+							<text>{{item.name}}</text>
+						</u-row>
+					</block>
+				</u-row>
 			</scroll-view>
 		</view>
 	</view>
@@ -57,7 +59,7 @@
 		&-title {
 			flex: 1;
 			height: 100%;
-			padding: 30rpx;
+			margin: 0 30rpx;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
@@ -86,5 +88,18 @@
 			width: 100%;
 		}
 
+	}
+	.tag {
+		font-size: 26rpx;
+		background: #aa96da1e;
+		color: #aa96da;
+		padding: 8rpx 14rpx;
+		min-width: 100rpx;
+		max-width: 160rpx;
+		min-height: 30rpx;
+		border-radius: 500rpx;
+		margin-right: 20rpx;
+		margin-bottom: 10rpx;
+		font-size: 30rpx;
 	}
 </style>

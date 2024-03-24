@@ -4,8 +4,8 @@
 			<u-navbar autoBack
 				:bgColor="theme === '#292929' ? $u.colorToRgba(theme, opacity) : (info.opt && info.opt.primary ? $u.colorToRgba(info.opt.primary, opacity) : $u.colorToRgba('#fff', opacity))">
 				<view slot="left">
-				    <i class="ess mgc_left_line" style="font-size: 60rpx;"
-				        :style="{color: opacity >= 0.5 ? (theme === '#292929' ? '#fff' : 'black') : 'white'}"></i>
+					<i class="ess mgc_left_line" style="font-size: 60rpx;"
+						:style="{color: opacity >= 0.5 ? (theme === '#292929' ? '#fff' : 'black') : 'white'}"></i>
 				</view>
 			</u-navbar>
 		</template>
@@ -66,17 +66,17 @@
 		</view>
 		<!-- #ifndef APP -->
 		<u-sticky :bgColor="theme === '#292929' ? theme : (info.opt && info.opt.primary ? info.opt.primary : '#fff')">
-			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#aa96da" bar-animate-mode="worm" bgColor="transparent" :active-style="{fontWeight:600}">
+			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange" bar-height="6"
+				bar-width="20" active-color="#aa96da" inactive-color="#999" bgColor="transparent">
 			</z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<!-- #ifdef APP -->
 		<u-sticky :bgColor="theme === '#292929' ? theme : (info.opt && info.opt.primary ? info.opt.primary : '#fff')"
-			offsetTop="65">
-			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-				active-color="#aa96da" bar-animate-mode="worm" bgColor="transparent"
-				:active-style="{fontWeight:600}"></z-tabs>
+			:offsetTop="sticky">
+			<z-tabs ref="tabs" :list="list" :scrollCount="1" :current="tabsIndex" @change="tabsChange" bar-height="6"
+				bar-width="20" active-color="#aa96da" inactive-color="#999" bgColor="transparent">
+			</z-tabs>
 		</u-sticky>
 		<!-- #endif -->
 		<view
@@ -110,27 +110,30 @@
 				tabsIndex: 0,
 				list: [{
 						name: '热门',
-						order: 'isCircleTop desc,likes desc,replyTime desc,text desc,views desc,created desc',
-						random: true,
+						order: '',
+						random: 1,
 
 					},
 					{
 						name: '最新',
 						order: 'isCircleTop desc,created desc',
-						random: false,
+						random: 0,
 
 					}
 				],
 				theme: '#ffffff',
 				windowHeight: 0,
+				sticky: 0,
 			};
 		},
 		onLoad(params) {
 			this.id = params.id
 			this.getData(params.id)
-			this.platform = uni.getSystemInfoSync().uniPlatform
-			this.windowHeight = uni.getSystemInfoSync().windowHeight
-			if (uni.getSystemInfoSync().theme == 'dark') this.theme = '#292929'
+			let systemInfo = uni.getSystemInfoSync()
+			this.platform = systemInfo.uniPlatform
+			this.windowHeight = systemInfo.windowHeight
+			if (systemInfo.theme == 'dark') this.theme = '#292929';
+			this.sticky = systemInfo.statusBarHeight + 44
 
 		},
 		methods: {
@@ -189,8 +192,7 @@
 </script>
 
 <style lang="scss">
-	@media (prefers-color-scheme: dark) {
-	}
+	@media (prefers-color-scheme: dark) {}
 
 	.backCover {
 		height: 100%;

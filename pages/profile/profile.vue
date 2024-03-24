@@ -89,15 +89,15 @@
 					<!-- #ifndef APP -->
 					<u-sticky bgColor="#fff">
 						<z-tabs ref="tabs" :list="tabs" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-							active-color="#aa96da" :active-style="{color:'#303133',fontWeight:'bold'}"
-							bar-animate-mode="worm"></z-tabs>
+							bar-height="6" bar-width="20" active-color="#aa96da" inactive-color="#999"
+							bgColor="transparent"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<!-- #ifdef APP -->
 					<u-sticky bgColor="#fff" :offsetTop="sticky">
 						<z-tabs ref="tabs" :list="tabs" :scrollCount="1" :current="tabsIndex" @change="tabsChange"
-							active-color="#aa96da" :active-style="{color:'#303133',fontWeight:'bold'}"
-							bar-animate-mode="worm"></z-tabs>
+							bar-height="6" bar-width="20" active-color="#aa96da" inactive-color="#999"
+							bgColor="transparent"></z-tabs>
 					</u-sticky>
 					<!-- #endif -->
 					<swiper style="height: 100vh;" :current="tabsIndex" @transition="swiperTransition"

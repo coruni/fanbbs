@@ -50,8 +50,8 @@
 				</template>
 			</yingbing-video>
 			<u-row class="tabbar">
-				<z-tabs :list="list" :scrollCount="0" :current="swiperIndex" active-color="#aa96da"
-					bar-animate-mode="worm" ref="tabs" bgColor="transparent" @change="tabsChange"
+				<z-tabs :list="list" ref="tabs" :scrollCount="0" :current="swiperIndex" bar-height="6" bar-width="20"
+					active-color="#aa96da" inactive-color="#999" bgColor="transparent" @change="tabsChange"
 					v-if="article"></z-tabs>
 				<u-col :span="4.5">
 					<uv-input disabled shape="circle" style="padding: 5rpx 10rpx;">

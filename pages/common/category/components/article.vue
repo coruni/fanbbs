@@ -2,8 +2,7 @@
 	<z-paging @query="getData" ref="paging" v-model="article" :auto-scroll-to-top-when-reload="false"
 		:auto-clean-list-when-reload="false" :use-page-scroll="!scroll" :refresher-enabled="false">
 		<block v-for="(item,index) in article" :key="index">
-			<view @tap.stop="goArticle(item)"
-				style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
+			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
 				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
@@ -39,9 +38,9 @@
 				type: String,
 				default: 'isCircleTop desc,likes desc,replyTime desc,text desc,views desc,created desc'
 			},
-			random:{
-				type: Boolean,
-				default: true,
+			random: {
+				type: Number,
+				default: 0,
 			}
 
 		},
@@ -75,8 +74,10 @@
 						params: JSON.stringify({
 							mid: this.mid,
 						}),
-						random: this.random ? 1 : 0,
+						random: this.random,
+						newArticle: !this.random?1:0,
 						order: this.order,
+						
 
 					}
 				}).then(res => {
@@ -99,13 +100,13 @@
 						break;
 				}
 				this.$Router.push({
-					path:path,
+					path: path,
 					query: {
 						id: data.cid
 					}
 				})
 			},
-			
+
 			reload() {
 				this.$refs.paging.reload()
 			}

@@ -195,7 +195,9 @@
 				}).then(res => {
 					if (res.data.code == 200) {
 						let topList = [{
-							name: '首页'
+							name: '关注'
+						}, {
+							name: '推荐'
 						}]
 						topList = topList.concat(res.data.data.data)
 						this.$store.commit('setTabs', topList)

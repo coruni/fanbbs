@@ -22,21 +22,25 @@
 			</u-navbar>
 		</template>
 		<!-- 模拟首屏开始 -->
-		<z-tabs ref="tabs" :list="$store.state.homeTabs" :scrollCount="0" :current="topTabIndex"
-			@change="tabsChange" active-color="#aa96da" bar-animate-mode="worm" :active-style="{fontWeight:600}"
-			bgColor="transparent"></z-tabs>
+		<z-tabs ref="tabs" :list="$store.state.homeTabs" :scrollCount="0" :current="topTabIndex" @change="tabsChange"
+			bar-height="6" bar-width="20" active-color="#aa96da" inactive-color="#999" bgColor="transparent"></z-tabs>
 		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition"
 			@animationfinish="swiperAnimationfinish">
-			<swiper-item v-for="(page,pageIndex) in $store.state.homeTabs" :key="pageIndex">
-				<articleItem :swiper="pageIndex" :tabbar="topTabIndex" :mid="page.mid" v-if="!page.iswaterfall"
-					:isSwiper="!pageIndex" @edit="$emit('edit',$event)" ref="article">
+			<swiper-item>
+				<follow></follow>
+			</swiper-item>
+			<swiper-item>
+				<recommend @edit="$emit('edit',$event)"></recommend>
+			</swiper-item>
+			<swiper-item v-for="(page,pageIndex) in $store.state.homeTabs" :key="pageIndex" v-if="pageIndex>1">
+				<articleItem :mid="page.mid" v-if="!page.iswaterfall" :isSwiper="!pageIndex"
+					@edit="$emit('edit',$event)">
 				</articleItem>
-				<waterfallItem v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex"
-					class="waterfall-home">
+				<waterfallItem v-else :swiper="pageIndex" :mid="page.mid" :tabbar="topTabIndex" class="waterfall-home">
 				</waterfallItem>
 			</swiper-item>
 		</swiper>
-	
+
 		<!-- 底部占位高度 100rpx -->
 		<template #bottom>
 			<view style="background: transparent !important;height: 100rpx;"></view>
@@ -50,23 +54,31 @@
 	} from 'vuex';
 	import waterfallItem from './home/waterfall.vue';
 	import articleItem from './home/article.vue';
+	import recommend from './home/recommend.vue';
+	import follow from './home/follow.vue'
 	export default {
 		components: {
-			articleItem,
-			waterfallItem
+			recommend,
+			follow,
+			waterfallItem,
+			articleItem
 		},
 		name: 'index',
 		data() {
 			return {
 				content: [],
 				topTabbar: [{
-					name: '首页',
-				}],
+						name: '关注'
+					},
+					{
+						name: '推荐',
+					}
+				],
 				showMoreMenu: false,
 				data: null,
 				page: 1,
-				topTabIndex: 0,
-				tabbarIndex: 0,
+				topTabIndex: 1,
+				tabbarIndex: 1,
 				showPublish: false,
 				publish: [{
 						name: '帖子',
