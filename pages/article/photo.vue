@@ -116,13 +116,20 @@
 
 					</u-row>
 				</view>
-
+				<!-- 标签 -->
+				<view style="margin-top: 20rpx;">
+					<u-row style="flex-wrap:wrap;">
+						<block v-for="(item,index) in article.tag" :key="index">
+							<view class="tag" @tap.stop.prevent="goTag(item.mid)">
+								<i class="mgc_hashtag_line" style="font-size: 26rpx;"></i>
+								<text>{{item.name}}</text>
+							</view>
+						</block>
+					</u-row>
+				</view>
 			</view>
 
-			<!-- 标签 -->
-			<view style="margin: 30rpx;">
-				<articleFooter :data="article"></articleFooter>
-			</view>
+
 
 			<!-- 评论区 -->
 			<u-gap height="6" class="article-gap" bgColor="#f7f7f7"></u-gap>
@@ -549,7 +556,7 @@
 
 		},
 		beforeRouteLeave(to, from, next) {
-			
+
 			if (this.showComment || this.showMore || this.showSub) {
 				this.showComment = false;
 				this.showSub = false;
@@ -964,7 +971,15 @@
 						this.showMore = false
 					}
 				})
-			}
+			},
+			goTag(id) {
+				this.$Router.push({
+					path: '/pages/common/tag/tag',
+					query: {
+						id
+					}
+				})
+			},
 		}
 	}
 </script>
@@ -1030,5 +1045,19 @@
 			opacity: .2;
 			transition: 0s;
 		}
+	}
+
+	.tag {
+		font-size: 26rpx;
+		background: #aa96da1e;
+		color: #aa96da;
+		padding: 8rpx 14rpx;
+		border-radius: 500rpx;
+		margin-right: 10rpx;
+		margin-top: 10rpx;
+		font-size: 26rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

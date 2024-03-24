@@ -63,11 +63,8 @@
 					params: {
 						page,
 						limit,
-						params: JSON.stringify({
-							type: 'post',
-							authorId: this.uid
-						}),
-						order: 'created desc'
+						newArticle: 1,
+						order: 'created desc',
 					}
 				}).then(res => {
 					this.$refs.paging.complete(res.data.data.data)

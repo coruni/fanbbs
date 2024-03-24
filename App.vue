@@ -226,8 +226,8 @@
 	body,html {
 		font-family: 'HarmonyOS_Sans';
 		font-size: 32rpx;
+		line-height: 1.3;
 	}
-
 	@media (prefers-color-scheme: dark) {
 
 		html,

@@ -801,7 +801,7 @@
 
 	.user-menu {
 		font-size: 45rpx;
-		padding: 10rpx;
+		padding: 15rpx;
 		background-color: #aa96da1e;
 		color: #aa96da;
 		border-radius: 50rpx;

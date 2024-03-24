@@ -18,16 +18,11 @@
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;font-size: 30rpx;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
 		<!-- 视频布局 -->
-		<view v-if="data.type == 'video'"
-			style="position: relative; width: 100%; height: 400rpx; border-radius: 10rpx; background: #f7f7f7; display: flex; justify-content: center; align-items: center;overflow: hidden;">
-			<image :src="data.images[0]" mode="aspectFill" style="width: 100%; height: 400rpx; border-radius: 10rpx;">
-			</image>
-			<view
-				style="position: absolute; top: 0; height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;color: white;">
-				<i class="mgc_play_circle_fill" style="font-size: 80rpx;"></i>
-			</view>
+		<view v-if="data.type=='video'" style="border-radius: 10rpx;" @click.stop>
+			<yingbing-video :src="data.videos[0].src" :poster="data.videos[0].poster" :settingShow="false"
+				:fullscreenShow="false" muted @loadeddata="loadeddata" class="video-container"
+				:dataId="`video${data.cid}`"></yingbing-video>
 		</view>
-
 		<!-- 一张图片 -->
 		<view v-if="data.images.length === 1 && data.type !== 'video'">
 			<image :src="data.images[0]" mode="heightFix"
@@ -122,13 +117,14 @@
 				default: null,
 			}
 		},
-		computed: {
-
-		},
+		// computed: {
+		// 	video
+		// },
 		data() {
 			return {
 				elWidth: uni.getStorageSync('albumWidth') ? uni.getStorageSync('albumWidth') : 100,
-				mode: 'aspectFill'
+				mode: 'aspectFill',
+				video: {}
 			}
 		},
 		methods: {
@@ -182,6 +178,9 @@
 						}
 					});
 				});
+			},
+			loadeddata(data) {
+				this.video = data
 			}
 		}
 	}
@@ -200,5 +199,11 @@
 		margin-right: 20rpx;
 		margin-bottom: 10rpx;
 		font-size: 24rpx;
+	}
+
+	.video-container {
+		width: 100%;
+		/* 设置容器宽度 */
+		aspect-ratio: 16 / 9;
 	}
 </style>

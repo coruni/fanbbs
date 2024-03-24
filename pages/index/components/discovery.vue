@@ -68,9 +68,10 @@
 					params: {
 						page,
 						limit,
-						params: JSON.stringify({
-							type: 'video'
-						})
+						params:{
+							type:'video'
+						},
+						newArticle:1
 					}
 				}).then(res => {
 					if (res.data.code == 200)
