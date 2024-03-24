@@ -1,5 +1,5 @@
 <template>
-	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false" >
+	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false" :auto-clean-list-when-reload="false" use-cache cache-key="recommend">
 		<view class="swiper">
 			<u-swiper height="100%" :list="$store.state.swiper" keyName="image" circular @click="swiperTap"
 				@change="swiperIndex = $event.current" radius="5" showTitle></u-swiper>
@@ -21,7 +21,7 @@
 			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#aa96da3c" color="#aa96da" mode="closable"
 				style="border-radius: 20rpx;"></u-notice-bar>
 		</view>
-		<block v-for="(item,index) in content" :key="index" v-if="content.length">
+		<block v-for="(item,index) in content" :key="Math.random() + item.cid" v-if="content.length">
 			<view @tap.stop="goArticle(item)" class="article">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+	const time = Date.now()
 	import articleHeader from '@/components/article/header.vue';
 	import articleContent from '@/components/article/content.vue';
 	import articleFooter from '@/components/article/footer.vue';

@@ -6,7 +6,7 @@
 			<text style="font-Weight: bold;">推荐关注</text>
 			<scroll-view scroll-x style="margin-top: 30rpx;">
 				<u-row>
-					<block v-for="(item,index) in users" :key="index">
+					<block v-for="(item,index) in users" :key="item.uid">
 						<view
 							style="display: flex;flex-direction: column;align-items: center;border-radius: 10rpx;background-color: #aa96da0a;padding: 20rpx;margin-right: 20rpx;flex-shrink: 0;width: 160rpx;">
 							<view style="position: relative;">
