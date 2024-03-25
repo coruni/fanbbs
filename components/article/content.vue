@@ -17,14 +17,8 @@
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;font-size: 30rpx;"
 			:previewImg="false" :showImgMenu="false"></uv-parse>
-		<!-- 视频布局 -->
-		<view v-if="data.type=='video'" style="border-radius: 10rpx;" @click.stop>
-			<yingbing-video :src="data.videos[0].src" :poster="data.videos[0].poster" :settingShow="false"
-				:fullscreenShow="false" muted @loadeddata="loadeddata" class="video-container"
-				:dataId="`video${data.cid}`"></yingbing-video>
-		</view>
 		<!-- 一张图片 -->
-		<view v-if="data.images.length === 1 && data.type !== 'video'">
+		<view v-if="data.images.length === 1">
 			<image :src="data.images[0]" mode="heightFix"
 				style="max-width: 680rpx; max-height: 400rpx;border-radius: 10rpx;background-color: #f7f7f7;"
 				@tap.stop.prevent="picPreview(data.images,0)"></image>

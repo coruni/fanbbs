@@ -74,7 +74,7 @@ uni.getStorage({
 uni.$zp = {
 	config: {
 		//配置分页默认pageSize为15
-		'default-page-size': '20',
+		'default-page-size': '15',
 		//配置空数据图默认描述文字为：空空如也~~
 		'empty-view-text': '空数据',
 		'loading-more-no-more-text': '无数据',
