@@ -1,7 +1,7 @@
 <template>
 	<z-paging ref="paging" v-model="content" @query="getData" :auto-scroll-to-top-when-reload="false"
-		safe-area-inset-bottom :auto-clean-list-when-reload="false">
-		<block v-for="(item,index) in content" :key="Math.random() + item.cid" v-if="content.length">
+		:auto-clean-list-when-reload="false" user-cache :cache-key="`Article_${mid}`">
+		<block v-for="(item,index) in content" :key="item.cid" v-if="content.length">
 			<view @tap.stop="goArticle(item)" class="article">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
