@@ -84,16 +84,88 @@
 			<swiper :style="{height: windowHeight + 'px'}" :current="tabsIndex" @transition="swiperTransition"
 				@animationfinish="swiperAnimationfinish">
 				<swiper-item v-for="(item, index) in list" :key="index" style="overflow: auto;">
-					<articleItem :mid="id" :isScroll="isScroll" :order="item.order" :random="item.random" ref="article">
+					<articleItem :mid="id" :isScroll="isScroll" :order="item.order" :random="item.random" ref="article"
+						@edit="showMoreMenu = true;data=$event">
 					</articleItem>
 				</swiper-item>
 			</swiper>
 		</view>
+		<!-- 菜单弹出 -->
+		<u-popup :show="showMoreMenu" @close="showMoreMenu = false" :closeable="true" round="10">
+			<view style="padding: 30rpx;">
+				<view style="
+				text-align: center;
+				color: #999;">
+					<text>分享至</text>
+				</view>
+				<view style="margin-top: 50rpx;">
+					<u-row customStyle="border-bottom:1rpx solid #aa96da0a;padding-bottom:30rpx" justify="space-around">
+						<block v-for="(item,index) in share" :key="index">
+							<u-row align="center" customStyle="flex-direction:column" @click="shareArticle('api',item)">
+								<view style="padding: 20rpx;border-radius: 100rpx;" :style="{background:item.color}">
+									<u-icon :name="item.icon" color="white" size="24"></u-icon>
+								</view>
+								<text style="margin-top: 20rpx;">{{item.name}}</text>
+							</u-row>
+						</block>
+					</u-row>
+					<view style="display: flex;flex-direction: column;margin-top: 50rpx;">
+						<u-row style="margin:20rpx 0">
+							<i class="ess mgc_alert_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">举报</text>
+						</u-row>
+						<u-row style="margin:20rpx 0" @click="shareArticle('link')">
+							<i class="ess mgc_flash_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">复制链接</text>
+						</u-row>
+						<!-- #ifdef APP -->
+						<u-row style="margin:20rpx 0" @click="shareArticle('system')">
+							<i class="ess mgc_share_forward_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">通过系统分享</text>
+						</u-row>
+						<!-- #endif -->
+						<u-row style="margin:20rpx 0" @click="goEdit()" v-if="permission">
+							<i class="ess mgc_edit_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">编辑</text>
+						</u-row>
+						<u-row style="margin:20rpx 0;color:red" @click="showDelete = true" v-if="permission">
+							<i class="ess mgc_delete_2_line" style="font-size: 40rpx;"></i>
+							<text style="margin-left:20rpx">删除</text>
+						</u-row>
+					</view>
+				</view>
+			</view>
+			<!-- 删除弹出 -->
+			<u-popup :show="showDelete" :round="10" mode="center" @close="showDelete = false"
+				customStyle="width:500rpx">
+				<view style="display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					padding: 50rpx;">
+					<text style="font-size: 34rpx;">提示</text>
+					<view style="margin-top:30rpx">
+						<text>是否确定删除？</text>
+					</view>
+					<u-row customStyle="margin-top: 60rpx;flex:1;width:100%" justify="space-between">
+						<u-button plain color="#aa96da" customStyle="height:60rpx;margin-right:10rpx" shape="circle"
+							@click="showDelete = false">取消</u-button>
+						<u-button color="#aa96da" customStyle="height:60rpx;margin-left:10rpx" shape="circle"
+							@click="deleteArticle()">确定</u-button>
+					</u-row>
+				</view>
+			</u-popup>
+		</u-popup>
 	</z-paging>
 
 </template>
 <script>
 	import articleItem from './components/article.vue';
+	import {
+		shareTap,
+		shareWithSystem,
+		filterHtml
+	} from '@/common/common.js';
 	export default {
 		components: {
 			articleItem,
@@ -108,6 +180,7 @@
 				platform: '',
 				opacity: 0,
 				tabsIndex: 0,
+				data: {},
 				list: [{
 						name: '热门',
 						order: '',
@@ -124,6 +197,34 @@
 				theme: '#ffffff',
 				windowHeight: 0,
 				sticky: 0,
+				showMoreMenu: false,
+				share: [{
+						name: '微信',
+						icon: 'weixin-fill',
+						provider: 'weixin',
+						type: 0,
+						scene: 'WXSceneSession',
+						color: '#46d262'
+					},
+					{
+						name: '朋友圈',
+						icon: 'moments',
+						provider: 'weixin',
+						type: 0,
+						scene: 'WXSceneTimeline',
+						color: '#46d262'
+					},
+					{
+						name: 'QQ',
+						icon: 'qq-fill',
+						provider: 'qq',
+						type: 2,
+						scene: '',
+						color: '#0070ff'
+					},
+
+				],
+				showDelete: false,
 			};
 		},
 		onLoad(params) {
@@ -135,6 +236,16 @@
 			if (systemInfo.theme == 'dark') this.theme = '#292929';
 			this.sticky = systemInfo.statusBarHeight + 44
 
+		},
+		computed: {
+			permission() {
+				if (!this.$store.state.hasLogin) return false;
+				let userInfo = this.$store.state.userInfo
+				if (this.data && this.data.authorId == userInfo.uid || userInfo.group == 'administrator' || userInfo
+					.group == 'editor')
+					return true;
+				return false;
+			}
 		},
 		methods: {
 			getData(id) {
@@ -187,6 +298,74 @@
 			swiperAnimationfinish(e) {
 				this.tabsIndex = e.detail.current;
 				this.$refs.tabs.unlockDx();
+			},
+			shareArticle(scene, data) {
+				let article = this.data
+				let type
+				switch (article.type) {
+					case 'post':
+						type = 'article'
+						break;
+					case 'video':
+						type = 'video'
+						break;
+					case 'photo':
+						type = 'photo'
+						break;
+					default:
+						type = 'article'
+						break;
+				}
+				switch (scene) {
+					case 'system':
+						shareWithSystem(article.title,
+							`${this.$config.h5}/#/pages/article/${type}?id=${article.cid}`)
+						break;
+					case 'api':
+						shareTap(data.provider, data.type, data.scene, article.title, filterHtml(article.text),
+							`${this.$config.h5}/#/pages/article/${type}?id=${article.cid}`,
+							article.images[0])
+						break;
+					case 'link':
+						uni.setClipboardData({
+							data: `${this.$config.h5}/#/pages/article/${type}?id=${article.cid}`,
+							success: () => {
+								uni.$u.toast('复制成功')
+							}
+						})
+						break;
+					default:
+						break;
+				}
+				this.showMoreMenu = false;
+			},
+			goEdit() {
+				this.showMoreMenu = false
+				let path
+				let type = this.data.type;
+				if (type == 'post') path = '/publish/article/article';
+				if (type == 'photo') path = '/publish/article/photo';
+				if (type == 'video') path = '/publish/article/video';
+				setTimeout(() => {
+					this.$Router.push({
+						path: path,
+						query: {
+							update: true,
+							id: this.data.cid
+						}
+					})
+				}, 200)
+			},
+			deleteArticle() {
+				this.$http.post('/article/delete', {
+					id: this.data.cid
+				}).then(res => {
+					if (res.data.code == 200) {
+						this.showDelete = false
+						uni.$u.toast(res.data.msg)
+						this.$refs.home.reload()
+					}
+				})
 			},
 		}
 	}

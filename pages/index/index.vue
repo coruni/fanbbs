@@ -256,7 +256,6 @@
 					return true;
 				return false;
 			}
-
 		},
 		methods: {
 			animationfinish(data) {
