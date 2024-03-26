@@ -16,9 +16,16 @@
 		</u-row>
 		<uv-parse :content="replaceEmoji(data.text)" class="u-line-2"
 			style="overflow: hidden;white-space: normal;word-break: break-all;word-wrap: break-word;font-size: 30rpx;"
-			:previewImg="false" :showImgMenu="false"></uv-parse>
+			:previewImg="false" :showImgMenu="false" v-if="data.type!='video'"></uv-parse>
+
+		<!-- 视频布局 -->
+		<view v-if="data.type=='video'" class="video">
+			<image :src="data.images[0]" mode="aspectFill"
+				style="width: 100%; height: 400rpx; border-radius: 10rpx;background-color: #f7f7f7;"></image>
+			<i class="mgc_play_circle_fill video-icon"></i>
+		</view>
 		<!-- 一张图片 -->
-		<view v-if="data.images.length === 1">
+		<view v-if="data.images.length == 1&&data.type!='video'">
 			<image :src="data.images[0]" mode="heightFix"
 				style="max-width: 680rpx; max-height: 400rpx;border-radius: 10rpx;background-color: #f7f7f7;"
 				@tap.stop.prevent="picPreview(data.images,0)"></image>
@@ -195,9 +202,16 @@
 		font-size: 24rpx;
 	}
 
-	.video-container {
-		width: 100%;
-		/* 设置容器宽度 */
-		aspect-ratio: 16 / 9;
+	.video {
+		position: relative;
+
+		&-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			font-size: 80rpx;
+			color: white;
+		}
 	}
 </style>
