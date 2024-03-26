@@ -27,7 +27,7 @@
 		<swiper style="height: 100%;" :current="topTabIndex" @transition="swiperTransition"
 			@animationfinish="swiperAnimationfinish">
 			<swiper-item>
-				<follow></follow>
+				<follow @edit="$emit('edit',$event)"></follow>
 			</swiper-item>
 			<swiper-item>
 				<recommend @edit="$emit('edit',$event)"></recommend>

@@ -24,7 +24,7 @@
 
 		<!-- popup组件 -->
 		<!-- 修改密码 -->
-		<u-popup :show="showChangePassword" round="10" @close="showChangePassword = false;resetPasswordValue()"
+		<u-popup :show="showChangePassword" round="5" @close="showChangePassword = false;resetPasswordValue()"
 			mode="center" closeable>
 			<view
 				style="width: 80vw; height: auto;display: flex;justify-content: center;padding: 30rpx;flex-direction: column;">
@@ -32,21 +32,22 @@
 					<text style="font-Weight: bold;">修改密码</text>
 				</u-row>
 				<view style="margin-top: 20rpx;">
-					<u-form :model="password" labelWidth="70" :rules="rules" ref="uForm">
-						<u-form-item label="旧密码：" prop="oldPassword">
-							<u-input placeholder="请输入旧密码" border="bottom" v-model="password.oldPassword"></u-input>
-						</u-form-item>
-						<u-form-item label="新密码：" prop="newPassword">
-							<u-input placeholder="请输入新密码" border="bottom" v-model="password.newPassword"></u-input>
-						</u-form-item>
-					</u-form>
+					<text>旧密码</text>
+					<u-gap height="5"></u-gap>
+					<uv-input class="input" v-model="password.oldPassword" type="password" placeholder="请输入旧密码"
+						border="none"></uv-input>
+					<u-gap height="10"></u-gap>
+					<text>新密码</text>
+					<u-gap height="5"></u-gap>
+					<uv-input class="input" :maxlength="18" v-model="password.newPassword" type="password"
+						placeholder="请输入新密码" border="none"></uv-input>
 				</view>
 
 				<view style="margin-top: 20rpx;">
 					<u-row justify="space-between">
-						<u-button plain shape="circle" style="height: 60rpx;margin-right: 20rpx;"
+						<u-button plain shape="square" style="height: 60rpx;margin-right: 20rpx;"
 							@click="showChangePassword =false">取消</u-button>
-						<u-button color="#aa96da" shape="circle" style="height: 60rpx;margin-left: 20rpx;"
+						<u-button color="#aa96da" shape="square" style="height: 60rpx;margin-left: 20rpx;"
 							@click="savePassword()">确定</u-button>
 					</u-row>
 
@@ -96,21 +97,6 @@
 				password: {
 					newPassword: '',
 					oldPassword: '',
-				},
-				rules: {
-					'newPassword': {
-						type: 'string',
-						required: true,
-						message: '请填写新密码',
-						trigger: ['blur', 'change']
-					},
-					'oldPassword': {
-						type: 'string',
-						required: true,
-						message: '请填写旧密码',
-						trigger: ['blur', 'change']
-					}
-
 				},
 				showAddress: false,
 				address: {
@@ -170,12 +156,22 @@
 		},
 		methods: {
 			savePassword() {
-				this.$refs.uForm.validateField('newPassword')
-				this.$refs.uForm.validateField('oldPassword')
+
 				let {
 					newPassword,
 					oldPassword
 				} = this.password;
+				if (newPassword == oldPassword) {
+					uni.$u.toast('密码相同，无需更改');
+					return
+				}
+				if (!/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/.test(newPassword)) {
+					uni.$u.toast('密码只能包含字母、数字和特殊字符！');
+					return;
+				}
+				if (uni.$u.test.rangeLength(newPassword, [6, 18])) {
+					uni.$u.toast('密码强度不足');
+				}
 				this.$http.post('/user/changePassword', {
 					newPassword,
 					oldPassword
@@ -246,6 +242,10 @@
 	}
 </script>
 
-<style>
-
+<style lang="scss">
+	.input {
+		padding: 15rpx !important;
+		border-radius: 10rpx;
+		background: #f7f7f7;
+	}
 </style>

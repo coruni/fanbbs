@@ -1,6 +1,6 @@
 <template>
-	<view style="margin-top: 20rpx">
-		<view v-if="!waterFall" style="padding-bottom: 20rpx;">
+	<view style="margin-top: 20rpx;position: relative;">
+		<view style="padding-bottom: 20rpx;">
 			<view style="margin-top: 20rpx;display: flex;justify-content: space-between;color: #999;">
 				<u-row>
 					<i class="ess mgc_eye_2_line" style="font-size: 40rpx;"></i>
@@ -20,13 +20,10 @@
 				</u-row>
 			</view>
 		</view>
-		<view v-else>
-			<u-row justify="space-between">
-				<u-icon name="thumb-up" size="20" :label="article.likes"></u-icon>
-				<u-avatar size="20" :src="article&& article.authorInfo && article.authorInfo.avatar"></u-avatar>
-			</u-row>
+		<!-- 待审标签 -->
+		<view class="waiting-tag" v-if="data.status=='waiting'">
+			<text>待审核</text>
 		</view>
-
 	</view>
 </template>
 
@@ -69,6 +66,12 @@
 
 <style lang="scss">
 	.like-active {
+		color: $c-primary;
+	}
+
+	.waiting-tag {
+		text-align: right;
+		font-size: 20rpx;
 		color: $c-primary;
 	}
 </style>

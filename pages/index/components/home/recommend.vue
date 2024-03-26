@@ -22,7 +22,7 @@
 			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#aa96da3c" color="#aa96da" mode="closable"
 				style="border-radius: 20rpx;"></u-notice-bar>
 		</view>
-		<block v-for="(item,index) in content" :key="item.cid" v-if="content.length">
+		<block v-for="(item,index) in content" :key="`${index}_${item.cid}`" v-if="content.length">
 			<view @tap.stop="goArticle(item)" class="article">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
@@ -97,6 +97,7 @@
 					params: {
 						page,
 						limit,
+						order:'istop desc'
 					}
 				}).then(res => {
 					if (res.data.code == 200) {

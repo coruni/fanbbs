@@ -37,9 +37,14 @@
 			</u-row>
 			<view style="display: flex;align-items: center;">
 				<view @click.stop="follow(data.authorInfo.uid)">
-					<u-button v-if="!isfollow && data && data.authorInfo.uid !== userInfo.uid" plain color="#aa96da"
-						size="mini" shape="circle" plain customStyle="font-size:28rpx;height:55rpx;background:tran"
-						@click="$emit('follow',true)">关注</u-button>
+					<u-button :plain="data && data.authorInfo&& !data.authorInfo.isFollow" shape="circle"
+						hover-class="button_hover"
+						:color="data && data.authorInfo&& data.authorInfo.isFollow?'#aa96da0f':'#aa96da'"
+						style="font-size:28rpx;height:55rpx;"
+						:style="{color:data && data.authorInfo&& data.authorInfo.isFollow?'black':'#aa96da'}"
+						:text="data && data.authorInfo&& data.authorInfo.isFollow?'已关注':'关注'" class="follow"
+						@click="$emit('follow',true)"></u-button>
+
 				</view>
 				<view>
 					<i class="ess mgc_more_1_line" style="font-size: 60rpx;margin-left: 10rpx;"

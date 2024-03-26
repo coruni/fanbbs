@@ -1,7 +1,8 @@
 <template>
 	<z-paging @query="getData" ref="paging" v-model="article" :auto-scroll-to-top-when-reload="false"
-		:auto-clean-list-when-reload="false" user-cache :cache-key="`category_${mid}`" :use-page-scroll="!scroll" :refresher-enabled="false">
-		<block v-for="(item,index) in article" :key="item.cid">
+		:auto-clean-list-when-reload="false" user-cache :cache-key="`category_${mid}`" :use-page-scroll="!scroll"
+		:refresher-enabled="false">
+		<block v-for="(item,index) in article" :key="`${index}_${item.cid}`">
 			<view @tap.stop="goArticle(item)" style="margin:30rpx 30rpx 12rpx 30rpx;padding-bottom: 10rpx;">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
@@ -71,13 +72,12 @@
 					params: {
 						page,
 						limit,
-						params: JSON.stringify({
+						params: {
 							mid: this.mid,
-						}),
+						},
 						random: this.random,
-						newArticle: !this.random?1:0,
 						order: this.order,
-						
+
 
 					}
 				}).then(res => {

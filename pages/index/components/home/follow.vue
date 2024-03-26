@@ -1,40 +1,7 @@
 <template>
 	<z-paging @query="getData" ref="paging" v-model="article"
 		:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'">
-		<view style="display: flex;flex-direction: column;margin: 30rpx;"
-			v-show="!$store.state.hasLogin ||!article.length">
-			<text style="font-Weight: bold;">推荐关注</text>
-			<scroll-view scroll-x style="margin-top: 30rpx;">
-				<u-row>
-					<block v-for="(item,index) in users" :key="item.uid">
-						<view
-							style="display: flex;flex-direction: column;align-items: center;border-radius: 10rpx;background-color: #aa96da0a;padding: 20rpx;margin-right: 20rpx;flex-shrink: 0;width: 160rpx;">
-							<view style="position: relative;">
-								<u-avatar :src="item.avatar"></u-avatar>
-							</view>
-							<view class="u-line-1">
-								<text style="margin-top: 20rpx;">{{item.screenName?item.screenName:item.name}}</text>
-							</view>
-							<u-button style="height: 60rpx;margin-top:20rpx" color="#aa96da" shape="circle"
-								@click="follow(item.uid,index)">关注</u-button>
-						</view>
-					</block>
-				</u-row>
-			</scroll-view>
-		</view>
-		<view style="
-		border: #aa96da 1rpx solid;
-		border-radius: 20rpx;
-		padding: 30rpx;
-		margin: 30rpx;
-		margin-top: 0;
-		text-align: center;
-		color: #aa96da;
-		" v-show="!$store.state.hasLogin" @click="goLogin()">
-			<text>登录查看关注的帖子</text>
-		</view>
-
-		<block v-for="(item,index) in article" :key="index" v-if="article">
+		<block v-for="(item,index) in article" :key="`${index}_${item.cid}`" v-if="article">
 			<view @tap.stop="goArticle(item)" class="article">
 				<article-header :data="item" @follow="$refs.paging.reload()"
 					@menuTap="$emit('edit',$event)"></article-header>
@@ -175,11 +142,12 @@
 </script>
 
 <style lang="scss">
-	@media(prefers-color-scheme:dark){
-		.tabbar-placeholder{
+	@media(prefers-color-scheme:dark) {
+		.tabbar-placeholder {
 			background-color: #292929;
 		}
 	}
+
 	.article {
 		margin: 30rpx 30rpx 12rpx 30rpx;
 		padding-bottom: 10rpx;

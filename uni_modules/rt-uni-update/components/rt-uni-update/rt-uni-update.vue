@@ -251,6 +251,7 @@
 	.box-des-scroll {
 		box-sizing: border-box;
 		max-height: 450rpx;
+		font-size: 30rpx;
 		text-align: left;
 	}
 

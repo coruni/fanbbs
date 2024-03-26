@@ -2,7 +2,7 @@
 	<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
 		:auto-hide-loading-after-first-loaded="false" :auto-scroll-to-top-when-reload="false"
 		:auto-clean-list-when-reload="false">
-		<block v-for="(item,index) in article">
+		<block v-for="(item,index) in article" :key="index+item.cid">
 			<view style="margin: 30rpx;" @click="goArticle(item)">
 				<u-row align="bottom" customStyle="margin-bottom:20rpx">
 					<text style="font-size:40rpx;font-Weight: bold;">{{$u.timeFormat(item.created,'dd')}}</text>
@@ -63,7 +63,9 @@
 					params: {
 						page,
 						limit,
-						newArticle: 1,
+						params: {
+							authorId: this.uid
+						},
 						order: 'created desc',
 					}
 				}).then(res => {

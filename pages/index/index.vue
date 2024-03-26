@@ -8,7 +8,6 @@
 		<user v-show="tabbarIndex == 4" :index="4" :current="tabbarIndex" style="height: 100%;margin-bottom: 190rpx;">
 		</user>
 
-
 		<!-- 底部导航栏 -->
 		<!-- 底部占位高度 100rpx -->
 		<template #bottom>

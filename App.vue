@@ -209,11 +209,6 @@
 </script>
 
 <style lang="scss">
-	@font-face {
-		font-family: 'HarmonyOS_Sans';
-		src: url('/static/font/HarmonyOS_Sans_SC_Regular.ttf');
-
-	}
 
 	@import 'animate.css';
 	@import "@/uni_modules/uview-ui/index.scss";
@@ -227,6 +222,11 @@
 		font-family: 'HarmonyOS_Sans';
 		font-size: 32rpx;
 		line-height: 1.3;
+	}
+	@font-face {
+		font-family: 'HarmonyOS_Sans';
+		src: url('/static/font/HarmonyOS_Sans_SC_Regular.ttf');
+	
 	}
 	@media (prefers-color-scheme: dark) {
 

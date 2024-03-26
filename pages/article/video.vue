@@ -718,8 +718,6 @@
 			loadedMetaData(event) {
 				this.play.metaData = event;
 				this.play.duration = this.formatDuration(event.duration)
-				if (event.width < event.height) this.videoHeight = `${event.height}px`;
-				else this.videoHeight = '500rpx'
 			},
 			fullscreen() {
 				this.play.fullscreen = !this.play.fullscreen
@@ -772,8 +770,6 @@
 			onPlay() {
 				this.$refs.video.toggle();
 				this.play.status = !this.play.status;
-
-
 			},
 			ended() {
 				// 重置播放进度
