@@ -123,7 +123,9 @@
 						params: {
 							mid: this.mid || ''
 						},
-						random: 1
+						random: 1,
+						order:'created desc'
+						
 					}
 				}).then(res => {
 					if (res.data.code == 200) {

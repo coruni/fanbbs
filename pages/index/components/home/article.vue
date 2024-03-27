@@ -78,7 +78,7 @@
 						params: {
 							mid: this.mid
 						},
-						order: 'isCircleTop desc,isrecommend desc'
+						order: 'isCircleTop desc,isrecommend desc,created desc'
 					}
 				}).then(res => {
 					if (res.data.code == 200) {
