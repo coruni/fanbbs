@@ -18,7 +18,7 @@
 				</u-grid-item>
 			</u-grid>
 		</view>
-		<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement&&isSwiper">
+		<view style="margin:30rpx" v-if="$store.state.appInfo&&$store.state.appInfo.announcement">
 			<u-notice-bar :text="$store.state.appInfo.announcement" bgColor="#aa96da3c" color="#aa96da" mode="closable"
 				style="border-radius: 20rpx;"></u-notice-bar>
 		</view>

@@ -1,20 +1,26 @@
 <template>
-	<z-paging @query="getData" ref="paging" v-model="article"
-		:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'">
-		<block v-for="(item,index) in article" :key="`${index}_${item.cid}`" v-if="article">
-			<view @tap.stop="goArticle(item)" class="article">
-				<article-header :data="item" @follow="$refs.paging.reload()"
-					@menuTap="$emit('edit',$event)"></article-header>
-				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
-				<article-content :data="item" v-else></article-content>
-				<article-footer :data="item"></article-footer>
-			</view>
-			<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
-		</block>
-		<template #bottom>
-			<view class="tabbar-placeholder"></view>
-		</template>
-	</z-paging>
+	<view>
+		<z-paging @query="getData" ref="paging" v-model="article"
+			:empty-view-error-text="!$store.state.hasLogin?'你还没有登录哦~':'还没有关注的人，快去关注吧~'" v-if="$store.state.hasLogin">
+			<block v-for="(item,index) in article" :key="`${index}_${item.cid}`" v-if="article">
+				<view @tap.stop="goArticle(item)" class="article">
+					<article-header :data="item" @follow="$refs.paging.reload()"
+						@menuTap="$emit('edit',$event)"></article-header>
+					<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
+					<article-content :data="item" v-else></article-content>
+					<article-footer :data="item"></article-footer>
+				</view>
+				<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
+			</block>
+			<template #bottom>
+				<view class="tabbar-placeholder"></view>
+			</template>
+		</z-paging>
+		<view v-else style="width: 100%; display: flex; align-items: center;justify-content: center;flex: 1;">
+			<text>你还没有登录哦</text>
+		</view>
+	</view>
+	
 </template>
 
 <script>
@@ -59,7 +65,7 @@
 					random: 1
 				}
 
-				this.$http.get(this.$store.state.hasLogin ? '/article/follow' : '/article/articleList', {
+				this.$http.get('/article/follow', {
 					params
 				}).then(res => {
 					if (res.data.code == 200) {
