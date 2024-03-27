@@ -376,7 +376,7 @@
 <style lang="scss">
 	@media(prefers-color-scheme:dark) {
 		.tag-content {
-			background-color: #525252;
+			background-color: #525252 !important;
 		}
 
 		.content-add {
