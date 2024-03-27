@@ -41,7 +41,7 @@
 						hover-class="button_hover"
 						:color="data && data.authorInfo&& data.authorInfo.isFollow?'#aa96da0f':'#aa96da'"
 						style="font-size:28rpx;height:55rpx;"
-						:style="{color:data && data.authorInfo&& data.authorInfo.isFollow?'black':'#aa96da'}"
+						:style="{color:data && data.authorInfo&& data.authorInfo.isFollow?'':'#aa96da'}"
 						:text="data && data.authorInfo&& data.authorInfo.isFollow?'已关注':'关注'" class="follow"
 						@click="$emit('follow',true)"></u-button>
 

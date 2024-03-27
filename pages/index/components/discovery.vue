@@ -1,9 +1,7 @@
 <template>
 	<z-paging ref="paging" v-model="videos" @query="getData" class="zpaging">
 		<template #top>
-			<u-navbar placeholder title="视频推荐">
-				<view slot="left"></view>
-			</u-navbar>
+			<view :style="{height:statusBarHeight+'px'}"></view>
 		</template>
 		<u-row style="flex-wrap: wrap;padding: 20rpx;" justify="space-between">
 			<block v-for="(item,index) in videos" :key="index">
@@ -35,9 +33,11 @@
 </template>
 
 <script>
+	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight
 	export default {
 		data() {
 			return {
+				statusBarHeight: statusBarHeight,
 				videos: [],
 				list1: [],
 				list2: [],
@@ -68,10 +68,10 @@
 					params: {
 						page,
 						limit,
-						params:{
-							type:'video'
+						params: {
+							type: 'video'
 						},
-						newArticle:1
+						newArticle: 1
 					}
 				}).then(res => {
 					if (res.data.code == 200)
@@ -113,11 +113,11 @@
 
 		.tabbar-placeholder,
 		.zpaging {
-			background-color: #292929;
+			background-color: #292929 !important;
 		}
 
 		.video-item {
-			background: #525252;
+			background: #525252 !important;
 		}
 	}
 

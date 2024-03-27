@@ -160,7 +160,7 @@
 	}
 
 	.tabbar-placeholder {
-		height: 100rpx;
+		height: 80 rpx;
 		background: #fff;
 	}
 </style>

@@ -20,8 +20,8 @@
 
 		<!-- 视频布局 -->
 		<view v-if="data.type=='video'" class="video">
-			<image :src="data.images[0]" mode="aspectFill"
-				style="width: 100%; height: 400rpx; border-radius: 10rpx;background-color: #f7f7f7;"></image>
+			<u-image :src="data.images[0]" mode="aspectFill" radius="5" width="100%" height="200"
+				bgColor="#f7f7f7"></u-image>
 			<i class="mgc_play_circle_fill video-icon"></i>
 		</view>
 		<!-- 一张图片 -->

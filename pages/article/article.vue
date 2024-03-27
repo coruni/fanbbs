@@ -371,7 +371,7 @@
 				showFollow: false,
 				isReply: false,
 				editorCtx: null,
-				percentage: 30,
+				percentage: 0,
 				showLoading: false,
 				uploadErr: {
 					status: false,
@@ -542,46 +542,37 @@
 					uni.$u.toast('至多可添加6张图片')
 					return;
 				}
-				try {
-					const res = await uni.chooseImage({
-						count: 6
-					});
-
-					const imageList = res.tempFilePaths;
-					this.$refs.upload.open()
-
-					const uploadPromises = imageList.map(async (item) => {
-						try {
-							const uploadedImage = await this.upload(item);
-							this.images.push(uploadedImage);
-						} catch (error) {
-							this.uploadErr.status = true
-							this.uploadErr.msg = error.data.msg
-						}
-					});
-
-					await Promise.all(uploadPromises);
-
-					this.$refs.upload.close()
-
-				} catch (error) {
-					this.$refs.upload.close()
-					console.error("Choose image failed:", error);
-				}
+				this.upload(res.tempFilePaths);
 			},
-			async upload(filePath) {
-				return new Promise((resolve, reject) => {
-					this.$http.upload('/upload/full', {
-						filePath,
-						name: 'file'
-					}).then(res => {
-						if (res.data.code) {
-							resolve(res.data.data.url)
+			upload(filePath) {
+				const processedFiles = files.map((item, index) => ({
+					name: `file${index+1}`,
+					uri: item // 文件路径
+				}));
+				this.$http.upload('/upload/full', {
+					files: processedFiles,
+					getTask: (task) => {
+						task.onProgressUpdate((res) => {
+							this.percentage = res.progress
+						})
+					}
+				}).then(res => {
+					if (res.data.code == 200) {
+						const data = res.data.data;
+						if (data.hasOwnProperty('urls')) {
+							this.images = data.urls
 						} else {
-							reject(res)
+							this.images.push(data.url)
 						}
-					})
-				});
+						this.$refs.upload.close()
+					} else {
+						this.uploadErr.status = true
+						this.uploadErr.msg = res.data.msg
+					}
+				}).catch(err => {
+					this.uploadErr.status = true
+					this.uploadErr.msg = '网络错误'
+				})
 			},
 			onRefresh() {
 				this.getData()

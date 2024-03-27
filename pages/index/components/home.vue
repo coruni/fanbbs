@@ -10,7 +10,7 @@
 						<u-avatar :src="userInfo.avatar" size="30" customStyle="margin-right:20rpx"
 							@click="avatarTap()"></u-avatar>
 						<uv-search :showAction="false" placeholder="看你想看" :disabled="true" :animation="true"
-							@click="goSearch()" class="search"></uv-search>
+							@click="goSearch()"  class="search"></uv-search>
 						<view style="position: relative;top: 0;">
 							<i class="ess mgc_notification_line" style="margin-left:20rpx;font-size: 40rpx;"
 								@tap.stop="goNotice()"></i>

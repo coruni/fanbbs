@@ -658,6 +658,7 @@
 								this.commentText = '';
 								this.showComment = false;
 								this.images = [];
+								this.$refs.comments.reload()
 							}
 							uni.$u.toast(res.data.msg);
 							this.isReply = false

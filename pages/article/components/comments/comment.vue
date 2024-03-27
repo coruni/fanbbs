@@ -32,9 +32,9 @@
 				<u-swiper :list="data && data.images" v-if="data && data.images && data.images.length" :autoplay="false"
 					indicator height="150" indicator-style="left" radius="10"
 					@click="previewImg(data.images,$event)"></u-swiper>
-				<view style="margin-top: 10rpx;" v-if="data && data.subComments.data&&data.subComments.data.length"
+				<view style="margin-top: 10rpx;" v-if="data && data.subComments&&data.subComments.length"
 					@click="goSubComment(data)">
-					<block v-for="(item,index) in data.subComments.data" :key="index">
+					<block v-for="(item,index) in data.subComments" :key="index">
 						<u-row class="subComment" align="top">
 							<u-row>
 								<u-row>
@@ -65,7 +65,7 @@
 					<u-row justify="space-between" style="font-size: 24rpx;color: #aaa;">
 						<text>{{$u.timeFrom(data.created,'mm-dd')}}</text>
 						<u-row style="flex-wrap: nowrap;" justify="space-between">
-							<u-row style="margin-right: 30rpx;" align="top" v-if="$store.state.userInfo.uid == data.userInfo.uid"
+							<u-row style="margin-right: 30rpx;" v-if="$store.state.userInfo.uid == data.userInfo.uid"
 								@click="showDelete = true">
 								<i class="mgc_delete_2_line" style="font-size: 36rpx;color: #aa96da;"></i>
 								<text style="font-size: 28rpx;margin-left: 10rpx;">删除</text>

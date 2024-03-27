@@ -309,7 +309,7 @@
 					mask: true,
 					title: "生成二维码中..."
 				})
-				this.$http.post('/pay/EPay', {
+				this.$http.post('/pay/epay', {
 					money: this.selectPackage.price,
 					type: type,
 					device: 'mobile',
