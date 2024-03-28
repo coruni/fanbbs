@@ -105,7 +105,7 @@
 									<i class="circle-icon circle-icon-head mgc_bling_fill"></i>
 									<text style="margin-top: 20rpx;font-size: 24rpx;">头像框</text>
 								</view>
-								<view class="circle">
+								<view class="circle" @click="goPage('rank')">
 									<i class="circle-icon circle-icon-rank mgc_drop_fill"></i>
 									<text style="margin-top: 20rpx;font-size: 24rpx;">头衔</text>
 								</view>

@@ -355,6 +355,16 @@
 				"enablePullDownRefresh" : false,
 				"navigationBarTextStyle": "white"
 			}
+		},
+		{
+			"path" : "pages/user/rank",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			},
+			"name":"rank",
+			"perm":"login"
 		}
 	],
 	"globalStyle": {
