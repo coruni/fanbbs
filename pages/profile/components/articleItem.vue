@@ -2,7 +2,7 @@
 	<z-paging @query="getData" v-model="article" ref="paging" :refresher-enabled="false" :scrollable="scroll"
 		:auto-hide-loading-after-first-loaded="false" :auto-scroll-to-top-when-reload="false"
 		:auto-clean-list-when-reload="false">
-		<block v-for="(item,index) in article" :key="index+item.cid">
+		<block v-for="(item,index) in article" :key="index">
 			<view style="margin: 30rpx;" @click="goArticle(item)">
 				<u-row align="bottom" customStyle="margin-bottom:20rpx">
 					<text style="font-size:40rpx;font-Weight: bold;">{{$u.timeFormat(item.created,'dd')}}</text>
@@ -12,7 +12,8 @@
 						<text>{{item.category.name}}</text>
 					</view>
 				</u-row>
-				<articleContent :data="item"></articleContent>
+				<article-photo :data="item" v-if="item.type=='photo'"></article-photo>
+				<article-content :data="item" v-else></article-content>
 				<articleFooter :data="item"></articleFooter>
 			</view>
 			<u-gap height="6" bg-color="#f7f7f7" class="article-gap"></u-gap>
@@ -23,10 +24,12 @@
 <script>
 	import articleContent from '@/components/article/content.vue';
 	import articleFooter from '@/components/article/footer.vue';
+	import articlePhoto from '@/components/article/photo.vue';
 	export default {
 		components: {
 			articleContent,
-			articleFooter
+			articleFooter,
+			articlePhoto
 		},
 		name: 'publish',
 		props: {

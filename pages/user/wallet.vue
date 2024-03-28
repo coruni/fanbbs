@@ -340,7 +340,7 @@
 
 			// 支付
 			despoit(provider) {
-				console.log("调用", provider)
+				if (provider == 'wxpay') return;
 				uni.getProvider({
 					service: 'payment',
 					success: (res) => {
